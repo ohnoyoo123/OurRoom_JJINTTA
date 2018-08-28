@@ -5,14 +5,22 @@
 <head>
 <meta content="charset=UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	#innerFrame{
+		background-color: yellow;
+		display: inline-block;
+		width: 96vw;
+		
+	}
+</style>
 </head>
 <body>
 <jsp:include page="../mainFrame.jsp"/>
 
-	<div style="display: inline-block;">
+	<div id = "innerFrame">
 		프로젝트입니다.<br>
 		projectList : ${projectList }<br>
-		TaskList : ${taskList }
+		TaskList : ${taskList}
 	</div>
 
 </body>
