@@ -36,6 +36,9 @@ public class PageController {
 	
 	////////////////////////////////////////////////
 	
+	public void test() {
+		
+	}
 	
 	@RequestMapping("/home")
 	public String home() {
