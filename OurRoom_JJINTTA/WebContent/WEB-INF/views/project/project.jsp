@@ -19,7 +19,9 @@
 <jsp:include page="../mainFrame.jsp"/>
 
 	<div id = "innerFrame">
-	<h1><a href="프로젝트 추가 모달 ">프로젝트 추가</a></h1>
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProject">
+  	프로젝트 추가
+	</button>
 	<h2>즐겨찾기 프로젝트</h2>
 		<c:forEach items="${pmList}" var="pm">
 			<c:if test="${pm.pmFav}">
@@ -46,9 +48,38 @@
 		<c:forEach items="${pastProject }" var="past">
 			<a onclick="location.href='gantt?pNum=${past.pNum }'">${past.pName }</a>
 			<br>
-		</c:forEach>
-		
+		</c:forEach>		
 	</div>
+	
+	<!-- The Modal -->
+	<div class="modal" id="addProject">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">
+	       		 프로젝트명:
+	        	<input type="text" placeholder="enter project name">
+	        </h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+	
+	      <!-- Modal body -->
+	      <div class="modal-body">
+	        	팀원 초대:
+	        	<input type="text" placeholder="enter email or nickname">
+	      </div>
+	
+	      <!-- Modal footer -->
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+	      </div>
+	
+	    </div>
+	  </div>
+	</div>
+	
 
 </body>
 </html>
