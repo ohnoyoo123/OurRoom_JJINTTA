@@ -5,11 +5,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+	#innerFrame{
+		background-color: yellow;
+		display: inline-block;
+		width: 96%;
+		
+	}
+</style>
+
 </head>
 <body>
 <jsp:include page="../mainFrame.jsp"/>
-	<div style="display: inline-block;">
-		project : ${project}	
+	<div id="innerFrame">
+		project : ${project}<br>
+		taskList : ${taskList }<br>
+		issueList : ${issueList}
 	</div>
 
 

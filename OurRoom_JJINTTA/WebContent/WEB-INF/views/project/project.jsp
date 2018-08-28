@@ -9,7 +9,7 @@
 	#innerFrame{
 		background-color: yellow;
 		display: inline-block;
-		width: 96vw;
+		width: 96%;
 		
 	}
 </style>

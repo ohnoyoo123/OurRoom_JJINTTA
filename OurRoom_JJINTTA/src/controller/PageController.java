@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.server.PathParam;
 
 import org.apache.ibatis.annotations.Param;
@@ -48,7 +49,6 @@ public class PageController {
 	public ModelAndView project(@PathVariable String mId) {
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
-		
 		HashMap<String, Object> param = new HashMap<String, Object>();
 		param.put("mId", mId);
 		
@@ -82,6 +82,7 @@ public class PageController {
 		
 		Task task = new Task();
 		task.setpNum(pNum);
+		System.out.println("태스크 리스트 : " + taskSvc.getTaskList(task));
 		mav.addObject("taskList", taskSvc.getTaskList(task));
 		
 		Issue issue = new Issue();

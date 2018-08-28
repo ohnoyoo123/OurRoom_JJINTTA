@@ -15,6 +15,7 @@ public class TaskService {
 	TaskDao taskDao;
 	
 	public List<Task> getTaskList(Task task){
+		System.out.println("dao : " + taskDao.selectTask(task));
 		return taskDao.selectTask(task);
 		
 	}

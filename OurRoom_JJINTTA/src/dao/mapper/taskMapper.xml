@@ -81,10 +81,10 @@
 		select * from task
 		where
 		p_num = #{pNum}
-		<if test="tNum != null">
+		<!-- <if test="tNum != null">
 			and
 			t_num = #{tNum}
-		</if>
+		</if> -->
 	</select>
 	
 	<resultMap type="task" id="taskRM">
