@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import dao.ProjectDao;
 import dao.TaskDao;
 import model.Project;
+import model.ProjectMember;
 import model.Task;
 
 @Service
@@ -21,8 +22,11 @@ public class ProjectService {
 	TaskDao taskDao;
 	
 	
-	public List<Project> getProjectList(HashMap<String, Object> param){
-		return projectDao.selectProjectList(param);
+	public List<Project> getProjectListByMId(HashMap<String, Object> mId){
+		return projectDao.selectProjectList(mId);
+	}
+	public List<ProjectMember> getProjectMemberByMId(HashMap<String, Object> mId){
+		return projectDao.selectProjectMember(mId);
 	}
 	
 	public List<Task> getTaskList(Task task){
