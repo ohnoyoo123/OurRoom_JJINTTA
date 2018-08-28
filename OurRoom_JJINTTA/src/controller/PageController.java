@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import model.Issue;
 import model.Project;
+import model.ProjectMember;
 import model.Task;
 import service.IssueService;
 import service.ProjectService;
@@ -49,26 +50,18 @@ public class PageController {
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
 		
-		HashMap<String, Object> param = new HashMap<String, Object>();
-		param.put("mId", mId);
+		HashMap<String, Object> paramMId = new HashMap<String, Object>();
+		paramMId.put("mId", mId);
 		
-		List<Project> projectList = new ArrayList<Project>();
-		List<Task> taskList = new ArrayList<Task>();
-		
-		
-		projectList = projectSvc.getProjectListByMId(param);
-		
-		for(int i = 0; i < projectList.size(); i++) {
-			Task task = new Task();
-			task.setpNum(projectList.get(i).getpNum());
-			taskList.add(task);
-		}
-		
+		List<Project> projectList = new ArrayList<Project>();		
+		projectList = projectSvc.getProjectListByMId(paramMId);			
 		mav.addObject("projectList", projectList);
-		mav.addObject("taskList", taskList);
 		
-		System.out.println(projectList);
-		System.out.println(taskList);
+		List<ProjectMember> pmList = new ArrayList<>();
+		pmList = projectSvc.getProjectMemberByMId(paramMId);
+		mav.addObject("pmList", pmList);
+		System.out.println(pmList);
+	//	System.out.println(projectList);		
 		
 		mav.setViewName("/project/project");
 		return mav;
