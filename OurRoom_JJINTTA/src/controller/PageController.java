@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -54,9 +55,21 @@ public class PageController {
 		HashMap<String, Object> paramMId = new HashMap<String, Object>();
 		paramMId.put("mId", mId);
 		
+		List<Project> pastProject = new ArrayList<Project>();		
+		List<Project> progProject = new ArrayList<Project>();		
+		
 		List<Project> projectList = new ArrayList<Project>();		
-		projectList = projectSvc.getProjectListByMId(paramMId);			
-		mav.addObject("projectList", projectList);
+		projectList = projectSvc.getProjectListByMId(paramMId);		
+		Date presentDate = new Date();
+		for(Project p : projectList) {
+			if(presentDate.compareTo(p.getpEndDate())>0) {				
+				pastProject.add(p);
+			}else {
+				progProject.add(p);
+			}
+		}
+		mav.addObject("pastProject", pastProject);
+		mav.addObject("progProject", progProject);
 		
 		List<ProjectMember> pmList = new ArrayList<>();
 		pmList = projectSvc.getProjectMemberByMId(paramMId);
