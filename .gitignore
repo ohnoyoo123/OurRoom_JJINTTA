@@ -1,5 +1,5 @@
 # Created by https://www.gitignore.io/api/java,maven,eclipse
-*.java
+
 ### Eclipse ###
 
 .metadata
@@ -107,3 +107,4 @@ buildNumber.properties
 
 
 # End of https://www.gitignore.io/api/java,maven,eclipse
+
