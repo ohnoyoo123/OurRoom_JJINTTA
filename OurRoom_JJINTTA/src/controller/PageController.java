@@ -9,6 +9,7 @@ import javax.websocket.server.PathParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,7 +45,7 @@ public class PageController {
 	}
 	
 	@RequestMapping("/project/{mId}")
-	public ModelAndView project(String mId) {
+	public ModelAndView project(@PathVariable String mId) {
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
 		

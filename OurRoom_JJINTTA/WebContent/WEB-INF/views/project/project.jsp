@@ -7,9 +7,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-프로젝트입니다.<br>
-projectList : ${projectList }<br>
-TaskList : ${taskList }
+<jsp:include page="../mainFrame.jsp"/>
+
+	<div style="display: inline-block;">
+		프로젝트입니다.<br>
+		projectList : ${projectList }<br>
+		TaskList : ${taskList }
+	</div>
 
 </body>
 </html>

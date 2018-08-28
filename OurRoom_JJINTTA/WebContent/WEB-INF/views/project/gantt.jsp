@@ -7,7 +7,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-project : ${project}
+<jsp:include page="../mainFrame.jsp"/>
+	<div style="display: inline-block;">
+		project : ${project}	
+	</div>
+
 
 </body>
 </html>
