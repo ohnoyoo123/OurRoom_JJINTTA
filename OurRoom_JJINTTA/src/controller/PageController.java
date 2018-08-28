@@ -46,7 +46,7 @@ public class PageController {
 		return "/home/home";
 	}
 	
-	@RequestMapping("/project")
+	@RequestMapping("/project/{mId}")
 	public ModelAndView project(String mId) {
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
@@ -63,7 +63,7 @@ public class PageController {
 		for(int i = 0; i < projectList.size(); i++) {
 			Task task = new Task();
 			task.setpNum(projectList.get(i).getpNum());
-			taskList.addAll(taskSvc.getTaskList(task));		;
+			taskList.add(task);
 		}
 		
 		mav.addObject("projectList", projectList);
