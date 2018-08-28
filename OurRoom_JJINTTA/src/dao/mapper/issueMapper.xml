@@ -81,11 +81,11 @@
 		select * from issue
 		where
 		p_num = #{pNum}
-		<if test="tNum != null">
+		<if test="tNum != 0">
 			and
 			t_num = #{tNum}
 		</if>
-		<if test="iNum != null">
+		<if test="iNum != 0">
 			and
 			i_num = #{iNum}
 		</if>
