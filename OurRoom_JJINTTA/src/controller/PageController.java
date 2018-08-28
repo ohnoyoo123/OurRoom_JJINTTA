@@ -34,11 +34,8 @@ public class PageController {
 	IssueService issueSv;
 	
 	
-	////////////////////////////////////////////////
 	
-	public void test() {
-		
-	}
+	
 	
 	@RequestMapping("/home")
 	public String home() {
@@ -58,7 +55,7 @@ public class PageController {
 		List<Task> taskList = new ArrayList<Task>();
 		
 		
-		projectList = projectSvc.getProjectList(param);
+		projectList = projectSvc.getProjectListByMId(param);
 		
 		for(int i = 0; i < projectList.size(); i++) {
 			Task task = new Task();
