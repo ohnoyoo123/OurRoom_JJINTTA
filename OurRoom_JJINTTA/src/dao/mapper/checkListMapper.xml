@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.CheckListDao">
+
+	<insert id="insertCheckList" parameterType="checkList">
+		insert into checkList
+		values(
+		#{pNum},
+		#{tNum},
+		#{iNum},
+		ifnull(select max(cl.cl_num)+1 from
+		checkList cl where p_num = #{p_num} and t_num =
+		#{tNum} and i_num =
+		#{iNum}, 1),
+		#{clName}
+		)
+	</insert>
+
+	<update id="updateCheckList" parameterType="checkList">
+		update checkList
+		<set>
+			cl_name = #{clName}
+		</set>
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		and
+		cl_num =
+		#{clNum}
+	</update>
+
+	<delete id="deleteCheckList" parameterType="checkList">
+		delete from checkList
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		and
+		cl_num =
+		#{clNum}
+	</delete>
+
+	<select id="selectCheckList" parameterType="checkList"
+		resultMap="checkListRM">
+		select * from checkList
+		where
+		p_num = #{pNum}
+		and
+		t_num =
+		#{tNum}
+		and
+		i_num = #{iNum}
+	</select>
+
+	<insert id="insertCheckListItem" parameterType="checkListItem">
+		insert into
+		checkListItem values(
+		#{pNum},
+		#{tNum},
+		#{iNum},
+		#{clNum},
+		ifnull(select
+		max(ci.ci_num)+1 from checkListItem ci where p_num = #{p_num} and
+		t_num = #{tNum} and i_num = #{iNum} and cl_num = #{clNum}, 1),
+		#{ciName},
+		false
+		)
+	</insert>
+
+	<update id="updateCheckListItem" parameterType="checkListItem">
+		update checkListItem
+		<set>
+			<if test="ciName != null">
+				ci_name = #{ciName}
+			</if>
+			<if test="ciIsDone != null">
+				ci_isDone = #{ciIsDone}
+			</if>
+		</set>
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		and
+		cl_num =
+		#{clNum}
+		and
+		ci_num = #{ciNum}
+	</update>
+
+	<delete id="deleteCheckListItem" parameterType="checkListItem">
+		delete from
+		checkListItem
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		and
+		cl_num = #{clNum}
+		and
+		ci_num = #{ciNum}
+	</delete>
+
+	<select id="selectCheckListItem" parameterType="checkListItem"
+		resultMap="checkListItemRM">
+		select * from checkListItem
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		and
+		cl_num = #{clNum}
+	</select>
+	
+	<resultMap type="checkList" id="checkListRM">
+		<result property="pNum" column="p_num"/>
+		<result property="tNum" column="t_num"/>
+		<result property="iNum" column="i_num"/>
+		<result property="clNum" column="cl_num"/>
+		<result property="clName" column="cl_name"/>
+	</resultMap>
+	
+	<resultMap type="checkListItem" id="checkListItemRM">
+		<result property="pNum" column="p_num"/>
+		<result property="tNum" column="t_num"/>
+		<result property="iNum" column="i_num"/>
+		<result property="clNum" column="cl_num"/>
+		<result property="ciNum" column="ci_num"/>
+		<result property="ciName" column="ci_name"/>
+		<result property="ciIsDone" column="ci_isDone"/>
+	</resultMap>
+	
+	
+	
+	
+</mapper>

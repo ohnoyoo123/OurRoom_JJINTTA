@@ -14,7 +14,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<context:component-scan base-package="service" />
-	
+
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
@@ -24,33 +24,51 @@
 		<property name="username" value="root" />
 		<property name="password" value="1111" />
 	</bean>
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="typeAliasesPackage" value="model"/>
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="typeAliasesPackage" value="model" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="mapperLocations"
-		value="classpath*:dao/mapper/**/*.xml" />
+			value="classpath*:dao/mapper/**/*.xml" />
 	</bean>
-	<bean id="memberDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+	<bean id="memberDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 		<property name="mapperInterface" value="dao.MemberDao" />
 	</bean>
-	<!-- <bean id="addressDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"/> <property name="mapperInterface" 
-		value="dao.IaddressDao"/> </bean> <bean id="projectDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"/> <property name="mapperInterface" 
-		value="dao.IprojectDao"/> </bean> <bean id="taskDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"/> <property name="mapperInterface" 
-		value="dao.ItaskDao"/> </bean> <bean id="issueDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"/> <property name="mapperInterface" 
-		value="dao.IissueDao"/> </bean> <bean id="checkListDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"/> <property name="mapperInterface" 
-		value="dao.IcheckListDao"/> </bean> <bean id="logDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"/> <property name="mapperInterface" 
-		value="dao.IlogDao"/> </bean> <bean id="chatDao" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
-		<property name="sqlSessionFactory" ref="sqlSessionFactory"/> <property name="mapperInterface" 
-		value="dao.IchatDao"/> </bean> <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> 
-		<property name="dataSource" ref="dataSource"></property> </bean> <tx:advice 
-		transaction-manager="txManager" id="mytx"> <tx:attributes> <tx:method name="*" 
-		/> </tx:attributes> </tx:advice> <aop:config> <aop:advisor advice-ref="mytx" 
-		pointcut="execution(public * service.*Service.*(..))" /> </aop:config> -->
+	<bean id="addressDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="dao.AddressDao" />
+	</bean>
+	<bean id="projectDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="dao.ProjectDao" />
+	</bean>
+	<bean id="taskDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="dao.TaskDao" />
+	</bean>
+	<bean id="issueDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="dao.IssueDao" />
+	</bean>
+	<bean id="checkListDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="dao.CheckListDao" />
+	</bean>
+	<bean id="logDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="dao.LogDao" />
+	</bean>
+	<bean id="chatDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="mapperInterface" value="dao.ChatDao" />
+	</bean>
 </beans>

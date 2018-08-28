@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.ChatDao">
+
+	<insert id="insertChatMember" parameterType="chatMember">
+		insert into
+		chat_member values(
+		#{chNum},
+		#{mId},
+		now(),
+		now()
+		)
+	</insert>
+
+	<update id="updateChatMember" parameterType="chatMember">
+		update chat_member
+		<set>
+			ch_readTime = now()
+		</set>
+		where
+		ch_num = #{chNum}
+		and
+		m_id = #{mId}
+	</update>
+
+	<delete id="deleteChatMember" parameterType="chatMember">
+		delete from chat_member
+		where
+		ch_num = #{chNum}
+		<if test="mId != null">
+			and
+			m_id = #{mId}
+		</if>
+	</delete>
+
+	<select id="selectChatMember" parameterType="chatMember"
+		resultMap="chatMemberRM">
+		select * from chat_member
+		where
+		ch_num = #{chNum}
+	</select>
+
+	<insert id="insertChatMessage" parameterType="chatMessage">
+		insert into
+		chat_message values(
+		#{chNum},
+		#{mId},
+		#{chlContent},
+		now()
+		)
+	</insert>
+
+	<select id="selectChatMessage" parameterType="chatMessage"
+		resultMap="chatMessageRM">
+		select * from chat_message
+		where
+		ch_num = #{chNum}
+		and
+		chl_writeTime > (select ch_invitedTime from chat_member where m_id =
+		#{mId})
+	</select>
+
+	<select id="countChatMessage" parameterType="chatMessage"
+		resultType="int">
+		select count(*) from chat_message
+		where
+		ch_num = #{chNum}
+		and
+		chl_writeTime > (select ch_readTime from chat_member where m_id = #{mId})
+	</select>
+	
+	<resultMap type="chatMember" id="chatMemberRM">
+		<result property="chNum" column="ch_num"/>
+		<result property="mId" column="m_id"/>
+		<result property="chReadTime" column="ch_readTime"/>
+		<result property="chInvitedTime" column="ch_invitedTime"/>
+	</resultMap>
+
+	<resultMap type="chatMessage" id="chatMessageRM">
+		<result property="chNum" column="ch_num"/>
+		<result property="mId" column="m_id"/>
+		<result property="chmContent" column="chm_content"/>
+		<result property="chmWriteTime" column="chm_writeTime"/>
+	</resultMap>
+
+</mapper>

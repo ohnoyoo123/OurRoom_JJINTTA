@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-프로젝트입니다.
+프로젝트입니다.<br>
+projectList : ${projectList }<br>
+TaskList : ${taskList }
+
 </body>
 </html>

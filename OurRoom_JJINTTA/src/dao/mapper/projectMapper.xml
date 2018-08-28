@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.ProjectDao">
+
+	<insert id="insertProject" parameterType="project">
+		insert into project values(
+		0,
+		#{pName},
+		<choose>
+			<when test="pStartDate != null">
+				#{pStartDate},
+			</when>
+			<when test="pStartDate == null">
+				now(),
+			</when>
+		</choose>
+
+		<choose>
+			<when test="pEndDate != null">
+				#{pEndDate}
+			</when>
+			<when test="pEndDate == null">
+				now()
+			</when>
+		</choose>
+		)
+	</insert>
+
+	<update id="updateProject" parameterType="project">
+		update project
+		<set>
+			<if test="pName != null">
+				p_name = #{pName},
+			</if>
+			<if test="pStartDate != null">
+				p_startDate = #{pStartDate},
+			</if>
+			<if test="pEndDate != null">
+				p_endDate = #{pEndDate}
+			</if>
+		</set>
+		where
+		p_num = #{pNum}
+	</update>
+
+	<delete id="deleteProject" parameterType="int">
+		delete from project
+		where
+		p_num = #{pNum}
+	</delete>
+
+	<select id="selectProjectList" parameterType="hashMap"
+		resultMap="projectRM">
+		select * from project p
+		where
+		p.p_num
+		in (select
+		pm.p_num from
+		project_member pm
+		where
+		m_id = #{mId})
+	</select>
+
+	<select id="selectProject" parameterType="int"
+		resultMap="projectRM">
+		select * from project
+		where
+		p_num = #{pNum}
+	</select>
+
+	<!-- 이 부분 엄청 이상한데?? 왜 존재하는 거지??? -->
+	<select id="???" parameterType="hashMap"
+		resultMap="projectRM">
+		select * from project_member
+		where
+		p_num = #{pNum}
+		and
+		m_id =
+		#{mId}
+	</select>
+
+	<insert id="insertProjectMember" parameterType="projectMember">
+		insert into
+		project_member values(
+		#{pNum},
+		#{mId},
+		#{pmIsAdmin},
+		#{pmIsAuth},
+		#{pmFav}
+		)
+	</insert>
+
+	<delete id="deleteProjectMember" parameterType="projectMember">
+		delete from
+		project_member
+		where
+		p_num = #{pNum}
+		and
+		m_id = #{mId}
+	</delete>
+
+	<select id="selectProjectMember" parameterType="hashMap"
+		resultMap="projectMemberRM">
+		select * from project_member
+		<where>
+			<if test="pNum != null">
+				p_num = #{pNum}
+				and
+			</if>
+			<if test="mId != null">
+				m_id = #{mId}
+				and
+			</if>
+			1 = 1
+		</where>
+	</select>
+
+	<resultMap type="project" id="projectRM">
+		<result property="pNum" column="p_num" />
+		<result property="pName" column="p_name" />
+		<result property="pStartDate" column="p_startDate" />
+		<result property="pEndDate" column="p_endDate" />
+	</resultMap>
+	
+	<resultMap type="projectMember" id="projectMemberRM">
+		<result property="pNum" column="p_num"/>
+		<result property="mId" column="m_id"/>
+		<result property="pmIsAdmin" column="pm_isAdmin"/>
+		<result property="pmIsAuth" column="pm_isAuth"/>
+		<result property="pmFav" column="pm_fav"/>
+	</resultMap>
+	
+	
+</mapper>
