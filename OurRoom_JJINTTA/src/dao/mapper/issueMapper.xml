@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.IssueDao">
+
+	<insert id="insertIssue" parameterType="issue">
+		insert into issue values(
+		#{pNum},
+		#{tNum},
+		ifnull(select max(i.i_num)+1
+		from issue i where p_num = #{p_num} and t_num = #{tNum}, 1),
+		#{iStep},
+		#{iOrder},
+		#{iName},
+		#{iDscr},
+		<choose>
+			<when test="iStartDate != null">
+				#{iStartDate},
+			</when>
+			<when test="iStartDate == null">
+				now(),
+			</when>
+		</choose>
+
+		<choose>
+			<when test="iEndDate != null">
+				#{iEndDate},
+			</when>
+			<when test="iEndDate == null">
+				now(),
+			</when>
+		</choose>
+		0
+		)
+	</insert>
+
+	<update id="updateIssue" parameterType="issue">
+		update issue
+		<set>
+			<if test="iStep != null">
+				i_step = #{iStep},
+			</if>
+			<if test="iOrder != null">
+				i_order = #{iOrder},
+			</if>
+			<if test="iName != null">
+				i_name = #{iName},
+			</if>
+			<if test="iDscr != null">
+				i_dscr = #{iDscr},
+			</if>
+			<if test="iStartDate != null">
+				i_startDate = #{iStartDate},
+			</if>
+			<if test="iEndDate != null">
+				i_endDate = #{iEndDate},
+			</if>
+			<if test="iImpr != null">
+				i_impr = #{iImpr},
+			</if>
+		</set>
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+	</update>
+
+	<delete id="deleteIssue" parameterType="issue">
+		delete from issue
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+	</delete>
+
+	<select id="selectIssue" parameterType="issue" resultMap="issueRM">
+		select * from issue
+		where
+		p_num = #{pNum}
+		<if test="tNum != 0">
+			and
+			t_num = #{tNum}
+		</if>
+		<if test="iNum != 0">
+			and
+			i_num = #{iNum}
+		</if>
+	</select>
+
+	<insert id="insertComment" parameterType="comment">
+		insert into comment
+		values(
+		#{pNum},
+		#{tNum},
+		#{iNum},
+		ifnull(select max(c.c_num)+1 from
+		comment c where p_num = #{p_num} and t_num =
+		#{tNum} and i_num =
+		#{iNum}, 1),
+		#{mId},
+		#{cmContent},
+		now(),
+		#{cmSuper}
+		)
+	</insert>
+
+	<select id="selectComment" parameterType="issue"
+		resultMap="commentRM">
+		select * from comment
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+	</select>
+	
+	<resultMap type="issue" id="issueRM">
+		<result property="pNum" column="p_num"/>
+		<result property="tNum" column="t_num"/>
+		<result property="iNum" column="i_num"/>
+		<result property="iStep" column="i_step"/>
+		<result property="iOrder" column="i_order"/>
+		<result property="iName" column="i_name"/>
+		<result property="iDscr" column="i_dscr"/>
+		<result property="iStartDate" column="i_startDate"/>
+		<result property="iEndDate" column="i_endDate"/>
+		<result property="iImpr" column="i_impr"/>
+	</resultMap>
+	
+	<resultMap type="comment" id="commentRM">
+		<result property="pNum" column="p_num"/>
+		<result property="tNum" column="t_num"/>
+		<result property="iNum" column="i_num"/>
+		<result property="cmNum" column="cm_num"/>
+		<result property="mId" column="m_id"/>
+		<result property="cmContent" column="cm_content"/>
+		<result property="cmWriteTime" column="cm_writeTime"/>
+		<result property="cmSuper" column="cm_super"/>
+	</resultMap>
+</mapper>

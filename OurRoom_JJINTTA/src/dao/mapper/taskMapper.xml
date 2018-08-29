@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.TaskDao">
+
+	<insert id="insertTask" parameterType="task">
+		insert into task values(
+		#{pNum},
+		ifnull(select max(t.t_num)+1 from task
+		t where p_num = #{pNum}, 1),
+		#{tOrder},
+		#{tName},
+		#{tDscr},
+		<choose>
+			<when test="tStartDate != null">
+				#{tStartDate},
+			</when>
+			<when test="tStartDate == null">
+				now(),
+			</when>
+		</choose>
+
+		<choose>
+			<when test="tEndDate != null">
+				#{tEndDate},
+			</when>
+			<when test="tEndDate == null">
+				now(),
+			</when>
+		</choose>
+		null,
+		null,
+		null
+		)
+	</insert>
+
+	<update id="updateTask" parameterType="task">
+		update task
+		<set>
+			<if test="tOrder != null">
+				t_order = #{tOrder},
+			</if>
+			<if test="tName != null">
+				t_name = #{tName},
+			</if>
+			<if test="tDscr != null">
+				t_dscr = #{tDscr},
+			</if>
+			<if test="tStartDate != null">
+				t_startDate = #{tStartDate},
+			</if>
+			<if test="tEndDate != null">
+				t_endDate = #{tEndDate},
+			</if>
+			<if test="tNotiName != null">
+				t_notiNate = #{tNotiName},
+			</if>
+			<if test="tNotiContent != null">
+				t_notiContent = #{tNotiContent},
+			</if>
+			<if test="tNotiWriteTime != null">
+				t_notiWriteTime = #{tNotiWriteTime},
+			</if>
+		</set>
+		<where>
+			p_num = #{pNum}
+			and
+			t_num = #{tNum}
+		</where>
+	</update>
+
+	<delete id="deleteTask" parameterType="task">
+		delete from task
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+	</delete>
+
+	<select id="selectTask" parameterType="task" resultMap="taskRM">
+		select * from task
+		where
+		p_num = #{pNum}
+		<if test="tNum != 0">
+			and
+			t_num = #{tNum}
+		</if>
+	</select>
+	
+	<resultMap type="task" id="taskRM">
+		<result property="pNum" column="p_num"/>
+		<result property="tNum" column="t_num"/>
+		<result property="tOrder" column="t_order"/>
+		<result property="tName" column="t_name"/>
+		<result property="tDscr" column="t_dscr"/>
+		<result property="tStartDate" column="t_startDate"/>
+		<result property="tEndDate" column="t_endDate"/>
+		<result property="tNotiName" column="t_notiName"/>
+		<result property="tNotiContent" column="t_notiContent"/>
+		<result property="tNotiWriteTime" column="t_notiWriteTime"/>
+	</resultMap>
+
+
+</mapper>

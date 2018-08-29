@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dao.AddressDao">
+
+	<insert id="insertAddress" parameterType="address">
+		insert into address
+		values(
+		#{mId},
+		#{aId}
+		)
+	</insert>
+	
+	<delete id="deleteAddress" parameterType="address">
+		delete from address
+		where 
+		m_id = #{mId}
+		and
+		a_id = #{aId}
+	</delete>
+	
+	<select id="selectAddress" parameterType="hashMap" resultMap="addressRM">
+		select * from address
+		where
+		m_id = #{mId}
+	</select>
+	
+	<resultMap type="address" id="addressRM">
+		<result property="mId" column="m_id"/>
+		<result property="aId" column="a_id"/>
+	</resultMap>
+</mapper>
