@@ -74,9 +74,12 @@ public class PageController {
 		return mav;
 	}
 	@PostMapping("/project/newProject")
-	public void newProject(@RequestParam HashMap<String, Object> params) {
-		//System.out.println("============================= new project!");
+	public String newProject(@RequestParam HashMap<String, Object> params) {
 		
+		//System.out.println("============================= new project!");
+		//System.out.println(params);
+		
+		return "redirect:/project/gantt?pNum="+projectSvc.addProject(params);
 	}
 	
 	@RequestMapping("/project/gantt")

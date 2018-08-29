@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,6 +37,35 @@ public class ProjectService {
 
 	public Project getProject(int pNum) {
 		return projectDao.selectProject(pNum);
+	}
+	
+	public int addProject(HashMap<String, Object> params) {
+		Project project = new Project();
+		project.setpName((String)params.get("pName"));
+		project.setpBackground("test");
+		projectDao.insertProject(project);
+		//System.out.println("프로젝트 넘버:"+project.getpNum());
+		
+		List<String> memberId = new ArrayList<>();
+		System.out.println("멤버!!!!!!!!!!!!!!!"+params.get("projectMember"));
+		for(String m : memberId) {
+			ProjectMember pm = new ProjectMember();
+			pm.setmId(m);
+			pm.setpNum(project.getpNum());
+			pm.setPmFav(false);
+			pm.setPmIsAdmin(false);
+			pm.setPmIsAuth(false);
+			projectDao.insertProjectMember(pm);
+		}
+		ProjectMember owner = new ProjectMember();
+		owner.setmId((String)params.get("owner"));
+		owner.setpNum(project.getpNum());
+		owner.setPmFav(false);
+		owner.setPmIsAdmin(true);
+		owner.setPmIsAuth(true);
+		projectDao.insertProjectMember(owner);
+		
+		return project.getpNum();		
 	}
 	
 }

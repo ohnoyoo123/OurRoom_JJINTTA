@@ -3,7 +3,7 @@
 
 <mapper namespace="dao.ProjectDao">
 
-	<insert id="insertProject" parameterType="project">
+	<insert id="insertProject" parameterType="project" useGeneratedKeys="true" keyProperty="pNum">
 		insert into project values(
 		0,
 		#{pName},
@@ -18,12 +18,13 @@
 
 		<choose>
 			<when test="pEndDate != null">
-				#{pEndDate}
+				#{pEndDate},
 			</when>
 			<when test="pEndDate == null">
-				now()
+				now(),
 			</when>
 		</choose>
+		#{pBackground}
 		)
 	</insert>
 
