@@ -18,12 +18,13 @@
 
 		<choose>
 			<when test="pEndDate != null">
-				#{pEndDate}
+				#{pEndDate},
 			</when>
 			<when test="pEndDate == null">
-				now()
+				now(),
 			</when>
 		</choose>
+		#{pBackground}
 		)
 	</insert>
 

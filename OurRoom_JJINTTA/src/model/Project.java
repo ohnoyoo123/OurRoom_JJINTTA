@@ -8,6 +8,7 @@ public class Project {
 	private String pName;
 	private Date pStartDate;
 	private Date pEndDate;
+	private String pBackground;
 	
 	public int getpNum() {
 		return pNum;
@@ -32,6 +33,12 @@ public class Project {
 	}
 	public void setpEndDate(Date pEndDate) {
 		this.pEndDate = pEndDate;
+	}
+	public String getpBackground() {
+		return pBackground;
+	}
+	public void setpBackground(String pBackground) {
+		this.pBackground = pBackground;
 	}
 	@Override
 	public String toString() {

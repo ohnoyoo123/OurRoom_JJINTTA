@@ -29,11 +29,14 @@ public class ProjectRestController {
 	
 	@PostMapping("/project/issueDetail")
 	public @ResponseBody Map<String, Object> issueDetail(Issue issue) {
-		
+		System.out.println("요청 url : " + "/project/issueDetail");
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("issue", iSvc.getIssueList(issue));
 		data.put("checkList", clSvc.selectCheckList(issue));
-		System.out.println(data);
+		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
+		data.put("issueMember", iSvc.getIssueMember(issue));
+		
+		System.out.println("data : " + data);
 		return data;
 		
 	}

@@ -45,6 +45,7 @@
 		cl_num =
 		#{clNum}
 	</delete>
+	
 	<select id="selectAllCheckList" parameterType="issue"
 		resultMap="checkListRM">
 		select * from checkList
@@ -110,7 +111,7 @@
 		ci_num = #{ciNum}
 	</delete>
 
-	<select id="selectCheckListItem" parameterType="checkListItem"
+	<select id="selectAllCheckListItem" parameterType="issue"
 		resultMap="checkListItemRM">
 		select * from checkListItem
 		where
@@ -119,8 +120,6 @@
 		t_num = #{tNum}
 		and
 		i_num = #{iNum}
-		and
-		cl_num = #{clNum}
 	</select>
 	
 	<resultMap type="checkList" id="checkListRM">
