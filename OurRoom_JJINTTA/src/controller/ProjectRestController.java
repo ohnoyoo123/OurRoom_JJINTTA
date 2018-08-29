@@ -1,6 +1,7 @@
 package controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import model.Issue;
+import model.Member;
 import service.CheckListService;
 import service.IssueService;
+import service.MemberService;
 
 @RestController
 public class ProjectRestController {
@@ -20,6 +23,9 @@ public class ProjectRestController {
 	
 	@Autowired
 	CheckListService clSvc;
+	
+	@Autowired
+	MemberService mSvc;
 	
 	@PostMapping("/project/issueDetail")
 	public @ResponseBody Map<String, Object> issueDetail(Issue issue) {
