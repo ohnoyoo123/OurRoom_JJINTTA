@@ -19,6 +19,7 @@ html, body{
 	height: 50px;
 	background-color: black;
 	color : white;
+	display: inline-block;
 }
 
 #left{

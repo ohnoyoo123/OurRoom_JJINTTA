@@ -45,8 +45,7 @@
 		cl_num =
 		#{clNum}
 	</delete>
-
-	<select id="selectCheckList" parameterType="checkList"
+	<select id="selectAllCheckList" parameterType="issue"
 		resultMap="checkListRM">
 		select * from checkList
 		where

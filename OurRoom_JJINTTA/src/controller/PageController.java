@@ -35,7 +35,7 @@ public class PageController {
 	TaskService taskSvc;
 	
 	@Autowired
-	IssueService issueSv;
+	IssueService issueSvc;
 	
 	
 	
@@ -94,8 +94,8 @@ public class PageController {
 		
 		Issue issue = new Issue();
 		issue.setpNum(pNum);
-		mav.addObject("isseList", issueSv.getIssueList(issue));
-		
+		mav.addObject("issueList", issueSvc.getIssueList(issue));
+		System.out.println("이슈리스트" + issueSvc.getIssueList(issue));
 		mav.setViewName("/project/gantt");
 		
 		return mav;
