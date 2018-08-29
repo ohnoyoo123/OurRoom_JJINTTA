@@ -13,6 +13,6 @@
 	<img src="" width="300" height="300"> <br>
 	ID : ${member.mId } <br>
 	Nickname : ${member.mNickname } <br>
-	<button>시작하기</button>
+	<button onclick="location.href='home'">시작하기</button>
 </body>
 </html>

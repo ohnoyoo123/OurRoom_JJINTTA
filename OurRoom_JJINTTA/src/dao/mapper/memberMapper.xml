@@ -4,27 +4,54 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="dao.MemberDao">
-	<insert id="insertMember" parameterType="member">
-		insert into member 
-			values(
-				#{mId},
-				sha(#{mPw}),
-				#{mId},
-				#{mNickname},
-				#{mQuestion},
-				#{mAnwser}
-			)
-	</insert>
-	<select id="selectMember" resultMap="memberMap">
-		select * from member
-	</select>
-	
+
 	<resultMap type="member" id="memberMap">
-		<result column="m_id" property="mId"/>
-		<result column="m_pw" property="mPw"/>
-		<result column="m_email" property="mEmail"/>
-		<result column="m_nickname" property="mNickname"/>
-		<result column="m_question" property="mQuestion"/>
-		<result column="m_answer" property="mAnswer"/>
+		<result column="m_id" property="mId" />
+		<result column="m_pw" property="mPw" />
+		<result column="m_email" property="mEmail" />
+		<result column="m_nickname" property="mNickname" />
+		<result column="m_question" property="mQuestion" />
+		<result column="m_answer" property="mAnswer" />
 	</resultMap>
+
+	<insert id="insertMember" parameterType="member">
+		insert into member
+		values(
+		#{mId},
+		sha(#{mPw}),
+		#{mId},
+		#{mNickname},
+		#{mQuestion},
+		#{mAnswer}
+		)
+	</insert>
+
+	<select id="selectByNickname" parameterType="String"
+		resultMap="memberMap">
+		select *
+		from member 
+		where m_nickname = #{mNickname}
+	</select>
+
+	<select id="selectById" parameterType="String"
+		resultMap="memberMap">
+		select *
+		from member
+		where m_id = #{mId}
+	</select>
+
+	<select id="selectByIdAndPw" parameterType="member"
+		resultMap="memberMap">
+		select *
+		from member
+		where m_id = #{mId}
+		and m_pw = sha(#{mPw})
+	</select>
+
+	<select id="selectMember" resultMap="memberMap">
+		select *
+		from member
+	</select>
+
+
 </mapper>
