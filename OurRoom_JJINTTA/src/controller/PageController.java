@@ -12,6 +12,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,8 +48,9 @@ public class PageController {
 		return "/home/home";
 	}
 	
-	@RequestMapping("/project/{mId}")
-	public ModelAndView project(@PathVariable String mId) {
+	@RequestMapping("/project")
+	public ModelAndView project() {
+		String mId="member1";
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
 		
@@ -79,6 +81,11 @@ public class PageController {
 		
 		mav.setViewName("/project/project");
 		return mav;
+	}
+	@PostMapping("/project/newProject")
+	public void newProject(@RequestParam HashMap<String, Object> params) {
+		//System.out.println("============================= new project!");
+		
 	}
 	
 	@RequestMapping("/project/gantt")
