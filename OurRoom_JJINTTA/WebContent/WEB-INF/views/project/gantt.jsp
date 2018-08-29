@@ -84,6 +84,8 @@
 
 				<!-- Modal body -->
 				<div class="modal-body">Modal body..</div>
+				체크리스트 리스트?
+				<div class="modal-body" id="checkListList"></div>
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
@@ -98,7 +100,6 @@
 				$(document).ready(function () {
 
 					$('.issues').on('click', function(){
-						
 						$.ajax({
 							url : "../project/issueDetail",
 							data : {
