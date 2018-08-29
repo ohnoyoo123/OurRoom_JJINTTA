@@ -31,4 +31,10 @@ public class ProjectRestController {
 		return data;
 		
 	}
+	@PostMapping("/project/memberSearch")
+	public List<Member> memberSearch(String mId) {
+		System.out.println("==============================\n"+mId);	
+		System.out.println(mSvc.select());
+		return mSvc.select();
+	}
 }
