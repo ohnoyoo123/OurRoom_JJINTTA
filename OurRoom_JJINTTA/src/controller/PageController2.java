@@ -82,4 +82,6 @@ public class PageController2 {
 	public String home() {
 		return "home/home";
 	}
+	
+	
 }

@@ -11,7 +11,7 @@
 		$("#loginBtn").on("click", function() {
 			// 회원 여부 체크
 			$.ajax({
-				url : "member/loginMemberCheck",
+				url : "loginMemberCheck",
 				async : false,
 				data : {
 					mId : $("#mId").val(),

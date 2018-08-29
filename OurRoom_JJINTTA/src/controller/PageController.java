@@ -39,15 +39,6 @@ public class PageController {
 	IssueService issueSvc;
 	
 	
-	
-	
-	
-	@RequestMapping("/home")
-	public String home() {
-		System.out.println("home");
-		return "/home/home";
-	}
-	
 	@RequestMapping("/project")
 	public ModelAndView project() {
 		String mId="member1";
@@ -106,15 +97,5 @@ public class PageController {
 		mav.setViewName("/project/gantt");
 		
 		return mav;
-	}
-	
-	@RequestMapping("/address")
-	public String address() {
-		return "/address/address";
-	}
-	
-	@RequestMapping("/myPage")
-	public String myPage() {
-		return "/myPage/myPage";
 	}
 }

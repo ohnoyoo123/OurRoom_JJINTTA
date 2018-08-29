@@ -8,13 +8,12 @@ import model.Member;
 import service.MemberService;
 
 @RestController
-@RequestMapping("member")
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
 	/* 회원가입시 아이디 중복 체크 요청 */
-	@RequestMapping("/idCheck")
+	@RequestMapping("idCheck")
 	public boolean idCheck(String mId) {
 		System.out.println("[idCheck] : " + mId);
 		System.out.println(memberService.idCheck(mId));
@@ -23,14 +22,14 @@ public class MemberController {
 	}
 
 	/* 회원가입시 닉네임 중복 체크 요청 */
-	@RequestMapping("/nicknameCheck")
+	@RequestMapping("nicknameCheck")
 	public boolean nicknameCheck(String mNickname) {
 		System.out.println("[mNickname] : " + mNickname);
 		return memberService.nicknameCheck(mNickname);
 	}
 	
 	/* 로그인시 회원 체크 요청 */
-	@RequestMapping("/loginMemberCheck")
+	@RequestMapping("loginMemberCheck")
 	public boolean loginMemberCheck(Member member) {
 		
 		System.out.println("[loginMemberCheck] : " + member);
