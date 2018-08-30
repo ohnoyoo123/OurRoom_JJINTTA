@@ -16,9 +16,10 @@
 		width: 90vw;
 	}
 
-#addTask {
+	#addTask {
 		width: 100%;
 	}
+
 </style>
 
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -26,7 +27,7 @@
 <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
 <script>
   $( function() {
-    $( "#datepicker" ).datepicker();
+    $( ".datepicker" ).datepicker();
   } );
 </script>
 
@@ -122,27 +123,28 @@
 					<div class="modal-header">
 						<h4 class="modal-title">
 							태스크명:
-							<form class="" action="project/newProject" method="post">
 
-							<input type="text" placeholder="enter task name" name="tName">
+						<input type="text" placeholder="enter task name" id="tName">
 						</h4>
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
 
 				<!-- Modal body -->
 					<div class="modal-body">
-						<!-- <div id="taskDate" class="input-group date">달력 테스트 중
-							
-						</div> -->
-						<p>Date: <input type="text" id="datepicker"></p>
-
+						<div>
+							시작 : <br>
+							<input type="text" class="datepicker" id="tStartDate">
+						</div>
+						<div>
+							종료 : <br>
+							<input type="text" class="datepicker" id="tEndDate">
+						</div>
 					</div>
 
 				<!-- Modal footer -->
 					<div class="modal-footer">
-						<input type="submit" class="btn btn-success" value="생성">
+						<button type="button" class="btn btn-success" id="AddTask">Add</button>
 						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-						</form>
 					</div>
 
 			</div>
@@ -192,10 +194,25 @@
 
 			$('#AddTask').on('click', function () {
 
+				// const tName = $('#tName').val()
+				// const tStart = new Date($('#tStartDate').val().split('/'))
+				// const tEnd = new Date($('#tEndDate').val().split('/'))
+				
+				$.ajax({
+					url : "../project/addTask",
+					data : {
+						pNum : ${project.pNum},
+						tName : $('#tName').val(),
+						tStartDate : new Date($('#tStartDate').val().split('/')),
+						tEndDate : new Date($('#tEndDate').val().split('/'))
+
+					},
+					type : "post"
+				})
+				
+				
 			})
 
-			// var datepicker = new Datepickk
-			// $('#taskDate').html(datepicker.show())
 
 
 		})

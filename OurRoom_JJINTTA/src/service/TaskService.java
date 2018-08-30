@@ -12,11 +12,14 @@ import model.Task;
 public class TaskService {
 
 	@Autowired
-	TaskDao taskDao;
+	TaskDao tDao;
 	
 	public List<Task> getTaskList(Task task){
-		System.out.println("dao : " + taskDao.selectTask(task));
-		return taskDao.selectTask(task);
-		
+		System.out.println("dao : " + tDao.selectTask(task));
+		return tDao.selectTask(task);
+	}
+	
+	public void addTask(Task task) {
+		System.out.println("task : " + task);
 	}
 }
