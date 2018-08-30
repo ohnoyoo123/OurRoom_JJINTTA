@@ -1,0 +1,168 @@
+create table member (
+m_id varchar(40) primary key, 
+m_pw varchar(41), 
+m_email varchar(40), 
+m_nickname varchar(40),
+m_question int, 
+m_answer varchar(40)
+);
+
+create table address (
+m_id varchar(40), 
+a_id varchar(40), 
+foreign key (m_id) references member(m_id), 
+foreign key (a_id) references member(m_id)
+);
+
+create table project (
+p_num int primary key auto_increment, 
+p_name varchar(40), 
+p_startDate date, 
+p_endDate date
+);
+
+create table task (
+p_num int, 
+t_num int,
+t_order int, 
+t_name varchar(40), 
+t_dscr varchar(2000), 
+t_startDate date,
+t_endDate date,
+t_notiName varchar(100), 
+t_notiContent varchar(2000), 
+t_notiWriteTime timestamp, 
+foreign key (p_num) references project(p_num)
+);
+
+create table issue (
+p_num int, 
+t_num int, 
+i_num int, 
+i_step int, 
+i_order int, 
+i_name varchar(40), 
+i_dscr varchar(2000), 
+i_startDate date,
+i_endDate date,
+i_impr int, 
+i_isBin boolean, 
+foreign key (p_num) references project(p_num)
+);
+
+create table checkList (
+p_num int,
+t_num int, 
+i_num int, 
+cl_num int, 
+cl_name varchar(40), 
+foreign key (p_num) references project(p_num)
+);
+
+create table checkListItem (
+p_num int,
+t_num int, 
+i_num int, 
+cl_num int, 
+ci_num int, 
+ci_name varchar(40), 
+ci_isDone boolean, 
+foreign key (p_num) references project(p_num)
+);
+
+create table project_member (
+p_num int, 
+m_id varchar(40), 
+pm_isAdmin boolean, 
+pm_isAuth boolean, 
+pm_fav boolean, 
+foreign key (p_num) references project(p_num), 
+foreign key (m_id) references member(m_id)
+);
+
+create table issue_member (
+p_num int, 
+t_num int, 
+i_num int, 
+m_id varchar(40), 
+foreign key (p_num) references project(p_num), 
+foreign key (m_id) references member(m_id)
+);
+
+create table checkListItem_member (
+p_num int, 
+t_num int, 
+i_num int, 
+cl_num int, 
+ci_num int, 
+m_id varchar(40), 
+foreign key (p_num) references project(p_num), 
+foreign key (m_id) references member(m_id)
+);
+
+create table comment (
+p_num int, 
+t_num int, 
+i_num int, 
+cm_num int, 
+m_id varchar(40), 
+cm_content varchar(2000), 
+cm_writeTime timestamp, 
+cm_super int, 
+foreign key (p_num) references project(p_num), 
+foreign key (m_id) references member(m_id)
+);
+
+create table log (
+p_num int, 
+t_num int, 
+i_num int, 
+cl_num int, 
+ci_num int, 
+cm_num int, 
+m_id varchar(40), 
+l_num int, 
+l_cat int, 
+foreign key (p_num) references project(p_num), 
+foreign key (m_id) references member(m_id)
+);
+
+create table log_member (
+p_num int, 
+m_id varchar(40), 
+l_num int, 
+foreign key (p_num) references project(p_num), 
+foreign key (m_id) references member(m_id)
+);
+
+create table noti (
+p_num int, 
+l_num int, 
+m_id varchar(40), 
+n_isRead boolean, 
+foreign key (p_num) references project(p_num), 
+foreign key (m_id) references member(m_id)
+);
+
+create table chat_Member (
+ch_num int primary key auto_increment, 
+m_id varchar(40), 
+ch_readTime timestamp
+);
+
+create table chat (
+ch_num int, 
+m_id varchar(40), 
+chl_content varchar(2000), 
+chl_writeTime timestamp, 
+foreign key (ch_num) references chat(ch_num)
+);
+
+
+
+
+
+
+
+
+

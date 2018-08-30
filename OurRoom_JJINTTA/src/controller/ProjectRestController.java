@@ -28,7 +28,7 @@ public class ProjectRestController {
 	MemberService mSvc;
 	
 	@PostMapping("/project/issueDetail")
-	public @ResponseBody Map<String, Object> issueDetail(Issue issue) {
+	public Map<String, Object> issueDetail(Issue issue) {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("issue", iSvc.getIssueList(issue));

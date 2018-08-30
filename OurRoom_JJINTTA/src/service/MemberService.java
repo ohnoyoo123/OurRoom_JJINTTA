@@ -41,9 +41,35 @@ public class MemberService {
 
 	/* 로그인 회원 체크 */
 	public boolean loginMemberCheck(Member member) {
-			
+
 		System.out.println("[MemberService > loginMemberCheck] : " + mDao.selectByIdAndPw(member));
-		return (mDao.selectByIdAndPw(member) == null ) ? false : true;
+		return (mDao.selectByIdAndPw(member) == null) ? false : true;
+	}
+
+	/* 비밀번호 찾기 답변 여부 */
+	public boolean forgetPw(Member member) {
+		Member db_member = mDao.selectById(member.getmId());
+		String message = "[MemberService > forgetPw] 아이디 : ";
+
+		if (db_member == null) { // 아이디가 존재하지 않을 경우
+			message += " 회원 없음";
+		} else if (db_member.getmQuestion() != member.getmQuestion()) { // 질문이 다를 경우
+			message += " 회원의 질문이 틀림";
+		} else if (!db_member.getmAnswer().equals(member.getmAnswer())) { // 답변이 다를 경우
+			message += " 회원의 답변이 틀림";
+		} else { // 비밀번호 찾기 가능
+			System.out.println(message + " 회원 비밀번호 찾기 가능");
+			return true;
+		}
+		System.out.println(message);
+		return false;
+	}
+
+	/* 비밀번호 변경 */
+	public boolean updatePw(Member member) {
+		int result = mDao.updatePw(member);
+		System.out.println("[MemberService > updatePw] 아이디 : " + member.getmId() + " 비밀번호 변경 결과 (" + result + ")");
+		return (result == 1) ? true : false;
 	}
 
 }

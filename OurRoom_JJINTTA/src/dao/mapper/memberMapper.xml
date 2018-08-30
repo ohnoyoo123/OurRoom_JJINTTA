@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="m_answer" property="mAnswer" />
 	</resultMap>
 
+	<!-- insert 영역 -->
 	<insert id="insertMember" parameterType="member">
 		insert into member
 		values(
@@ -26,10 +27,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		)
 	</insert>
 
+	<!-- update영역 -->
+	<update id="updatePw" parameterType="member">
+		update member
+		set m_pw = sha(#{mPw})
+		where m_id = #{mId}
+	</update>
+
+
+	<!-- select영역 -->
 	<select id="selectByNickname" parameterType="String"
 		resultMap="memberMap">
 		select *
-		from member 
+		from member
 		where m_nickname = #{mNickname}
 	</select>
 
@@ -52,6 +62,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select *
 		from member
 	</select>
-
 
 </mapper>

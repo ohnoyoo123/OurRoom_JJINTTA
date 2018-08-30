@@ -33,8 +33,14 @@
 			chkAnswer();
 		});
 		
-		
-		
+		/* 취소버튼 클릭 시 */
+		$("#cancelBtn").on("click",function(){
+			
+			var isCancel = window.confirm("취소하시겠습니까?");
+			if(isCancel){
+				location.href="loginForm";
+			}
+		});
 		
 		/* ID, PW, Nickname, 답변 유효성 체크 및 submit */
 		$("#nextBtn").on("click",function(){
@@ -129,25 +135,24 @@
 	}
 	// mPw와 mPw2가 같은지 비교
 	 function chkPw2() {
-	        var pw = $("#mPw").val();
-	        var pw2 = $("#mPw2").val();
-	 
-	        if(!chkPw()){
-				$("#pw2CheckMsg").html("");
-	        	return false;
-	        }
-	        
-	        if (pw != pw2) {
-	        	$("#pw2CheckMsg").css("color", "red");
-				$("#pw2CheckMsg").html("비밀번호가 다릅니다.");
-	            return false;
-	        }else{
-	        	$("#pw2CheckMsg").css("color", "green");
-				$("#pw2CheckMsg").html("사용 가능합니다.");
-	            return true;
-	        }
-	        
-	    }
+        var pw = $("#mPw").val();
+        var pw2 = $("#mPw2").val();
+ 
+        if(!chkPw()){
+			$("#pw2CheckMsg").html("");
+        	return false;
+        }
+        
+        if (pw != pw2) {
+        	$("#pw2CheckMsg").css("color", "red");
+			$("#pw2CheckMsg").html("비밀번호가 다릅니다.");
+            return false;
+        }else{
+        	$("#pw2CheckMsg").css("color", "green");
+			$("#pw2CheckMsg").html("사용 가능합니다.");
+            return true;
+        }
+	}
 
 	
 	/* Nickname Check */
@@ -246,7 +251,7 @@
 			<option value="4">아버지 성함은?</option>
 		</select> <br> <b>답변</b><br> <input type="text" id="mAnswer"
 			name="mAnswer"> <b id="answerCheckMsg"></b> <br> <br>
-		<input type="button" onclick="history.go(-1)" value="취소"> <input
+		<input type="button" id="cancelBtn" value="취소"> <input
 			type="button" id="nextBtn" value="다음">
 	</form>
 </body>

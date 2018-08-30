@@ -16,25 +16,27 @@ public class PageController2 {
 
 	@RequestMapping("loginForm")
 	public String loginForm() {
-		System.out.println("loginForm");
+		System.out.println("[MemberController > loginForm]");
 		return "member/loginForm";
 	}
 
 	@RequestMapping("login")
 	public String login() {
-		System.out.println("login");
+		System.out.println("[MemberController > login]");
 
 		// memberService.login();
 
 		return "home/home";
 	}
-
+	
+	/* [회원가입] 필수입력 단계 페이지 요청 */
 	@RequestMapping("joinForm_step1")
 	public String joinForm_step1() {
 		System.out.println("joinForm_step1");
 		return "member/joinForm_step1";
 	}
 
+	/* [회원가입] 선택입력(프로필사진)입력 단계 페이지 요청  */
 	@RequestMapping("joinForm_step2")
 	public ModelAndView joinForm_step2(Member member) {
 
@@ -47,41 +49,33 @@ public class PageController2 {
 		return mav;
 	}
 
-	// 회원가입 완료 및 환영 화면 응답
-	@RequestMapping("joinForm_step3")
-	public ModelAndView joinForm_step3(Member member) {
+	/* 회원가입 완료 및 환영 페이지 요청 */
+	@RequestMapping("join")
+	public ModelAndView join(Member member) {
 		// @RequestParam MultipartFile...
-		System.out.println("joinForm_step3");
-		System.out.println(member);
-
+		System.out.println("[PageController2 > join] : " + member);
+		
 		// 회원가입 처리
 		memberService.join(member);
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("member", member);
 		mav.setViewName("member/joinForm_step3");
 		return mav;
 	}
-
-	@RequestMapping("join")
-	public String join() {
-		String view = "member/loginForm";
-		System.out.println("join");
-		return view;
-	}
-
-	@RequestMapping("select")
-	public String select() {
-
-		System.out.println("select");
-		System.out.println(memberService.select());
-
-		return "home/home";
-	}
 	
+	/* 메인페이지 */
 	@RequestMapping("home")
 	public String home() {
 		return "home/home";
 	}
 	
+	/* 사이트 첫 페이지 */
+	@RequestMapping("main")
+	public String index() {
+		return "main";
+	}
+	
+
 	
 }
