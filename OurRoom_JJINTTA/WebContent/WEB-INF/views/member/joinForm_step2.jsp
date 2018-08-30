@@ -6,6 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script>
+	$(function(){
+		
+		/* 취소버튼 클릭 시 */
+		$("#cancelBtn").on("click",function(){
+			
+			var isCancel = window.confirm("취소하시겠습니까?");
+			if(isCancel){
+				location.href="loginForm";
+			}
+		});
+		
+	});
+</script>
 <title>Insert title here</title>
 </head>
 <body>
@@ -124,8 +138,9 @@
 			</c:otherwise>
 		</c:choose>
 
-		<input type="file" id="img" name="img" size="30"><br>
-		<input type="button" onclick="history.go(-1)" value="취소">
+		<input type="file" id="img" name="img" size="30"><br> 
+		
+		<input type="button" id="cancelBtn" value="취소">
 		<input type="submit" value="다음">
 
 

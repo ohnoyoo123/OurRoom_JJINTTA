@@ -20,4 +20,6 @@ public interface MemberDao {
 	
 	// 아이디와 비밀번호로 조회
 	public Member selectByIdAndPw(Member member);
+
+	public int updatePw(Member member);
 }

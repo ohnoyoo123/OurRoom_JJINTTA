@@ -1,0 +1,522 @@
+MemberDao
+==============================================
+insert into member values(
+#{mId}, 
+#{mPw}, 
+#{mId}, 
+#{mNickname}, 
+#{mQuestion}, 
+#{mAnswer}
+)
+----------------------------------------------
+update member 
+<set>
+	<if test = "mPw != null">
+	m_pw = #{mPw}, 
+	</if>
+	<if test = "mEmail != null">
+	m_email = #{mEmail}, 
+	</if>
+	<if test = "mNickname != null">
+	m_nickname = #{mNickname}
+	</if>
+</set>
+where m_id = #{mId}
+-------------------------------------------
+delete from member
+where m_id = #{mId}
+--------------------------------------------
+select * from member 
+<where>
+	<choose>
+		<when test = "mId != null">
+		m_id = #{mId}
+		</when>
+		<when test = "mEmail != null">
+		m_email = #{mEmail}
+		</when>
+		<when test = "mNickname != null">
+		m_nickname = #{mNickname}
+		</when>
+	</choose>
+</where>
+------------------------------------------------
+select * from member
+<where>
+m_id like ${'%search%'} or m_nickname like ${'%search%'}
+</where>
+--------------------------------------------------
+
+AddressDao
+================================================
+insert into address values(
+#{mId}, 
+#{aId}
+)
+----------------------------------------------------
+delete from address
+where a_id = ${mId}
+-------------------------------------------------------
+select * from address
+where
+m_id = ${mId}
+------------------------------------------------------
+
+
+ProjectDao
+====================================================
+insert into project values(
+0,  
+#{pName}, 
+<choose>
+	<when test = "pStartDate != null">
+	#{pStartDate},
+	</when>
+	<when test = "pStartDate == null">
+	now(), 
+	</when>
+</choose>
+
+<choose>
+	<when test = "pEndDate != null">
+	#{pEndDate}
+	</when>
+	<when test = "pEndDate == null">
+	now() 
+	</when>
+</choose>
+)
+------------------------------------------------------
+update project
+<set>
+	<if test = "pName != null">
+	p_name = #{pName},
+	</if>
+	<if test = "pStartDate != null">
+	p_startDate = #{pStartDate},
+	</if>
+	<if test = "pEndDate != null">
+	p_endDate = #{pEndDate}
+	</if>
+</set>
+where 
+p_num = #{pNum}
+-------------------------------------------------------------
+delete from project 
+where
+p_num = #{pNum}
+--------------------------------------------------------
+select * from project p
+where
+p.p_num 
+in (select pm.p_num from project_member pm
+where
+m_id = #{mId})
+---------------------------------------------------
+select * from project
+where
+p_num = #{pNum}
+-------------------------------------------------------
+
+select * from project_memeber
+where
+p_num = #{pNum} 
+and
+m_id = #{mId}
+
+TaskDao
+=====================================================
+insert into task values(
+#{pNum}, 
+ifnull(select max(t.t_num)+1 from task t where p_num = #{pNum}, 1),
+#{tOrder}, 
+#{tName}, 
+#{tDscr}, 
+<choose>
+	<when test = "tStartDate != null">
+	#{tStartDate}, 
+	</when>
+	<when test = "tStartDate == null">
+	now(), 
+	</when>	
+</choose>
+
+<choose>
+	<when test = "tEndDate != null">
+	#{tEndDate}, 
+	</when>
+	<when test = "tEndDate == null">
+	now(), 
+	</when>
+</choose>
+null, 
+null,
+null 
+)
+
+이 부분이 좀 이상한것 같아. 같이 생각해봅시다.
+-------------------------------------------------
+update task
+<set>
+	<if test = "tOrder != null">
+	t_order = #{tOrder}, 
+	</if>
+	<if test = "tName != null">
+	t_name = #{tName}, 
+	</if>
+	<if test = "tDscr != null">
+	t_dscr = #{tDscr}, 
+	</if>
+	<if test = "tStartDate != null">
+	t_startDate = #{tStartDate}, 
+	</if>
+	<if test = "tEndDate != null">
+	t_endDate = #{tEndDate}, 
+	</if>
+	<if test = "tNotiName != null">
+	t_notiNate = #{tNotiName}, 
+	</if>
+	<if test = "tNotiContent != null">
+	t_notiContent = #{tNotiContent}, 
+	</if>
+	<if test = "tNotiWriteTime != null">
+	t_notiWriteTime = #{tNotiWriteTime}, 
+	</if>
+</set>
+-----------------------------------------------
+delete from task 
+where 
+p_num = #{pNum}
+and
+t_num = #{tNum}
+-----------------------------------------------
+select * from task
+where 
+p_num = #{pNum} 
+<if test = "tNum != null">
+and
+t_num = #{tNum}
+</if>
+--------------------------------------------------
+
+IssueDao
+=================================================
+insert into issue values(
+#{pNum}, 
+#{tNum}, 
+ifnull(select max(i.i_num)+1 from issue i where p_num = #{p_num} and t_num = #{tNum}, 1),  
+#{iStep}, 
+#{iOrder}, 
+#{iName}, 
+#{iDscr}, 
+<choose>
+	<when test = "iStartDate != null">
+	#{iStartDate},  
+	</when>
+	<when test = "iStartDate == null">
+	now(), 
+	</when>
+</choose>
+
+<choose>
+	<when test = "iEndDate != null">
+	#{iEndDate}, 
+	</when>
+	<when test = "iEndDate == null">
+	now(), 
+</choose>
+0
+)
+---------------------------------------------------------
+update issue
+<set>
+	<if test = "iStep != null">
+	i_step = #{iStep}, 
+	</if>
+	<if test = "iOrder != null">
+	i_order = #{iOrder}, 
+	</if>
+	<if test = "iName != null">
+	i_name = #{iName}, 
+	</if>
+	<if test = "iDscr != null">
+	i_dscr = #{iDscr}, 
+	</if>
+	<if test = "iStartDate != null">
+	i_startDate = #{iStartDate}, 
+	</if>
+	<if test = "iEndDate != null">
+	i_endDate = #{iEndDate}, 
+	</if>
+	<if test = "iImpr != null">
+	i_impr = #{iImpr}, 
+	</if>
+</set>
+where
+p_num = #{pNum}
+and
+t_num = #{tNum}
+and
+i_num = #{iNum}
+------------------------------------------------------------
+delete from issue
+where 
+p_num = #{pNum} 
+and
+t_num = #{tNum}
+and
+i_num = #{iNum}
+-------------------------------------------------------
+select * from issue
+where
+p_num = #{pNum}
+and 
+t_num = #{tNum}
+<if test = "iNum != null">
+and
+i_num = #{iNum}
+</if>
+---------------------------------------------------------
+select * from issue_member
+where
+p_num = #{pNum}
+and  
+t_num = #{tNum}
+and
+i_num = #{iNum}
+----------------------------------------------
+insert into comment values(
+#{pNum}, 
+#{tNum}, 
+#{iNum}, 
+ifnull(select max(c.c_num)+1 from comment c where p_num = #{p_num} and t_num = #{tNum} and i_num = #{iNum}, 1),  
+#{mId}, 
+#{cmContent}, 
+now(), 
+#{cmSuper}
+)
+----------------------------------------------------
+select * from comment 
+where
+p_num = #{pNum}
+and  
+t_num = #{tNum}
+and
+i_num = #{iNum}
+-------------------------------------------------------
+
+checkListDao
+=================================================
+insert into checkList values(
+#{pNum}, 
+#{tNum}, 
+#{iNum}, 
+ifnull(select max(cl.cl_num)+1 from checkList cl where p_num = #{p_num} and t_num = #{tNum} and i_num = #{iNum}, 1),  
+#{clName}
+)
+------------------------------------
+update checkList 
+<set>
+	cl_name = #{clName}
+</set>
+where
+p_num = #{pNum}
+and
+t_num = #{tNum}
+and
+i_num = #{iNum}
+and
+cl_num = #{clNum}
+-----------------------------------------
+delete from checkList
+where
+p_num = #{pNum}
+and
+t_num = #{tNum}
+and
+i_num = #{iNum}
+and
+cl_num = #{clNum}
+--------------------------------------------
+select * from checkList
+where
+p_num = #{pNum} 
+and
+t_num = #{tNum}
+and
+i_num = #{iNum}
+-------------------------------------------------------
+insert into checkListItem values(
+#{pNum}, 
+#{tNum}, 
+#{iNum}, 
+#{clNum}, 
+ifnull(select max(ci.ci_num)+1 from checkListItem ci where p_num = #{p_num} and t_num = #{tNum} and i_num = #{iNum} and cl_num = #{clNum}, 1),  
+#{ciName}, 
+false
+)
+---------------------------------------------------------
+update checkListItem 
+<set>
+	<if test = "ciName != null">
+	ci_name = #{ciName}
+	</if>
+	<if test = "ciIsDone != null">
+	ci_isDone = #{ciIsDone}
+	</if>
+</set>
+where
+p_num = #{pNum}
+and
+t_num = #{tNum}
+and
+i_num = #{iNum}
+and
+cl_num = #{clNum}
+and
+ci_num = #{ciNum}
+-----------------------------------------------------
+delete from checkListItem
+where
+p_num = #{pNum}
+and
+t_num = #{tNum}
+and
+i_num = #{iNum}
+and
+cl_num = #{clNum}
+and
+ci_num = #{ciNum}
+-----------------------------------------------------------
+select * from checkListItem
+where
+p_num = #{pNum}
+and
+t_num = #{tNum}
+and
+i_num = #{iNum}
+and
+cl_num = #{clNum}
+-------------------------------------------------------------
+
+LogDao
+===========================================================
+insert into log values(
+#{pNum}, 
+#{tNum}, 
+#{iNum}, 
+#{clNum}, 
+#{ciNum}, 
+#{cmNum}, 
+#{mId}, 
+ifnull(select max(l.l_num)+1 from log l where p_num = #{p_num}, 1),
+#{lCat}, 
+now()
+)
+--------------------------------------------------
+insert into log_member values(
+#{pNum}, 
+#{mId}, 
+#{lNum}
+)
+여기도 생각해 볼것?
+------------------------------------------------------------
+select * from log
+where 
+<if test = "mId != null">
+m_id = #{mId}
+</if>
+<if test = "pNum != null">
+p_num = #{pNum}
+</if>
+
+----------------------------------------------------
+insert into noti values(
+#{pNum}, 
+#{lNum}, 
+#{mId}, 
+false
+)
+-----------------------------------
+update noti 
+<set>
+n_isRead = true
+</set>
+where
+p_num = #{pNum}, 
+l_num = #{lNum}, 
+m_id = #{mId}
+---------------------------
+select * from noti
+where
+m_id = #{mId}
+--------------------------------------
+
+
+
+ChatDao
+===============================================
+insert into chat_member values(
+#{chNum}, 
+#{mId}, 
+now(), 
+now()
+)
+--------------------------------------------------
+update chat_member
+<set>
+ch_readTime = now()
+</set>
+where
+ch_num = #{chNum}
+and
+m_id = #{mId}
+--------------------------------------------------
+delete from chat_member
+where
+ch_num = #{chNum}
+<if test = "mId != null">
+and 
+m_id = #{mId}
+</if>
+--------------------------------------------------
+select * from chat_member
+where
+ch_num = #{chNum}
+
+--------------------------------------
+insert into chat_message values(
+#{chNum}, 
+#{mId}, 
+#{chlContent}, 
+now()
+)
+----------------------------------------------
+select * from chat_message
+where
+ch_num = #{chNum}
+and
+chl_writeTime > (select ch_invitedTime from chat_member where m_id = #{mId})
+--------------------------------------------------
+select count(*) from chat_message
+where
+ch_num = #{chNum}
+and
+chl_writeTime > (select ch_readTime from chat_member where m_id = #{mId})
+-------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
