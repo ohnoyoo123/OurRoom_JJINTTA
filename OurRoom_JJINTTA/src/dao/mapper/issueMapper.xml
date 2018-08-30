@@ -90,6 +90,37 @@
 			i_num = #{iNum}
 		</if>
 	</select>
+	
+	<insert id="insertIssueMember" parameterType="issueMember">
+		insert into issue_member values(
+			#{pNum},
+			#{tNum},
+			#{iNum},
+			#{mId}			 
+		)
+	</insert>
+	
+	<delete id="deleteIssueMember" parameterType="issueMember">
+		delete from issue_member
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		and
+		m_id = #{mId} 
+	</delete>
+	
+	<select id="selectAllIssueMember" parameterType="issue" resultMap="issueMemberRM">
+		select * from issue_member
+		where 
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+	</select>
 
 	<insert id="insertComment" parameterType="comment">
 		insert into comment
@@ -130,6 +161,13 @@
 		<result property="iStartDate" column="i_startDate"/>
 		<result property="iEndDate" column="i_endDate"/>
 		<result property="iImpr" column="i_impr"/>
+	</resultMap>
+	
+	<resultMap type="issueMember" id="issueMemberRM">
+		<result property="pNum" column="p_num"/>
+		<result property="tNum" column="t_num"/>
+		<result property="iNum" column="i_num"/>
+		<result property="mId" column="m_id"/>
 	</resultMap>
 	
 	<resultMap type="comment" id="commentRM">

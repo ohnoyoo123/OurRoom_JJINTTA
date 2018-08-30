@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import dao.CheckListDao;
 import model.CheckList;
+import model.CheckListItem;
 import model.Issue;
 
 @Service
@@ -17,6 +18,11 @@ public class CheckListService {
 	
 	public List<CheckList> selectCheckList(Issue issue){
 		return clDao.selectAllCheckList(issue);
+		
+	}
+	
+	public List<CheckListItem> selectAllCheckListItem(Issue issue){
+		return clDao.selectAllCheckListItem(issue);
 		
 	}
 }
