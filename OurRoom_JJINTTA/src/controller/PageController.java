@@ -5,13 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
-
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,7 +37,9 @@ public class PageController {
 	
 	@RequestMapping("/project/pList")
 	public ModelAndView project() {
-		String mId="100sj";
+		//실제로는 세션에 있는 아이디값이 들어올 것임
+		String mId="member1";
+		
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
 		
@@ -101,16 +99,4 @@ public class PageController {
 		
 		return mav;
 	}
-	
-	@RequestMapping("address")
-	public String address() {
-		return "/address/address";
-	}
-	
-	@RequestMapping("myPage")
-	public String myPage() {
-		return "/myPage/myPage";
-	}
-	
-	
 }
