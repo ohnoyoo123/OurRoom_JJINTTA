@@ -90,18 +90,34 @@
 		</div>
 	</div>
 
+<<<<<<< master
 	<script type="text/javascript">
 		// function test(i) {
 		//   document.getElementById(i).innerHTML()
 		//
 		// }
+=======
+<script type="text/javascript">
+>>>>>>> 53221fa 수정
 
+<<<<<<< master
 		$(document)
 				.ready(
 						function() {
+=======
+  // function test(i) {
+  //   document.getElementById(i).innerHTML()
+  //
+  // }
+
+  $(document).ready(function () {
+		
+		var selectedMembers = []
+>>>>>>> 53221fa 수정
 
 							var selectedMembers = []
 
+<<<<<<< master
 							$('#memberSearchBtn')
 									.on(
 											'click',
@@ -116,6 +132,33 @@
 																		.val()
 															},
 															type : "post",
+=======
+        success: function (data) {
+          console.log(data);
+          for(var i=0; i<data.length; i++){
+            members.push(data[i].mNickname)
+          }
+          $('#searchedMember').append(members)
+          console.log(data);
+          for(var i=0; i<data.length; i++){
+            //members.push("<p class='member' mId="+data[i].mId+" mNickname="+data[i].mNickname+">"+data[i].mNickname+"</p>")
+            searchMembers.push("<p class='member' mNickname="+data[i].mNickname+" mId="+data[i].mId+">"+data[i].mNickname+
+            "("+data[i].mId+")</p>")
+          }
+          $('#searchedMember').html(searchMembers)
+        }
+      })
+    })
+        var invitedId=[]
+        var invitedNickname=[]
+    $(document).on('click', '.member', function () {
+        var mNickname = $(this).attr('mNickname')
+        var mId = $(this).attr('mId')
+        if(!invitedId.includes(mId)){
+          invitedId.push(mId)
+          invitedNickname.push(mNickname)
+        }
+>>>>>>> 53221fa 수정
 
 															success : function(
 																	data) {
