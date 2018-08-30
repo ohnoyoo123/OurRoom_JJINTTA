@@ -79,6 +79,10 @@ public class PageController2 {
 	/* 주소록 페이지 */
 	@RequestMapping("address")
 	public String address() {
+		
+		// 추후 로그인회원의 아이디(loginUser.getmId())로 변경될 값
+		String mId = "hong123@gmail.com";
+		
 		return "/address/address";
 	}
 

@@ -62,7 +62,7 @@
 	       		프로젝트명:
             <form class="" action="newProject" method="post">
               <input type="hidden" id="projectMember" name="projectMember">
-              <input type="hidden" name="owner" value="hong123@gmali.com"> <%-- ${세션에 있는 아이디 mId} --%>                
+              <input type="hidden" name="owner" value="hong123@gmail.com"> <%-- ${세션에 있는 아이디 mId} --%>                
 	        	  <input type="text" placeholder="enter project name" name="pName">
 	        </h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -118,8 +118,11 @@
         }
       })
     })
+    
+    
         var invitedId=[]
         var invitedNickname=[]
+    
     $(document).on('click', '.member', function () {
         var mNickname = $(this).attr('mNickname')
         var mId = $(this).attr('mId')
