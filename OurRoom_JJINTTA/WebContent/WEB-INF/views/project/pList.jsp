@@ -60,7 +60,7 @@
 	      <div class="modal-header">
 	        <h4 class="modal-title">
 	       		프로젝트명:
-            <form class="" action="project/newProject" method="post">
+            <form class="" action="newProject" method="post">
               <input type="hidden" id="projectMember" name="projectMember">
               <input type="hidden" name="owner" value="member1"> <%-- ${세션에 있는 아이디 mId} --%>                
 	        	  <input type="text" placeholder="enter project name" name="pName">
