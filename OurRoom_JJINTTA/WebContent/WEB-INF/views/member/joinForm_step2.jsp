@@ -24,7 +24,7 @@
 </head>
 <body>
 	<h1>회원가입-step2  페이지</h1>
-	<form action="joinForm_step3"  method="post">
+	<form action="join"  method="post">
 		<input type="hidden" id="mId" name="mId" value="${member.mId}">
 		<input type="hidden" id="mPw" name="mPw" value="${member.mPw}">
 		<input type="hidden" id="mNickname" name="mNickname"
