@@ -39,9 +39,9 @@ public class PageController {
 	IssueService issueSvc;
 	
 	
-	@RequestMapping("/project/project")
+	@RequestMapping("/project/pList")
 	public ModelAndView project() {
-		String mId="member1";
+		String mId="100sj";
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
 		
@@ -70,7 +70,7 @@ public class PageController {
 		System.out.println(pmList);
 	//	System.out.println(projectList);		
 		
-		mav.setViewName("/project/project");
+		mav.setViewName("/project/pList");
 		return mav;
 	}
 	@PostMapping("/project/newProject")
@@ -101,4 +101,16 @@ public class PageController {
 		
 		return mav;
 	}
+	
+	@RequestMapping("address")
+	public String address() {
+		return "/address/address";
+	}
+	
+	@RequestMapping("myPage")
+	public String myPage() {
+		return "/myPage/myPage";
+	}
+	
+	
 }

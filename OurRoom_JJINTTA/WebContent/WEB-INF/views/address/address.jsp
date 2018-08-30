@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+		<jsp:include page="../mainFrame.jsp" />
+
 주소록입니다.
 </body>
 </html>

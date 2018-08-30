@@ -84,10 +84,10 @@ html, body{
 		<div class="topHome"><span class="glyphicon glyphicon-home"></span></div>
 	</div>
 	<div id = "left">
-		<div class="leftIcon"><span class="glyphicon glyphicon-home"></span></div>
-		<div class="leftIcon"><span class="glyphicon glyphicon-briefcase"></span></div>
-		<div class="leftIcon"><span class="glyphicon glyphicon-phone-alt"></span></div>
-		<div class="leftIcon"><span class="glyphicon glyphicon-user"></span></div>
+		<div class="leftIcon" onclick="location.href='/OurRoom_JJINTTA/home'"><span class="glyphicon glyphicon-home"></span></div>
+		<div class="leftIcon" onclick="location.href='/OurRoom_JJINTTA/project/pList'"><span class="glyphicon glyphicon-briefcase"></span></div>
+		<div class="leftIcon" onclick="location.href='/OurRoom_JJINTTA/address'"><span class="glyphicon glyphicon-phone-alt"></span></div>
+		<div class="leftIcon" onclick="location.href='/OurRoom_JJINTTA/myPage'"><span class="glyphicon glyphicon-user"></span></div>
 	</div>
 </body>
 </html>
