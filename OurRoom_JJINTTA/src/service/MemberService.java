@@ -34,9 +34,7 @@ public class MemberService {
 
 	/* 회원가입 기능 */
 	public int join(Member member) {
-
 		return mDao.insertMember(member);
-
 	}
 
 	/* 로그인 회원 체크 */
@@ -70,6 +68,12 @@ public class MemberService {
 		int result = mDao.updatePw(member);
 		System.out.println("[MemberService > updatePw] 아이디 : " + member.getmId() + " 비밀번호 변경 결과 (" + result + ")");
 		return (result == 1) ? true : false;
+	}
+
+	/* 회원 검색 */
+	// 키워드 : 아이디 또는 닉네임 해당하는 검색어
+	public List<Member> memberSearch(String keyword) {
+		return mDao.selectMemberByKeyword(keyword);
 	}
 
 }

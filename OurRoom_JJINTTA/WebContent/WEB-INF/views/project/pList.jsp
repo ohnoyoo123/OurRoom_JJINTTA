@@ -20,6 +20,7 @@
 
 	<div id = "innerFrame">
 	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProject">
+	프로젝트 추가
 	</button>
 	<h2>즐겨찾기 프로젝트</h2>
 		<c:forEach items="${pmList}" var="pm">
@@ -61,7 +62,7 @@
 	       		프로젝트명:
             <form class="" action="newProject" method="post">
               <input type="hidden" id="projectMember" name="projectMember">
-              <input type="hidden" name="owner" value="member1"> <%-- ${세션에 있는 아이디 mId} --%>                
+              <input type="hidden" name="owner" value="ohnoyoo1@naver.com"> <%-- ${세션에 있는 아이디 mId} --%>                
 	        	  <input type="text" placeholder="enter project name" name="pName">
 	        </h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>

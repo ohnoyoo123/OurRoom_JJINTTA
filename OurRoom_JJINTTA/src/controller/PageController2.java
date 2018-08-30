@@ -28,7 +28,7 @@ public class PageController2 {
 
 		return "home/home";
 	}
-	
+
 	/* [회원가입] 필수입력 단계 페이지 요청 */
 	@RequestMapping("joinForm_step1")
 	public String joinForm_step1() {
@@ -36,7 +36,7 @@ public class PageController2 {
 		return "member/joinForm_step1";
 	}
 
-	/* [회원가입] 선택입력(프로필사진)입력 단계 페이지 요청  */
+	/* [회원가입] 선택입력(프로필사진)입력 단계 페이지 요청 */
 	@RequestMapping("joinForm_step2")
 	public ModelAndView joinForm_step2(Member member) {
 
@@ -54,28 +54,38 @@ public class PageController2 {
 	public ModelAndView join(Member member) {
 		// @RequestParam MultipartFile...
 		System.out.println("[PageController2 > join] : " + member);
-		
+
 		// 회원가입 처리
 		memberService.join(member);
-		
+
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("member", member);
 		mav.setViewName("member/joinForm_step3");
 		return mav;
 	}
-	
+
 	/* 메인페이지 */
 	@RequestMapping("home")
 	public String home() {
 		return "home/home";
 	}
-	
+
 	/* 사이트 첫 페이지 */
 	@RequestMapping("main")
 	public String index() {
 		return "main";
+	} 
+	
+	/* 주소록 페이지 */
+	@RequestMapping("address")
+	public String address() {
+		return "/address/address";
 	}
-	
 
-	
+	/* 마이 페이지 */
+	@RequestMapping("myPage")
+	public String myPage() {
+		return "/myPage/myPage";
+
+	}
 }

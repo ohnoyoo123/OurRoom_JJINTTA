@@ -30,7 +30,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- update영역 -->
 	<update id="updatePw" parameterType="member">
 		update member
-		set m_pw = sha(#{mPw})
+		set m_pw =
+		sha(#{mPw})
 		where m_id = #{mId}
 	</update>
 
@@ -61,6 +62,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectMember" resultMap="memberMap">
 		select *
 		from member
+	</select>
+
+	<!-- 키워드로 회원 조회 -->
+	<select id="selectMemberByKeyword" parameterType="String" resultMap="memberMap">
+		select * from member
+		where m_id like '%${value}%' 
+		   or m_nickname like '%${value}%' 
 	</select>
 
 </mapper>
