@@ -27,13 +27,10 @@ public class ProjectRestController {
 
 	@Autowired
 	MemberService mSvc;
-<<<<<<< HEAD
 
-=======
-	
 	@Autowired
 	TaskService tSvc;
-	
+
 	@PostMapping("/project/issueDetail")
 	public Map<String, Object> issueDetail(Issue issue) {
 		System.out.println("요청 url : " + "/project/issueDetail");
@@ -50,14 +47,14 @@ public class ProjectRestController {
 
 	@PostMapping("/project/memberSearch")
 	public List<Member> memberSearch(String mId) {
-		System.out.println("==============================\n"+mId);	
+		System.out.println("==============================\n" + mId);
 		System.out.println("검색값" + mSvc.select());
 		return mSvc.select();
 	}
-	
+
 	@PostMapping("/project/addTask")
 	public void addTask(Task task) {
 		System.out.println("addTask : " + task);
-		
+
 	}
 }
