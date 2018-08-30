@@ -5,13 +5,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-import javax.websocket.server.PathParam;
-
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -73,15 +68,13 @@ public class PageController {
 		mav.setViewName("/project/project");
 		return mav;
 	}
-	@PostMapping("/project/newProject")
+	@PostMapping("project/newProject")
 	public String newProject(@RequestParam HashMap<String, Object> params) {
 		
 		System.out.println("============================= new project!");
-		//System.out.println(params);
-		
+		//System.out.println(params);		
 		return "redirect:/project/gantt?pNum="+projectSvc.addProject(params);
 	}
-	
 	@RequestMapping("/project/gantt")
 	public ModelAndView project_gantt(int pNum) {
 		System.out.println("pNum : " + pNum);
