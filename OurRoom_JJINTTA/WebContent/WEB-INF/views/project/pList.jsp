@@ -20,7 +20,11 @@
 
 	<div id = "innerFrame">
 	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProject">
+<<<<<<< HEAD
   	프로젝트 추가ddd
+=======
+  	프로젝트 추가
+>>>>>>> branch 'master' of https://github.com/ohnoyoo123/OurRoom_JJINTTA
 	</button>
 	<h2>즐겨찾기 프로젝트</h2>
 		<c:forEach items="${pmList}" var="pm">
