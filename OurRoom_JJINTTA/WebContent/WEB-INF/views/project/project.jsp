@@ -91,22 +91,24 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
+		
+		var selectedMembers = []
 
     $('#memberSearchBtn').on('click',function () {
       var members = []
       $.ajax({
-        url:'project/memberSearch',
+        url:'../project/memberSearch',
         data: {
           mId: $('#memberSearch').val()
         },
         type: "post",
 
         success: function (data) {
-          console.log(data.data);
-          // for(var i=0; i<data.length; i++){
-          //   members.push(data[i].mNickname)
-          // }
-          //$('#searchedMember').append(members)
+          console.log(data);
+          for(var i=0; i<data.length; i++){
+            members.push(data[i].mNickname)
+          }
+          $('#searchedMember').append(members)
         }
       })
     })

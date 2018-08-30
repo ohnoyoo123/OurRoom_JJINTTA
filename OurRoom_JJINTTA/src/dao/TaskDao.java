@@ -7,4 +7,6 @@ import model.Task;
 public interface TaskDao {
 
 	public List<Task> selectTask(Task task);
+	
+	public void insertTask(Task task);
 }

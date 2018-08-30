@@ -39,9 +39,9 @@ public class PageController {
 	IssueService issueSvc;
 	
 	
-	@RequestMapping("/project")
+	@RequestMapping("/project/project")
 	public ModelAndView project() {
-		String mId="member1";
+		String mId="100sj";
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
 		
@@ -75,7 +75,7 @@ public class PageController {
 	}
 	@PostMapping("/project/newProject")
 	public void newProject(@RequestParam HashMap<String, Object> params) {
-		//System.out.println("============================= new project!");
+		System.out.println("============================= new project!");
 		
 	}
 	

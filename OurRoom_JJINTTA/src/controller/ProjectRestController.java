@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import model.Issue;
 import model.Member;
+import model.Task;
 import service.CheckListService;
 import service.IssueService;
 import service.MemberService;
+import service.TaskService;
 
 @RestController
 public class ProjectRestController {
@@ -26,6 +28,9 @@ public class ProjectRestController {
 	
 	@Autowired
 	MemberService mSvc;
+	
+	@Autowired
+	TaskService tSvc;
 	
 	@PostMapping("/project/issueDetail")
 	public @ResponseBody Map<String, Object> issueDetail(Issue issue) {
@@ -43,7 +48,13 @@ public class ProjectRestController {
 	@PostMapping("/project/memberSearch")
 	public List<Member> memberSearch(String mId) {
 		System.out.println("==============================\n"+mId);	
-		System.out.println(mSvc.select());
+		System.out.println("검색값" + mSvc.select());
 		return mSvc.select();
+	}
+	
+	@PostMapping("/project/addTask")
+	public void addTask(Task task) {
+		System.out.println("addTask : " + task);
+		
 	}
 }
