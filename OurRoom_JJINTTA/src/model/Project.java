@@ -10,12 +10,6 @@ public class Project {
 	private Date pEndDate;
 	private String pBackground;
 	
-	public String getpBackground() {
-		return pBackground;
-	}
-	public void setpBackground(String pBackground) {
-		this.pBackground = pBackground;
-	}
 	public int getpNum() {
 		return pNum;
 	}
