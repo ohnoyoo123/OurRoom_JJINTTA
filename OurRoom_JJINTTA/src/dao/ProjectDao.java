@@ -14,4 +14,10 @@ public interface ProjectDao {
 	
 	//mId가 포함된 프로젝트멤버
 	public List<ProjectMember> selectProjectMember(HashMap<String, Object> mId);
+	
+	//프로젝트 새로 생성
+	public int insertProject(Project project);
+	
+	//프로젝트에 멤버 추가(생성시만..?)
+	public int insertProjectMember(ProjectMember projectMember);
 }

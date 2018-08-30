@@ -61,8 +61,9 @@
 	        <h4 class="modal-title">
 	       		프로젝트명:
             <form class="" action="project/newProject" method="post">
-
-	        	<input type="text" placeholder="enter project name" name="pName">
+              <input type="hidden" id="projectMember" name="projectMember">
+              <input type="hidden" name="owner" value="member1"> <%-- ${세션에 있는 아이디 mId} --%>                
+	        	  <input type="text" placeholder="enter project name" name="pName">
 	        </h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
@@ -70,9 +71,12 @@
 	      <!-- Modal body -->
 	      <div class="modal-body">
 	        	팀원 초대:
-	        	<input type="text" placeholder="enter email or nickname" id="memberSearch" name="mId">
+	        	<input type="text" placeholder="enter email or nickname" id="memberSearch">
 	        	<input type="button" class='btn' value="검색" id="memberSearchBtn">
-            <p id="searchedMember">===검색 결과 멤버 ===</p>
+            ===검색 결과 멤버 ===
+            <p id="searchedMember"></p>
+            === 초대된 멤버 ===
+            <p id="invitedMember"></p>
             <br/>
             배경화면 선택: API..
 
@@ -90,12 +94,18 @@
 	</div>
 
 <script type="text/javascript">
+
+  // function test(i) {
+  //   document.getElementById(i).innerHTML()
+  //
+  // }
+
   $(document).ready(function () {
 		
 		var selectedMembers = []
 
     $('#memberSearchBtn').on('click',function () {
-      var members = []
+      var searchMembers = []
       $.ajax({
         url:'../project/memberSearch',
         data: {
@@ -109,9 +119,39 @@
             members.push(data[i].mNickname)
           }
           $('#searchedMember').append(members)
+          console.log(data);
+          for(var i=0; i<data.length; i++){
+            //members.push("<p class='member' mId="+data[i].mId+" mNickname="+data[i].mNickname+">"+data[i].mNickname+"</p>")
+            searchMembers.push("<p class='member' mNickname="+data[i].mNickname+" mId="+data[i].mId+">"+data[i].mNickname+
+            "("+data[i].mId+")</p>")
+          }
+          $('#searchedMember').html(searchMembers)
         }
       })
     })
+        var invitedId=[]
+        var invitedNickname=[]
+    $(document).on('click', '.member', function () {
+        var mNickname = $(this).attr('mNickname')
+        var mId = $(this).attr('mId')
+        if(!invitedId.includes(mId)){
+          invitedId.push(mId)
+          invitedNickname.push(mNickname)
+        }
+
+        var temp=''
+        for(var i=0; i<invitedId.length; i++){
+          temp+=invitedNickname[i]
+          temp+='('
+          temp+=invitedId[i]
+          temp+=')'
+          temp+='<br/>'
+        }
+        $('#projectMember').val(invitedId)
+        $('#invitedMember').html(temp)
+
+    })
+
 
   })
 </script>

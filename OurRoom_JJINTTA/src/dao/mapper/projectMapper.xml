@@ -3,7 +3,7 @@
 
 <mapper namespace="dao.ProjectDao">
 
-	<insert id="insertProject" parameterType="project">
+	<insert id="insertProject" parameterType="project" useGeneratedKeys="true" keyProperty="pNum">
 		insert into project values(
 		0,
 		#{pName},
