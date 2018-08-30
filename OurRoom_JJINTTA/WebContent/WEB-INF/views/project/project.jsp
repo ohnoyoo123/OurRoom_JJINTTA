@@ -93,16 +93,9 @@
 	  </div>
 	</div>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
 
-  // function test(i) {
-  //   document.getElementById(i).innerHTML()
-  //
-  // }
-
-  $(document).ready(function () {
-		
-		var selectedMembers = []
+  $(document).ready(function () {		
 
     $('#memberSearchBtn').on('click',function () {
       var searchMembers = []
@@ -113,12 +106,8 @@
         },
         type: "post",
 
-        success: function (data) {
-          console.log(data);
-          for(var i=0; i<data.length; i++){
-            members.push(data[i].mNickname)
-          }
-          $('#searchedMember').append(members)
+        success: function (data) {         
+          
           console.log(data);
           for(var i=0; i<data.length; i++){
             //members.push("<p class='member' mId="+data[i].mId+" mNickname="+data[i].mNickname+">"+data[i].mNickname+"</p>")
