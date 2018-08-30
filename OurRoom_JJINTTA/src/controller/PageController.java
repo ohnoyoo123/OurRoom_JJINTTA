@@ -41,7 +41,9 @@ public class PageController {
 	
 	@RequestMapping("/project/project")
 	public ModelAndView project() {
+		//실제로는 세션에 있는 아이디값이 들어올 것임
 		String mId="member1";
+		
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
 		
