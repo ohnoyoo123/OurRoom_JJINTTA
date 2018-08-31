@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dao.MemberDao;
+import model.Address;
 import model.Member;
 
 @Service
@@ -74,6 +75,28 @@ public class MemberService {
 	// 키워드 : 아이디 또는 닉네임 해당하는 검색어
 	public List<Member> memberSearch(String keyword) {
 		return mDao.selectMemberByKeyword(keyword);
+	}
+
+	/* 주소록 조회 */
+	public List<Member> selectAddress(String mId) {
+		return mDao.selectAddressById(mId);
+	}
+
+	/* 주소록 추가 */
+	public boolean addAddress(Address address) {
+
+		Address searchAddressMember = mDao.selectAddressMemberBymId_aId(address);
+		// 주소록 포함 회원이면
+		if (searchAddressMember != null) {
+			return false;
+		}
+		mDao.insertAddress(address);
+		return true;
+	}
+
+	public boolean deleteAddress(Address address) {
+		mDao.deleteAddress(address);
+		return true;
 	}
 
 }

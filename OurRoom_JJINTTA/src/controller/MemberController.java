@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import model.Address;
 import model.Member;
 import service.MemberService;
 
@@ -70,4 +71,25 @@ public class MemberController {
 		return memberList;
 	}
 
+	/* 주소록에 회원 추가 */
+	@RequestMapping("addAddress")
+	public boolean addAddress(Address address) {	
+		String mId = "hong123@gmail.com";
+		address.setmId(mId);
+		System.out.println("[MemberController > addAddress] before : " + address);
+		boolean result = memberService.addAddress(address);
+		System.out.println("[MemberController > addAddress] afrer : " + address);
+		return result;
+	}
+
+	/* 주소록 회원 삭제 */
+	@RequestMapping("deleteAddress")
+	public boolean deleteAddress(Address address) {
+		String mId = "hong123@gmail.com";
+		address.setmId(mId);
+		System.out.println("[MemberController > deleteAddress] before : " + address);
+		boolean result = memberService.deleteAddress(address);
+		System.out.println("[MemberController > deleteAddress] afrer : " + address);
+		return result;
+	}
 }

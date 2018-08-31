@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,15 +20,6 @@ public class PageController2 {
 	public String loginForm() {
 		System.out.println("[MemberController > loginForm]");
 		return "member/loginForm";
-	}
-
-	@RequestMapping("login")
-	public String login() {
-		System.out.println("[MemberController > login]");
-
-		// memberService.login();
-
-		return "home/home";
 	}
 
 	/* [회원가입] 필수입력 단계 페이지 요청 */
@@ -74,16 +67,22 @@ public class PageController2 {
 	@RequestMapping("main")
 	public String index() {
 		return "main";
-	} 
-	
+	}
+
 	/* 주소록 페이지 */
 	@RequestMapping("address")
-	public String address() {
-		
+	public ModelAndView address() {
 		// 추후 로그인회원의 아이디(loginUser.getmId())로 변경될 값
 		String mId = "hong123@gmail.com";
+		ModelAndView mav = new ModelAndView();
+		// 주소록에 등록된 회원리스트 조회
+		List<Member> addressList = memberService.selectAddress(mId);
+		System.out.println("[PageController2 > address] : " + addressList);
 		
-		return "/address/address";
+		mav.addObject("addressList", addressList);
+		mav.setViewName("/address/address");
+		
+		return mav;
 	}
 
 	/* 마이 페이지 */

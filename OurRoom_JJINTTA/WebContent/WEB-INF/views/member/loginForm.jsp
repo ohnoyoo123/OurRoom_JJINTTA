@@ -46,9 +46,9 @@ a {
 	text-align: center;
 }
 
-.modalContent_inner_div2 {
+/* .modalContent_inner_div2 {
 	text-align: center;
-}
+} */
 
 #modalLayer .modalContent button {
 	position: absolute;
@@ -80,7 +80,6 @@ a {
 				},
 				success : function(result) {
 					if (result) {
-						alert("로그인 성공!!! 추카포카리스웨트~");
 						$("form").submit();
 					} else {
 						$("#memberCheckMsg").css("color", "red");
@@ -160,13 +159,9 @@ a {
 			}
 			
 			if(pw != pw2){
-				
 				return;
 			}
 			
-			
-			//modalLayer2.fadeOut("fast");
-
 			$.ajax({
 				url : "updatePw",
 				async : false,
@@ -176,7 +171,8 @@ a {
 				},
 				success : function(result) {
 					if (result) {
-						alert(result);
+						alert("비밀번호가 수정되었습니다.");
+						location.reload();
 					}
 				},
 				error : function(result) {
@@ -186,7 +182,7 @@ a {
 	});
 	function inputPw() {
 		var marginLeft = $(".modalContent2").outerWidth() / 2;
-		var marginTop = $(".modalContent2").outerHeight() / 2;
+		var marginTop = $(".modalContent2").outerHeight() / 2; 
 
 		$("#modalLayer2").fadeToggle("slow");
 		$(".modalContent2").css({
@@ -253,7 +249,7 @@ a {
 </head>
 <body>
 	<h1>로그인 페이지</h1>
-	<form action="login" method="post">
+	<form action="home" method="post">
 		<input type="text" id="mId" name="mId" placeholder="ID(e-mail)">
 		<br> <input type="password" id="mPw" name="mPw"
 			placeholder="PASSWORD"><br> <b id="memberCheckMsg"></b>
@@ -292,8 +288,8 @@ a {
 				<h1>비밀번호 변경</h1>
 				<hr>
 
-				<b>비밀번호</b> <br> <input type="text" id="update_mPw"><b id="pwCheckMsg"></b> <br>
-				<b>비밀번호 재입력</b><br> <input type="text" id="update_mPw2"><b id="pw2CheckMsg"></b><br>
+				<b>비밀번호</b> <br> <input type="password" id="update_mPw"><b id="pwCheckMsg"></b> <br>
+				<b>비밀번호 재입력</b><br> <input type="password" id="update_mPw2"><b id="pw2CheckMsg"></b><br>
 				<br> <input type="button" id="updateBtn" value="수정">
 
 			</div>
