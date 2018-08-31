@@ -21,6 +21,7 @@ import model.Task;
 import service.IssueService;
 import service.ProjectService;
 import service.TaskService;
+import util.ProjectUtil;
 
 @Controller
 public class PageController {
@@ -45,39 +46,12 @@ public class PageController {
 		HashMap<String, Object> paramMId = new HashMap<String, Object>();
 		paramMId.put("mId", mId);
 
-		List<Project> pastProject = new ArrayList<Project>();
-		List<Project> progProject = new ArrayList<Project>();
 		List<Project> projectList = new ArrayList<Project>();
 
 		projectList = projectSvc.getProjectListByMId(paramMId);
-
-		Calendar cl = Calendar.getInstance();
-
-		for (Project p : projectList) {
-			cl.setTime(new Date());
-			int nYear = cl.get(Calendar.YEAR);
-			int nMonth = cl.get(Calendar.MONTH) + 1;
-			int nDay = cl.get(Calendar.DATE);
-
-			cl.setTime(p.getpEndDate());
-			int pYear = cl.get(Calendar.YEAR);
-			int pMonth = cl.get(Calendar.MONTH) + 1;
-			int pDay = cl.get(Calendar.DATE);
-
-			if (nYear > pYear) {
-				pastProject.add(p);
-			} else if (nYear == pYear && nMonth > pMonth) {
-				pastProject.add(p);
-			} else if (nYear == pYear && nMonth == pMonth && nDay > pDay) {
-				pastProject.add(p);
-			} else {
-				progProject.add(p);
-			}
-
-		}
-		
-		mav.addObject("pastProject", pastProject);
-		mav.addObject("progProject", progProject);
+		// 진행중인 프로젝트와 마감된 프로젝트를 util클래스로 처리
+		mav.addObject("pastProject", ProjectUtil.pastPojects(projectList));
+		mav.addObject("progProject", ProjectUtil.progProject(projectList));
 
 		List<ProjectMember> pmList = new ArrayList<>();
 		pmList = projectSvc.getProjectMemberByMId(paramMId);

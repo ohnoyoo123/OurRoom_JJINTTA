@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import model.Member;
 import model.Project;
+import model.ProjectMember;
 import service.MemberService;
 import service.ProjectService;
 
@@ -67,7 +68,19 @@ public class PageController2 {
 
 	/* 메인페이지 */
 	@RequestMapping("home")
-	public String home() {
+	public String home(HttpSession session) {
+		// String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
+		String loginUser = "hong123@gmail.com";
+
+		HashMap<String,Object> param = new HashMap<>();
+		param.put("mId", loginUser);
+		// 1. 진행중인 프로젝트 리스트 조회
+		List<Project> projectList = projectService.getProjectListByMId(param);
+		// 2. 진행중인 프로젝트 멤버 리스트 조회
+		//List<ProjectMember> projectMemberList = projectService.
+		// 3. 진행중인 프로젝트에 공지존재하는 태스크 리스트
+		// 4. 로그정보(예정)
+
 		return "home/home";
 	}
 
