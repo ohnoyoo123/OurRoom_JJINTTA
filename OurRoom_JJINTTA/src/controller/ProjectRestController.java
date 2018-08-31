@@ -40,6 +40,7 @@ public class ProjectRestController {
 	@PostMapping("/project/issueDetail")
 	public Map<String, Object> issueDetail(Issue issue) {
 		System.out.println("요청 url : " + "/project/issueDetail");
+		System.out.println(issue);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("issue", iSvc.getIssueList(issue));
 		data.put("checkList", clSvc.selectCheckList(issue));
@@ -76,7 +77,13 @@ public class ProjectRestController {
 	public void addIssue(Issue issue, @RequestParam(value="members[]", required=false) List<String> members) {
 		System.out.println("요청 url : " + "/project/addIssue");
 
+		System.out.println(members);
+		
 		iSvc.addIssue(issue);
+		
+		List<Issue> issueList = iSvc.getIssueList(issue);
+		issue = issueList.get(issueList.size()-1);
+		
 		if(members != null) {
 			for(String mId : members) {
 				IssueMember im = new IssueMember();

@@ -31,6 +31,7 @@
 		</choose>
 		0
 		)
+		
 	</insert>
 
 	<update id="updateIssue" parameterType="issue">

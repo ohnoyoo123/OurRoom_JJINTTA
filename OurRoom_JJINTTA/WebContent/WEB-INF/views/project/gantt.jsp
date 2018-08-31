@@ -97,7 +97,7 @@
 						<td class="iNum">${issue.iNum}</td>
 						<td class="iStep">${issue.iStep}</td>
 						<td class="iOrder">${issue.iOrder}</td>
-						<td class="iName" data-toggle="modal" data-target="#issueModal" class="issueName">${issue.iName}</td>
+						<td class="iName"><p data-toggle="modal" data-target="#issueModal" class="issueDet">${issue.iName}</p></td>
 						<td><button class="deleteIssue">X</button></td>
 					</tr>
 				</c:forEach>
@@ -231,9 +231,9 @@
 			$(document).ready(function () {
 			
 			//이슈 상세보기
-			$(document).on('click', '', function () {
-				console.log(12312321321321);
-				
+			$(document).on('click', '.issueDet', function () {
+					console.log(12312);
+					
 					$.ajax({
 						url: "../project/issueDetail",
 						data: {
@@ -392,9 +392,9 @@
 							iNum : $(this).closest('.issues').attr('iNum'),
 						},
 						type : "post",
-						// success : function () {
-						// 	location.reload()
-						// }
+						success : function () {
+							location.reload()
+						}
 					})
 				}
 				

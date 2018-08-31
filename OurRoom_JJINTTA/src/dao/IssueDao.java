@@ -18,6 +18,6 @@ public interface IssueDao {
 
 	public void deleteIssue(Issue issue);
 
-	public void deleteIssueMember();
+	public void deleteIssueMember(IssueMember im);
 	
 }

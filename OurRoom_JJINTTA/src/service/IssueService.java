@@ -39,12 +39,11 @@ public class IssueService {
 	
 	//이슈 삭제하면서 할당된 멤버도 삭제
 	public void deleteIssue(Issue issue) {
-//		iDao.deleteIssue(issue);
-		System.out.println("호홍" + iDao.selectAllIssueMember(issue));
-		
-		
-//		iDao.deleteIssueMember();
-		
+		List<IssueMember> imList = iDao.selectAllIssueMember(issue);
+		iDao.deleteIssue(issue);
+		for(IssueMember im : imList) {
+			iDao.deleteIssueMember(im);
+		}
 	}
 
 }
