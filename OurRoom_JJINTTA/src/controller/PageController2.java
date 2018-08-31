@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import model.Project;
 import model.ProjectMember;
 import service.MemberService;
 import service.ProjectService;
+import util.ProjectUtil;
 
 @Controller
 public class PageController2 {
@@ -68,20 +70,31 @@ public class PageController2 {
 
 	/* 메인페이지 */
 	@RequestMapping("home")
-	public String home(HttpSession session) {
+	public ModelAndView home(HttpSession session) {
 		// String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
 		String loginUser = "hong123@gmail.com";
-
-		HashMap<String,Object> param = new HashMap<>();
+		ModelAndView mav = new ModelAndView("home/home");
+		
+		HashMap<String, Object> param = new HashMap<>();
 		param.put("mId", loginUser);
 		// 1. 진행중인 프로젝트 리스트 조회
-		List<Project> projectList = projectService.getProjectListByMId(param);
+		System.out.println("[PageController2 > home] projectList조회 : " + projectService.getProjectListByMId(param));
+		List<Project> projectList = ProjectUtil.progProject(projectService.getProjectListByMId(param));
+		System.out.println("[PageController2 > home] 진행중인 projectList조회 : " +projectList);
 		// 2. 진행중인 프로젝트 멤버 리스트 조회
-		//List<ProjectMember> projectMemberList = projectService.
+		List<ProjectMember> projectMemberList = new ArrayList<ProjectMember>();
+		for (Project p : projectList) {
+			projectMemberList.addAll(projectService.getProjectMemberByPNum(p.getpNum())); 
+		}
+		
 		// 3. 진행중인 프로젝트에 공지존재하는 태스크 리스트
 		// 4. 로그정보(예정)
-
-		return "home/home";
+		
+		mav.addObject("projectList", projectList);
+		mav.addObject("projectMemberList", projectMemberList);
+			
+		
+		return mav ;
 	}
 
 	/* 사이트 첫 페이지 */

@@ -56,11 +56,9 @@
 		select * from project p
 		where
 		p.p_num
-		in (select
-		pm.p_num from
-		project_member pm
-		where
-		m_id = #{mId})
+		in (select pm.p_num
+		    from project_member pm
+			where m_id = #{mId})
 	</select>
 
 	<select id="selectProject" parameterType="int"
