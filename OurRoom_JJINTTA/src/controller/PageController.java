@@ -53,7 +53,6 @@ public class PageController {
 
 		Calendar cl = Calendar.getInstance();
 
-		Date presentDate = new Date();
 		for (Project p : projectList) {
 			cl.setTime(new Date());
 			int nYear = cl.get(Calendar.YEAR);
@@ -64,10 +63,6 @@ public class PageController {
 			int pYear = cl.get(Calendar.YEAR);
 			int pMonth = cl.get(Calendar.MONTH) + 1;
 			int pDay = cl.get(Calendar.DATE);
-
-			System.out.println("===============");
-			System.out.println("지금 : " + nYear + "/" + nMonth + "/" + nDay);
-			System.out.println(p.getpName() + " : " + pYear + "/" + pMonth + "/" + pDay);
 
 			if (nYear > pYear) {
 				pastProject.add(p);

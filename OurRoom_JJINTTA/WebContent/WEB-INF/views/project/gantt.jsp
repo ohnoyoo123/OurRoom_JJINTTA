@@ -87,7 +87,6 @@
 						</tr>
 						<c:forEach items="${issueList}" var="issue">
 							<c:if test="${task.tNum == issue.tNum}">
-
 								<tr class="issues" pNum="${issue.pNum}" tNum="${issue.tNum}" iNum="${issue.iNum}">
 									<td class="tNum">${issue.tNum}</td>
 									<td class="iNum">${issue.iNum}</td>
@@ -115,14 +114,18 @@
 				<!-- Modal Header -->
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title" id="issueName">이슈 이름</h4>
+					<h1 class="modal-title" id="issueName">이슈 이름</h1>
 					<div id="issueMember"></div>
 				</div>
 
 				<!-- Modal body -->
-				<div class="modal-body"></div>
-				<h3>체크리스트</h3>
-				<div class="modal-body" id="checkListList"></div>
+				<div class="modal-body" id="addCheckList">
+						<h3>체크리스트</h3>
+				</div>
+				
+				<div class="modal-body" id="checkList">
+
+				</div>
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
@@ -263,7 +266,7 @@
 								}
 							}
 						}
-						$('#checkListList').html(txt)
+						$('#checkList').html(txt)
 					}
 				})
 			})
@@ -400,6 +403,11 @@
 					})
 				}
 
+			})
+
+			//체크리스트 추가
+			$('#addCheckList').on('click', function () {
+				alert('dd')
 			})
 
 
