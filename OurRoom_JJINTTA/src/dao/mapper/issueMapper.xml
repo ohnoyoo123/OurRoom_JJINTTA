@@ -7,9 +7,9 @@
 		insert into issue values(
 		#{pNum},
 		#{tNum},
-		(select ifnull((select max(i.i_num)+1 from issue i where p_num = 1 and t_num = 1), 1)),
+		(select ifnull((select max(i.i_num)+1 from issue i where p_num = #{pNum} and t_num = #{tNum}), 1)),
 		#{iStep},
-		(select ifnull((select max(i.i_order)+1 from issue i where p_num = 1 and t_num = 1), 1)),
+		(select ifnull((select max(i.i_order)+1 from issue i where p_num = #{pNum} and t_num = #{tNum}), 1)),
 		#{iName},
 		#{iDscr},
 		<choose>
