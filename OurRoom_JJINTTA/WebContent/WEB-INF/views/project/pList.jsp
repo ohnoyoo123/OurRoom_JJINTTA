@@ -71,7 +71,7 @@
 	      <div class="modal-body">
 	        	팀원 초대:
 	        	<input type="text" placeholder="enter email or nickname" id="memberSearch">
-						<input type="button" class='btn' value="검색" id="memberSearchBtn">
+					<!-- 	<input type="button" class='btn' value="검색" id="memberSearchBtn"> -->
 						<br>
             ===검색 결과 멤버 ===
             <p id="searchedMember"></p>
@@ -96,7 +96,7 @@
 
   $(document).ready(function () {		
 
-    $('#memberSearchBtn').on('click',function () {
+    $('#memberSearch').on('keyup',function () {
       var searchMembers = []
       $.ajax({
         url:'../project/memberSearch',

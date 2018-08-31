@@ -73,8 +73,8 @@ public class ProjectRestController {
 	public List<Member> memberSearch(String mId) {
 		System.out.println("요청 url : " + "/project/memberSearch");
 		System.out.println("==============================\n" + mId);
-		System.out.println("검색값" + mSvc.select());
-		return mSvc.select();
+		System.out.println("검색값" + mSvc.memberSearch(mId));
+		return mSvc.memberSearch(mId);
 	}
 
 	@PostMapping("/project/addTask")
