@@ -39,11 +39,7 @@ public class PageController {
 	@RequestMapping("/project/pList")
 	public ModelAndView project() {
 		//실제로는 세션에 있는 아이디값이 들어올 것임
-<<<<<<< HEAD
 		String mId="hong123@gmail.com";
-=======
-		String mId="100sj";
->>>>>>> refs/heads/Baek
 		
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
