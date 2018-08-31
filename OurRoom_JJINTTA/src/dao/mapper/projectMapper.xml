@@ -101,19 +101,19 @@
 		m_id = #{mId}
 	</delete>
 
-	<select id="selectProjectMember" parameterType="hashMap"
+	<select id="selectProjectMemberByMId" parameterType="hashMap"
 		resultMap="projectMemberRM">
 		select * from project_member
 		<where>
-			<if test="pNum != null">
-				p_num = #{pNum}
-				and
-			</if>
-			<if test="mId != null">
-				m_id = #{mId}
-				and
-			</if>
-			1 = 1
+		m_id = #{mId}
+		</where>
+	</select>
+
+	<select id="selectProjectMemberByPNum" parameterType="int"
+		resultMap="projectMemberRM">
+		select * from project_member
+		<where>
+		p_num = #{pNum}
 		</where>
 	</select>
 

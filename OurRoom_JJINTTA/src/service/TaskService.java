@@ -15,11 +15,15 @@ public class TaskService {
 	TaskDao tDao;
 	
 	public List<Task> getTaskList(Task task){
-		System.out.println("dao : " + tDao.selectTask(task));
 		return tDao.selectTask(task);
 	}
 	
 	public void addTask(Task task) {
-		System.out.println("task : " + task);
+		tDao.insertTask(task);
+	}
+
+	public void deleteTask(Task task) {
+		tDao.deleteTask(task);
+		
 	}
 }

@@ -27,7 +27,7 @@ public class ProjectService {
 		return projectDao.selectProjectList(mId);
 	}
 	public List<ProjectMember> getProjectMemberByMId(HashMap<String, Object> mId){
-		return projectDao.selectProjectMember(mId);
+		return projectDao.selectProjectMemberByMId(mId);
 	}
 	
 	public List<Task> getTaskList(Task task){
@@ -66,6 +66,12 @@ public class ProjectService {
 		projectDao.insertProjectMember(owner);
 		
 		return project.getpNum();		
+	}
+	
+	//프로젝트 번호로 참가 인원 가져오기
+	public List<ProjectMember> getProjectMemberByPNum(int pNum) {
+		return projectDao.selectProjectMemberByPNum(pNum);
+		
 	}
 	
 }

@@ -6,28 +6,12 @@
 	<insert id="insertTask" parameterType="task">
 		insert into task values(
 		#{pNum},
-		ifnull(select max(t.t_num)+1 from task
-		t where p_num = #{pNum}, 1),
+		#{tOrder},
 		#{tOrder},
 		#{tName},
 		#{tDscr},
-		<choose>
-			<when test="tStartDate != null">
-				#{tStartDate},
-			</when>
-			<when test="tStartDate == null">
-				now(),
-			</when>
-		</choose>
-
-		<choose>
-			<when test="tEndDate != null">
-				#{tEndDate},
-			</when>
-			<when test="tEndDate == null">
-				now(),
-			</when>
-		</choose>
+		#{tStartDate},
+		#{tEndDate},
 		null,
 		null,
 		null
@@ -85,6 +69,7 @@
 			and
 			t_num = #{tNum}
 		</if>
+		order by t_order
 	</select>
 	
 	<resultMap type="task" id="taskRM">
