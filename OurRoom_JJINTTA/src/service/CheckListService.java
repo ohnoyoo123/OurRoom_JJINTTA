@@ -25,4 +25,16 @@ public class CheckListService {
 		return clDao.selectAllCheckListItem(issue);
 		
 	}
+	
+	//새 체크리스트 생성
+	public void addCheckList(CheckList checkList) {
+		clDao.insertCheckList(checkList);
+		
+	}
+
+	//체크리스트 삭제하기!!
+	public void deleteCheckList(CheckList checkList) {
+		clDao.deleteCheckList(checkList);
+		
+	}
 }

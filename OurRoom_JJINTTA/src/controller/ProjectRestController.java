@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import model.CheckList;
 import model.Issue;
 import model.IssueMember;
 import model.Member;
@@ -120,5 +120,36 @@ public class ProjectRestController {
 		iSvc.deleteIssue(issue);
 	}
 	
+	//체크리스트를 새로 추가하고 체크리스트 다 받아오기
+	@PostMapping("/project/addCheckList")
+	public Map<String, Object> addCheckList(CheckList checkList) {
+		System.out.println("요청 url : " + "/project/addCheckList");
+		clSvc.addCheckList(checkList);
+		Issue issue = new Issue();
+		issue.setpNum(checkList.getpNum());
+		issue.settNum(checkList.gettNum());
+		issue.setiNum(checkList.getiNum());
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("checkList", clSvc.selectCheckList(issue));
+		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
+		return data;
+	}
+	
+	//체크리스트 삭제하고 체크리스트 다시!
+	@PostMapping("/project/deleteCheckList")
+	public Map<String, Object> deleteCheckList(CheckList checkList){
+		System.out.println("요청 url : " + "/project/deleteCheckList");
+		clSvc.deleteCheckList(checkList);
+		
+		Issue issue = new Issue();
+		issue.setpNum(checkList.getpNum());
+		issue.settNum(checkList.gettNum());
+		issue.setiNum(checkList.getiNum());
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("checkList", clSvc.selectCheckList(issue));
+		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
+		return data;
+		
+	}
 	
 }

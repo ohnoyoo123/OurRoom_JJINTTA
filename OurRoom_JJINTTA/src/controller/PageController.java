@@ -88,7 +88,7 @@ public class PageController {
 		mav.setViewName("/project/pList");
 		return mav;
 	}
-
+	
 	@RequestMapping("/project/gantt")
 	public ModelAndView project_gantt(int pNum) {
 		System.out.println("pNum : " + pNum);

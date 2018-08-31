@@ -9,10 +9,13 @@
 		#{pNum},
 		#{tNum},
 		#{iNum},
-		ifnull(select max(cl.cl_num)+1 from
-		checkList cl where p_num = #{p_num} and t_num =
-		#{tNum} and i_num =
-		#{iNum}, 1),
+		(ifnull(
+			(select max(cl.cl_num)+1 from checkList cl 
+				where p_num = #{pNum} 
+					and t_num =	#{tNum} 
+					and i_num =	#{iNum}), 1
+				)
+		),
 		#{clName}
 		)
 	</insert>
@@ -42,8 +45,7 @@
 		and
 		i_num = #{iNum}
 		and
-		cl_num =
-		#{clNum}
+		cl_num = #{clNum}
 	</delete>
 	
 	<select id="selectAllCheckList" parameterType="issue"

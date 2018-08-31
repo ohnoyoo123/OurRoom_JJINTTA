@@ -119,8 +119,12 @@
 				</div>
 
 				<!-- Modal body -->
-				<div class="modal-body" id="addCheckList">
+				<div class="modal-body" id="addCheckListForm">
 						<h3>체크리스트</h3>
+				</div>
+
+				<div id="checkListNameForm">
+
 				</div>
 				
 				<div class="modal-body" id="checkList">
@@ -235,28 +239,23 @@
 	<script type="text/javascript">
 		$(document).ready(function () {
 
-			//이슈 상세보기
-			$(document).on('click', '.issueDet', function () {
-				console.log(12312);
-
-				$.ajax({
-					url: "../project/issueDetail",
-					data: {
-						pNum: $(this).closest('.issues').attr("pNum"),
-						tNum: $(this).closest('.issues').attr("tNum"),
-						iNum: $(this).closest('.issues').attr("iNum"),
-					},
-					type: "post",
-					success: function (data) {
-						$('#issueName').html(data.issue[0].iName)
-						$('#issueMember').html('')
-						for (var k = 0; k < data.issueMember.length; k++) {
-							$('#issueMember').append(data.issueMember[k].mId).append(', ')
-						}
-						var txt = ''
+			//체크리스트 친구들 만들기
+			const showCheckList = (data) =>{
+				var txt =''
 						for (var i = 0; i < data.checkList.length; i++) {
-							txt += '<div class=\'checkList\' clName = ' + data.checkList[i].clName + '>'
-							txt += '체크리스트 이름 : ' + data.checkList[i].clName + '<br>'
+							txt += '<div class=\'checkList\''
+							txt += ' pNum=' + data.checkList[i].pNum
+							txt += ' tNum=' + data.checkList[i].tNum
+							txt += ' iNum=' + data.checkList[i].iNum
+							txt += ' clNum=' + data.checkList[i].clNum
+							txt += ' clName = ' + data.checkList[i].clName 
+							txt += '>'
+							txt += '======================================================================<br>'
+							txt += '체크리스트 이름 : ' + data.checkList[i].clName
+							txt +=  '<button style="float:right;" class="deleteCheckList">X</button>'
+							txt +=  '<button style="float:right;" class="addCheckListItem">O</button><br>'
+							txt += '<div class="addCheckListItemForm"></div>'
+							txt += '======================================================================'
 							txt += '</div>'
 							for (var j = 0; j < data.checkListItem.length; j++) {
 								if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
@@ -265,14 +264,36 @@
 									txt += '</div>'
 								}
 							}
+							txt += '<br>'
 						}
 						$('#checkList').html(txt)
+						$('#checkListNameForm').empty()
+
+			}
+
+			//이슈 상세보기
+			$(document).on('click', '.issueDet', function () {
+
+				$.ajax({
+					url: "issueDetail",
+					data: {
+						pNum: $(this).closest('.issues').attr("pNum"),
+						tNum: $(this).closest('.issues').attr("tNum"),
+						iNum: $(this).closest('.issues').attr("iNum"),
+					},
+					type: "post",
+					success: function (data) {
+						$('#issueName').attr('pNum', (data.issue[0].pNum))
+						$('#issueName').attr('tNum', (data.issue[0].tNum))
+						$('#issueName').attr('iNum', (data.issue[0].iNum))
+						$('#issueName').html(data.issue[0].iName)
+						$('#issueMember').html('')
+						for (var k = 0; k < data.issueMember.length; k++) {
+							$('#issueMember').append(data.issueMember[k].mId).append(', ')
+						}
+						showCheckList(data)
 					}
 				})
-			})
-
-			$(document).on('click', '.checkList', function () {
-				alert($(this).attr('clName'))
 			})
 
 			//태스크 추가
@@ -405,11 +426,64 @@
 
 			})
 
+			//체크리스트 추가폼 생성
+			$(document).on('click', '#addCheckListForm', function () {
+				var txt = ''
+				txt += '<input type="text" id="checkListName"/>'
+				txt += '<button id="addCheckList">OK</button>'
+				$('#checkListNameForm').html(txt)
+			})
+			
 			//체크리스트 추가
-			$('#addCheckList').on('click', function () {
-				alert('dd')
+			$(document).on('click', '#addCheckList', function () {
+
+				$.ajax({
+					url : "addCheckList",
+					data : {
+						pNum: $('#issueName').attr('pNum'),
+						tNum: $('#issueName').attr('tNum'),
+						iNum: $('#issueName').attr('iNum'),
+						clName : $('#checkListName').val()
+					},
+					type: "post",
+					success : function (data) {
+						showCheckList(data)
+					}
+				})
 			})
 
+			//체크리스트 삭제
+			$(document).on('click', '.deleteCheckList', function () {
+				$(this).closest('.checkList').attr('clNum')
+				if(confirm('삭제하시겠습니까?')){
+					$.ajax({
+					url : "deleteCheckList",
+					data : {
+						pNum: $(this).closest('.checkList').attr('pNum'),
+						tNum: $(this).closest('.checkList').attr('tNum'),
+						iNum: $(this).closest('.checkList').attr('iNum'),
+						clNum : $(this).closest('.checkList').attr('clNum'),
+					},
+					type : "post",
+					success : function (data) {
+						showCheckList(data)
+					}
+				})
+				}
+
+			})
+
+			//체크리스트 아이템 추가폼 만들기
+			
+
+			//체크리스트 아이템 추가
+			$(document).on('click', '.addCheckListItem', function () {
+				$(this).parent().find('.addCheckListItemForm').empty()
+				console.log($(this).closest('.checkList').attr('clNum'));
+				var txt = ''
+				txt += '<input type="text" class="checkListItemName">'
+				$(this).parent().find('.addCheckListItemForm').append(txt)
+			})
 
 
 		})
