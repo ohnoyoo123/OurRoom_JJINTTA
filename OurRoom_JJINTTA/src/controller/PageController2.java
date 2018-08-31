@@ -1,6 +1,9 @@
 package controller;
 
+import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,13 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import model.Member;
+import model.Project;
 import service.MemberService;
+import service.ProjectService;
 
 @Controller
 public class PageController2 {
 
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private ProjectService projectService;
 
 	@RequestMapping("loginForm")
 	public String loginForm() {
@@ -71,17 +79,25 @@ public class PageController2 {
 
 	/* 주소록 페이지 */
 	@RequestMapping("address")
-	public ModelAndView address() {
+	public ModelAndView address(HttpSession session) {
 		// 추후 로그인회원의 아이디(loginUser.getmId())로 변경될 값
+		// String mId = ((Member)session.getAttribute("loginUser")).getmId();
 		String mId = "hong123@gmail.com";
+
 		ModelAndView mav = new ModelAndView();
 		// 주소록에 등록된 회원리스트 조회
 		List<Member> addressList = memberService.selectAddress(mId);
-		System.out.println("[PageController2 > address] : " + addressList);
-		
+		System.out.println("[PageController2 > address] addressList : " + addressList);
+
+		// 프로젝트리스트 조회
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mId", mId);
+		List<Project> projectList = projectService.getProjectListByMId(paramMap);
+		System.out.println("[PageController2 > address] projectList : " + projectList);
 		mav.addObject("addressList", addressList);
+		mav.addObject("projectList", projectList);
 		mav.setViewName("/address/address");
-		
+
 		return mav;
 	}
 
