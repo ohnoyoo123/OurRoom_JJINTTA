@@ -1,29 +1,31 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 
 import model.Issue;
 import model.IssueMember;
 import model.Member;
+import model.Project;
 import model.Task;
 import service.CheckListService;
 import service.IssueService;
 import service.MemberService;
+import service.ProjectService;
 import service.TaskService;
 
 @RestController
 public class ProjectRestController {
+	
+	@Autowired
+	ProjectService pSvc;
 
 	@Autowired
 	IssueService iSvc;
@@ -36,6 +38,21 @@ public class ProjectRestController {
 
 	@Autowired
 	TaskService tSvc;
+	
+	@PostMapping("/project/newProject")
+	public int newProject(Project project, String owner, @RequestParam(value="members[]", required=false) List<String> members) {
+
+		HashMap<String, Object> params = new HashMap<String, Object>();
+		
+		params.put("project", project);
+		params.put("owner", owner);
+		params.put("projectMember", members);
+		
+		System.out.println("============================= new project!");
+		
+		 return pSvc.addProject(params);
+	}
+
 
 	@PostMapping("/project/issueDetail")
 	public Map<String, Object> issueDetail(Issue issue) {

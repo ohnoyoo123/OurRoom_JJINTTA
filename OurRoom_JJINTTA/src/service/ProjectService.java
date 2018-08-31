@@ -40,17 +40,17 @@ public class ProjectService {
 	}
 	
 	public int addProject(HashMap<String, Object> params) {
-		Project project = new Project();
-		project.setpName((String)params.get("pName"));
-		project.setpBackground("test");
+		Project project = (Project) params.get("project");
+		List<String> pmList = (List<String>) params.get("projectMember");
+		project.setpBackground("pexels");
 		projectDao.insertProject(project);
 		//System.out.println("프로젝트 넘버:"+project.getpNum());
 		
-		List<String> memberId = new ArrayList<>();
-		System.out.println("멤버!!!!!!!!!!!!!!!"+params.get("projectMember"));
-		for(String m : memberId) {
+		System.out.println("멤버!!!!!!!!!!!!!!!"+ pmList);
+		
+		for(String mId : pmList) {
 			ProjectMember pm = new ProjectMember();
-			pm.setmId(m);
+			pm.setmId(mId);
 			pm.setpNum(project.getpNum());
 			pm.setPmFav(false);
 			pm.setPmIsAdmin(false);

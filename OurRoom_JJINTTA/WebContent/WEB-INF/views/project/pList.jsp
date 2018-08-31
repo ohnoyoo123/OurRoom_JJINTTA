@@ -38,9 +38,10 @@
 			<c:if test="${!pm.pmFav}">
 				<c:forEach items="${progProject}" var="pList">
 					<c:if test="${pList.pNum==pm.pNum }">
+						<br>
 						<a onclick="location.href='gantt?pNum=${pm.pNum }'">${pList.pName }</a>
+						<br>
 					</c:if>
-					<br>
 				</c:forEach>
 			</c:if>
 		</c:forEach>
@@ -60,10 +61,8 @@
 	      <div class="modal-header">
 	        <h4 class="modal-title">
 	       		프로젝트명:
-            <form class="" action="newProject" method="post">
-              <input type="hidden" id="projectMember" name="projectMember">
               <input type="hidden" name="owner" value="hong123@gmail.com"> <%-- ${세션에 있는 아이디 mId} --%>                
-	        	  <input type="text" placeholder="enter project name" name="pName">
+	        	  <input type="text" placeholder="enter project name" id="pName">
 	        </h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
@@ -72,7 +71,8 @@
 	      <div class="modal-body">
 	        	팀원 초대:
 	        	<input type="text" placeholder="enter email or nickname" id="memberSearch">
-	        	<input type="button" class='btn' value="검색" id="memberSearchBtn">
+						<input type="button" class='btn' value="검색" id="memberSearchBtn">
+						<br>
             ===검색 결과 멤버 ===
             <p id="searchedMember"></p>
             === 초대된 멤버 ===
@@ -84,9 +84,8 @@
 
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
-          <input type="submit" class="btn btn-success" value="생성">
+          <button type="button" class="btn btn-success" id = "newProject">생성</button>
 	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          </form>
 	      </div>
 
 	    </div>
@@ -143,6 +142,21 @@
         $('#invitedMember').html(temp)
 
     })
+
+		$('#newProject').on('click', function () {
+			$.ajax({
+				url : "newProject",
+				data : {
+					pName : $('#pName').val(),
+					owner : 'hong123@gmail.com',
+					members : invitedId
+				},
+				type : "post",
+				success : function (data) {
+					location.href='gantt?pNum=' + data
+				}
+			})
+		})
 
 
   })
