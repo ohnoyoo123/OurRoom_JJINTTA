@@ -1,5 +1,6 @@
 package controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,7 +39,11 @@ public class PageController {
 	@RequestMapping("/project/pList")
 	public ModelAndView project() {
 		//실제로는 세션에 있는 아이디값이 들어올 것임
+<<<<<<< HEAD
 		String mId="hong123@gmail.com";
+=======
+		String mId="100sj";
+>>>>>>> refs/heads/Baek
 		
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
@@ -84,6 +89,7 @@ public class PageController {
 	public ModelAndView project_gantt(int pNum) {
 		System.out.println("pNum : " + pNum);
 		ModelAndView mav = new ModelAndView();
+		
 		mav.addObject("project", projectSvc.getProject(pNum));
 		
 		Task task = new Task();
@@ -95,8 +101,10 @@ public class PageController {
 		issue.setpNum(pNum);
 		mav.addObject("issueList", issueSvc.getIssueList(issue));
 		System.out.println("이슈리스트" + issueSvc.getIssueList(issue));
-		mav.setViewName("/project/gantt");
 		
+		mav.addObject("projectMemberList", projectSvc.getProjectMemberByPNum(pNum));
+		
+		mav.setViewName("/project/gantt");
 		return mav;
 	}
 }

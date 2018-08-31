@@ -9,4 +9,6 @@ public interface TaskDao {
 	public List<Task> selectTask(Task task);
 	
 	public void insertTask(Task task);
+
+	public void deleteTask(Task task);
 }
