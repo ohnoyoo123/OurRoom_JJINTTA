@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import model.Address;
 import model.Member;
+import model.ProjectMember;
 import service.MemberService;
+import service.ProjectService;
 
 @RestController
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private ProjectService projectService;
 
 	/* 회원가입시 아이디 중복 체크 요청 */
 	@RequestMapping("idCheck")
@@ -73,7 +77,7 @@ public class MemberController {
 
 	/* 주소록에 회원 추가 */
 	@RequestMapping("addAddress")
-	public boolean addAddress(Address address) {	
+	public boolean addAddress(Address address) {
 		String mId = "hong123@gmail.com";
 		address.setmId(mId);
 		System.out.println("[MemberController > addAddress] before : " + address);
@@ -91,5 +95,14 @@ public class MemberController {
 		boolean result = memberService.deleteAddress(address);
 		System.out.println("[MemberController > deleteAddress] afrer : " + address);
 		return result;
+	}
+
+	@RequestMapping("addressProjectMemberList")
+	public List<ProjectMember> addressProjectMemberList(String pNum) {
+		System.out.println("[MemberController > addressProjectMemberList] before : " + pNum);
+
+		int num = Integer.parseInt(pNum);
+		System.out.println(projectService.getProjectMemberByPNum(num));
+		return projectService.getProjectMemberByPNum(num); 
 	}
 }

@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta content="charset=UTF-8">
 <style type="text/css">
-#addressList{
+#addressList {
 	float: left;
 }
 </style>
@@ -55,19 +57,20 @@
 											}
 
 											for (i = 0; i < data.length; i++) {
-												
-												if('${loginUser.mId}' != data[i].mId ){
-												
-												searchMembers.push("<p class='member' mNickname="+data[i].mNickname+" mId="+data[i].mId+">"
-																+ data[i].mNickname
-																+ "("
-																+ data[i].mId
-																+ ")</p>") 
+
+												if ('${loginUser.mId}' != data[i].mId) {
+
+													searchMembers
+															.push("<p class='member' mNickname="+data[i].mNickname+" mId="+data[i].mId+">"
+																	+ data[i].mNickname
+																	+ "("
+																	+ data[i].mId
+																	+ ")</p>")
 
 												}
 											}
 											searchMemberDiv.html(searchMembers);
-										} 
+										}
 									});
 						});
 
@@ -116,7 +119,7 @@
 						alert("삭제되었습니다.");
 						location.reload();
 					} else {
-				
+
 					}
 				},
 				error : function(e) {
@@ -126,13 +129,51 @@
 		});
 	});
 </script>
+<script type="text/javascript">
+	$(function(){
+		
+		$(".addressProject_tr").on("click",function(){
+			//var pNum = $(this).children().first().text();
+			//console.log(pNum);
+			var searchProjectMembers = [];
+			var addressProjectMemberList_div = $("#addressProjectMemberList_div");
+			
+			$.ajax({
+				url:"addressProjectMemberList",
+				data:{
+					pNum : $(this).children().first().text()
+				},
+				success: function(data){
+					console.log(data);
+					for (i = 0; i < data.length; i++) {
+
+						if ('${loginUser.mId}' != data[i].mId) {
+
+							searchProjectMembers
+									.push("<p class='member' mId="+data[i].mId+">"			
+											+ data[i].mId+"</p>")
+
+						}
+					}
+					addressProjectMemberList_div.html(searchProjectMembers);
+				},
+				error: function(e){
+					console.log(e);
+				}
+				
+				
+			});
+		});
+		
+	});
+</script>
 <title>Insert title here</title>
 </head>
 <body>
 	<div class="container">
 		<%-- <jsp:include page="../mainFrame.jsp" />--%>
-		<div id="addressList"  style="width: 400px ; height:500px">
-			<h1>주소록회원리스트</h1>
+		<div id="addressList" style="width: 400px; height: 300px">
+			<h2>주소록회원리스트</h2>
 			<hr>
 			<c:forEach var="addressMember" items="${addressList }">
 				<div>
@@ -142,13 +183,40 @@
 					<br>
 				</div>
 			</c:forEach>
-		</div> 
- 
-		<div id="search_div">
-			<h1>회원검색</h1>
+		</div>
+
+		<div id="search_div" style="height: 300px">
+			<h2>회원검색</h2>
 			<input type="text" id="keyword" name="keyword" placeholder="회원검색">
 			<div id="searchMemberList"></div>
 		</div>
-	</div> 
+
+		<div>
+			<h2>프로젝트 리스트</h2>
+			<table border="1">
+				<tr>
+					<th>num</th>
+					<th>name</th>
+					<th>startDate</th>
+					<th>endDate</th>
+
+				</tr>
+				<c:forEach var="addressProject" items="${projectList }">
+					<tr class="addressProject_tr">
+						<td class="pNum_td">${addressProject.pNum }</td>
+						<td>${addressProject.pName }</td>
+						<td><fmt:formatDate value="${addressProject.pStartDate }"
+								pattern="yyyy-MM-dd" /></td>
+						<td><fmt:formatDate value="${addressProject.pEndDate }"
+								pattern="yyyy-MM-dd" /></td>
+					</tr>
+				</c:forEach>
+			</table>
+			<div>
+				<h2>프로젝트의 포함된 회원 리스트</h2>
+				<div id="addressProjectMemberList_div"></div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
