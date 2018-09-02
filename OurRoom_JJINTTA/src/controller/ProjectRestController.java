@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import model.CheckList;
+import model.CheckListItem;
 import model.Issue;
 import model.IssueMember;
 import model.Member;
@@ -60,10 +61,10 @@ public class ProjectRestController {
 		System.out.println(issue);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("issue", iSvc.getIssueList(issue));
+		data.put("issueMember", iSvc.getIssueMember(issue));
 		data.put("checkList", clSvc.selectCheckList(issue));
 		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
-		data.put("issueMember", iSvc.getIssueMember(issue));
-
+		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
 		System.out.println("data : " + data);
 		return data;
 
@@ -132,6 +133,7 @@ public class ProjectRestController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("checkList", clSvc.selectCheckList(issue));
 		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
 		return data;
 	}
 	
@@ -148,8 +150,35 @@ public class ProjectRestController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("checkList", clSvc.selectCheckList(issue));
 		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
 		return data;
 		
+	}
+	
+	//체크리스트 아이템 생성하고 체크리스트 다시!!
+	@PostMapping("/project/addCheckListItem")
+	public Map<String, Object> addCheckListItem(CheckListItem checkListItem, @RequestParam(value="members[]", required=false) List<String> members) {
+		System.out.println("요청 url : /project/addCheckListItem");
+		System.out.println(members);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("checkListItem", checkListItem);
+		param.put("members", members);
+		clSvc.addCheckListItem(param);
+		
+		//새로운 체크리스트 불러와서 보내주기
+		//사실 이런것들을 서비스에서 해주면 좋을것 같은데??
+		//컨트롤러는 그냥 데이터 통로로만 사용하고 말이지?
+		//친구들과 상의해보고 결정할 것
+		Issue issue = new Issue();
+		issue.setpNum(checkListItem.getpNum());
+		issue.settNum(checkListItem.gettNum());
+		issue.setiNum(checkListItem.getiNum());
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("checkList", clSvc.selectCheckList(issue));
+		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
+		return data;
+
 	}
 	
 }

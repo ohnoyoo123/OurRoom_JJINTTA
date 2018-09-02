@@ -73,8 +73,10 @@
 		p_num = #{pNum}
 		and
 		t_num = #{tNum}
+		<if test="iNum != 0">
 		and
 		i_num = #{iNum}
+		</if>
 	</delete>
 
 	<select id="selectIssue" parameterType="issue" resultMap="issueRM">

@@ -126,7 +126,7 @@
 				<div id="checkListNameForm">
 
 				</div>
-				
+
 				<div class="modal-body" id="checkList">
 
 				</div>
@@ -235,20 +235,22 @@
 		</div>
 	</div>
 
-
 	<script type="text/javascript">
 		$(document).ready(function () {
 
+			//이슈멤버 리스트
+			var issueMember = []
+
 			//체크리스트 친구들 만들기
 			const showCheckList = (data) =>{
-				var txt =''
+				let txt =''
 						for (var i = 0; i < data.checkList.length; i++) {
 							txt += '<div class=\'checkList\''
 							txt += ' pNum=' + data.checkList[i].pNum
 							txt += ' tNum=' + data.checkList[i].tNum
 							txt += ' iNum=' + data.checkList[i].iNum
 							txt += ' clNum=' + data.checkList[i].clNum
-							txt += ' clName = ' + data.checkList[i].clName 
+							txt += ' clName = ' + data.checkList[i].clName
 							txt += '>'
 							txt += '======================================================================<br>'
 							txt += '체크리스트 이름 : ' + data.checkList[i].clName
@@ -261,6 +263,15 @@
 								if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
 									txt += '<div>'
 									txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<br>'
+									txt += '<div>'
+									for(var k = 0; k < data.checkListItemMember.length; k++){
+										if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
+											txt += data.checkListItemMember[k].mId
+											txt += '<br>'
+										}
+									}
+									txt += '----------------------'
+									txt += '</div>'
 									txt += '</div>'
 								}
 							}
@@ -288,9 +299,18 @@
 						$('#issueName').attr('iNum', (data.issue[0].iNum))
 						$('#issueName').html(data.issue[0].iName)
 						$('#issueMember').html('')
+						issueMember = []
+						var txt = ''
 						for (var k = 0; k < data.issueMember.length; k++) {
-							$('#issueMember').append(data.issueMember[k].mId).append(', ')
+							issueMember.push(data.issueMember[k].mId)
+							txt += '<p mId="'
+							txt += data.issueMember[k].mId
+							txt += '">'
+							txt += data.issueMember[k].mId
+							txt += '</p>'
 						}
+						$('#issueMember').html(txt)
+						// $('#issueMember').append(...issueMember)
 						showCheckList(data)
 					}
 				})
@@ -423,7 +443,6 @@
 						}
 					})
 				}
-
 			})
 
 			//체크리스트 추가폼 생성
@@ -433,7 +452,7 @@
 				txt += '<button id="addCheckList">OK</button>'
 				$('#checkListNameForm').html(txt)
 			})
-			
+
 			//체크리스트 추가
 			$(document).on('click', '#addCheckList', function () {
 
@@ -473,17 +492,54 @@
 
 			})
 
-			//체크리스트 아이템 추가폼 만들기
-			
-
-			//체크리스트 아이템 추가
+			//체크리스트 아이템폼 생성
 			$(document).on('click', '.addCheckListItem', function () {
 				$(this).parent().find('.addCheckListItemForm').empty()
 				console.log($(this).closest('.checkList').attr('clNum'));
 				var txt = ''
-				txt += '<input type="text" class="checkListItemName">'
+				txt += '<input type="text" id="checkListItemName">'
+				txt += '<button id="addCheckListItem">OK</button>'
 				$(this).parent().find('.addCheckListItemForm').append(txt)
+				$(this).parent().find('.addCheckListItemForm').append('<br>----이슈 할당 멤버----')
+				$(this).parent().find('.addCheckListItemForm').append($('#issueMember').html()).find('p').addClass('unsingedCheckListMember')
+				$(this).parent().find('.addCheckListItemForm').append('----체크리스트 할당 멤버----')
+				$(this).parent().find('.addCheckListItemForm').append('<div id="singedCheckListItemMember"></div>')
+
+				// $(this).parent().find('.addCheckListItemForm').append(...issueMember)
 			})
+
+			//체크리스트 아이템 멤버 생성
+			let signedCheckListItemMember = []
+			$(document).on('click', '.unsingedCheckListMember', function(){
+				if(!signedCheckListItemMember.includes($(this).attr('mId'))){
+					signedCheckListItemMember.push($(this).attr('mId'))
+					console.log(signedCheckListItemMember);
+					$('#singedCheckListItemMember').text(signedCheckListItemMember)
+				}
+
+			})
+
+			//체크리스트 아이템 추가
+			$(document).on('click', '#addCheckListItem', function(){
+				$.ajax({
+					url : 'addCheckListItem',
+					data : {
+						pNum : ${project.pNum},
+						tNum : $('#issueName').attr('tNum'),
+						iNum : $('#issueName').attr('iNum'),
+						clNum : $(this).parents('.checkList').attr('clNum'),
+						ciName : $('#checkListItemName').val(),
+						members : signedCheckListItemMember
+					},
+					type : 'post',
+					success : (data) => {
+						showCheckList(data)
+					}
+				})
+
+			})
+
+
 
 
 		})

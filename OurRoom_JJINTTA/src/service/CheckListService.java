@@ -1,6 +1,7 @@
 package service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import dao.CheckListDao;
 import model.CheckList;
 import model.CheckListItem;
+import model.CheckListItemMember;
 import model.Issue;
 
 @Service
@@ -26,6 +28,11 @@ public class CheckListService {
 		
 	}
 	
+	public List<CheckListItemMember> selectAllCheckListItemMember(Issue issue) {
+		return clDao.selectAllCheckListItemMember(issue);
+	}
+
+	
 	//새 체크리스트 생성
 	public void addCheckList(CheckList checkList) {
 		clDao.insertCheckList(checkList);
@@ -37,4 +44,38 @@ public class CheckListService {
 		clDao.deleteCheckList(checkList);
 		
 	}
+
+	//체크리스트 아이템 생성
+	public void addCheckListItem(Map<String, Object> param) {
+		
+		CheckListItem checkListItem = (CheckListItem) param.get("checkListItem");
+		clDao.insertCheckListItem(checkListItem);
+		System.out.println("첵템 : " + checkListItem);
+		
+		Issue issue = new Issue();
+		issue.setpNum(checkListItem.getpNum());
+		issue.settNum(checkListItem.gettNum());
+		issue.setiNum(checkListItem.getiNum());
+		
+		List<CheckListItem> checkListItemList = clDao.selectAllCheckListItem(issue);
+		int ciNum = checkListItemList.get(checkListItemList.size()-1).getCiNum();
+		
+		List<String> members = (List<String>) param.get("members");
+		if(members != null) {
+			for(String mId : members) {
+				CheckListItemMember checkListItemMember = new CheckListItemMember();
+				checkListItemMember.setmId(mId);
+				checkListItemMember.setpNum(checkListItem.getpNum());
+				checkListItemMember.settNum(checkListItem.gettNum());
+				checkListItemMember.setiNum(checkListItem.getiNum());
+				checkListItemMember.setClNum(checkListItem.getClNum());
+				checkListItemMember.setCiNum(ciNum);
+				clDao.insertCheckListItemMember(checkListItemMember);
+			}
+
+		}
+		
+		
+	}
+
 }
