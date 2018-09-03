@@ -181,4 +181,22 @@ public class ProjectRestController {
 
 	}
 	
+	@PostMapping("/project/deleteCheckListItem")
+	public Map<String, Object> deleteCheckListItem(CheckListItem checkListItem) {
+		System.out.println("요청 url : /project/deleteCheckListItem");
+		clSvc.deleteCheckListItem(checkListItem);
+		
+		Issue issue = new Issue();
+		issue.setpNum(checkListItem.getpNum());
+		issue.settNum(checkListItem.gettNum());
+		issue.setiNum(checkListItem.getiNum());
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("checkList", clSvc.selectCheckList(issue));
+		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
+		return data;
+
+		
+	}
+	
 }

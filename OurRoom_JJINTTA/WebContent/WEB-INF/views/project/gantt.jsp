@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -18,6 +19,15 @@
 
 		#addTask {
 			width: 100%;
+		}
+
+		.deleteCheckListItemBtn{
+			float: right;
+		}
+
+		#addCheckListForm{
+			float: right;
+			display: inline-block;
 		}
 	</style>
 
@@ -49,7 +59,7 @@
 			<tr>
 				<td>${project.pNum}</td>
 				<td>${project.pName}</td>
-				<td>${project.pStartDate}</td>
+				<td><fmt:formatDate value=" ${project.pStartDate}" type="date" pattern="yyyy-MM-dd"/></td>
 				<td>${project.pEndDate}</td>
 			</tr>
 		</table>
@@ -119,8 +129,8 @@
 				</div>
 
 				<!-- Modal body -->
-				<div class="modal-body" id="addCheckListForm">
-						<h3>체크리스트</h3>
+				<div class="modal-body">
+						<h3>체크리스트<button id="addCheckListForm">[+]</button></h3>
 				</div>
 
 				<div id="checkListNameForm">
@@ -258,12 +268,10 @@
 							txt +=  '<button style="float:right;" class="addCheckListItem">O</button><br>'
 							txt += '<div class="addCheckListItemForm"></div>'
 							txt += '======================================================================'
-							txt += '</div>'
 							for (var j = 0; j < data.checkListItem.length; j++) {
 								if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
-									txt += '<div>'
-									txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<br>'
-									txt += '<div>'
+									txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
+									txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn">X</button><br>'
 									for(var k = 0; k < data.checkListItemMember.length; k++){
 										if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
 											txt += data.checkListItemMember[k].mId
@@ -272,9 +280,12 @@
 									}
 									txt += '----------------------'
 									txt += '</div>'
-									txt += '</div>'
 								}
 							}
+							txt += '</div>'
+							txt += '</div>'
+							txt += '</div>'
+
 							txt += '<br>'
 						}
 						$('#checkList').html(txt)
@@ -308,7 +319,9 @@
 							txt += '">'
 							txt += data.issueMember[k].mId
 							txt += '</p>'
+							console.log(data.issueMember[k].mId);
 						}
+						console.log(txt);
 						$('#issueMember').html(txt)
 						// $('#issueMember').append(...issueMember)
 						showCheckList(data)
@@ -536,8 +549,27 @@
 						showCheckList(data)
 					}
 				})
-
 			})
+
+			//체크리스트 아이템 삭제
+			$(document).on('click', '.deleteCheckListItemBtn', function(){
+				if(confirm('삭제하시겠습니까?')){
+					$.ajax({
+						url : 'deleteCheckListItem',
+						data : {
+							pNum : $(this).parents('.checkList').attr('pNum'),
+							tNum : $(this).parents('.checkList').attr('pNum'),
+							iNum : $(this).parents('.checkList').attr('pNum'),
+							clNum : $(this).parents('.checkList').attr('pNum'),
+							ciNum : $(this).parent().attr('ciNum')
+						},
+						type : 'post',
+						success : (data) => {
+							showCheckList(data)
+						}
+					})
+				}
+		})
 
 
 
