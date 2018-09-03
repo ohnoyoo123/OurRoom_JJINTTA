@@ -62,9 +62,9 @@ public class ProjectRestController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("issue", iSvc.getIssueList(issue));
 		data.put("issueMember", iSvc.getIssueMember(issue));
-		data.put("checkList", clSvc.selectCheckList(issue));
-		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
-		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
+		data.put("checkList", clSvc.getCheckList(issue));
+		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
 		System.out.println("data : " + data);
 		return data;
 
@@ -131,9 +131,9 @@ public class ProjectRestController {
 		issue.settNum(checkList.gettNum());
 		issue.setiNum(checkList.getiNum());
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("checkList", clSvc.selectCheckList(issue));
-		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
-		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
+		data.put("checkList", clSvc.getCheckList(issue));
+		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
 		return data;
 	}
 	
@@ -148,9 +148,9 @@ public class ProjectRestController {
 		issue.settNum(checkList.gettNum());
 		issue.setiNum(checkList.getiNum());
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("checkList", clSvc.selectCheckList(issue));
-		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
-		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
+		data.put("checkList", clSvc.getCheckList(issue));
+		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
 		return data;
 		
 	}
@@ -174,9 +174,9 @@ public class ProjectRestController {
 		issue.settNum(checkListItem.gettNum());
 		issue.setiNum(checkListItem.getiNum());
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("checkList", clSvc.selectCheckList(issue));
-		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
-		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
+		data.put("checkList", clSvc.getCheckList(issue));
+		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
 		return data;
 
 	}
@@ -191,9 +191,9 @@ public class ProjectRestController {
 		issue.settNum(checkListItem.gettNum());
 		issue.setiNum(checkListItem.getiNum());
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("checkList", clSvc.selectCheckList(issue));
-		data.put("checkListItem", clSvc.selectAllCheckListItem(issue));
-		data.put("checkListItemMember", clSvc.selectAllCheckListItemMember(issue));
+		data.put("checkList", clSvc.getCheckList(issue));
+		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
 		return data;
 
 		

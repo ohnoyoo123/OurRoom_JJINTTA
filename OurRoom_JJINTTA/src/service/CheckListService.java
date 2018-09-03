@@ -18,17 +18,17 @@ public class CheckListService {
 	@Autowired
 	CheckListDao clDao;
 	
-	public List<CheckList> selectCheckList(Issue issue){
+	public List<CheckList> getCheckList(Issue issue){
 		return clDao.selectAllCheckList(issue);
 		
 	}
 	
-	public List<CheckListItem> selectAllCheckListItem(Issue issue){
+	public List<CheckListItem> getAllCheckListItem(Issue issue){
 		return clDao.selectAllCheckListItem(issue);
 		
 	}
 	
-	public List<CheckListItemMember> selectAllCheckListItemMember(Issue issue) {
+	public List<CheckListItemMember> getAllCheckListItemMember(Issue issue) {
 		return clDao.selectAllCheckListItemMember(issue);
 	}
 

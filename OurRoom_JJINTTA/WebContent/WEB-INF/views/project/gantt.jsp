@@ -14,7 +14,9 @@
 	<style type="text/css">
 		#innerFrame {
 			display: inline-block;
-			width: 90vw;
+	    width: 95%;
+	    position: absolute;
+	    margin: 10px;
 		}
 
 		#addTask {
@@ -34,7 +36,7 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
 	<script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-	<script>
+<script>
 		$( function() {
     $( ".datepicker" ).datepicker();
   } );
@@ -59,8 +61,8 @@
 			<tr>
 				<td>${project.pNum}</td>
 				<td>${project.pName}</td>
-				<td><fmt:formatDate value=" ${project.pStartDate}" type="date" pattern="yyyy-MM-dd"/></td>
-				<td>${project.pEndDate}</td>
+				<td><fmt:formatDate value="${project.pStartDate}" type="date" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${project.pEndDate}" type="date" pattern="yyyy-MM-dd"/></td>
 			</tr>
 		</table>
 		<!-- 태스크 정보 -->
@@ -79,9 +81,9 @@
 					<tr>
 						<td>${task.tNum}</td>
 						<td>${task.tOrder}</td>
-						<td>${task.tName}</td>
-						<td>${task.tStartDate}</td>
-						<td>${task.tEndDate}</td>
+						<td class="viewKanban" tNum="${task.tNum}">${task.tName}</td>
+						<td><fmt:formatDate value="${task.tStartDate}" type="date" pattern="yyyy-MM-dd"/></td>
+						<td><fmt:formatDate value="${task.tEndDate}" type="date" pattern="yyyy-MM-dd"/></td>
 						<td><button class="deleteTask" tNum="${task.tNum}">X</button></td>
 						<td><button class="addIssue" data-toggle="modal" data-target="#addIssueModal" tNum="${task.tNum}">O</button></td>
 					</tr>
@@ -111,7 +113,6 @@
 						</c:forEach>
 					</c:if>
 	</div>
-
 	</c:forEach>
 	</table>
 	</c:if>
@@ -125,6 +126,17 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h1 class="modal-title" id="issueName">이슈 이름</h1>
+					<div id="issueDate">
+						<div>
+							시작 : <br>
+							<%-- <input type="text" class="datepicker" id="iStartDate"> --%>
+							<input type="text" class="datepicker" id="iStartDate">
+						</div>
+						<div>
+							종료 : <br>
+							<input type="text" class="datepicker" id="iEndDate">
+						</div>
+					</div>
 					<div id="issueMember"></div>
 				</div>
 
@@ -132,13 +144,9 @@
 				<div class="modal-body">
 						<h3>체크리스트<button id="addCheckListForm">[+]</button></h3>
 				</div>
-
 				<div id="checkListNameForm">
-
 				</div>
-
 				<div class="modal-body" id="checkList">
-
 				</div>
 
 				<!-- Modal footer -->
@@ -159,7 +167,6 @@
 				<div class="modal-header">
 					<h4 class="modal-title">
 						태스크명:
-
 						<input type="text" placeholder="enter task name" id="tName">
 					</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -217,13 +224,9 @@
 				</div>
 				할당된 팀원 : <br>
 				<div class="modal-body" id="assignedMember">
-
 				</div>
 				<div class="modal-body" id="selectedMId">
-
 				</div>
-
-
 				<div class="modal-body">
 					<div>
 						시작 : <br>
@@ -310,6 +313,10 @@
 						$('#issueName').attr('iNum', (data.issue[0].iNum))
 						$('#issueName').html(data.issue[0].iName)
 						$('#issueMember').html('')
+
+
+						$('#iStartDate').val(new Date(data.issue[0].iStartDate))
+						$('#iEndDate').val(new Date(data.issue[0].iEndDate))
 						issueMember = []
 						var txt = ''
 						for (var k = 0; k < data.issueMember.length; k++) {
@@ -319,9 +326,7 @@
 							txt += '">'
 							txt += data.issueMember[k].mId
 							txt += '</p>'
-							console.log(data.issueMember[k].mId);
 						}
-						console.log(txt);
 						$('#issueMember').html(txt)
 						// $('#issueMember').append(...issueMember)
 						showCheckList(data)
@@ -570,6 +575,18 @@
 					})
 				}
 		})
+
+		//칸반으로!!
+		$(document).on('click', '.viewKanban', function(){
+			console.log(${project.pNum})
+			console.log($(this).attr('tNum'))
+			location.href='kanban?pNum=${project.pNum}&tNum=' + $(this).attr('tNum')
+		})
+
+
+
+
+
 
 
 
