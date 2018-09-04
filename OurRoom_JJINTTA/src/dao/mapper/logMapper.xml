@@ -3,7 +3,7 @@
 
 <mapper namespace="dao.LogDao">
 
-	<insert id="insertLog" parameterType="model.Log">
+	<insert id="insertLog" parameterType="model.Log" >
 		insert into log values(
 		#{pNum},
 		<if test="tNum != null">#{tNum}</if>,
@@ -17,6 +17,11 @@
 		now()
 		)
 	</insert>
+	
+	<select id="selectLogLastLNum" parameterType="int" resultType="int" >
+		select ifnull(max(l_num),0) from log where p_num = #{value}
+	</select>
+	
 
 	<!-- 프로젝트 로그 조회 -->
 	<select id="selectProjectLog" parameterType="int"
