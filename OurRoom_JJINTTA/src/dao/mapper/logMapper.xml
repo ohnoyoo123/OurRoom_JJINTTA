@@ -3,21 +3,28 @@
 
 <mapper namespace="dao.LogDao">
 
-	<insert id="insertLog">
+	<insert id="insertLog" parameterType="hashMap">
 		insert into log values(
 		#{pNum},
-		#{tNum},
-		#{iNum},
-		#{clNum},
-		#{ciNum},
-		#{cmNum},
+		<if test="tNum != null">#{tNum}</if>,
+		<if test="iNum != null">#{iNum}</if>,
+		<if test="clNum != null">#{clNum}</if>,
+		<if test="ciNum != null">#{ciNum}</if>,
+		<if test="cmNum != null">#{cmNum}</if>,
+		<if test="tNum != null">#{tNum},</if>
 		#{mId},
-		ifnull(select max(l.l_num)+1 from
-		log l where p_num = #{p_num}, 1),
+		select ifnull(max(l_num),0)+1 from log where p_num = #{pNum},
 		#{lCat},
 		now()
 		)
 	</insert>
+
+	<!-- 프로젝트 로그 조회 -->
+	<select id="selectProjectLog" parameterType="int"
+		resultMap="logRM">
+		select * from log
+		where p_num = #{value}
+	</select>
 
 	<select id="selectLog" parameterType="log" resultMap="logRM">
 		select * from log
@@ -60,30 +67,31 @@
 	</update>
 
 	<select id="selectNoti" parameterType="noti" resultMap="notiRM">
-		select * from noti
+		select *
+		from noti
 		where
 		m_id = #{mId}
 	</select>
-	
+
 	<resultMap type="log" id="logRM">
-		<result property="pNum" column="p_num"/>
-		<result property="tNum" column="t_num"/>
-		<result property="iNUm" column="i_num"/>
-		<result property="clNum" column="cl_num"/>
-		<result property="ciNum" column="ci_num"/>
-		<result property="cmNum" column="cm_num"/>
-		<result property="mId" column="m_id"/>
-		<result property="lNum" column="l_num"/>
-		<result property="lCat" column="l_cat"/>
-		<result property="lTime" column="l_time"/>
+		<result property="pNum" column="p_num" />
+		<result property="tNum" column="t_num" />
+		<result property="iNum" column="i_num" />
+		<result property="clNum" column="cl_num" />
+		<result property="ciNum" column="ci_num" />
+		<result property="cmNum" column="cm_num" />
+		<result property="mId" column="m_id" />
+		<result property="lNum" column="l_num" />
+		<result property="lCat" column="l_cat" />
+		<result property="lTime" column="l_time" />
 	</resultMap>
-	
+
 	<resultMap type="noti" id="notiRM">
-		<result property="pNum" column="p_num"/>
-		<result property="lNum" column="l_num"/>
-		<result property="mId" column="m_id"/>
-		<result property="nIsRead" column="n_isRead"/>
+		<result property="pNum" column="p_num" />
+		<result property="lNum" column="l_num" />
+		<result property="mId" column="m_id" />
+		<result property="nIsRead" column="n_isRead" />
 	</resultMap>
-	
-	
+
+
 </mapper>

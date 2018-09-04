@@ -1,12 +1,13 @@
 package service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dao.LogDao;
 import dao.ProjectDao;
 import dao.TaskDao;
 import model.Project;
@@ -21,6 +22,9 @@ public class ProjectService {
 	
 	@Autowired
 	TaskDao taskDao;
+	
+	@Autowired
+	LogDao logDao;
 	
 	
 	public List<Project> getProjectListByMId(HashMap<String, Object> mId){
@@ -68,6 +72,14 @@ public class ProjectService {
 		owner.setPmIsAdmin(true);
 		owner.setPmIsAuth(true);
 		projectDao.insertProjectMember(owner);
+		
+		// 로그남기기
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("mId",(String)params.get("owner"));
+		paramMap.put("pNum",project.getpNum());
+		paramMap.put("lCat",11);
+		
+		logDao.insertLog(paramMap);
 		
 		return project.getpNum();		
 	}
