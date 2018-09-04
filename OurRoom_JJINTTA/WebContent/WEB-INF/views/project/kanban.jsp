@@ -257,7 +257,52 @@
 
     //체크리스트 친구들 만들기
     var showCheckList = (data) => {
-      console.log(`adasdasdas ${ttt}`)
+
+      console.log(`\${data.checkList}`);
+
+      $('#issueModal').html(`
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h1 class="modal-title" id="issueName">\${data.issue[0].iName}</h1>
+              <div id="issueDate">
+                <div>
+                  시작 : <br>
+                  <%-- <input type="text" class="datepicker" id="iStartDate"> --%>
+                  <input type="text" class="datepicker" id="iStartDate" value="\${new Date(data.issue[0].iStartDate)}">
+                </div>
+                <div>
+                  종료 : <br>
+                  <input type="text" class="datepicker" id="iEndDate" value="\${new Date(data.issue[0].iEndDate)}">
+                </div>
+              </div>
+              <div id="issueMember">
+              </div>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <h3>체크리스트<button id="addCheckListForm">[+]</button></h3>
+            </div>
+            <div id="checkListNameForm">
+            </div>
+            <div class="modal-body" id="checkList">
+              <c:forEach items="\${data.checkList}" var="checkList">
+                어케 하는겨?
+              </c:forEach>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+
+          </div>
+        </div>
+        `)
 
 
       // let txt =''
