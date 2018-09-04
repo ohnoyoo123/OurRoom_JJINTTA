@@ -17,6 +17,7 @@ import model.Project;
 import model.Task;
 import service.CheckListService;
 import service.IssueService;
+import service.LogService;
 import service.MemberService;
 import service.ProjectService;
 import service.TaskService;
@@ -38,6 +39,9 @@ public class ProjectRestController {
 
 	@Autowired
 	TaskService tSvc;
+	
+	@Autowired
+	private LogService lSvc;
 	
 	@PostMapping("/project/newProject")
 	public int newProject(Project project, String owner, @RequestParam(value="members[]", required=false) List<String> members) {
@@ -119,6 +123,5 @@ public class ProjectRestController {
 		System.out.println("요청 url : " + "/project/deleteIssue");
 		iSvc.deleteIssue(issue);
 	}
-	
 	
 }

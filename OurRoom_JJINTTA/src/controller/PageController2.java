@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import model.Log;
 import model.Member;
 import model.Project;
 import model.ProjectMember;
+import service.LogService;
 import service.MemberService;
 import service.ProjectService;
 import util.ProjectUtil;
@@ -26,6 +28,9 @@ public class PageController2 {
 
 	@Autowired
 	private ProjectService projectService;
+
+	@Autowired
+	private LogService logService;
 
 	@RequestMapping("loginForm")
 	public String loginForm() {
@@ -74,27 +79,33 @@ public class PageController2 {
 		// String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
 		String loginUser = "hong123@gmail.com";
 		ModelAndView mav = new ModelAndView("home/home");
-		
+
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("mId", loginUser);
 		// 1. 진행중인 프로젝트 리스트 조회
 		System.out.println("[PageController2 > home] projectList조회 : " + projectService.getProjectListByMId(param));
 		List<Project> projectList = ProjectUtil.progProject(projectService.getProjectListByMId(param));
-		System.out.println("[PageController2 > home] 진행중인 projectList조회 : " +projectList);
-		// 2. 진행중인 프로젝트 멤버 리스트 조회
+		System.out.println("[PageController2 > home] 진행중인 projectList조회 : " + projectList);
+		
 		List<ProjectMember> projectMemberList = new ArrayList<ProjectMember>();
+		List<Log> projectLogList = new ArrayList<Log>();
+		
 		for (Project p : projectList) {
-			projectMemberList.addAll(projectService.getProjectMemberByPNum(p.getpNum())); 
+			// 2. 진행중인 프로젝트 멤버 리스트 조회
+			projectMemberList.addAll(projectService.getProjectMemberByPNum(p.getpNum()));
+			// 4. 로그정보
+			projectLogList.addAll(logService.getProjectLog(p.getpNum()));
 		}
-		
+
 		// 3. 진행중인 프로젝트에 공지존재하는 태스크 리스트
-		// 4. 로그정보(예정)
-		
+
+		System.out.println(projectLogList);
+
 		mav.addObject("projectList", projectList);
 		mav.addObject("projectMemberList", projectMemberList);
-			
+		mav.addObject("projectLogList", projectLogList);
 		
-		return mav ;
+		return mav;
 	}
 
 	/* 사이트 첫 페이지 */
@@ -131,6 +142,13 @@ public class PageController2 {
 	@RequestMapping("myPage")
 	public String myPage() {
 		return "/myPage/myPage";
+
+	}
+
+	/* 마이 페이지 */
+	@RequestMapping("Page")
+	public String Page() {
+		return "Page";
 
 	}
 }

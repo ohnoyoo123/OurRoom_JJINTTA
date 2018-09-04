@@ -97,7 +97,14 @@
   $(document).ready(function () {		
 
     $('#memberSearch').on('keyup',function () {
-      var searchMembers = []
+      	var searchMembers = []
+      	var word = $("#memberSearch").val();
+		
+      	if (word.length == 0) {
+      		$('#searchedMember').html("");
+			return;
+		}
+      
       $.ajax({
         url:'../project/memberSearch',
         data: {
@@ -106,12 +113,20 @@
         type: "post",
 
         success: function (data) {         
-          
+        
           console.log(data);
+          
+	      if (data.length == 0) {
+	    		$('#searchedMember').html("검색된 회원이 없습니다.");
+	    		return;
+		  }
+	      
           for(var i=0; i<data.length; i++){
+        	  if ('${loginUser.mId}' != data[i].mId) {
             //members.push("<p class='member' mId="+data[i].mId+" mNickname="+data[i].mNickname+">"+data[i].mNickname+"</p>")
             searchMembers.push("<p class='member' mNickname="+data[i].mNickname+" mId="+data[i].mId+">"+data[i].mNickname+
-            "("+data[i].mId+")</p>")
+            "("+data[i].mId+")</p>")  
+        	  }
           }
           $('#searchedMember').html(searchMembers)
         }
@@ -157,8 +172,6 @@
 				}
 			})
 		})
-
-
   })
 </script>
 

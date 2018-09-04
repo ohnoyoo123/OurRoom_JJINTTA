@@ -2,29 +2,31 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 
-	<title>Gantt</title>
 
-	<style type="text/css">
-		#innerFrame {
-			display: inline-block;
-			width: 90vw;
-		}
+<title>Gantt</title>
 
-		#addTask {
-			width: 100%;
-		}
-	</style>
+<style type="text/css">
+#innerFrame {
+	display: inline-block;
+	width: 90vw;
+}
 
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
-	<script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-	<script>
+#addTask {
+	width: 100%;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+<script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+<script>
 		$( function() {
     $( ".datepicker" ).datepicker();
   } );
@@ -44,7 +46,8 @@
 				<th>프로젝트 이름</th>
 				<th>프로젝트 시작</th>
 				<th>프로젝트 종료</th>
-				<th rowspan="2"><button class="btn" id="addTask" data-toggle="modal" data-target="#addTaskModal">태스크 추가</button></th>
+				<th rowspan="2"><button class="btn" id="addTask"
+						data-toggle="modal" data-target="#addTaskModal">태스크 추가</button></th>
 			</tr>
 			<tr>
 				<td>${project.pNum}</td>
@@ -57,15 +60,15 @@
 		<c:if test="${not empty taskList}">
 			<table class="table">
 				<c:forEach items="${taskList}" var="task">
-				<tr>
-					<th>태스크 번호</th>
-					<th>태스크 순서</th>
-					<th>태스크 이름</th>
-					<th>태스크 시작</th>
-					<th>태스크 종료</th>
-					<th>태스크 삭제</th>
-					<th>이슈 추가</th>
-				</tr>
+					<tr>
+						<th>태스크 번호</th>
+						<th>태스크 순서</th>
+						<th>태스크 이름</th>
+						<th>태스크 시작</th>
+						<th>태스크 종료</th>
+						<th>태스크 삭제</th>
+						<th>이슈 추가</th>
+					</tr>
 					<tr>
 						<td>${task.tNum}</td>
 						<td>${task.tOrder}</td>
@@ -73,7 +76,8 @@
 						<td>${task.tStartDate}</td>
 						<td>${task.tEndDate}</td>
 						<td><button class="deleteTask" tNum="${task.tNum}">X</button></td>
-						<td><button class="addIssue" data-toggle="modal" data-target="#addIssueModal" tNum="${task.tNum}">O</button></td>
+						<td><button class="addIssue" data-toggle="modal"
+								data-target="#addIssueModal" tNum="${task.tNum}">O</button></td>
 					</tr>
 					<!-- 이슈 정보 -->
 					<c:if test="${not empty issueList}">
@@ -87,152 +91,146 @@
 						</tr>
 						<c:forEach items="${issueList}" var="issue">
 							<c:if test="${task.tNum == issue.tNum}">
-								<tr class="issues" pNum="${issue.pNum}" tNum="${issue.tNum}" iNum="${issue.iNum}">
+								<tr class="issues" pNum="${issue.pNum}" tNum="${issue.tNum}"
+									iNum="${issue.iNum}">
 									<td class="tNum">${issue.tNum}</td>
 									<td class="iNum">${issue.iNum}</td>
 									<td class="iStep">${issue.iStep}</td>
 									<td class="iOrder">${issue.iOrder}</td>
 									<td class="iName">
-										<p data-toggle="modal" data-target="#issueModal" class="issueDet">${issue.iName}</p>
+										<p data-toggle="modal" data-target="#issueModal"
+											class="issueDet">${issue.iName}</p>
 									</td>
 									<td><button class="deleteIssue">X</button></td>
 								</tr>
 							</c:if>
 						</c:forEach>
 					</c:if>
-	</div>
+					</div>
 
-	</c:forEach>
-	</table>
-	</c:if>
+				</c:forEach>
+			</table>
+		</c:if>
 
-	<!-- 이슈 상세보기 모달 -->
-	<div class="modal fade" id="issueModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
+		<!-- 이슈 상세보기 모달 -->
+		<div class="modal fade" id="issueModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
 
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h1 class="modal-title" id="issueName">이슈 이름</h1>
-					<div id="issueMember"></div>
-				</div>
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h1 class="modal-title" id="issueName">이슈 이름</h1>
+						<div id="issueMember"></div>
+					</div>
 
-				<!-- Modal body -->
-				<div class="modal-body" id="addCheckList">
+					<!-- Modal body -->
+					<div class="modal-body" id="addCheckList">
 						<h3>체크리스트</h3>
-				</div>
-				
-				<div class="modal-body" id="checkList">
+					</div>
+
+					<div class="modal-body" id="checkList"></div>
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
 
 				</div>
-
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
-
 			</div>
 		</div>
-	</div>
 
-	<!-- 태스크 추가 모달 -->
-	<div class="modal" id="addTaskModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
+		<!-- 태스크 추가 모달 -->
+		<div class="modal" id="addTaskModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
 
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<h4 class="modal-title">
-						태스크명:
-
-						<input type="text" placeholder="enter task name" id="tName">
-					</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-
-				<!-- Modal body -->
-				<div class="modal-body">
-					태스트 설명<br>
-					<textarea style="width: 100%; resize: none" id="tDscr"></textarea>
-				</div>
-
-				<div class="modal-body">
-					<div>
-						시작 : <br>
-						<input type="text" class="datepicker" id="tStartDate">
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">
+							태스크명: <input type="text" placeholder="enter task name" id="tName">
+						</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
 					</div>
-					<div>
-						종료 : <br>
-						<input type="text" class="datepicker" id="tEndDate">
+
+					<!-- Modal body -->
+					<div class="modal-body">
+						태스트 설명<br>
+						<textarea style="width: 100%; resize: none" id="tDscr"></textarea>
 					</div>
-				</div>
 
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-success" id="addTaskConfirm">Add</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal" id="taskModalClose">Close</button>
-				</div>
-
-			</div>
-		</div>
-	</div>
-
-	<!-- 이슈 추가 모달 -->
-	<div class="modal" id="addIssueModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">
-						이슈:<br>
-						<input type="text" placeholder="enter issue name" id="iName">
-					</h4>
-				</div>
-
-				<!-- Modal body -->
-				<div class="modal-body">
-					팀원 할당 : <br>
-					<c:forEach items="${projectMemberList}" var="pm">
-						<div class="selectedMId" mId=${pm.mId}>
-							${pm.mId}
+					<div class="modal-body">
+						<div>
+							시작 : <br> <input type="text" class="datepicker"
+								id="tStartDate">
 						</div>
-					</c:forEach>
-				</div>
-				할당된 팀원 : <br>
-				<div class="modal-body" id="assignedMember">
-
-				</div>
-				<div class="modal-body" id="selectedMId">
-
-				</div>
-
-
-				<div class="modal-body">
-					<div>
-						시작 : <br>
-						<input type="text" class="datepicker" id="iStartDate">
+						<div>
+							종료 : <br> <input type="text" class="datepicker"
+								id="tEndDate">
+						</div>
 					</div>
-					<div>
-						종료 : <br>
-						<input type="text" class="datepicker" id="iEndDate">
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" id="addTaskConfirm">Add</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"
+							id="taskModalClose">Close</button>
 					</div>
-				</div>
 
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-success" id="addIssueConfirm">Add</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal" id="issueModalClose">Close</button>
 				</div>
-
 			</div>
 		</div>
-	</div>
+
+		<!-- 이슈 추가 모달 -->
+		<div class="modal" id="addIssueModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">
+							이슈:<br> <input type="text" placeholder="enter issue name"
+								id="iName">
+						</h4>
+					</div>
+
+					<!-- Modal body -->
+					<div class="modal-body">
+						팀원 할당 : <br>
+						<c:forEach items="${projectMemberList}" var="pm">
+							<div class="selectedMId" mId=${pm.mId}>${pm.mId}</div>
+						</c:forEach>
+					</div>
+					할당된 팀원 : <br>
+					<div class="modal-body" id="assignedMember"></div>
+					<div class="modal-body" id="selectedMId"></div>
 
 
-	<script type="text/javascript">
+					<div class="modal-body">
+						<div>
+							시작 : <br> <input type="text" class="datepicker"
+								id="iStartDate">
+						</div>
+						<div>
+							종료 : <br> <input type="text" class="datepicker"
+								id="iEndDate">
+						</div>
+					</div>
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" id="addIssueConfirm">Add</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal"
+							id="issueModalClose">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+		<script type="text/javascript">
 		$(document).ready(function () {
 
 			//이슈 상세보기
