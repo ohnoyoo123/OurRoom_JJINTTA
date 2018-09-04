@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 
 import dao.CheckListDao;
 import dao.IssueDao;
+import dao.LogDao;
 import dao.TaskDao;
 import model.CheckList;
 import model.CheckListItem;
 import model.CheckListItemMember;
 import model.Issue;
+import model.Log;
 import model.Task;
 
 @Service
@@ -26,12 +28,25 @@ public class TaskService {
 	@Autowired
 	CheckListDao clDao;
 
+	@Autowired
+	LogDao lDao;
+	
 	public List<Task> getTaskList(Task task) {
 		return tDao.selectTask(task);
 	}
 
-	public void addTask(Task task) {
+	public void addTask(Task task,String loginUser) {
 		tDao.insertTask(task);
+		
+		// 마지막 태스크 번호
+		int lastTNum = tDao.selectTaskLastTNum(task.getpNum());
+		// 로그남기기(태스크 생성 21)
+		Log log = new Log();
+		log.setpNum(task.getpNum());
+		log.settNum(lastTNum);
+		log.setmId(loginUser);
+		log.setlCat(21);
+		lDao.insertLog(log);
 	}
 
 	public void deleteTask(Task task) {

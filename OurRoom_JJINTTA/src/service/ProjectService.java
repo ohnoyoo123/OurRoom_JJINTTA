@@ -51,7 +51,7 @@ public class ProjectService {
 		project.setpBackground("pexels");
 		projectDao.insertProject(project);
 
-		// 로그남기기(프로젝트 생성)
+		// 로그남기기(프로젝트 생성 11)
 		Log log = new Log();
 		log.setpNum(project.getpNum());
 		log.setmId((String) params.get("owner"));
@@ -73,7 +73,7 @@ public class ProjectService {
 				pm.setPmIsAuth(false);
 				projectDao.insertProjectMember(pm);
 				
-				// 로그남기기(프로젝트 멤버)
+				// 로그남기기(프로젝트 멤버 11)
 				Noti noti = new Noti();
 				noti.setpNum(project.getpNum());
 				noti.setmId(mId);
