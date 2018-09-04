@@ -258,7 +258,7 @@
     //체크리스트 친구들 만들기
     var showCheckList = (data) => {
 
-      console.log(`\${data.checkList}`);
+      console.log(`\${data.checkList[0].clName}`);
 
       $('#issueModal').html(`
         <div class="modal-dialog">
@@ -290,8 +290,8 @@
             <div id="checkListNameForm">
             </div>
             <div class="modal-body" id="checkList">
-              <c:forEach items="\${data.checkList}" var="checkList">
-                어케 하는겨?
+              <c:forEach items="${data.checkList}" var="checkList">
+                \${checkList}
               </c:forEach>
             </div>
 
