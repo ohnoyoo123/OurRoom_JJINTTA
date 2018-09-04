@@ -48,14 +48,18 @@ public class ProjectService {
 		
 		System.out.println("멤버!!!!!!!!!!!!!!!"+ pmList);
 		
-		for(String mId : pmList) {
-			ProjectMember pm = new ProjectMember();
-			pm.setmId(mId);
-			pm.setpNum(project.getpNum());
-			pm.setPmFav(false);
-			pm.setPmIsAdmin(false);
-			pm.setPmIsAuth(false);
-			projectDao.insertProjectMember(pm);
+		//null point exception때문에 
+		if(pmList != null) {
+			for(String mId : pmList) {
+				ProjectMember pm = new ProjectMember();
+				pm.setmId(mId);
+				pm.setpNum(project.getpNum());
+				pm.setPmFav(false);
+				pm.setPmIsAdmin(false);
+				pm.setPmIsAuth(false);
+				projectDao.insertProjectMember(pm);
+			}
+
 		}
 		ProjectMember owner = new ProjectMember();
 		owner.setmId((String)params.get("owner"));

@@ -61,7 +61,7 @@
 	      <div class="modal-header">
 	        <h4 class="modal-title">
 	       		프로젝트명:
-              <input type="hidden" name="owner" value="hong123@gmail.com"> <%-- ${세션에 있는 아이디 mId} --%>                
+              <input type="hidden" name="owner" value="hong123@gmail.com"> <%-- ${세션에 있는 아이디 mId} --%>
 	        	  <input type="text" placeholder="enter project name" id="pName">
 	        </h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -92,9 +92,9 @@
 	  </div>
 	</div>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 
-  $(document).ready(function () {		
+  $(document).ready(function () {
 
     $('#memberSearch').on('keyup',function () {
       var searchMembers = []
@@ -105,23 +105,27 @@
         },
         type: "post",
 
-        success: function (data) {         
-          
+        success: function (data) {
+
           console.log(data);
           for(var i=0; i<data.length; i++){
             //members.push("<p class='member' mId="+data[i].mId+" mNickname="+data[i].mNickname+">"+data[i].mNickname+"</p>")
-            searchMembers.push("<p class='member' mNickname="+data[i].mNickname+" mId="+data[i].mId+">"+data[i].mNickname+
-            "("+data[i].mId+")</p>")
+            //본인을 제외하고 검색하기(지금은 홍123으로 하드코딩되어 있음)
+            if(data[i].mId != 'hong123@gmail.com'){
+              searchMembers.push("<p class='member' mNickname="+data[i].mNickname+" mId="+data[i].mId+">"+data[i].mNickname+
+              "("+data[i].mId+")</p>")
+
+            }
           }
           $('#searchedMember').html(searchMembers)
         }
       })
     })
-    
-    
+
+
         var invitedId=[]
         var invitedNickname=[]
-    
+
     $(document).on('click', '.member', function () {
         var mNickname = $(this).attr('mNickname')
         var mId = $(this).attr('mId')

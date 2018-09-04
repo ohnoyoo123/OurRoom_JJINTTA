@@ -10,5 +10,5 @@ public interface TaskDao {
 	
 	public void insertTask(Task task);
 
-	public void deleteTask(Task task);
+	public int deleteTask(Task task);
 }

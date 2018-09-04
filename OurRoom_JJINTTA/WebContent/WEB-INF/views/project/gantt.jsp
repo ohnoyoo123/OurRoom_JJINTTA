@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -13,18 +14,29 @@
 	<style type="text/css">
 		#innerFrame {
 			display: inline-block;
-			width: 90vw;
+	    width: 95%;
+	    position: absolute;
+	    margin: 10px;
 		}
 
 		#addTask {
 			width: 100%;
+		}
+
+		.deleteCheckListItemBtn{
+			float: right;
+		}
+
+		#addCheckListForm{
+			float: right;
+			display: inline-block;
 		}
 	</style>
 
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
 	<script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-	<script>
+<script>
 		$( function() {
     $( ".datepicker" ).datepicker();
   } );
@@ -49,8 +61,8 @@
 			<tr>
 				<td>${project.pNum}</td>
 				<td>${project.pName}</td>
-				<td>${project.pStartDate}</td>
-				<td>${project.pEndDate}</td>
+				<td><fmt:formatDate value="${project.pStartDate}" type="date" pattern="yyyy-MM-dd"/></td>
+				<td><fmt:formatDate value="${project.pEndDate}" type="date" pattern="yyyy-MM-dd"/></td>
 			</tr>
 		</table>
 		<!-- 태스크 정보 -->
@@ -69,9 +81,9 @@
 					<tr>
 						<td>${task.tNum}</td>
 						<td>${task.tOrder}</td>
-						<td>${task.tName}</td>
-						<td>${task.tStartDate}</td>
-						<td>${task.tEndDate}</td>
+						<td class="viewKanban" tNum="${task.tNum}">${task.tName}</td>
+						<td><fmt:formatDate value="${task.tStartDate}" type="date" pattern="yyyy-MM-dd"/></td>
+						<td><fmt:formatDate value="${task.tEndDate}" type="date" pattern="yyyy-MM-dd"/></td>
 						<td><button class="deleteTask" tNum="${task.tNum}">X</button></td>
 						<td><button class="addIssue" data-toggle="modal" data-target="#addIssueModal" tNum="${task.tNum}">O</button></td>
 					</tr>
@@ -101,7 +113,6 @@
 						</c:forEach>
 					</c:if>
 	</div>
-
 	</c:forEach>
 	</table>
 	</c:if>
@@ -115,16 +126,27 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h1 class="modal-title" id="issueName">이슈 이름</h1>
+					<div id="issueDate">
+						<div>
+							시작 : <br>
+							<%-- <input type="text" class="datepicker" id="iStartDate"> --%>
+							<input type="text" class="datepicker" id="iStartDate">
+						</div>
+						<div>
+							종료 : <br>
+							<input type="text" class="datepicker" id="iEndDate">
+						</div>
+					</div>
 					<div id="issueMember"></div>
 				</div>
 
 				<!-- Modal body -->
-				<div class="modal-body" id="addCheckList">
-						<h3>체크리스트</h3>
+				<div class="modal-body">
+						<h3>체크리스트<button id="addCheckListForm">[+]</button></h3>
 				</div>
-				
+				<div id="checkListNameForm">
+				</div>
 				<div class="modal-body" id="checkList">
-
 				</div>
 
 				<!-- Modal footer -->
@@ -145,7 +167,6 @@
 				<div class="modal-header">
 					<h4 class="modal-title">
 						태스크명:
-
 						<input type="text" placeholder="enter task name" id="tName">
 					</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -203,13 +224,9 @@
 				</div>
 				할당된 팀원 : <br>
 				<div class="modal-body" id="assignedMember">
-
 				</div>
 				<div class="modal-body" id="selectedMId">
-
 				</div>
-
-
 				<div class="modal-body">
 					<div>
 						시작 : <br>
@@ -231,16 +248,59 @@
 		</div>
 	</div>
 
-
 	<script type="text/javascript">
 		$(document).ready(function () {
 
+			//이슈멤버 리스트
+			var issueMember = []
+
+			//체크리스트 친구들 만들기
+			const showCheckList = (data) =>{
+				let txt =''
+						for (var i = 0; i < data.checkList.length; i++) {
+							txt += '<div class=\'checkList\''
+							txt += ' pNum=' + data.checkList[i].pNum
+							txt += ' tNum=' + data.checkList[i].tNum
+							txt += ' iNum=' + data.checkList[i].iNum
+							txt += ' clNum=' + data.checkList[i].clNum
+							txt += ' clName = ' + data.checkList[i].clName
+							txt += '>'
+							txt += '======================================================================<br>'
+							txt += '체크리스트 이름 : ' + data.checkList[i].clName
+							txt +=  '<button style="float:right;" class="deleteCheckList">X</button>'
+							txt +=  '<button style="float:right;" class="addCheckListItem">O</button><br>'
+							txt += '<div class="addCheckListItemForm"></div>'
+							txt += '======================================================================'
+							for (var j = 0; j < data.checkListItem.length; j++) {
+								if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
+									txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
+									txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn">X</button><br>'
+									for(var k = 0; k < data.checkListItemMember.length; k++){
+										if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
+											txt += data.checkListItemMember[k].mId
+											txt += '<br>'
+										}
+									}
+									txt += '----------------------'
+									txt += '</div>'
+								}
+							}
+							txt += '</div>'
+							txt += '</div>'
+							txt += '</div>'
+
+							txt += '<br>'
+						}
+						$('#checkList').html(txt)
+						$('#checkListNameForm').empty()
+
+			}
+
 			//이슈 상세보기
 			$(document).on('click', '.issueDet', function () {
-				console.log(12312);
 
 				$.ajax({
-					url: "../project/issueDetail",
+					url: "issueDetail",
 					data: {
 						pNum: $(this).closest('.issues').attr("pNum"),
 						tNum: $(this).closest('.issues').attr("tNum"),
@@ -248,31 +308,30 @@
 					},
 					type: "post",
 					success: function (data) {
+						$('#issueName').attr('pNum', (data.issue[0].pNum))
+						$('#issueName').attr('tNum', (data.issue[0].tNum))
+						$('#issueName').attr('iNum', (data.issue[0].iNum))
 						$('#issueName').html(data.issue[0].iName)
 						$('#issueMember').html('')
-						for (var k = 0; k < data.issueMember.length; k++) {
-							$('#issueMember').append(data.issueMember[k].mId).append(', ')
-						}
+
+
+						$('#iStartDate').val(new Date(data.issue[0].iStartDate))
+						$('#iEndDate').val(new Date(data.issue[0].iEndDate))
+						issueMember = []
 						var txt = ''
-						for (var i = 0; i < data.checkList.length; i++) {
-							txt += '<div class=\'checkList\' clName = ' + data.checkList[i].clName + '>'
-							txt += '체크리스트 이름 : ' + data.checkList[i].clName + '<br>'
-							txt += '</div>'
-							for (var j = 0; j < data.checkListItem.length; j++) {
-								if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
-									txt += '<div>'
-									txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<br>'
-									txt += '</div>'
-								}
-							}
+						for (var k = 0; k < data.issueMember.length; k++) {
+							issueMember.push(data.issueMember[k].mId)
+							txt += '<p mId="'
+							txt += data.issueMember[k].mId
+							txt += '">'
+							txt += data.issueMember[k].mId
+							txt += '</p>'
 						}
-						$('#checkList').html(txt)
+						$('#issueMember').html(txt)
+						// $('#issueMember').append(...issueMember)
+						showCheckList(data)
 					}
 				})
-			})
-
-			$(document).on('click', '.checkList', function () {
-				alert($(this).attr('clName'))
 			})
 
 			//태스크 추가
@@ -402,13 +461,133 @@
 						}
 					})
 				}
+			})
 
+			//체크리스트 추가폼 생성
+			$(document).on('click', '#addCheckListForm', function () {
+				var txt = ''
+				txt += '<input type="text" id="checkListName"/>'
+				txt += '<button id="addCheckList">OK</button>'
+				$('#checkListNameForm').html(txt)
 			})
 
 			//체크리스트 추가
-			$('#addCheckList').on('click', function () {
-				alert('dd')
+			$(document).on('click', '#addCheckList', function () {
+
+				$.ajax({
+					url : "addCheckList",
+					data : {
+						pNum: $('#issueName').attr('pNum'),
+						tNum: $('#issueName').attr('tNum'),
+						iNum: $('#issueName').attr('iNum'),
+						clName : $('#checkListName').val()
+					},
+					type: "post",
+					success : function (data) {
+						showCheckList(data)
+					}
+				})
 			})
+
+			//체크리스트 삭제
+			$(document).on('click', '.deleteCheckList', function () {
+				$(this).closest('.checkList').attr('clNum')
+				if(confirm('삭제하시겠습니까?')){
+					$.ajax({
+					url : "deleteCheckList",
+					data : {
+						pNum: $(this).closest('.checkList').attr('pNum'),
+						tNum: $(this).closest('.checkList').attr('tNum'),
+						iNum: $(this).closest('.checkList').attr('iNum'),
+						clNum : $(this).closest('.checkList').attr('clNum'),
+					},
+					type : "post",
+					success : function (data) {
+						showCheckList(data)
+					}
+				})
+				}
+
+			})
+
+			//체크리스트 아이템폼 생성
+			$(document).on('click', '.addCheckListItem', function () {
+				$(this).parent().find('.addCheckListItemForm').empty()
+				console.log($(this).closest('.checkList').attr('clNum'));
+				var txt = ''
+				txt += '<input type="text" id="checkListItemName">'
+				txt += '<button id="addCheckListItem">OK</button>'
+				$(this).parent().find('.addCheckListItemForm').append(txt)
+				$(this).parent().find('.addCheckListItemForm').append('<br>----이슈 할당 멤버----')
+				$(this).parent().find('.addCheckListItemForm').append($('#issueMember').html()).find('p').addClass('unsingedCheckListMember')
+				$(this).parent().find('.addCheckListItemForm').append('----체크리스트 할당 멤버----')
+				$(this).parent().find('.addCheckListItemForm').append('<div id="singedCheckListItemMember"></div>')
+
+				// $(this).parent().find('.addCheckListItemForm').append(...issueMember)
+			})
+
+			//체크리스트 아이템 멤버 생성
+			let signedCheckListItemMember = []
+			$(document).on('click', '.unsingedCheckListMember', function(){
+				if(!signedCheckListItemMember.includes($(this).attr('mId'))){
+					signedCheckListItemMember.push($(this).attr('mId'))
+					console.log(signedCheckListItemMember);
+					$('#singedCheckListItemMember').text(signedCheckListItemMember)
+				}
+
+			})
+
+			//체크리스트 아이템 추가
+			$(document).on('click', '#addCheckListItem', function(){
+				$.ajax({
+					url : 'addCheckListItem',
+					data : {
+						pNum : ${project.pNum},
+						tNum : $('#issueName').attr('tNum'),
+						iNum : $('#issueName').attr('iNum'),
+						clNum : $(this).parents('.checkList').attr('clNum'),
+						ciName : $('#checkListItemName').val(),
+						members : signedCheckListItemMember
+					},
+					type : 'post',
+					success : (data) => {
+						showCheckList(data)
+					}
+				})
+			})
+
+			//체크리스트 아이템 삭제
+			$(document).on('click', '.deleteCheckListItemBtn', function(){
+				if(confirm('삭제하시겠습니까?')){
+					$.ajax({
+						url : 'deleteCheckListItem',
+						data : {
+							pNum : $(this).parents('.checkList').attr('pNum'),
+							tNum : $(this).parents('.checkList').attr('pNum'),
+							iNum : $(this).parents('.checkList').attr('pNum'),
+							clNum : $(this).parents('.checkList').attr('pNum'),
+							ciNum : $(this).parent().attr('ciNum')
+						},
+						type : 'post',
+						success : (data) => {
+							showCheckList(data)
+						}
+					})
+				}
+		})
+
+		//칸반으로!!
+		$(document).on('click', '.viewKanban', function(){
+			console.log(${project.pNum})
+			console.log($(this).attr('tNum'))
+			location.href='kanban?pNum=${project.pNum}&tNum=' + $(this).attr('tNum')
+		})
+
+
+
+
+
+
 
 
 
