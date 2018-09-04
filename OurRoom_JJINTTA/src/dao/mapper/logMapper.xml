@@ -76,7 +76,7 @@
 	<resultMap type="log" id="logRM">
 		<result property="pNum" column="p_num" />
 		<result property="tNum" column="t_num" />
-		<result property="iNUm" column="i_num" />
+		<result property="iNum" column="i_num" />
 		<result property="clNum" column="cl_num" />
 		<result property="ciNum" column="ci_num" />
 		<result property="cmNum" column="cm_num" />
