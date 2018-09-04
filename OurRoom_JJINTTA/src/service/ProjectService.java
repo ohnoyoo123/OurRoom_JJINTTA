@@ -10,51 +10,52 @@ import org.springframework.stereotype.Service;
 import dao.LogDao;
 import dao.ProjectDao;
 import dao.TaskDao;
+import model.Log;
 import model.Project;
 import model.ProjectMember;
 import model.Task;
 
 @Service
 public class ProjectService {
-	
+
 	@Autowired
 	ProjectDao projectDao;
-	
+
 	@Autowired
 	TaskDao taskDao;
-	
+
 	@Autowired
 	LogDao logDao;
-	
-	
-	public List<Project> getProjectListByMId(HashMap<String, Object> mId){
+
+	public List<Project> getProjectListByMId(HashMap<String, Object> mId) {
 		return projectDao.selectProjectList(mId);
 	}
-	public List<ProjectMember> getProjectMemberByMId(HashMap<String, Object> mId){
+
+	public List<ProjectMember> getProjectMemberByMId(HashMap<String, Object> mId) {
 		return projectDao.selectProjectMemberByMId(mId);
 	}
-	
-	public List<Task> getTaskList(Task task){
+
+	public List<Task> getTaskList(Task task) {
 		return taskDao.selectTask(task);
-		
+
 	}
 
 	public Project getProject(int pNum) {
 		return projectDao.selectProject(pNum);
 	}
-	
+
 	public int addProject(HashMap<String, Object> params) {
 		Project project = (Project) params.get("project");
 		List<String> pmList = (List<String>) params.get("projectMember");
 		project.setpBackground("pexels");
 		projectDao.insertProject(project);
-		//System.out.println("프로젝트 넘버:"+project.getpNum());
-		
-		System.out.println("멤버!!!!!!!!!!!!!!!"+ pmList);
-		
-		//null point exception때문에 
-		if(pmList != null) {
-			for(String mId : pmList) {
+		// System.out.println("프로젝트 넘버:"+project.getpNum());
+
+		System.out.println("멤버!!!!!!!!!!!!!!!" + pmList);
+
+		// null point exception때문에
+		if (pmList != null) {
+			for (String mId : pmList) {
 				ProjectMember pm = new ProjectMember();
 				pm.setmId(mId);
 				pm.setpNum(project.getpNum());
@@ -66,28 +67,27 @@ public class ProjectService {
 
 		}
 		ProjectMember owner = new ProjectMember();
-		owner.setmId((String)params.get("owner"));
+		owner.setmId((String) params.get("owner"));
 		owner.setpNum(project.getpNum());
 		owner.setPmFav(false);
 		owner.setPmIsAdmin(true);
 		owner.setPmIsAuth(true);
 		projectDao.insertProjectMember(owner);
-		
+
 		// 로그남기기
-		Map<String,Object> paramMap = new HashMap<String,Object>();
-		paramMap.put("mId",(String)params.get("owner"));
-		paramMap.put("pNum",project.getpNum());
-		paramMap.put("lCat",11);
-		
-		logDao.insertLog(paramMap);
-		
-		return project.getpNum();		
+		Log log = new Log();
+		log.setpNum(project.getpNum());
+		log.setmId((String) params.get("owner"));
+		log.setlCat(11);
+		logDao.insertLog(log);
+
+		return project.getpNum();
 	}
-	
-	//프로젝트 번호로 참가 인원 가져오기
+
+	// 프로젝트 번호로 참가 인원 가져오기
 	public List<ProjectMember> getProjectMemberByPNum(int pNum) {
 		return projectDao.selectProjectMemberByPNum(pNum);
-		
+
 	}
-	
+
 }

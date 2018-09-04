@@ -3,7 +3,7 @@
 
 <mapper namespace="dao.LogDao">
 
-	<insert id="insertLog" parameterType="hashMap">
+	<insert id="insertLog" parameterType="model.Log">
 		insert into log values(
 		#{pNum},
 		<if test="tNum != null">#{tNum}</if>,
@@ -11,9 +11,8 @@
 		<if test="clNum != null">#{clNum}</if>,
 		<if test="ciNum != null">#{ciNum}</if>,
 		<if test="cmNum != null">#{cmNum}</if>,
-		<if test="tNum != null">#{tNum},</if>
 		#{mId},
-		select ifnull(max(l_num),0)+1 from log where p_num = #{pNum},
+		(select ifnull(max(l.l_num),0)+1 from log l where p_num = #{pNum}),		
 		#{lCat},
 		now()
 		)

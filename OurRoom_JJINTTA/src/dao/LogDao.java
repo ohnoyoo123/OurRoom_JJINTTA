@@ -12,6 +12,6 @@ public interface LogDao {
 	public List<Log> selectProjectLog(int pNum);
 	
 	/* 로그 넣기 */
-	public void insertLog(Map<String, Object> paramMap);
+	public void insertLog(Log log);
 
 }
