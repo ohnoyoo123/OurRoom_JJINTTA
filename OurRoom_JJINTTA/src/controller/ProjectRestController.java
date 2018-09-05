@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -64,7 +65,7 @@ public class ProjectRestController {
 		System.out.println("요청 url : " + "/project/issueDetail");
 		System.out.println(issue);
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("issue", iSvc.getIssueList(issue));
+		data.put("issueList", iSvc.getIssueList(issue));
 		data.put("issueMember", iSvc.getIssueMember(issue));
 		data.put("checkList", clSvc.getCheckList(issue));
 		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
@@ -201,5 +202,11 @@ public class ProjectRestController {
 		return data;
 
 		
+	}
+	
+	@PostMapping("/project/test")
+	public void test(@RequestBody Task task) {
+		System.out.println("====================");
+		System.out.println(task);
 	}
 }

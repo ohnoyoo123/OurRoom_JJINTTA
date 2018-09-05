@@ -33,6 +33,13 @@
 html, body {
 	height: 96%;
 }
+#innerFrame {
+    display: inline-block;
+    width: 95%;
+    position: absolute;
+    margin: 10px;
+  }
+
 
 #top {
 	width: 100%;

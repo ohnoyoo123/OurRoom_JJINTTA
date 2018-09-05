@@ -23,6 +23,7 @@
     <bean id="myHandler" class="websocket.SocketHandler"/>
  -->
 
+
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"

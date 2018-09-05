@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
+
 import model.Issue;
 import model.IssueMember;
 import model.Member;
@@ -83,14 +87,24 @@ public class PageController {
 		System.out.println("태스크 리스트 : " + tSvc.getTaskList(task));
 		mav.addObject("taskList", tSvc.getTaskList(task));
 
+		Gson gson = new Gson();
+		String stringTask = gson.toJson(tSvc.getTaskList(task));
+		JsonArray taskJson = new JsonParser().parse(stringTask).getAsJsonArray();
+		mav.addObject("taskJson", taskJson);
+		
 		Issue issue = new Issue();
 		issue.setpNum(pNum);
 		mav.addObject("issueList", iSvc.getIssueList(issue));
+		
+		String stingIssue = gson.toJson(iSvc.getIssueList(issue));
+		JsonArray issueJson = new JsonParser().parse(stingIssue).getAsJsonArray();
+		mav.addObject("issueJson", issueJson);
+		
 		System.out.println("이슈리스트" + iSvc.getIssueList(issue));
 
 		mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
 
-		mav.setViewName("/project/gantt");
+		mav.setViewName("/project/gantt2");
 		return mav;
 	}
 	
