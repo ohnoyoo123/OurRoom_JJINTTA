@@ -1,16 +1,14 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -41,15 +39,14 @@ public class PageController {
 
 	@Autowired
 	IssueService iSvc;
-	
+
 	@Autowired
 	CheckListService clSvc;
 
 	@RequestMapping("/project/pList")
-	public ModelAndView project() {
+	public ModelAndView project(HttpSession session) {
 		System.out.println("요청 url : /project/pList");
-		// 실제로는 세션에 있는 아이디값이 들어올 것임
-		String mId = "hong123@gmail.com";
+		String mId = ((Member) session.getAttribute("loginUser")).getmId();
 
 		System.out.println("mId : " + mId);
 		ModelAndView mav = new ModelAndView();
@@ -75,37 +72,37 @@ public class PageController {
 		mav.setViewName("/project/pList");
 		return mav;
 	}
-	
+
 	@RequestMapping("/project/gantt")
 	public ModelAndView project_gantt(int pNum) {
 		System.out.println("pNum : " + pNum);
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("project", pSvc.getProject(pNum));
-		System.out.println( pSvc.getProject(pNum));
+		System.out.println(pSvc.getProject(pNum));
 		Task task = new Task();
 		task.setpNum(pNum);
 		System.out.println("태스크 리스트 : " + tSvc.getTaskList(task));
 		mav.addObject("taskList", tSvc.getTaskList(task));
 
 		Gson gson = new Gson();
-		
+
 		String stringProject = gson.toJson(pSvc.getProject(pNum));
 		JsonObject projectJson = new JsonParser().parse(stringProject).getAsJsonObject();
 		mav.addObject("projectJson", projectJson);
-		
+
 		String stringTask = gson.toJson(tSvc.getTaskList(task));
 		JsonArray taskJson = new JsonParser().parse(stringTask).getAsJsonArray();
 		mav.addObject("taskJson", taskJson);
-		
+
 		Issue issue = new Issue();
 		issue.setpNum(pNum);
 		mav.addObject("issueList", iSvc.getIssueList(issue));
-		
+
 		String stringIssue = gson.toJson(iSvc.getIssueList(issue));
 		JsonArray issueJson = new JsonParser().parse(stringIssue).getAsJsonArray();
 		mav.addObject("issueJson", issueJson);
-		
+
 		System.out.println("이슈리스트" + iSvc.getIssueList(issue));
 
 		mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
@@ -113,91 +110,92 @@ public class PageController {
 		mav.setViewName("/project/gantt2");
 		return mav;
 	}
-	
+
 	@RequestMapping("/project/kanban")
 	public ModelAndView project_kanban(int pNum, int tNum) {
-		
+
 		ModelAndView mav = new ModelAndView();
-		
-		//프로젝트 정보
+
+		// 프로젝트 정보
 		mav.addObject("project", pSvc.getProject(pNum));
-		
-		//프로젝트 멤버 정보
+
+		// 프로젝트 멤버 정보
 		mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
-		
-		//태스크 정보
+
+		// 태스크 정보
 		Task task = new Task();
 		task.setpNum(pNum);
 		task.settNum(tNum);
 		System.out.println("혹시? : " + tSvc.getTaskList(task));
 		mav.addObject("task", tSvc.getTaskList(task));
-		
-		//이슈 정보
+
+		// 이슈 정보
 		Issue issue = new Issue();
 		issue.setpNum(pNum);
 		issue.settNum(tNum);
 		mav.addObject("issueList", iSvc.getIssueList(issue));
-		
-		//이슈 멤버 정보
+
+		// 이슈 멤버 정보
 		IssueMember issueMember = new IssueMember();
 		issueMember.setpNum(pNum);
 		issueMember.settNum(tNum);
 		mav.addObject("issueMemberList", iSvc.getIssueMember(issue));
-		
-		//체크리스트 정보(이슈 모델로 가져옴) ?? 이름을 이따구로??
+
+		// 체크리스트 정보(이슈 모델로 가져옴) ?? 이름을 이따구로??
 		mav.addObject("checkListList", clSvc.getCheckList(issue));
-		
-		//체크리스트 아이템 정보
+
+		// 체크리스트 아이템 정보
 		mav.addObject("checkListItemList", clSvc.getAllCheckListItem(issue));
-		
-		//체크리스트 아이템 멤버 정보
+
+		// 체크리스트 아이템 멤버 정보
 		mav.addObject("checkListItemMemberList", clSvc.getAllCheckListItemMember(issue));
-		
+
 		mav.setViewName("/project/kanban");
 		return mav;
-		
+
 	}
+
 	@RequestMapping("/project/kanban2")
 	public ModelAndView project_kanban2(int pNum, int tNum) {
-		
+
 		ModelAndView mav = new ModelAndView();
-		
-		//프로젝트 정보
+
+		// 프로젝트 정보
 		mav.addObject("project", pSvc.getProject(pNum));
-		
-		//프로젝트 멤버 정보
+
+		// 프로젝트 멤버 정보
 		mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
-		
-		//태스크 정보
+
+		// 태스크 정보
 		Task task = new Task();
 		task.setpNum(pNum);
 		task.settNum(tNum);
 		System.out.println("혹시? : " + tSvc.getTaskList(task));
 		mav.addObject("task", tSvc.getTaskList(task));
-		
-		//이슈 정보
+
+		// 이슈 정보
 		Issue issue = new Issue();
 		issue.setpNum(pNum);
 		issue.settNum(tNum);
 		mav.addObject("issueList", iSvc.getIssueList(issue));
-		
-		//이슈 멤버 정보
+
+		// 이슈 멤버 정보
 		IssueMember issueMember = new IssueMember();
 		issueMember.setpNum(pNum);
 		issueMember.settNum(tNum);
 		mav.addObject("issueMemberList", iSvc.getIssueMember(issue));
-		
-		//체크리스트 정보(이슈 모델로 가져옴) ?? 이름을 이따구로??
+
+		// 체크리스트 정보(이슈 모델로 가져옴) ?? 이름을 이따구로??
 		mav.addObject("checkListList", clSvc.getCheckList(issue));
-		
-		//체크리스트 아이템 정보
+
+		// 체크리스트 아이템 정보
 		mav.addObject("checkListItemList", clSvc.getAllCheckListItem(issue));
-		
-		//체크리스트 아이템 멤버 정보
+
+		// 체크리스트 아이템 멤버 정보
 		mav.addObject("checkListItemMemberList", clSvc.getAllCheckListItemMember(issue));
-		
+
 		mav.setViewName("/project/kanban2");
 		return mav;
-		
+
 	}
 }

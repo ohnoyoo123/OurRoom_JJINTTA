@@ -115,7 +115,7 @@
 														data : {
 															pName : $('#pName')
 																	.val(),
-															owner : 'hong123@gmail.com',
+															owner : '${loginUser.mId}',
 															members : invitedId
 														},
 														type : "post",
@@ -146,7 +146,7 @@
 							<div class="modal-header">
 								<h4 class="modal-title">
 									프로젝트명: <input type="hidden" name="owner"
-										value="hong123@gmail.com">
+										value="${loginUser.mId}">
 									<%-- ${세션에 있는 아이디 mId} --%>
 									<input type="text" placeholder="enter project name" id="pName">
 								</h4>

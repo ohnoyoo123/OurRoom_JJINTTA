@@ -60,7 +60,7 @@ public class ProjectRestController {
 
 	@Autowired
 	LogDao lDao;
-	
+
 	@Autowired
 	LogService logSvc;
 
@@ -108,15 +108,14 @@ public class ProjectRestController {
 
 		System.out.println("요청 url : " + "/project/addTask");
 
-		// String loginUser = ((Member)session.getAttribute("loginUser")).getmId();
-		String loginUser = "hong123@gmail.com";
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
 		tSvc.addTask(task, loginUser);
 		System.out.println(task);
-		
+
 		int pNum = task.getpNum();
-		
+
 		System.out.println("pNum : " + pNum);
-		
+
 		task.settNum(0);
 
 		System.out.println("태스크 리스트 : " + tSvc.getTaskList(task));
@@ -124,23 +123,22 @@ public class ProjectRestController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		Issue issue = new Issue();
 		issue.setpNum(pNum);
-		
 
-		
-//		Gson gson = new Gson();
-//		String stringProject = gson.toJson(pSvc.getProject(pNum));
-//		JsonObject projectJson = new JsonParser().parse(stringProject).getAsJsonObject();
-//		
-//		String stringTask = gson.toJson(tSvc.getTaskList(task));
-//		JsonArray taskJson = new JsonParser().parse(stringTask).getAsJsonArray();
-//		
-//		
-//		String stingIssue = gson.toJson(iSvc.getIssueList(issue));
-//		JsonArray issueJson = new JsonParser().parse(stingIssue).getAsJsonArray();
-//		
-//		System.out.println("이슈리스트" + iSvc.getIssueList(issue));
-//
-//		Map<String, Object> data = new HashMap<String, Object>();
+		// Gson gson = new Gson();
+		// String stringProject = gson.toJson(pSvc.getProject(pNum));
+		// JsonObject projectJson = new
+		// JsonParser().parse(stringProject).getAsJsonObject();
+		//
+		// String stringTask = gson.toJson(tSvc.getTaskList(task));
+		// JsonArray taskJson = new JsonParser().parse(stringTask).getAsJsonArray();
+		//
+		//
+		// String stingIssue = gson.toJson(iSvc.getIssueList(issue));
+		// JsonArray issueJson = new JsonParser().parse(stingIssue).getAsJsonArray();
+		//
+		// System.out.println("이슈리스트" + iSvc.getIssueList(issue));
+		//
+		// Map<String, Object> data = new HashMap<String, Object>();
 		data.put("projectJson", pSvc.getProject(pNum));
 		data.put("taskJson", tSvc.getTaskList(task));
 		data.put("issueJson", iSvc.getIssueList(issue));
@@ -156,20 +154,20 @@ public class ProjectRestController {
 	}
 
 	@PostMapping("/project/addIssue")
-	public Map<String, Object> addIssue(HttpSession session, Issue issue, @RequestParam(value = "members[]", required = false) List<String> members) {
+	public Map<String, Object> addIssue(HttpSession session, Issue issue,
+			@RequestParam(value = "members[]", required = false) List<String> members) {
 		System.out.println("요청 url : " + "/project/addIssue");
 
 		System.out.println(members);
-		// String loginUser = ((Member)session.getAttribute("loginUser")).getmId();
-		String loginUser = "hong123@gmail.com";
+		String loginUser = ((Member)session.getAttribute("loginUser")).getmId();
 
 		Issue returnIssue = iSvc.addIssue(issue, loginUser);
-		
+
 		int pNum = issue.getpNum();
-		
+
 		if (members != null) {
 			// 생성과 동시에 멤버추가 로그 생성
-			Map<String, Object> logMap = new HashMap<String,Object>();
+			Map<String, Object> logMap = new HashMap<String, Object>();
 			logMap.put("target", returnIssue);
 			logMap.put("mId", loginUser);
 			logMap.put("lCat", Log.I_ADD_MEMBER);
@@ -185,7 +183,7 @@ public class ProjectRestController {
 				im.setiNum(returnIssue.getiNum());
 				im.setmId(mId);
 				iSvc.addIssueMember(im);
-				
+
 				// 로그 남기기(이슈 멤버추가 33)
 				// 알림 생성
 				Map<String, Object> notiMap = new HashMap<String, Object>();
@@ -196,17 +194,17 @@ public class ProjectRestController {
 				logSvc.insertNoti(notiMap);
 			}
 		}
-		
+
 		Task task = new Task();
 		task.setpNum(pNum);
-		
+
 		issue.setiNum(0);
-		
+
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("projectJson", pSvc.getProject(pNum));
 		data.put("taskJson", tSvc.getTaskList(task));
 		data.put("issueJson", iSvc.getIssueList(issue));
-		
+
 		System.out.println("=----==--------------------------------------------");
 		System.out.println(tSvc.getTaskList(task));
 		System.out.println(iSvc.getIssueList(issue));
@@ -296,7 +294,7 @@ public class ProjectRestController {
 		return data;
 
 	}
-	
+
 	@PostMapping("/project/test")
 	public void test(@RequestBody Task task) {
 		System.out.println("====================");

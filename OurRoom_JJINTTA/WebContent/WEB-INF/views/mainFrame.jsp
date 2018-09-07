@@ -17,7 +17,7 @@
 	href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"
 	type="text/css" />
 
-<script type="text/javascript">  
+<script type="text/javascript">
 	jQuery.browser = {};
 	(function() {
 		jQuery.browser.msie = false;
@@ -33,13 +33,13 @@
 html, body {
 	height: 96%;
 }
-#innerFrame {
-    display: inline-block;
-    width: 95%;
-    position: absolute;
-    margin: 10px;
-  }
 
+#innerFrame {
+	display: inline-block;
+	width: 95%;
+	position: absolute;
+	margin: 10px;
+}
 
 #top {
 	width: 100%;
@@ -92,9 +92,8 @@ html, body {
 <script type="text/javascript">
 	$(function() {
 		var wsUri = "ws://localhost:8080/OurRoom/websocket/echo";
-		//var loginUser = '${loginUser.mId}';
-		var loginUser = 'hong123@gmail.com';
-
+		var loginUser = '${loginUser.mId}';
+		
 		send_message();
 
 		function send_message() {
@@ -145,70 +144,130 @@ html, body {
 	$(function() {
 		/* 알림버튼을 클릭했을 때 
 		   mId에 해당하는 모든 noti 가져오기*/
-		$("#noti").on("click", function() {
-			var searchNotis = [];
-			
-			$.ajax({
-				url : "${pageContext.request.contextPath}/readAndGetNoti",
-				data : {
-					mId : 'hong123@gmail.com'
-				},
-				success : function(data) {
-					console.log(data);
-					$("#noti").html("");
-					for(var i=0; i<data.length; i++){
-			      		console.log(data[i].lCat);
-			      		
-			      		switch(data[i].lCat){
-			      			// 프로젝트 생성
-			      			//case 11:
-			      			//	console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.");
-				      		//	searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.</p>");
-			      			//	break;
-				      		// 프로젝트 멤버추가
-			      			case 13:
-				      			console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트의 멤버로 초대하였습니다.");
-				      			searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트의 멤버로 초대하였습니다.</p>");
-				      			break;
-				      		// 프로젝트 멤버삭제
-			      			case 14:
-				      			console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트의 멤버에서 제외했습니다.");
-				      			searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트의 멤버에서 제외했습니다.</p>");
-				      			break;
-				      		// 이슈 생성
-			      			case 31:
-				      			console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 생성했습니다."); 
-				      			searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 생성했습니다.</p>");
-				      			break;
-				      		// 이슈 멤버 할당
-				      		case 33:
-				      			console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 할당했습니다."); 
-				      			searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 할당했습니다.</p>");
-				      			break;
-			      		}
-						
-						
-			           /*  searchNotis.push("<p class='noti' mId="+data[i].mId+">"
-			            		+"pNum="+data[i].pNum+", pName="+ data[i].pName+", "  +"("+data[i].mId+")</p>")   */
-			        	  
-			          }
-					$("#output").html(searchNotis);
-				}
-			});
-		});
+		$("#noti")
+				.on(
+						"click",
+						function() {
+							var searchNotis = [];
 
-	}); 
+							$
+									.ajax({
+										url : "${pageContext.request.contextPath}/readAndGetNoti",
+										data : {
+											mId : '${loginUser.mId}'
+										},
+										success : function(data) {
+											console.log(data);
+											$("#noti").html("");
+											for (var i = 0; i < data.length; i++) {
+												console.log(data[i].lCat);
+
+												switch (data[i].lCat) {
+												// 프로젝트 생성
+												//case 11:
+												//	console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.");
+												//	searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.</p>");
+												//	break;
+												// 프로젝트 멤버추가
+												case 13:
+													console
+															.log(data[i].mNickname
+																	+ "("
+																	+ data[i].mId
+																	+ ")님이 "
+																	+ data[i].pName
+																	+ " 프로젝트의 멤버로 초대하였습니다.");
+													searchNotis
+															.push("<p>"
+																	+ data[i].mNickname
+																	+ "("
+																	+ data[i].mId
+																	+ ")님이 "
+																	+ data[i].pName
+																	+ " 프로젝트의 멤버로 초대하였습니다.</p>");
+													break;
+												// 프로젝트 멤버삭제
+												case 14:
+													console
+															.log(data[i].mNickname
+																	+ "("
+																	+ data[i].mId
+																	+ ")님이 "
+																	+ data[i].pName
+																	+ " 프로젝트의 멤버에서 제외했습니다.");
+													searchNotis
+															.push("<p>"
+																	+ data[i].mNickname
+																	+ "("
+																	+ data[i].mId
+																	+ ")님이 "
+																	+ data[i].pName
+																	+ " 프로젝트의 멤버에서 제외했습니다.</p>");
+													break;
+												// 이슈 생성
+												case 31:
+													console
+															.log(data[i].mNickname
+																	+ "("
+																	+ data[i].mId
+																	+ ")님이 "
+																	+ data[i].iName
+																	+ " 이슈를 생성했습니다.");
+													searchNotis
+															.push("<p>"
+																	+ data[i].mNickname
+																	+ "("
+																	+ data[i].mId
+																	+ ")님이 "
+																	+ data[i].iName
+																	+ " 이슈를 생성했습니다.</p>");
+													break;
+												// 이슈 멤버 할당
+												case 33:
+													console
+															.log(data[i].mNickname
+																	+ "("
+																	+ data[i].mId
+																	+ ")님이 "
+																	+ data[i].iName
+																	+ " 이슈를 할당했습니다.");
+													searchNotis
+															.push("<p>"
+																	+ data[i].mNickname
+																	+ "("
+																	+ data[i].mId
+																	+ ")님이 "
+																	+ data[i].iName
+																	+ " 이슈를 할당했습니다.</p>");
+													break;
+												}
+
+												/*  searchNotis.push("<p class='noti' mId="+data[i].mId+">"
+												 		+"pNum="+data[i].pNum+", pName="+ data[i].pName+", "  +"("+data[i].mId+")</p>")   */
+
+											}
+											$("#output").html(searchNotis);
+										}
+									});
+						});
+
+		/* 로그아웃 처리 */
+		$("#logout").on("click",function(){
+			location.href="${pageContext.request.contextPath}/logout";
+		});
+	});
 </script>
 </head>
 <body>
-	<div id="output"></div>  
+${loginUser} 
+	<div id="output"></div>
 	<input id="loginUser" type="hidden" value="${loginUser.mId}" />
 	<div id="top">
-		<div class="topIcon"> 
-			<span class="glyphicon glyphicon-log-out"></span>
+		<div class="topIcon">
+			<span class="glyphicon glyphicon-log-out" id="logout"></span>
 		</div>
 		<div class="topIcon">
-			<span class="glyphicon glyphicon-bell" id="noti"></span> 
+			<span class="glyphicon glyphicon-bell" id="noti"></span>
 
 		</div>
 		<div class="topIcon">
@@ -222,7 +281,7 @@ html, body {
 		<div class="leftIcon" onclick="location.href='/OurRoom/home'">
 			<span class="glyphicon glyphicon-home"></span>
 		</div>
-		<div class="leftIcon" onclick="location.href='/OurRoom/project/pList'"> 
+		<div class="leftIcon" onclick="location.href='/OurRoom/project/pList'">
 			<span class="glyphicon glyphicon-briefcase"></span>
 		</div>
 		<div class="leftIcon" onclick="location.href='/OurRoom/address'">

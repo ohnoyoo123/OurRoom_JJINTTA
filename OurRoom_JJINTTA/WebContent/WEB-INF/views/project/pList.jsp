@@ -61,7 +61,7 @@
 	      <div class="modal-header">
 	        <h4 class="modal-title">
 	       		프로젝트명:
-              <input type="hidden" name="owner" value="hong123@gmail.com"> <%-- ${세션에 있는 아이디 mId} --%>
+              <input type="hidden" name="owner" value="${loginUser.mId}"> <%-- ${세션에 있는 아이디 mId} --%>
 	        	  <input type="text" placeholder="enter project name" id="pName">
 	        </h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -163,7 +163,7 @@
 				url : "newProject",
 				data : {
 					pName : $('#pName').val(),
-					owner : 'hong123@gmail.com',
+					owner : '${loginUser.mId}',
 					members : invitedId
 				},
 				type : "post",

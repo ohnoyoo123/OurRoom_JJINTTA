@@ -60,24 +60,37 @@ public class PageController2 {
 
 	/* 회원가입 완료 및 환영 페이지 요청 */
 	@RequestMapping("join")
-	public ModelAndView join(Member member) {
+	public ModelAndView join(HttpSession session,Member member) {
 		// @RequestParam MultipartFile...
 		System.out.println("[PageController2 > join] : " + member);
 
 		// 회원가입 처리
 		memberService.join(member);
+		
+		//회원가입 완료이므로 바로 시작할 수 있도록 세션 등록
+		session.setAttribute("loginUser",memberService.selectMember(member.getmId()));
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("member", member);
 		mav.setViewName("member/joinForm_step3");
 		return mav;
 	}
+	/* 로그아웃 요청 */
+	@RequestMapping("logout")
+	public String logout(HttpSession session){
+		Object loginUser = session.getAttribute("loginUser");
+		
+		if(loginUser != null) {
+			session.removeAttribute("loginUser");
+		}
+		return "redirect:main";
+	}
 
 	/* 메인페이지 */
 	@RequestMapping("home")
 	public ModelAndView home(HttpSession session) {
-		// String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
-		String loginUser = "hong123@gmail.com";
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
+		
 		ModelAndView mav = new ModelAndView("home/home");
 
 		HashMap<String, Object> param = new HashMap<>();
@@ -118,8 +131,7 @@ public class PageController2 {
 	@RequestMapping("address")
 	public ModelAndView address(HttpSession session) {
 		// 추후 로그인회원의 아이디(loginUser.getmId())로 변경될 값
-		// String mId = ((Member)session.getAttribute("loginUser")).getmId();
-		String mId = "hong123@gmail.com";
+		 String mId = ((Member)session.getAttribute("loginUser")).getmId();
 
 		ModelAndView mav = new ModelAndView();
 		// 주소록에 등록된 회원리스트 조회

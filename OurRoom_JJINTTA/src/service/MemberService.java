@@ -99,4 +99,9 @@ public class MemberService {
 		return true;
 	}
 
+	public Member selectMember(String mId) {
+		
+		return mDao.selectById(mId);
+	}
+
 }
