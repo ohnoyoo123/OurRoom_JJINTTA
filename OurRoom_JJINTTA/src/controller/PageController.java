@@ -157,4 +157,47 @@ public class PageController {
 		return mav;
 		
 	}
+	@RequestMapping("/project/kanban2")
+	public ModelAndView project_kanban2(int pNum, int tNum) {
+		
+		ModelAndView mav = new ModelAndView();
+		
+		//프로젝트 정보
+		mav.addObject("project", pSvc.getProject(pNum));
+		
+		//프로젝트 멤버 정보
+		mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
+		
+		//태스크 정보
+		Task task = new Task();
+		task.setpNum(pNum);
+		task.settNum(tNum);
+		System.out.println("혹시? : " + tSvc.getTaskList(task));
+		mav.addObject("task", tSvc.getTaskList(task));
+		
+		//이슈 정보
+		Issue issue = new Issue();
+		issue.setpNum(pNum);
+		issue.settNum(tNum);
+		mav.addObject("issueList", iSvc.getIssueList(issue));
+		
+		//이슈 멤버 정보
+		IssueMember issueMember = new IssueMember();
+		issueMember.setpNum(pNum);
+		issueMember.settNum(tNum);
+		mav.addObject("issueMemberList", iSvc.getIssueMember(issue));
+		
+		//체크리스트 정보(이슈 모델로 가져옴) ?? 이름을 이따구로??
+		mav.addObject("checkListList", clSvc.getCheckList(issue));
+		
+		//체크리스트 아이템 정보
+		mav.addObject("checkListItemList", clSvc.getAllCheckListItem(issue));
+		
+		//체크리스트 아이템 멤버 정보
+		mav.addObject("checkListItemMemberList", clSvc.getAllCheckListItemMember(issue));
+		
+		mav.setViewName("/project/kanban2");
+		return mav;
+		
+	}
 }
