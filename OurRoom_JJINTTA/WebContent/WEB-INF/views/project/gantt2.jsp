@@ -38,13 +38,15 @@
    <script src='<c:url value="/js/popup.js"/>'></script>
    <script src='<c:url value="/js/svg_utils.js"/>'></script>
    <link href='<c:url value="/js/gantt.scss"/>' rel="stylesheet"> --%>
-   <script src="/OurRoom/js/frappe-gantt.js"></script>
+   <script src="/OurRoom/js/frappe-gantt.js"></script>   
    <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 
 
    <script>
      $( function() {
-       $( ".datepicker" ).datepicker();
+       $( ".datepicker" ).datepicker({
+				 dateFormat: 'yy-mm-dd'
+			 });
      } );
    </script>
 
@@ -125,9 +127,9 @@ class Issue{
 var gantt = new Gantt('#gantt', taskAndIssue, {
     // can be a function that returns html
     // or a simple html string
-      on_click: function (task) {
-        console.log(task);
-    },
+    // on_click: function (task) {
+    //     console.log(task);
+    // },
     // on_date_change: function(task, start, end) {
     //     console.log(task, start, end);
     // },
@@ -136,9 +138,26 @@ var gantt = new Gantt('#gantt', taskAndIssue, {
     // },
     // on_view_change: function(mode) {
     //     console.log(mode);
-    // }
+    // },
+		custom_popup_html: function (task) {
+			console.log(task);
+		 	if(task.id.charAt(0)==='T'){
+				return `<h1>백승진바보</h1>`
+		 	}else if(task.id.charAt(0)==='I'){
+
+				//`	<div class="modal-dialog">
+				// 		<div class="modal-content">
+				//
+				// 			<!-- Modal Header -->
+				// 			<div class="modal-header">
+				// 				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				// 				<h4 class="modal-title">
+				return `<div><h2>백승진바보</h2><br> <input type="text" placeholder="enter issue name"
+									id="iName"></div>`
+			}
+		 }
 });
-gantt.change_view_mode('Month')
+gantt.change_view_mode('Week')
 
 
 
