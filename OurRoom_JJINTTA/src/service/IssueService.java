@@ -1,5 +1,7 @@
 package service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,14 @@ public class IssueService {
 	//이슈 추가
 	public void addIssue(Issue issue) {
 		
+		if(issue.getiStartDate() == "") {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			issue.setiStartDate(sdf.format(new Date()));
+		}
+		if(issue.getiEndDate() == "") {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			issue.setiEndDate(sdf.format(new Date()));
+		}
 		iDao.insertIssue(issue);
 		
 	}

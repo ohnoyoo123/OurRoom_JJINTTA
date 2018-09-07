@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import model.Issue;
@@ -62,7 +63,7 @@ public class PageController {
 
 		projectList = pSvc.getProjectListByMId(paramMId);
 		// 진행중인 프로젝트와 마감된 프로젝트를 util클래스로 처리
-		mav.addObject("pastProject", ProjectUtil.pastPojects(projectList));
+		mav.addObject("pastProject", ProjectUtil.pastProject(projectList));
 		mav.addObject("progProject", ProjectUtil.progProject(projectList));
 
 		List<ProjectMember> pmList = new ArrayList<>();
@@ -81,13 +82,18 @@ public class PageController {
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("project", pSvc.getProject(pNum));
-
+		System.out.println( pSvc.getProject(pNum));
 		Task task = new Task();
 		task.setpNum(pNum);
 		System.out.println("태스크 리스트 : " + tSvc.getTaskList(task));
 		mav.addObject("taskList", tSvc.getTaskList(task));
 
 		Gson gson = new Gson();
+		
+		String stringProject = gson.toJson(pSvc.getProject(pNum));
+		JsonObject projectJson = new JsonParser().parse(stringProject).getAsJsonObject();
+		mav.addObject("projectJson", projectJson);
+		
 		String stringTask = gson.toJson(tSvc.getTaskList(task));
 		JsonArray taskJson = new JsonParser().parse(stringTask).getAsJsonArray();
 		mav.addObject("taskJson", taskJson);
@@ -96,8 +102,8 @@ public class PageController {
 		issue.setpNum(pNum);
 		mav.addObject("issueList", iSvc.getIssueList(issue));
 		
-		String stingIssue = gson.toJson(iSvc.getIssueList(issue));
-		JsonArray issueJson = new JsonParser().parse(stingIssue).getAsJsonArray();
+		String stringIssue = gson.toJson(iSvc.getIssueList(issue));
+		JsonArray issueJson = new JsonParser().parse(stringIssue).getAsJsonArray();
 		mav.addObject("issueJson", issueJson);
 		
 		System.out.println("이슈리스트" + iSvc.getIssueList(issue));
@@ -108,7 +114,7 @@ public class PageController {
 		return mav;
 	}
 	
-	@RequestMapping("/project/kanban")
+	@RequestMapping("/project/kanban2")
 	public ModelAndView project_kanban(int pNum, int tNum) {
 		
 		ModelAndView mav = new ModelAndView();
@@ -147,7 +153,7 @@ public class PageController {
 		//체크리스트 아이템 멤버 정보
 		mav.addObject("checkListItemMemberList", clSvc.getAllCheckListItemMember(issue));
 		
-		mav.setViewName("/project/kanban");
+		mav.setViewName("/project/kanban2");
 		return mav;
 		
 	}

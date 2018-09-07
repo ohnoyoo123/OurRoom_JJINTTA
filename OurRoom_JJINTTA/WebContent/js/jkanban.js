@@ -355,4 +355,3 @@ var dragula = require('dragula');
         this.init();
     };
 }());
-

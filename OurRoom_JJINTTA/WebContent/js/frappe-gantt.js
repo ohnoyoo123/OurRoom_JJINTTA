@@ -562,7 +562,7 @@ class Bar {
             this.gantt.unselect_all();
             this.group.classList.toggle('active');
 
-            this.show_popup();
+            // this.show_popup();
         });
     }
 
@@ -1543,7 +1543,7 @@ class Gantt {
         let is_resizing_left = false;
         let is_resizing_right = false;
         let parent_bar_id = null;
-        let bars = []; // instanceof Bar
+        let bars = []; // instance of Bar
         this.bar_being_dragged = null;
 
         function action_in_progress() {

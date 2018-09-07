@@ -1,5 +1,7 @@
 package service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,19 @@ public class TaskService {
 	}
 
 	public void addTask(Task task) {
+		List<Task> taskList = tDao.selectTask(task);
+		int tNum = taskList.get(taskList.size()-1).gettNum() + 1;
+		task.settNum(tNum);
+		//시간이 입력되어 있지 않으면 현재 시간으로 
+		if(task.gettStartDate() == "") {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			task.settStartDate(sdf.format(new Date()));
+		}
+		if(task.gettEndDate() == "") {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			task.settEndDate(sdf.format(new Date()));
+		}
+		
 		tDao.insertTask(task);
 	}
 

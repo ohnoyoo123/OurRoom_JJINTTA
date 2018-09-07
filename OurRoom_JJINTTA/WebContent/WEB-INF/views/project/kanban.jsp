@@ -8,7 +8,10 @@
     <meta charset="UTF-8">
 
     <title>Title</title>
-    <link rel="stylesheet" href="/OurRoom/js/jkanban.min.css">
+
+    <link rel="stylesheet" href="/OurRoom/js/jkanban.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.js"></script>
 
     <style>
         body {
@@ -57,7 +60,7 @@
     <button id="removeElement">Remove "My Task Test"</button>
 </div>
 
-<script src="/OurRoom/js/jkanban.min.js"></script>
+<script src="/OurRoom/js/jkanban.js"></script>
 <script>
     var KanbanTest = new jKanban({
         element: '#myKanban',
@@ -202,5 +205,6 @@
         //console.log(item);
     })
 </script>
+
 </body>
 </html>

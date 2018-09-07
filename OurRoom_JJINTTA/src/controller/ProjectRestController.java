@@ -5,10 +5,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonParser;
 
 import model.CheckList;
 import model.CheckListItem;
@@ -84,10 +91,38 @@ public class ProjectRestController {
 	}
 
 	@PostMapping("/project/addTask")
-	public void addTask(Task task) {
+	public Map<String, Object> addTask(Task task) {
 		System.out.println("요청 url : " + "/project/addTask");
-
+		System.out.println(task);
 		tSvc.addTask(task);
+		
+		int pNum = task.getpNum();
+		
+		System.out.println("pNum : " + pNum);
+		
+		task.settNum(0);
+
+		System.out.println("태스크 리스트 : " + tSvc.getTaskList(task));
+
+		Gson gson = new Gson();
+		String stringTask = gson.toJson(tSvc.getTaskList(task));
+		JsonArray taskJson = new JsonParser().parse(stringTask).getAsJsonArray();
+		
+		Issue issue = new Issue();
+		issue.setpNum(pNum);
+		
+		String stingIssue = gson.toJson(iSvc.getIssueList(issue));
+		JsonArray issueJson = new JsonParser().parse(stingIssue).getAsJsonArray();
+		
+		System.out.println("이슈리스트" + iSvc.getIssueList(issue));
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("project", pSvc.getProject(pNum));
+		data.put("taskJson", tSvc.getTaskList(task));
+		data.put("issueJson", iSvc.getIssueList(issue));
+
+		return data;
+
 	}
 	
 	@PostMapping("/project/deleteTask")
@@ -97,10 +132,13 @@ public class ProjectRestController {
 	}
 	
 	@PostMapping("/project/addIssue")
-	public void addIssue(Issue issue, @RequestParam(value="members[]", required=false) List<String> members) {
+	public Map<String, Object> addIssue(Issue issue, @RequestParam(value="members[]", required=false) List<String> members) {
 		System.out.println("요청 url : " + "/project/addIssue");
 
 		System.out.println(members);
+		System.out.println(issue);
+		
+		int pNum = issue.getpNum();
 		
 		iSvc.addIssue(issue);
 		
@@ -117,6 +155,21 @@ public class ProjectRestController {
 				iSvc.addIssueMember(im);
 			}
 		}
+		
+		Task task = new Task();
+		task.setpNum(pNum);
+		
+		issue.setiNum(0);
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("project", pSvc.getProject(pNum));
+		data.put("taskJson", tSvc.getTaskList(task));
+		data.put("issueJson", iSvc.getIssueList(issue));
+		
+		System.out.println("=----==--------------------------------------------");
+		System.out.println(tSvc.getTaskList(task));
+		System.out.println(iSvc.getIssueList(issue));
+		return data;
 		
 	}
 	
