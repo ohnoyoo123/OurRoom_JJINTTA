@@ -32,10 +32,7 @@
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 
-	<script src="/OurRoom/js/jkanban.js"></script>
-	<link rel="stylesheet" href="/OurRoom/js/jkanban.css">
-
-<script>
+	<script>
   $(function () {
     $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
   });
