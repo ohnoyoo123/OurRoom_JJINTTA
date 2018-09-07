@@ -135,7 +135,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h2 class="modal-title">
-						<p id="selectedTask"></p>
+						<p class="selectedTask"></p>
 					</h2>
 					<h4 class="modal-title">
 						이슈명: <input type="text" placeholder="enter issue name" id="iName">
@@ -163,7 +163,7 @@
 	</div>
 
 	<%-- 이슈 상세보기 모달 --%>
-	<div class="modal fade" id="IssueModal">
+	<div class="modal fade" id="IssueDetailModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
 
@@ -171,11 +171,12 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h2 class="modal-title">
-						<p id="selectedTask"></p>
+						<p class="selectedTask"></p>
 					</h2>
 					<h4 class="modal-title">
-						이슈명: <input type="text" placeholder="enter issue name" id="iName">
+						이슈명: <span id="IssueDetailModaliName"></span>
 					</h4>
+					이슈 멤버 : <p id="issueMember"></p>
 				</div>
 
 				<!-- Modal body -->
@@ -186,11 +187,18 @@
 					<div>
 						종료 : <br> <input type="text" class="datepicker iEndDate" readonly>
 					</div>
+					이슈 설명
+					<div id="issueDscr"></div>
+					======================================================================
+					<h3>체크리스트<button id="addCheckListForm">+</button></h3>
+					<div id="checkListNameForm"></div>
+					<div id="checkListList"></div>
+
+
 				</div>
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-success" id="addIssue">Add</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				</div>
 
@@ -198,7 +206,7 @@
 		</div>
 	</div>
 	<%-- 숨겨진 이슈 상세보기 버튼 --%>
-	<div id="issueDetailBtn" data-toggle="modal" data-target="#IssueModal"></div>
+	<div id="issueDetailBtn" data-toggle="modal" data-target="#IssueDetailModal"></div>
 
 
 <script type="text/javascript">
@@ -271,21 +279,22 @@ const makeGantt = (p, tList, iList) => {
 console.log(taskAndIssue);
 makeGantt(project, taskList, issueList)
 
+let selTask = 0;
+let selIssue = 0;
+
 var gantt = new Gantt('#gantt', taskAndIssue, {
   // can be a function that returns html or a simple html string
   on_click: function (task) {
 		if(task.id.charAt(0) == 'T'){
 			//클릭한 녀석이 태스크
 			console.log(task.id);
-			// $.ajax({
-			// 	url : 'kanban2',
-			// 	pNum : task.
-			// 	tNum :
-			// })
+			console.log(task.id.split('_')[1]);
+			location.href=`/OurRoom/project/kanban2?pNum=${project.pNum}&tNum=` + task.id.split('_')[1]
 		}else if (task.id.charAt(0) == 'I') {
 			//클릭한 녀석이 이슈
+			selTask = task.id.split('_')[3]
+			selIssue = task.id.split('_')[1]
 			$('#issueDetailBtn').trigger('click')
-			console.log(task.id);
 		}
   },
   on_date_change: function (task, start, end) {
@@ -299,43 +308,8 @@ var gantt = new Gantt('#gantt', taskAndIssue, {
   },
 });
 
+
 gantt.change_view_mode('Month')
-
-
-  $('.issues').on('click', function () {
-    $.ajax({
-      url: "issueDetail",
-      data: {
-        pNum: $(this).attr("pNum"),
-        tNum: $(this).attr("tNum"),
-        iNum: $(this).attr("iNum")
-      },
-      type: "post",
-      success: function (data) {
-        $('#issueName').html(data.issue[0].iName)
-        $('#issueMember').html('')
-        for (var k = 0; k < data.issueMember.length; k++) {
-          $('#issueMember').append(data.issueMember[k].mId).append(', ')
-        }
-        var txt = ''
-        for (var i = 0; i < data.checkList.length; i++) {
-          txt += '<div class=\'checkList\' clName = ' + data.checkList[i].clName + '>'
-          txt += '체크리스트 이름 : ' + data.checkList[i].clName + '<br>'
-          txt += '</div>'
-          for (var j = 0; j < data.checkListItem.length; j++) {
-            if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
-              txt += '<div>'
-              txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<br>'
-              txt += '</div>'
-            }
-          }
-
-        }
-        $('#checkListList').html(txt)
-      }
-    })
-  })
-
 
 	//간트 내부 좌단부 생성
 	const sideTap = (p, t, i) => {
@@ -417,7 +391,7 @@ gantt.change_view_mode('Month')
 	$('.addIssueBtn').on('click', function(){
 		selectedtNum = $(this).attr('tNum')
 		selectedtName = $(this).attr('tName')
-		$('#selectedTask').html("태스크 이름 : " + selectedtName)
+		$('.selectedTask').html("태스크 이름 : " + selectedtName)
 	})
 
 	//이슈 추가
@@ -449,6 +423,113 @@ gantt.change_view_mode('Month')
 			}
 		})
 	})
+
+	//이슈 상세정보 보기
+	$('#issueDetailBtn').on('click', () => {
+		console.log('task');
+		console.log(selTask);
+		console.log('issue');
+		console.log(selIssue);
+
+		$.ajax({
+			url : 'issueDetail',
+			data : {
+				pNum : ${project.pNum},
+				tNum : selTask,
+				iNum : selIssue
+			},
+			type : 'post',
+			success : (data) => {
+				console.log('성공');
+				console.log(data);
+				$('.selectedTask').html(data.issue[0].tNum)
+				$('#IssueDetailModaliName').html(data.issue[0].iName)
+				$('.iStartDate').val(data.issue[0].iStartDate)
+				$('.iEndDate').val(data.issue[0].iEndDate)
+
+				$('#issueMember').html('')
+        for (var k = 0; k < data.issueMember.length; k++) {
+          $('#issueMember').append(data.issueMember[k].mId).append(', ')
+        }
+
+				$('#issueDscr').html(data.issue[0].iDscr)
+
+				// let txt = ''
+				// for (let i = 0; i < data.checkList.length; i++) {
+				// 	txt += '<div class=\'checkList\' clName = ' + data.checkList[i].clName + '>'
+				// 	txt += '체크리스트 이름 : ' + data.checkList[i].clName + '<br>'
+				// 	txt += '</div>'
+				// 	for (let j = 0; j < data.checkListItem.length; j++) {
+				// 		if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
+				// 			txt += '<div>'
+				// 			txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<br>'
+				// 			txt += '</div>'
+				// 		}
+				// 	}
+				// }
+				// $('#checkListList').html(txt)
+
+				//이슈멤버 리스트
+				var issueMember = []
+
+				//체크리스트 친구들 만들기
+				const showCheckList = (data) =>{
+					let txt =''
+							for (var i = 0; i < data.checkList.length; i++) {
+								txt += '<div class=\'checkList\''
+								txt += ' pNum=' + data.checkList[i].pNum
+								txt += ' tNum=' + data.checkList[i].tNum
+								txt += ' iNum=' + data.checkList[i].iNum
+								txt += ' clNum=' + data.checkList[i].clNum
+								txt += ' clName = ' + data.checkList[i].clName
+								txt += '>'
+								txt += '======================================================================<br>'
+								txt += '체크리스트 이름 : ' + data.checkList[i].clName
+								txt +=  '<button style="float:right;" class="deleteCheckList">X</button>'
+								txt +=  '<button style="float:right;" class="addCheckListItem">O</button><br>'
+								txt += '<div class="addCheckListItemForm"></div>'
+								txt += '======================================================================'
+								for (var j = 0; j < data.checkListItem.length; j++) {
+									if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
+										txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
+										txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn">X</button><br>'
+										for(var k = 0; k < data.checkListItemMember.length; k++){
+											if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
+												txt += data.checkListItemMember[k].mId
+												txt += '<br>'
+											}
+										}
+										txt += '----------------------'
+										txt += '</div>'
+									}
+								}
+								txt += '</div>'
+								txt += '</div>'
+								txt += '</div>'
+								txt += '<br>'
+							}
+							$('#checkListList').html(txt)
+							$('#checkListNameForm').empty()
+				}
+				showCheckList(data)
+
+			}
+		})
+	})
+
+	//체크리스트 추가폼 생성
+	$(document).on('click', '#addCheckListForm', function () {
+		var txt = ''
+		txt += '<input type="text" id="checkListName"/>'
+		txt += '<button id="addCheckListBtn">OK</button>'
+		$('#checkListNameForm').html(txt)
+	})
+
+	//체크리스트 추가
+	$(document).on('click', '#addCheckListBtn', () => {
+		console.log($('#checkListName').val());
+	})
+
 
 })
 </script>

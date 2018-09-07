@@ -52,6 +52,8 @@
 
   <script type="text/javascript">
 
+  console.log(${issueJson});
+
   class Issue{
     constructor(step,item){
        this.step='_'+step

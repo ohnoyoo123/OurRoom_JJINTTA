@@ -84,7 +84,7 @@ public class ProjectRestController {
 		System.out.println("요청 url : " + "/project/issueDetail");
 		System.out.println(issue);
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("issueList", iSvc.getIssueList(issue));
+		data.put("issue", iSvc.getIssueList(issue));
 		data.put("issueMember", iSvc.getIssueMember(issue));
 		data.put("checkList", clSvc.getCheckList(issue));
 		data.put("checkListItem", clSvc.getAllCheckListItem(issue));

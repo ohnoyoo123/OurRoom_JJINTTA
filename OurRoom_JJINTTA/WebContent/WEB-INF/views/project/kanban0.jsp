@@ -117,6 +117,7 @@
 
   $(document).ready(() => {
 
+
     $(document).on('click', '#viewGantt', () => {
       location.href = `gantt?pNum=${project.pNum}`
     })
