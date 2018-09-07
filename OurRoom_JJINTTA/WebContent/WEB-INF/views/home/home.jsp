@@ -255,6 +255,7 @@
 							<th>lNum</th>
 							<th>lCat</th>
 							<th>lTime</th>
+							<th>lName</th>
 						</tr>
 						<c:forEach var="projectLog" items="${projectLogList }">
 							<tr>
@@ -263,6 +264,7 @@
 								<td>${projectLog.lNum }</td>
 								<td>${projectLog.lCat }</td>
 								<td>${projectLog.lTime }</td>
+								<td>${projectLog.lName }</td>
 							</tr>
 						</c:forEach>
 					</table>

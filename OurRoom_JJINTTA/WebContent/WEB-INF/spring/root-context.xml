@@ -17,11 +17,12 @@
 
 	<context:component-scan base-package="service" />
 	<!-- WebSocket Handler 등록 -->
-<!--      <websocket:handlers>
-        <websocket:mapping path="/websocket/echo" handler="myHandler"/>
-    </websocket:handlers>
-    <bean id="myHandler" class="websocket.SocketHandler"/>
- -->
+
+	<websocket:handlers>
+		<websocket:mapping path="/websocket/echo"
+			handler="myHandler" />
+	</websocket:handlers>
+	<bean id="myHandler" class="websocket.SocketHandler" />
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">

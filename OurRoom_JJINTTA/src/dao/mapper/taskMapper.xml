@@ -72,6 +72,11 @@
 		order by t_order
 	</select>
 	
+	<select id="selectTaskLastTNum" parameterType="int" resultType="int">
+		select ifnull(max(t_num),0) from task where p_num = #{value}
+	</select>
+	
+	
 	<resultMap type="task" id="taskRM">
 		<result property="pNum" column="p_num"/>
 		<result property="tNum" column="t_num"/>
