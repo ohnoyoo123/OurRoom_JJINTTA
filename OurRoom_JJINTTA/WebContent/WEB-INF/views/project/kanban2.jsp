@@ -36,7 +36,7 @@
 	  <div class="container-fluid">
    <div class="row">
       <div class="col-md-12">
-         <h1>OurRoom Kanban Boards</h1>
+         <h1>${project.pName} ${task[0].tName} Kanban Boards</h1>
 
          <hr>
 
@@ -53,123 +53,98 @@
   <script type="text/javascript">
 
   class Issue{
-    constructor(step,item){
-       this.step='_'+step
-       this.item=item
+    constructor(id, title){
+      this.id = id
+      this.title = title
+    }
+  }
+  const colorForEachSteps = (step) => {
+    if(step==='Ideas' || step==='ToDo'){
+      return 'info'
+    }else if(step==='Doing'){
+      return 'warning'
+    }else if(step==='Done' || step==='Review'){
+      return 'success'
+    }
+  }
+  const issuesForBoard = (issueList) => {
+    let tempIssues =[]
+    for(let i=0; i<issueList.length; i++){
+      let tempIssue = new Issue(issueList[i].iNum,issueList[i].iName)
+      console.log('이슈==================');
+      console.log(tempIssue);
+      tempIssues.push(tempIssue)
+    }
+    console.log('각 보드에 해당하는 이슈들=================');
+    console.log(tempIssues);
+    return tempIssues
+  }
+
+    class Board{
+      constructor(step, issueList){
+        this.id = step
+        this.title = step
+        this.class = colorForEachSteps(step)
+        this.item = issuesForBoard(issueList)
+      }
+    }
+
+    let issueList = ${issueList}
+    console.log(issueList);
+
+    let kanbanIssues = []
+
+    const makeKanban = (iList) => {
+
+      let ideasIssues = []
+      let todoIssues = []
+      let doingIssues = []
+      let doneIssues = []
+      let reviewIssues = []
+
+      //issueList를 스텝별로 구분
+      for(let i=0; i<iList.length; i++){
+        if(iList[i].iStep==0){
+          ideasIssues.push(iList[i])
+        }else if(iList[i].iStep==1){
+          todoIssues.push(iList[i])
+        }else if(iList[i].iStep==2){
+          doingIssues.push(iList[i])
+        }else if(iList[i].iStep==3){
+          doneIssues.push(iList[i])
+        }else if(iList[i].iStep==4){
+          reviewIssues.push(iList[i])
+        }
+      }
+      let totalIssues = [ideasIssues,todoIssues,doingIssues,doneIssues,reviewIssues]
+      console.log('확인!!!!!!!!!!!!!!');
+
+      let steps = ['Ideas','ToDo','Doing','Done','Review']
+
+      for(let i=0; i<totalIssues.length; i++){
+        console.log('222222222222222222222');
+        console.log(totalIssues[i]);
+        let tempBoard = new Board(steps[i],totalIssues[i])
+        kanbanIssues.push(tempBoard)
+      }
+
+      return kanbanIssues
+
     }
 
 
-    // {
-    //     'id' : issue.step--> _Ideas,,,,
-    //     'title'  : issue.step,
-    //     'class' : if(issue.step)-->'info',
-    //     'item'  : [
-    //         {
-    //             'id':issue.step + issue.order,
-    //             'title':issue.name,
-    //         },
-    //         {
-    //             'id':'2',
-    //             'title':'idea2',
-    //         }
-    //     ]
-    // },
-
-
-  }
-  let issues=[]
-
-  const makeKanban = (issueList) => {
-    for(let i=0; i<issueList.length;i++){
-      let tempIssue = new Issue(
-
-      )
-    }
-  }
   var KanbanTest = new jKanban({
       element : '#myKanban',
       gutter  : '10px',
       click : function(el){
             //var addBoardDefault = document.getElementById(el.data-eid)
-          var x = el.getAttribute('data-eid')
-          alert(x+'번 이슈 상세보기')
+          // var x = el.getAttribute('data-eid')
+          // alert(x+'번 이슈 상세보기')
 
 
       //    alert(x);
       },
-      boards  :[
-          {
-              'id' : '_Ideas',
-              'title'  : 'Ideas',
-              'class' : 'info',
-              'item'  : [
-                  {
-                      'id':'1',
-                      'title':'idea1',
-                  },
-                  {
-                      'id':'2',
-                      'title':'idea2',
-                  }
-              ]
-          },
-          {
-              'id' : '_todo',
-              'title'  : 'To Do',
-              'class' : 'info',
-              'item'  : [
-                  {
-                      'id':'3',
-                      'title':'issue1',
-                  },
-                  {
-                      'id':'4',
-                      'title':'issue2',
-                  }
-              ]
-          },
-          {
-              'id' : '_doing',
-              'title'  : 'Doing',
-              'class' : 'warning',
-              'item'  : [
-                  {
-                      'id':'5',
-                      'title':'doing1',
-                  },
-                  {
-                      'id':'6',
-                      'title':'doing2',
-                  }
-              ]
-          },
-          {
-              'id' : '_Done',
-              'title'  : 'Done',
-              'class' : 'success',
-              'item'  : [
-                  {
-                      'id':'7',
-                      'title':'Done1',
-                  }
-              ]
-          },
-          {
-              'id' : '_Review',
-              'title'  : 'Review',
-              'class' : 'success',
-              'item'  : [
-                  {
-                      'id':'8',
-                      'title':'All right',
-                  },
-                  {
-                      'id':'9',
-                      'title':'Ok!',
-                  }
-              ]
-          }
-      ]
+      boards  : makeKanban(issueList)
   });
 
   </script>
@@ -180,7 +155,7 @@
 
     $('#addToDo').on('click',function () {
       KanbanTest.addElement(
-          '_todo',
+          'ToDo',
           {
               'id':'temp',
               'title':"<input type='text' id='textToDo'/>"
@@ -192,76 +167,14 @@
        if(e.keyCode == 13){
 
         KanbanTest.addElement(
-            '_todo',
+            'ToDo',
             {   'id':'issue'+$('#textToDo').val(),
                 'title':$('#textToDo').val()
             }
         );
         KanbanTest.removeElement('temp')
-        //$('#saveToDo').remove()
         }
     })
-    // $('#myKanban').on('click','#saveToDo',function () {
-    //
-    //     KanbanTest.addElement(
-    //         '_todo',
-    //         {
-    //             'title':$('#textToDo').val()
-    //         }
-    //     );
-    //     KanbanTest.removeElement('temp')
-    //     //$('#saveToDo').remove()
-    //
-    // })
-
-    // $('#myKanban').on('click','#saveToDo',function () {
-    //     KanbanTest.addElement(
-    //         '_todo',
-    //         {
-    //             'title':$('#textToDo').val()
-    //         }
-    //     );
-    //
-    // })
-
-    // $('#addToDo').on('click',function () {
-    //   KanbanTest.addElement(
-    //       '_todo',
-    //       {
-    //           'title':'Test Add',
-    //       }
-    //   );
-    // })
-
-    $('#addDefault').on('click',function () {
-      KanbanTest.addBoards(
-          [{
-              'id' : '_default',
-              'title'  : 'Kanban Default',
-              'class' : 'error',
-              'item'  : [
-                  {
-                      'title':'Default Item',
-                  },
-                  {
-                      'title':'Default Item 2',
-                  },
-                  {
-                      'title':'Default Item 3',
-                  }
-              ]
-          }]
-      )
-    })
-
-    $('#removeBoard').on('click',function () {
-      KanbanTest.removeBoard('_done');
-    })
-
-
-
-
-
 
   })
 

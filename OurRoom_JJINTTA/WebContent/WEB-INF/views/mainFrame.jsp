@@ -205,7 +205,7 @@ html, body {
 	<input id="loginUser" type="hidden" value="${loginUser.mId}" />
 	<div id="top">
 		<div class="topIcon"> 
-			<span class="glyphicon glyphicon-log-out"></span>
+			<a href='/OurRoom'><span class="glyphicon glyphicon-log-out"></span></a>
 		</div>
 		<div class="topIcon">
 			<span class="glyphicon glyphicon-bell" id="noti"></span> 
