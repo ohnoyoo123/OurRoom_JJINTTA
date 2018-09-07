@@ -157,7 +157,7 @@ public class PageController {
 		return mav;
 		
 	}
-	@RequestMapping("/project/kanban")
+	@RequestMapping("/project/kanban2")
 	public ModelAndView project_kanban2(int pNum, int tNum) {
 		
 		ModelAndView mav = new ModelAndView();
