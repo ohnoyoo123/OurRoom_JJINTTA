@@ -16,6 +16,7 @@
 				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+
 	<!-- ViewResolver 설정 -->
 	<!-- 폴더/파일명으로 입력하도록 설정 예) member/joinForm -> /WEB-INF/views/member/joinForm.jsp 
 		페이지 응답 -->
