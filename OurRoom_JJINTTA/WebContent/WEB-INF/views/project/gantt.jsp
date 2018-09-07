@@ -9,17 +9,22 @@
 <head>
 <meta charset="UTF-8">
 
-
 <title>Gantt</title>
 
 <style type="text/css">
 #innerFrame {
 	display: inline-block;
-	width: 90vw;
+	width: 95%;
+	position: absolute;
+	margin: 10px;
 }
 
 #addTask {
 	width: 100%;
+}
+
+#addCheckListForm{
+	float: right;
 }
 </style>
 
@@ -27,6 +32,14 @@
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+<script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
 <script>
 		$( function() {
     $( ".datepicker" ).datepicker();
@@ -118,29 +131,6 @@
 
 		<!-- 이슈 상세보기 모달 -->
 		<div class="modal fade" id="issueModal">
-			<div class="modal-dialog">
-				<div class="modal-content">
-
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h1 class="modal-title" id="issueName">이슈 이름</h1>
-						<div id="issueMember"></div>
-					</div>
-
-					<!-- Modal body -->
-					<div class="modal-body" id="addCheckList">
-						<h3>체크리스트</h3>
-					</div>
-
-					<div class="modal-body" id="checkList"></div>
-					<!-- Modal footer -->
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-					</div>
-
-				</div>
-			</div>
 		</div>
 
 		<!-- 태스크 추가 모달 -->
@@ -277,6 +267,8 @@
 
 			}
 
+
+
 			//이슈 상세보기
 			$(document).on('click', '.issueDet', function () {
 
@@ -288,29 +280,66 @@
 						iNum: $(this).closest('.issues').attr("iNum"),
 					},
 					type: "post",
-					success: function (data) {
-						$('#issueName').attr('pNum', (data.issue[0].pNum))
-						$('#issueName').attr('tNum', (data.issue[0].tNum))
-						$('#issueName').attr('iNum', (data.issue[0].iNum))
-						$('#issueName').html(data.issue[0].iName)
-						$('#issueMember').html('')
+					success: (data) => {
+						console.log(data);
+						$('#issueModal').html(
+							`<div class="modal-dialog">
+								<div class="modal-content">
+
+									<!-- Modal Header -->
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h1 class="modal-title" id="issueName">\${data.issueList[0].iName}</h1>
+										<div id="issueMember">
+
+										</div>
+									</div>{}
+
+									<!-- Modal body -->
+									<div class="modal-body" id="addCheckList">
+										<h3>체크리스트<button id="addCheckListForm">[+]</button></h3>
+									</div>
+
+									<div class="modal-body" id="checkList"></div>
+
+									<!-- Modal footer -->
+									<div class="modal-footer">
+										<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>`
+
+						)
 
 
-						$('#iStartDate').val(new Date(data.issue[0].iStartDate))
-						$('#iEndDate').val(new Date(data.issue[0].iEndDate))
-						issueMember = []
-						var txt = ''
-						for (var k = 0; k < data.issueMember.length; k++) {
-							issueMember.push(data.issueMember[k].mId)
-							txt += '<p mId="'
-							txt += data.issueMember[k].mId
-							txt += '">'
-							txt += data.issueMember[k].mId
-							txt += '</p>'
-						}
-						$('#issueMember').html(txt)
-						// $('#issueMember').append(...issueMember)
-						showCheckList(data)
+
+
+
+
+
+
+						// $('#issueName').attr('pNum', (data.issueList[0].pNum))
+						// $('#issueName').attr('tNum', (data.issueList[0].tNum))
+						// $('#issueName').attr('iNum', (data.issueList[0].iNum))
+						// $('#issueName').html(data.issueList[0].iName)
+						// $('#issueMember').html('')
+						//
+						// $('#iStartDate').val(new Date(data.issueList[0].iStartDate))
+						// $('#iEndDate').val(new Date(data.issueList[0].iEndDate))
+						//
+						// issueMember = []
+						// var txt = ''
+						// for (var k = 0; k < data.issueMember.length; k++) {
+						// 	issueMember.push(data.issueMember[k].mId)
+						// 	txt += '<p mId="'
+						// 	txt += data.issueMember[k].mId
+						// 	txt += '">'
+						// 	txt += data.issueMember[k].mId
+						// 	txt += '</p>'
+						// }
+						// $('#issueMember').html(txt)
+						// // $('#issueMember').append(...issueMember)
+						// showCheckList(data)
 					}
 				})
 			})
@@ -563,6 +592,7 @@
 			console.log($(this).attr('tNum'))
 			location.href='kanban?pNum=${project.pNum}&tNum=' + $(this).attr('tNum')
 		})
+
 
 
 

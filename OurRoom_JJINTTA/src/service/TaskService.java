@@ -1,6 +1,8 @@
 package service;
 
 import java.util.HashMap;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +43,23 @@ public class TaskService {
 	}
 
 	public void addTask(Task task, String loginUser) {
+		List<Task> taskList = tDao.selectTask(task);
+		if(taskList.size() != 0) {
+			int tNum = taskList.get(taskList.size()-1).gettNum() + 1;
+			task.settNum(tNum);
+		}else {
+			task.settNum(1);
+		}
+		//시간이 입력되어 있지 않으면 현재 시간으로 
+		if(task.gettStartDate() == "") {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			task.settStartDate(sdf.format(new Date()));
+		}
+		if(task.gettEndDate() == "") {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			task.settEndDate(sdf.format(new Date()));
+		}
+		
 		tDao.insertTask(task);
 
 		// 마지막 태스크 번호

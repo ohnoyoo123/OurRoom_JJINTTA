@@ -12,23 +12,8 @@
 		(select ifnull((select max(i.i_order)+1 from issue i where p_num = #{pNum} and t_num = #{tNum}), 1)),
 		#{iName},
 		#{iDscr},
-		<choose>
-			<when test="iStartDate != null">
-				#{iStartDate},
-			</when>
-			<when test="iStartDate == null">
-				now(),
-			</when>
-		</choose>
-
-		<choose>
-			<when test="iEndDate != null">
-				#{iEndDate},
-			</when>
-			<when test="iEndDate == null">
-				now(),
-			</when>
-		</choose>
+		#{iStartDate},
+		#{iEndDate},
 		0
 		)
 		

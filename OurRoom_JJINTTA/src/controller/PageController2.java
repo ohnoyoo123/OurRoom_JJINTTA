@@ -131,7 +131,11 @@ public class PageController2 {
 		paramMap.put("mId", mId);
 		List<Project> projectList = projectService.getProjectListByMId(paramMap);
 		System.out.println("[PageController2 > address] projectList : " + projectList);
-		mav.addObject("addressList", addressList);
+		
+		if(addressList != null) {
+			mav.addObject("addressList", addressList);
+
+		}
 		mav.addObject("projectList", projectList);
 		mav.setViewName("/address/address");
 

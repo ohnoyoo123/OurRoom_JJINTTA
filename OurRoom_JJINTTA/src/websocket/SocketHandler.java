@@ -109,6 +109,7 @@ public class SocketHandler extends TextWebSocketHandler implements InitializingB
 				try {
 
 					session.sendMessage(new TextMessage(message));
+					
 
 				} catch (Exception ignored) {
 

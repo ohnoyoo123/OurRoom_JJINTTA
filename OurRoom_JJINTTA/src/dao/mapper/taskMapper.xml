@@ -6,8 +6,8 @@
 	<insert id="insertTask" parameterType="task">
 		insert into task values(
 		#{pNum},
-		#{tOrder},
-		#{tOrder},
+		#{tNum},
+		#{tNum},
 		#{tName},
 		#{tDscr},
 		#{tStartDate},

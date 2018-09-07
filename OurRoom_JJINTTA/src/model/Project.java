@@ -6,8 +6,8 @@ public class Project {
 
 	private int pNum;
 	private String pName;
-	private Date pStartDate;
-	private Date pEndDate;
+	private String pStartDate;
+	private String pEndDate;
 	private String pBackground;
 	
 	public int getpNum() {
@@ -22,16 +22,16 @@ public class Project {
 	public void setpName(String pName) {
 		this.pName = pName;
 	}
-	public Date getpStartDate() {
+	public String getpStartDate() {
 		return pStartDate;
 	}
-	public void setpStartDate(Date pStartDate) {
+	public void setpStartDate(String pStartDate) {
 		this.pStartDate = pStartDate;
 	}
-	public Date getpEndDate() {
+	public String getpEndDate() {
 		return pEndDate;
 	}
-	public void setpEndDate(Date pEndDate) {
+	public void setpEndDate(String pEndDate) {
 		this.pEndDate = pEndDate;
 	}
 	public String getpBackground() {

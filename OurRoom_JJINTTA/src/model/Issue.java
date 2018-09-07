@@ -11,8 +11,8 @@ public class Issue {
 	private int iOrder;
 	private String iName;
 	private String iDscr;
-	private Date iStartDate;
-	private Date iEndDate;
+	private String iStartDate;
+	private String iEndDate;
 	private int iImpr;
 	
 	public int getpNum() {
@@ -57,16 +57,16 @@ public class Issue {
 	public void setiDscr(String iDscr) {
 		this.iDscr = iDscr;
 	}
-	public Date getiStartDate() {
+	public String getiStartDate() {
 		return iStartDate;
 	}
-	public void setiStartDate(Date iStartDate) {
+	public void setiStartDate(String iStartDate) {
 		this.iStartDate = iStartDate;
 	}
-	public Date getiEndDate() {
+	public String getiEndDate() {
 		return iEndDate;
 	}
-	public void setiEndDate(Date iEndDate) {
+	public void setiEndDate(String iEndDate) {
 		this.iEndDate = iEndDate;
 	}
 	public int getiImpr() {

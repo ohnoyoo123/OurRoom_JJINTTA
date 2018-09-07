@@ -1,5 +1,8 @@
 package service;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +43,18 @@ public class IssueService {
 	public List<IssueMember> getIssueMember(Issue issue) {
 		return iDao.selectAllIssueMember(issue);
 	}
-
 	// 이슈 추가
 	public Issue addIssue(Issue issue, String loginUser) {
 
+		
+		if(issue.getiStartDate() == "") {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			issue.setiStartDate(sdf.format(new Date()));
+		}
+		if(issue.getiEndDate() == "") {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			issue.setiEndDate(sdf.format(new Date()));
+		}
 		iDao.insertIssue(issue);
 		// 마지막 태스크 번호
 		int lastINum = iDao.selectIssue(issue).size();

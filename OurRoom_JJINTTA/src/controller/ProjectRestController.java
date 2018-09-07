@@ -7,9 +7,18 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import dao.LogDao;
 import model.CheckList;
@@ -75,7 +84,7 @@ public class ProjectRestController {
 		System.out.println("요청 url : " + "/project/issueDetail");
 		System.out.println(issue);
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("issue", iSvc.getIssueList(issue));
+		data.put("issueList", iSvc.getIssueList(issue));
 		data.put("issueMember", iSvc.getIssueMember(issue));
 		data.put("checkList", clSvc.getCheckList(issue));
 		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
@@ -94,12 +103,50 @@ public class ProjectRestController {
 	}
 
 	@PostMapping("/project/addTask")
-	public void addTask(HttpSession session, Task task) {
+
+	public Map<String, Object> addTask(HttpSession session, Task task) {
+
 		System.out.println("요청 url : " + "/project/addTask");
 
 		// String loginUser = ((Member)session.getAttribute("loginUser")).getmId();
 		String loginUser = "hong123@gmail.com";
 		tSvc.addTask(task, loginUser);
+		System.out.println(task);
+		
+		int pNum = task.getpNum();
+		
+		System.out.println("pNum : " + pNum);
+		
+		task.settNum(0);
+
+		System.out.println("태스크 리스트 : " + tSvc.getTaskList(task));
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		Issue issue = new Issue();
+		issue.setpNum(pNum);
+		
+
+		
+//		Gson gson = new Gson();
+//		String stringProject = gson.toJson(pSvc.getProject(pNum));
+//		JsonObject projectJson = new JsonParser().parse(stringProject).getAsJsonObject();
+//		
+//		String stringTask = gson.toJson(tSvc.getTaskList(task));
+//		JsonArray taskJson = new JsonParser().parse(stringTask).getAsJsonArray();
+//		
+//		
+//		String stingIssue = gson.toJson(iSvc.getIssueList(issue));
+//		JsonArray issueJson = new JsonParser().parse(stingIssue).getAsJsonArray();
+//		
+//		System.out.println("이슈리스트" + iSvc.getIssueList(issue));
+//
+//		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("projectJson", pSvc.getProject(pNum));
+		data.put("taskJson", tSvc.getTaskList(task));
+		data.put("issueJson", iSvc.getIssueList(issue));
+
+		return data;
+
 	}
 
 	@PostMapping("/project/deleteTask")
@@ -109,7 +156,7 @@ public class ProjectRestController {
 	}
 
 	@PostMapping("/project/addIssue")
-	public void addIssue(HttpSession session, Issue issue, @RequestParam(value = "members[]", required = false) List<String> members) {
+	public Map<String, Object> addIssue(HttpSession session, Issue issue, @RequestParam(value = "members[]", required = false) List<String> members) {
 		System.out.println("요청 url : " + "/project/addIssue");
 
 		System.out.println(members);
@@ -117,6 +164,8 @@ public class ProjectRestController {
 		String loginUser = "hong123@gmail.com";
 
 		Issue returnIssue = iSvc.addIssue(issue, loginUser);
+		
+		int pNum = issue.getpNum();
 		
 		if (members != null) {
 			// 생성과 동시에 멤버추가 로그 생성
@@ -148,7 +197,20 @@ public class ProjectRestController {
 			}
 		}
 		
-
+		Task task = new Task();
+		task.setpNum(pNum);
+		
+		issue.setiNum(0);
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("projectJson", pSvc.getProject(pNum));
+		data.put("taskJson", tSvc.getTaskList(task));
+		data.put("issueJson", iSvc.getIssueList(issue));
+		
+		System.out.println("=----==--------------------------------------------");
+		System.out.println(tSvc.getTaskList(task));
+		System.out.println(iSvc.getIssueList(issue));
+		return data;
 	}
 
 	@PostMapping("/project/deleteIssue")
@@ -233,5 +295,11 @@ public class ProjectRestController {
 		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
 		return data;
 
+	}
+	
+	@PostMapping("/project/test")
+	public void test(@RequestBody Task task) {
+		System.out.println("====================");
+		System.out.println(task);
 	}
 }

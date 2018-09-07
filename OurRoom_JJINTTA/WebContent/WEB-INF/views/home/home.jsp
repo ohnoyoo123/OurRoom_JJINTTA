@@ -194,10 +194,8 @@
 							<tr>
 								<td>${project.pNum }</td>
 								<td><a href="project/gantt?pNum=${project.pNum }">${project.pName }</a></td>
-								<td><fmt:formatDate value="${project.pStartDate }"
-										pattern="yyyy-MM-dd" /></td>
-								<td><fmt:formatDate value="${project.pEndDate }"
-										pattern="yyyy-MM-dd" /></td>
+								<td>${project.pStartDate }</td>
+								<td>${project.pEndDate }</td>
 							</tr>
 						</c:forEach>
 					</table>
@@ -233,7 +231,7 @@
 				<br>
 				<script>
 					$(function() {
-	
+
 						$.ajax({
 							url : "getProjectLog",
 							data : {
@@ -245,7 +243,7 @@
 							}
 						});
 					});
-					
+
 				</script>
 				<div id="log_div">
 					<table border="1">
