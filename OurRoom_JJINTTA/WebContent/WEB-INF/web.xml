@@ -70,30 +70,6 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet> -->
 
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.js</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.jsx</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.css</url-pattern>
-	</servlet-mapping>
-
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.jpg</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.png</url-pattern>
-	</servlet-mapping>
-
 	<!-- error 관련 -->
 	<!-- <error-page> <error-code>403</error-code> <location>/WEB-INF/views/error/403.jsp</location> 
 		</error-page> <error-page> <error-code>404</error-code> <location>/WEB-INF/views/error/404.jsp</location> 
