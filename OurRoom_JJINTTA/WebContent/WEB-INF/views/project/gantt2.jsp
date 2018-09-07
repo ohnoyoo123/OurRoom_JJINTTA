@@ -32,7 +32,11 @@
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 
+<<<<<<< HEAD
 	<script>
+=======
+<script>
+>>>>>>> branch 'Baek(09/04)' of https://github.com/ohnoyoo123/OurRoom_JJINTTA.git
   $(function () {
     $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
   });
@@ -276,7 +280,12 @@ var gantt = new Gantt('#gantt', taskAndIssue, {
   on_click: function (task) {
 		if(task.id.charAt(0) == 'T'){
 			//클릭한 녀석이 태스크
-			alert('태스크')
+			console.log(task.id);
+			// $.ajax({
+			// 	url : 'kanban2',
+			// 	pNum : task.
+			// 	tNum :
+			// })
 		}else if (task.id.charAt(0) == 'I') {
 			//클릭한 녀석이 이슈
 			$('#issueDetailBtn').trigger('click')
