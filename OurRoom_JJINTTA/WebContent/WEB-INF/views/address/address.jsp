@@ -8,6 +8,12 @@
 <head>
 <meta content="charset=UTF-8">
 <style type="text/css">
+#innerFrame {
+	display: inline-block;
+	width: 95%;
+	position: absolute;
+	margin: 10px;
+}
 #addressList {
 	float: left;
 }
@@ -170,6 +176,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+<jsp:include page="../mainFrame.jsp"></jsp:include>
+<div id="innerFrame">
 	<div class="container">
 		<%-- <jsp:include page="../mainFrame.jsp" />--%>
 		<div id="addressList" style="width: 400px; height: 300px">
@@ -218,5 +226,6 @@
 			</div>
 		</div>
 	</div>
+</div>
 </body>
 </html>

@@ -153,11 +153,11 @@ public class PageController {
 		//체크리스트 아이템 멤버 정보
 		mav.addObject("checkListItemMemberList", clSvc.getAllCheckListItemMember(issue));
 		
-		mav.setViewName("/project/kanban2");
+		mav.setViewName("/project/kanban");
 		return mav;
 		
 	}
-	@RequestMapping("/project/kanban2")
+	@RequestMapping("/project/kanban")
 	public ModelAndView project_kanban2(int pNum, int tNum) {
 		
 		ModelAndView mav = new ModelAndView();
