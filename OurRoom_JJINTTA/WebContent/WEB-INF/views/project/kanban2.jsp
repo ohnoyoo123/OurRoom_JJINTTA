@@ -57,11 +57,34 @@
        this.step='_'+step
        this.item=item
     }
+
+
+    // {
+    //     'id' : issue.step--> _Ideas,,,,
+    //     'title'  : issue.step,
+    //     'class' : if(issue.step)-->'info',
+    //     'item'  : [
+    //         {
+    //             'id':issue.step + issue.order,
+    //             'title':issue.name,
+    //         },
+    //         {
+    //             'id':'2',
+    //             'title':'idea2',
+    //         }
+    //     ]
+    // },
+
+
   }
   let issues=[]
 
-  const makeKanban = () => {
-    
+  const makeKanban = (issueList) => {
+    for(let i=0; i<issueList.length;i++){
+      let tempIssue = new Issue(
+
+      )
+    }
   }
   var KanbanTest = new jKanban({
       element : '#myKanban',

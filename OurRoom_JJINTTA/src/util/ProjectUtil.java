@@ -61,8 +61,8 @@ public class ProjectUtil {
 			int pDay = Integer.parseInt(spliteddate[2]);
 			
 
-			if (nYear <= pYear) {
-			} else if (nYear == pYear && nMonth <= pMonth) {
+			if (nYear < pYear) {
+			} else if (nYear == pYear && nMonth < pMonth) {
 			} else if (nYear == pYear && nMonth == pMonth && nDay <= pDay) {
 			} else {
 				pastProject.add(p);
