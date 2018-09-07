@@ -52,6 +52,8 @@
 
   <script type="text/javascript">
 
+  console.log(${issueJson});
+
   class Issue{
     constructor(id, title){
       this.id = id

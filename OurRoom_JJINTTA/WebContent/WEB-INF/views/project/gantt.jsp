@@ -259,12 +259,10 @@
 							txt += '</div>'
 							txt += '</div>'
 							txt += '</div>'
-
 							txt += '<br>'
 						}
 						$('#checkList').html(txt)
 						$('#checkListNameForm').empty()
-
 			}
 
 

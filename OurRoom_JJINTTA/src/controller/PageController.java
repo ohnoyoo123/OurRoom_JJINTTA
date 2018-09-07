@@ -159,7 +159,7 @@ public class PageController {
 	}
 	@RequestMapping("/project/kanban2")
 	public ModelAndView project_kanban2(int pNum, int tNum) {
-		
+		System.out.println("요청 url : /project/kanban2");
 		ModelAndView mav = new ModelAndView();
 		
 		//프로젝트 정보
