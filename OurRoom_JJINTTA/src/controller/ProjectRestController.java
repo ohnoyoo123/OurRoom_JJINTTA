@@ -16,6 +16,7 @@ import model.CheckList;
 import model.CheckListItem;
 import model.Issue;
 import model.IssueMember;
+import model.Log;
 import model.Member;
 import model.Noti;
 import model.Project;
@@ -47,9 +48,12 @@ public class ProjectRestController {
 
 	@Autowired
 	LogService lSvc;
-	
+
 	@Autowired
 	LogDao lDao;
+	
+	@Autowired
+	LogService logSvc;
 
 	@PostMapping("/project/newProject")
 	public int newProject(Project project, String owner,
@@ -105,35 +109,45 @@ public class ProjectRestController {
 	}
 
 	@PostMapping("/project/addIssue")
-	public void addIssue(HttpSession session, Issue issue,
-			@RequestParam(value = "members[]", required = false) List<String> members) {
+	public void addIssue(HttpSession session, Issue issue, @RequestParam(value = "members[]", required = false) List<String> members) {
 		System.out.println("요청 url : " + "/project/addIssue");
 
 		System.out.println(members);
 		// String loginUser = ((Member)session.getAttribute("loginUser")).getmId();
 		String loginUser = "hong123@gmail.com";
 
-		iSvc.addIssue(issue,loginUser);
-
-		List<Issue> issueList = iSvc.getIssueList(issue);
-		issue = issueList.get(issueList.size() - 1);
-
+		Issue returnIssue = iSvc.addIssue(issue, loginUser);
+		
 		if (members != null) {
+			// 생성과 동시에 멤버추가 로그 생성
+			Map<String, Object> logMap = new HashMap<String,Object>();
+			logMap.put("target", returnIssue);
+			logMap.put("mId", loginUser);
+			logMap.put("lCat", Log.I_ADD_MEMBER);
+			logSvc.insertLog(logMap);
+
+			// 직전에 삽입된 로그의 번호를 가져온다.
+			int LastLNum = lDao.selectLogLastLNum(returnIssue.getpNum());
+
 			for (String mId : members) {
 				IssueMember im = new IssueMember();
-				im.setpNum(issue.getpNum());
-				im.settNum(issue.gettNum());
-				im.setiNum(issue.getiNum());
+				im.setpNum(returnIssue.getpNum());
+				im.settNum(returnIssue.gettNum());
+				im.setiNum(returnIssue.getiNum());
 				im.setmId(mId);
 				iSvc.addIssueMember(im);
-				// 로그 남기기(이슈 멤버추가 31)
-				Noti noti = new Noti();
-				noti.setpNum(issue.getpNum());
-				noti.setmId(mId);
-				noti.setlNum(lDao.selectLogLastLNum(issue.getpNum()));
-				lDao.insertNoti(noti);
+				
+				// 로그 남기기(이슈 멤버추가 33)
+				// 알림 생성
+				Map<String, Object> notiMap = new HashMap<String, Object>();
+				notiMap.put("pNum", returnIssue.getpNum());
+				notiMap.put("mId", mId);
+				notiMap.put("lNum", LastLNum);
+
+				logSvc.insertNoti(notiMap);
 			}
 		}
+		
 
 	}
 

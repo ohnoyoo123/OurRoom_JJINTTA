@@ -20,4 +20,11 @@ public interface LogDao {
 	
 	/* 프로젝트에 해당하는 마지막 로그 가져오기 */
 	public int selectLogLastLNum(int pNum);
+	
+	/* 알림 가져오기 */
+	public List<Noti> selectUnreadNoti(Noti noti);
+
+	public int updateNoti(Noti noti);
+
+	public List<Noti> selectNoti(Noti noti);
 }

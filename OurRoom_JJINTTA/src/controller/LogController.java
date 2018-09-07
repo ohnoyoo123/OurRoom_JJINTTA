@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import model.Log;
+import model.Noti;
 import service.LogService;
 import websocket.SocketHandler;
 
@@ -31,10 +32,17 @@ public class LogController {
 		// 1. LogService에게 로그를 조회한다.
 		List<Log> projectLogList = logSvc.getProjectLog(pNum);
 		System.out.println(socketHandler);
-		//socketHandler.
+		// socketHandler.
 		// 2. 조회된 로그리스트를 반환한다.
 		System.out.println(projectLogList);
 
 		return projectLogList;
+	}
+
+	@RequestMapping("readAndGetNoti")
+	public List<Noti> readAndGetNoti(Noti noti) {
+
+		return logSvc.readAndGetNoti(noti);
+		
 	}
 }

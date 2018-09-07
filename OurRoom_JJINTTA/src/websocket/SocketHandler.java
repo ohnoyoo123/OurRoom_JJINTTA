@@ -1,6 +1,7 @@
 package websocket;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import dao.LogDao;
+import model.Noti;
 
 /*
  * 출처 : 	http://blog.naver.com/PostView.nhn?blogId=beabeak&logNo=220471878778&parentCategory
@@ -57,18 +59,24 @@ public class SocketHandler extends TextWebSocketHandler implements InitializingB
 	/* 클라이언트로부터 메시지가 도착했을 때 호출 */
 	@Override
 	public void handleMessage(WebSocketSession session,
-
 			WebSocketMessage<?> message) throws Exception {
-
 		super.handleMessage(session, message);
-
+		
 		this.logger.info("receive message:" + message.toString());
 		this.logger.info("receive message2:" + message.getPayload());
 
 		// 쓰레드를 호출하여 로그받아오기
-		new LogThread(Integer.parseInt(message.getPayload().toString())).start();
-		System.out.println();
-
+		/*new LogThread(Integer.parseInt(message.getPayload().toString())).start();
+		System.out.println();*/
+		
+		System.out.println(message.getPayload().toString());
+		String loginUser = message.getPayload().toString();
+		
+		Noti noti = new Noti();
+		noti.setmId(loginUser);
+		List<Noti> notiList = lDao.selectUnreadNoti(noti);
+		System.out.println(notiList);
+		sendMessage(notiList.size()+"");
 	}
 
 	/* 전송 에러 발생할 때 호출 */
@@ -123,15 +131,15 @@ public class SocketHandler extends TextWebSocketHandler implements InitializingB
 
 		@Override
 		public void run() {
-			while (true) {
-				try {
-					sendMessage(lDao.selectProjectLog(pNum).toString());
-					this.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+//			while (true) {
+//				try {
+//					sendMessage(lDao.selectProjectLog(pNum).toString());
+//					this.sleep(1000);
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
 		}
 
 	}

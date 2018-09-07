@@ -1,6 +1,8 @@
 package service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class IssueService {
 	@Autowired
 	LogDao lDao;
 
+	@Autowired
+	LogService logSvc;
+
 	public List<Issue> getIssueList(Issue issue) {
 		return iDao.selectIssue(issue);
 
@@ -37,23 +42,28 @@ public class IssueService {
 	}
 
 	// 이슈 추가
-	public void addIssue(Issue issue,String loginUser) {
+	public Issue addIssue(Issue issue, String loginUser) {
 
 		iDao.insertIssue(issue);
 		// 마지막 태스크 번호
 		int lastINum = iDao.selectIssue(issue).size();
+		issue.setiNum(lastINum);
 		// 로그남기기(이슈 생성 31)
-		Log log = new Log();
-		log.setpNum(issue.getpNum());
-		log.settNum(issue.gettNum());
-		log.setiNum(lastINum);
-		log.setmId(loginUser);
-		log.setlCat(31);
-		lDao.insertLog(log);
+		// log생성
+		Map<String, Object> logMap = new HashMap<String, Object>();
+		logMap.put("target", issue);
+		logMap.put("mId", loginUser);
+		logMap.put("lCat", Log.I_CREATE);
+		logSvc.insertLog(logMap);
+
+		return issue;
+
 	}
 
 	// 이슈에 멤버 추가
 	public void addIssueMember(IssueMember im) {
+		
+		
 		iDao.insertIssueMember(im);
 
 	}

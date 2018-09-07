@@ -2,6 +2,7 @@ package service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import dao.LogDao;
 import dao.ProjectDao;
 import dao.TaskDao;
 import model.Log;
-import model.LogMember;
 import model.Noti;
 import model.Project;
 import model.ProjectMember;
@@ -27,6 +27,9 @@ public class ProjectService {
 
 	@Autowired
 	LogDao logDao;
+
+	@Autowired
+	LogService logSvc;
 
 	public List<Project> getProjectListByMId(HashMap<String, Object> mId) {
 		return projectDao.selectProjectList(mId);
@@ -50,20 +53,24 @@ public class ProjectService {
 		List<String> pmList = (List<String>) params.get("projectMember");
 		project.setpBackground("pexels");
 		projectDao.insertProject(project);
+	
+		//log생성
+		Map<String, Object> logMap = new HashMap<String, Object>();
+		logMap.put("target", project);
+		logMap.put("lCat", Log.P_CREATE);
+		logMap.put("mId", (String) params.get("mId"));
+		
+		logSvc.insertLog(logMap);
 
-		// 로그남기기(프로젝트 생성 11)
-		Log log = new Log();
-		log.setpNum(project.getpNum());
-		log.setmId((String) params.get("owner"));
-		log.setlCat(11);
-		logDao.insertLog(log);
-		
-		System.out.println("멤버!!!!!!!!!!!!!!!" + pmList);
-		// 직전에 삽입된 로그의 번호를 가져온다.
-		int LastLNum = logDao.selectLogLastLNum(log.getpNum());
-		
 		// null point exception때문에
 		if (pmList != null) {
+			// 생성과 동시에 멤버추가 로그 생성
+			logMap.put("lCat",Log.P_ADD_MEMBER);
+			logSvc.insertLog(logMap);
+			
+			// 직전에 삽입된 로그의 번호를 가져온다.
+			int LastLNum = logDao.selectLogLastLNum(project.getpNum()); 
+			
 			for (String mId : pmList) {
 				ProjectMember pm = new ProjectMember();
 				pm.setmId(mId);
@@ -73,12 +80,13 @@ public class ProjectService {
 				pm.setPmIsAuth(false);
 				projectDao.insertProjectMember(pm);
 				
-				// 로그남기기(프로젝트 멤버 11)
-				Noti noti = new Noti();
-				noti.setpNum(project.getpNum());
-				noti.setmId(mId);
-				noti.setlNum(LastLNum);
-				logDao.insertNoti(noti);
+				// 알림 생성
+				Map<String, Object> notiMap = new HashMap<String, Object>();
+				notiMap.put("pNum", project.getpNum());
+				notiMap.put("mId", mId);
+				notiMap.put("lNum", LastLNum);
+				
+				logSvc.insertNoti(notiMap);
 			}
 
 		}
@@ -91,6 +99,7 @@ public class ProjectService {
 		projectDao.insertProjectMember(owner);
 
 		return project.getpNum();
+
 	}
 
 	// 프로젝트 번호로 참가 인원 가져오기

@@ -66,7 +66,7 @@
 	<div style="text-align: center;">
 		<form action="">
 			<input onclick="send_message()" value="Send" type="button"> <input
-				id="textID" name="message" value="Hello WebSocket!" type="text"><br>
+				id="textID" name="textID" value="Hello WebSocket!" type="text"><br>
 		</form>
 	</div>
 	<div id="output"></div>
