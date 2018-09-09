@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import dao.CheckListDao;
 import dao.IssueDao;
-import dao.LogDao;
+//import dao.LogDao;
 import dao.TaskDao;
 import model.CheckList;
 import model.CheckListItem;
@@ -32,11 +32,11 @@ public class TaskService {
 	@Autowired
 	CheckListDao clDao;
 
-	@Autowired
-	LogDao lDao;
-	
-	@Autowired
-	LogService logSvc;
+//	@Autowired
+//	LogDao lDao;
+//	
+//	@Autowired
+//	LogService logSvc;
 
 	public List<Task> getTaskList(Task task) {
 		return tDao.selectTask(task);
@@ -72,7 +72,7 @@ public class TaskService {
 		logMap.put("mId", loginUser);
 		logMap.put("lCat", Log.T_CREATE);
 
-		logSvc.insertLog(logMap);
+//		logSvc.insertLog(logMap);
 	}
 
 	public void deleteTask(Task task) {

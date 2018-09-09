@@ -20,9 +20,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import dao.LogDao;
+//import dao.LogDao;
 import model.CheckList;
 import model.CheckListItem;
+import model.Comment;
 import model.Issue;
 import model.IssueMember;
 import model.Log;
@@ -32,7 +33,7 @@ import model.Project;
 import model.Task;
 import service.CheckListService;
 import service.IssueService;
-import service.LogService;
+//import service.LogService;
 import service.MemberService;
 import service.ProjectService;
 import service.TaskService;
@@ -55,15 +56,15 @@ public class ProjectRestController {
 	@Autowired
 	TaskService tSvc;
 
-	@Autowired
-	LogService lSvc;
+//	@Autowired
+//	LogService lSvc;
 
-	@Autowired
-	LogDao lDao;
+//	@Autowired
+//	LogDao lDao;
 
-	@Autowired
-	LogService logSvc;
-
+//	@Autowired
+//	LogService logSvc;
+	
 	@PostMapping("/project/newProject")
 	public int newProject(Project project, String owner,
 			@RequestParam(value = "members[]", required = false) List<String> members) {
@@ -157,7 +158,8 @@ public class ProjectRestController {
 	public Map<String, Object> addIssue(HttpSession session, Issue issue,
 			@RequestParam(value = "members[]", required = false) List<String> members) {
 		System.out.println("요청 url : " + "/project/addIssue");
-
+		System.out.println(issue);
+		System.out.println("=================================");
 		System.out.println(members);
 		String loginUser = ((Member)session.getAttribute("loginUser")).getmId();
 
@@ -171,10 +173,10 @@ public class ProjectRestController {
 			logMap.put("target", returnIssue);
 			logMap.put("mId", loginUser);
 			logMap.put("lCat", Log.I_ADD_MEMBER);
-			logSvc.insertLog(logMap);
+//			logSvc.insertLog(logMap);
 
 			// 직전에 삽입된 로그의 번호를 가져온다.
-			int LastLNum = lDao.selectLogLastLNum(returnIssue.getpNum());
+//			int LastLNum = lDao.selectLogLastLNum(returnIssue.getpNum());
 
 			for (String mId : members) {
 				IssueMember im = new IssueMember();
@@ -186,12 +188,12 @@ public class ProjectRestController {
 
 				// 로그 남기기(이슈 멤버추가 33)
 				// 알림 생성
-				Map<String, Object> notiMap = new HashMap<String, Object>();
-				notiMap.put("pNum", returnIssue.getpNum());
-				notiMap.put("mId", mId);
-				notiMap.put("lNum", LastLNum);
-
-				logSvc.insertNoti(notiMap);
+//				Map<String, Object> notiMap = new HashMap<String, Object>();
+//				notiMap.put("pNum", returnIssue.getpNum());
+//				notiMap.put("mId", mId);
+//				notiMap.put("lNum", LastLNum);
+//
+//				logSvc.insertNoti(notiMap);
 			}
 		}
 
@@ -293,6 +295,31 @@ public class ProjectRestController {
 		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
 		return data;
 
+	}
+	
+	@PostMapping("/project/issueUpdate")
+	public Map<String, Object> issueUpdate(Issue issue) {
+		System.out.println("요청 url : /project/issueUpdate");
+		System.out.println(issue);
+		iSvc.updateIssue(issue);
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("issueList", iSvc.getIssueList(issue));
+		data.put("issueMember", iSvc.getIssueMember(issue));
+		data.put("checkList", clSvc.getCheckList(issue));
+		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
+
+		return data;
+
+	}
+	
+	@PostMapping("/project/addComment")
+	public void addComment(Comment comment) {
+		System.out.println("요청 url : /project/addComment");
+		System.out.println(comment);
+		iSvc.addComment(comment);
+		
 	}
 
 	@PostMapping("/project/test")

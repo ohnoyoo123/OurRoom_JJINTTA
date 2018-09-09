@@ -12,10 +12,11 @@ import org.springframework.stereotype.Service;
 
 import dao.CheckListDao;
 import dao.IssueDao;
-import dao.LogDao;
+//import dao.LogDao;
 import model.CheckList;
 import model.CheckListItem;
 import model.CheckListItemMember;
+import model.Comment;
 import model.Issue;
 import model.IssueMember;
 import model.Log;
@@ -29,11 +30,11 @@ public class IssueService {
 	@Autowired
 	CheckListDao clDao;
 
-	@Autowired
-	LogDao lDao;
+//	@Autowired
+//	LogDao lDao;
 
-	@Autowired
-	LogService logSvc;
+//	@Autowired
+//	LogService logSvc;
 
 	public List<Issue> getIssueList(Issue issue) {
 		return iDao.selectIssue(issue);
@@ -46,7 +47,7 @@ public class IssueService {
 	// 이슈 추가
 	public Issue addIssue(Issue issue, String loginUser) {
 
-		
+		System.out.println("===이슈 서비스===" + issue);
 		if(issue.getiStartDate() == "") {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			issue.setiStartDate(sdf.format(new Date()));
@@ -65,7 +66,7 @@ public class IssueService {
 		logMap.put("target", issue);
 		logMap.put("mId", loginUser);
 		logMap.put("lCat", Log.I_CREATE);
-		logSvc.insertLog(logMap);
+//		logSvc.insertLog(logMap);
 
 		return issue;
 
@@ -117,6 +118,17 @@ public class IssueService {
 		checkListItemMember.setiNum(iNum);
 		clDao.deleteCheckListItemMember(checkListItemMember);
 
+	}
+	
+	//이슈 업데이트
+	public void updateIssue(Issue issue) {
+		iDao.updateIssue(issue);
+		
+	}
+
+	public void addComment(Comment comment) {
+		iDao.insertComment(comment);
+		
 	}
 
 }

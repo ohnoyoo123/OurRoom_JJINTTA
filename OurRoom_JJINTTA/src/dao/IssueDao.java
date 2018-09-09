@@ -2,6 +2,7 @@ package dao;
 
 import java.util.List;
 
+import model.Comment;
 import model.Issue;
 import model.IssueMember;
 
@@ -19,5 +20,9 @@ public interface IssueDao {
 	public void deleteIssue(Issue issue);
 
 	public void deleteIssueMember(IssueMember im);
+
+	public void updateIssue(Issue issue);
+
+	public void insertComment(Comment comment);
 	
 }

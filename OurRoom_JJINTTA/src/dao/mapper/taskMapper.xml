@@ -7,7 +7,7 @@
 		insert into task values(
 		#{pNum},
 		#{tNum},
-		#{tNum},
+		(select ifnull((select max(t.t_num)+1 from task t where p_num = #{pNum}), 1)),
 		#{tName},
 		#{tDscr},
 		#{tStartDate},

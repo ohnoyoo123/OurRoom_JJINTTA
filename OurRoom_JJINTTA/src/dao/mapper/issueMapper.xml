@@ -22,10 +22,10 @@
 	<update id="updateIssue" parameterType="issue">
 		update issue
 		<set>
-			<if test="iStep != null">
+			<if test="iStep != 0">
 				i_step = #{iStep},
 			</if>
-			<if test="iOrder != null">
+			<if test="iOrder != 0">
 				i_order = #{iOrder},
 			</if>
 			<if test="iName != null">
@@ -118,10 +118,7 @@
 		#{pNum},
 		#{tNum},
 		#{iNum},
-		ifnull(select max(c.c_num)+1 from
-		comment c where p_num = #{p_num} and t_num =
-		#{tNum} and i_num =
-		#{iNum}, 1),
+		(select ifnull((select max(cm.cm_num)+1 from comment cm where p_num = #{pNum} and t_num = #{tNum} and i_num = #{iNum}), 1)),
 		#{mId},
 		#{cmContent},
 		now(),
