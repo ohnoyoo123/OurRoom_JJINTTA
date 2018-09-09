@@ -424,6 +424,9 @@ gantt.change_view_mode('Month')
 		})
 	})
 
+	let selectedTask = 0
+	let seletecIssue = 0
+
 	//이슈 상세정보 보기
 	$('#issueDetailBtn').on('click', () => {
 		console.log('task');
@@ -442,7 +445,9 @@ gantt.change_view_mode('Month')
 			success : (data) => {
 				console.log('성공');
 				console.log(data);
-				$('.selectedTask').html(data.issue[0].tNum)
+				seletedTask = data.issue[0].tNum
+				selectedIssue = data.issue[0].iNum
+				$('.selectedTask').html(data.issue[0].tName)
 				$('#IssueDetailModaliName').html(data.issue[0].iName)
 				$('.iStartDate').val(data.issue[0].iStartDate)
 				$('.iEndDate').val(data.issue[0].iEndDate)
@@ -527,6 +532,8 @@ gantt.change_view_mode('Month')
 
 	//체크리스트 추가
 	$(document).on('click', '#addCheckListBtn', () => {
+		console.log(${porject.pNum});
+		console.log(seletedTask);
 		console.log($('#checkListName').val());
 	})
 
