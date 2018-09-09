@@ -10,8 +10,8 @@ public class Task {
 	private int tOrder;
 	private String tName;
 	private String tDscr;
-	private Date tStartDate;
-	private Date tEndDate;
+	private String tStartDate;
+	private String tEndDate;
 	private String tNotiName;
 	private String tNotiContent;
 	private Timestamp tNotiWriteTime;
@@ -46,16 +46,16 @@ public class Task {
 	public void settDesc(String tDscr) {
 		this.tDscr = tDscr;
 	}
-	public Date gettStartDate() {
+	public String gettStartDate() {
 		return tStartDate;
 	}
-	public void settStartDate(Date tStartDate) {
+	public void settStartDate(String tStartDate) {
 		this.tStartDate = tStartDate;
 	}
-	public Date gettEndDate() {
+	public String gettEndDate() {
 		return tEndDate;
 	}
-	public void settEndDate(Date tEndDate) {
+	public void settEndDate(String tEndDate) {
 		this.tEndDate = tEndDate;
 	}
 	public String gettNotiName() {

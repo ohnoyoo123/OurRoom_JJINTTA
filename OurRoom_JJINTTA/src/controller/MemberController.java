@@ -44,7 +44,7 @@ public class MemberController {
 		boolean result = memberService.loginMemberCheck(member);
 		// 세션에 로그인 회원 등록
 		if (result) {
-			session.setAttribute("loginUser", member);
+			session.setAttribute("loginUser", memberService.selectMember(member.getmId()));
 		}
 		return result;
 	}
@@ -77,8 +77,8 @@ public class MemberController {
 
 	/* 주소록에 회원 추가 */
 	@RequestMapping("addAddress")
-	public boolean addAddress(Address address) {
-		String mId = "hong123@gmail.com";
+	public boolean addAddress(HttpSession session, Address address) {
+		String mId = ((Member)session.getAttribute("loginUser")).getmId();
 		address.setmId(mId);
 		System.out.println("[MemberController > addAddress] before : " + address);
 		boolean result = memberService.addAddress(address);
@@ -88,15 +88,16 @@ public class MemberController {
 
 	/* 주소록 회원 삭제 */
 	@RequestMapping("deleteAddress")
-	public boolean deleteAddress(Address address) {
-		String mId = "hong123@gmail.com";
+	public boolean deleteAddress(HttpSession session,Address address) {
+		String mId = ((Member)session.getAttribute("loginUser")).getmId();
 		address.setmId(mId);
 		System.out.println("[MemberController > deleteAddress] before : " + address);
 		boolean result = memberService.deleteAddress(address);
 		System.out.println("[MemberController > deleteAddress] afrer : " + address);
 		return result;
 	}
-
+	
+	/* 주소록 프로젝트 멤버 리스트 조회 */
 	@RequestMapping("addressProjectMemberList")
 	public List<ProjectMember> addressProjectMemberList(String pNum) {
 		System.out.println("[MemberController > addressProjectMemberList] before : " + pNum);

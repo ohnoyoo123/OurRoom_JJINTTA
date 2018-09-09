@@ -8,6 +8,12 @@
 <head>
 <meta content="charset=UTF-8">
 <style type="text/css">
+#innerFrame {
+	display: inline-block;
+	width: 95%;
+	position: absolute;
+	margin: 10px;
+}
 #addressList {
 	float: left;
 }
@@ -170,6 +176,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+<jsp:include page="../mainFrame.jsp"></jsp:include>
+<div id="innerFrame">
 	<div class="container">
 		<%-- <jsp:include page="../mainFrame.jsp" />--%>
 		<div id="addressList" style="width: 400px; height: 300px">
@@ -205,10 +213,8 @@
 					<tr class="addressProject_tr">
 						<td class="pNum_td">${addressProject.pNum }</td>
 						<td>${addressProject.pName }</td>
-						<td><fmt:formatDate value="${addressProject.pStartDate }"
-								pattern="yyyy-MM-dd" /></td>
-						<td><fmt:formatDate value="${addressProject.pEndDate }"
-								pattern="yyyy-MM-dd" /></td>
+						<td>${addressProject.pStartDate }</td>
+						<td>${addressProject.pEndDate }</td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -218,5 +224,6 @@
 			</div>
 		</div>
 	</div>
+</div>
 </body>
 </html>
