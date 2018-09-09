@@ -12,23 +12,8 @@
 		(select ifnull((select max(i.i_order)+1 from issue i where p_num = #{pNum} and t_num = #{tNum}), 1)),
 		#{iName},
 		#{iDscr},
-		<choose>
-			<when test="iStartDate != null">
-				#{iStartDate},
-			</when>
-			<when test="iStartDate == null">
-				now(),
-			</when>
-		</choose>
-
-		<choose>
-			<when test="iEndDate != null">
-				#{iEndDate},
-			</when>
-			<when test="iEndDate == null">
-				now(),
-			</when>
-		</choose>
+		#{iStartDate},
+		#{iEndDate},
 		0
 		)
 		
@@ -73,8 +58,10 @@
 		p_num = #{pNum}
 		and
 		t_num = #{tNum}
+		<if test="iNum != 0">
 		and
 		i_num = #{iNum}
+		</if>
 	</delete>
 
 	<select id="selectIssue" parameterType="issue" resultMap="issueRM">
@@ -109,8 +96,10 @@
 		t_num = #{tNum}
 		and
 		i_num = #{iNum}
+		<if test="mId != null">
 		and
 		m_id = #{mId} 
+		</if>
 	</delete>
 	
 	<select id="selectAllIssueMember" parameterType="issue" resultMap="issueMemberRM">

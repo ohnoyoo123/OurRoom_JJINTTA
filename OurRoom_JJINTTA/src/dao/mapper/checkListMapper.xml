@@ -9,10 +9,13 @@
 		#{pNum},
 		#{tNum},
 		#{iNum},
-		ifnull(select max(cl.cl_num)+1 from
-		checkList cl where p_num = #{p_num} and t_num =
-		#{tNum} and i_num =
-		#{iNum}, 1),
+		(ifnull(
+			(select max(cl.cl_num)+1 from checkList cl 
+				where p_num = #{pNum} 
+					and t_num =	#{tNum} 
+					and i_num =	#{iNum}), 1
+				)
+		),
 		#{clName}
 		)
 	</insert>
@@ -39,11 +42,14 @@
 		p_num = #{pNum}
 		and
 		t_num = #{tNum}
+		<if test="iNum != 0">
 		and
 		i_num = #{iNum}
+		</if>
+		<if test="clNum != 0">
 		and
-		cl_num =
-		#{clNum}
+		cl_num = #{clNum}
+		</if>
 	</delete>
 	
 	<select id="selectAllCheckList" parameterType="issue"
@@ -59,15 +65,19 @@
 	</select>
 
 	<insert id="insertCheckListItem" parameterType="checkListItem">
-		insert into
-		checkListItem values(
+		insert into	checkListItem values(
 		#{pNum},
 		#{tNum},
 		#{iNum},
 		#{clNum},
-		ifnull(select
-		max(ci.ci_num)+1 from checkListItem ci where p_num = #{p_num} and
-		t_num = #{tNum} and i_num = #{iNum} and cl_num = #{clNum}, 1),
+		(ifnull(
+			(select max(ci.ci_num)+1 from checkListItem ci 
+				where p_num = #{pNum} 
+					and	t_num = #{tNum} 
+					and i_num = #{iNum} 
+					and cl_num = #{clNum}), 1
+				)
+		),
 		#{ciName},
 		false
 		)
@@ -90,8 +100,7 @@
 		and
 		i_num = #{iNum}
 		and
-		cl_num =
-		#{clNum}
+		cl_num = #{clNum}
 		and
 		ci_num = #{ciNum}
 	</update>
@@ -103,12 +112,18 @@
 		p_num = #{pNum}
 		and
 		t_num = #{tNum}
+		<if test="iNum != 0">
 		and
 		i_num = #{iNum}
+		</if>
+		<if test="clNum != 0">
 		and
 		cl_num = #{clNum}
+		</if>
+		<if test="ciNum != 0">
 		and
 		ci_num = #{ciNum}
+		</if>
 	</delete>
 
 	<select id="selectAllCheckListItem" parameterType="issue"
@@ -121,6 +136,52 @@
 		and
 		i_num = #{iNum}
 	</select>
+	
+	<insert id="insertCheckListItemMember" parameterType="checkListItemMember">
+		insert into checkListItem_member values(
+			#{pNum},
+			#{tNum},
+			#{iNum},
+			#{clNum},
+			#{ciNum},
+			#{mId}
+		)
+	</insert>
+	
+	<delete id="deleteCheckListItemMember" parameterType="checkListItemMember">
+		delete from checkListItem_member
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		<if test="iNum != 0">
+		and
+		i_num = #{iNum}
+		</if>
+		<if test="clNum != 0">
+		and
+		cl_num = #{clNum}
+		</if>
+		<if test="ciNum != 0">
+		and
+		ci_num = #{ciNum}
+		</if>
+		<if test="mId != null">
+		and
+		m_id = #{mId}
+		</if>
+	</delete>
+	
+	<select id="selectAllCheckListItemMember" parameterType="issue" resultMap="checkListItemMemberRM">
+		select * from checkListItem_member
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+	</select>
+	
 	
 	<resultMap type="checkList" id="checkListRM">
 		<result property="pNum" column="p_num"/>
@@ -140,7 +201,13 @@
 		<result property="ciIsDone" column="ci_isDone"/>
 	</resultMap>
 	
-	
-	
+	<resultMap type="checkListItemMember" id="checkListItemMemberRM">
+		<result property="pNum" column="p_num"/>
+		<result property="tNum" column="t_num"/>
+		<result property="iNum" column="i_num"/>
+		<result property="clNum" column="cl_num"/>
+		<result property="ciNum" column="ci_num"/>
+		<result property="mId" column="m_id"/>
+	</resultMap>
 	
 </mapper>

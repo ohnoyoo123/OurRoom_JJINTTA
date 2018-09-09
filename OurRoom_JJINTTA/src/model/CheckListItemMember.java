@@ -8,7 +8,6 @@ public class CheckListItemMember {
 	private int clNum;
 	private int ciNum;
 	private String mId;
-	
 	public int getpNum() {
 		return pNum;
 	}
@@ -50,6 +49,7 @@ public class CheckListItemMember {
 		return "CheckListItemMember [pNum=" + pNum + ", tNum=" + tNum + ", iNum=" + iNum + ", clNum=" + clNum
 				+ ", ciNum=" + ciNum + ", mId=" + mId + "]";
 	}
+	
 	
 	
 	

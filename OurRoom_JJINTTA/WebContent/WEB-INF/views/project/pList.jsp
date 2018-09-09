@@ -61,7 +61,7 @@
 	      <div class="modal-header">
 	        <h4 class="modal-title">
 	       		프로젝트명:
-              <input type="hidden" name="owner" value="hong123@gmail.com"> <%-- ${세션에 있는 아이디 mId} --%>                
+              <input type="hidden" name="owner" value="${loginUser.mId}"> <%-- ${세션에 있는 아이디 mId} --%>
 	        	  <input type="text" placeholder="enter project name" id="pName">
 	        </h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -92,12 +92,19 @@
 	  </div>
 	</div>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 
-  $(document).ready(function () {		
+  $(document).ready(function () {
 
     $('#memberSearch').on('keyup',function () {
-      var searchMembers = []
+      	var searchMembers = []
+      	var word = $("#memberSearch").val();
+		
+      	if (word.length == 0) {
+      		$('#searchedMember').html("");
+			return;
+		}
+      
       $.ajax({
         url:'../project/memberSearch',
         data: {
@@ -106,22 +113,30 @@
         type: "post",
 
         success: function (data) {         
-          
+        
           console.log(data);
+          
+	      if (data.length == 0) {
+	    		$('#searchedMember').html("검색된 회원이 없습니다.");
+	    		return;
+		  }
+	      
           for(var i=0; i<data.length; i++){
+        	  if ('${loginUser.mId}' != data[i].mId) {
             //members.push("<p class='member' mId="+data[i].mId+" mNickname="+data[i].mNickname+">"+data[i].mNickname+"</p>")
             searchMembers.push("<p class='member' mNickname="+data[i].mNickname+" mId="+data[i].mId+">"+data[i].mNickname+
-            "("+data[i].mId+")</p>")
+            "("+data[i].mId+")</p>")  
+        	  }
           }
           $('#searchedMember').html(searchMembers)
         }
       })
     })
-    
-    
+
+
         var invitedId=[]
         var invitedNickname=[]
-    
+
     $(document).on('click', '.member', function () {
         var mNickname = $(this).attr('mNickname')
         var mId = $(this).attr('mId')
@@ -148,7 +163,7 @@
 				url : "newProject",
 				data : {
 					pName : $('#pName').val(),
-					owner : 'hong123@gmail.com',
+					owner : '${loginUser.mId}',
 					members : invitedId
 				},
 				type : "post",
@@ -157,8 +172,6 @@
 				}
 			})
 		})
-
-
   })
 </script>
 
