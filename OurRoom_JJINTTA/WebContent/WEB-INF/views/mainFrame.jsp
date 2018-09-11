@@ -143,187 +143,194 @@ i::before{
    });
 </script>
 <script> 
-$("#noti").on("click",function() {
-    console.log(11);
-    var searchNotis = [];
-
-    $.ajax({
-       url : "${pageContext.request.contextPath}/readAndGetNoti",
-       data : {
-          mId : '${loginUser.mId}'
-       },
-       success : function(data) {
-          console.log(data);
-          $("#noti").html("");
-          for (var i = 0; i < data.length; i++) {
-
-             console.log(data[i]);
-
-             var notiDefaultMsg = "<p style='text-align:left;'> <b> From. "
-                   + data[i].mNickname
-                   + "("
-                   + data[i].mId
-                   + ")</b> <br><br>";
-             var notiDetailMsg = "";
-
-             switch (data[i].lCat) {
-             // 프로젝트 생성
-             //case 11:
-             //   console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.");
-             //   searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.</p>");
-             //   break;
-             // 프로젝트 멤버추가
-             case 13:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/gantt?pNum="
-                      + data[i].pNum
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 프로젝트의 멤버로 초대하였습니다.</p>";
-                break;
-             // 프로젝트 멤버삭제
-             case 14:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/gantt?pNum="
-                      + data[i].pNum
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 프로젝트의 멤버에서 제외했습니다.</p>";
-                break;
-             // 이슈 생성
-             case 31:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
-                      + data[i].pNum
-                      + "&tNum="
-                      + data[i].tNum
-                      + "&iNum="
-                      + data[i].iNum
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 이슈를 생성했습니다.</p>";
-                break;
-             // 이슈 멤버 할당
-             case 33:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
-                      + data[i].pNum
-                      + "&tNum="
-                      + data[i].tNum
-                      + "&iNum="
-                      + data[i].iNum
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 이슈를 할당하였습니다.</p>";
-                break;
-
-             case 41:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
-                      + data[i].pNum
-                      + "&tNum="
-                      + data[i].tNum
-                      + "&iNum="
-                      + data[i].iNum
-                      + "&clNum="
-                      + data[i].clNum
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 체크리스트를 추가하였습니다.</p>";
-                break;
-             case 42:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
-                      + data[i].pNum
-                      + "&tNum="
-                      + data[i].tNum
-                      + "&iNum="
-                      + data[i].iNum
-                      + "&clNum="
-                      + data[i].clNum
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 체크리스트를 삭제하였습니다.</p>";
-                break;
-             case 51:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
-                      + data[i].pNum
-                      + "&tNum="
-                      + data[i].tNum
-                      + "&iNum="
-                      + data[i].iNum
-                      + "&clNum="
-                      + data[i].clNum
-                      + "&ciNum="
-                      + data[i].ciNum
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 체크리스트 아이템을 추가하였습니다.</p>";
-                break;
-             case 52:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
-                      + data[i].pNum
-                      + "&tNum="
-                      + data[i].tNum
-                      + "&iNum="
-                      + data[i].iNum
-                      + "&clNum="
-                      + data[i].clNum
-                      + "&ciNum="
-                      + data[i].ciNum
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 체크리스트 아이템을 삭제하였습니다.</p>";
-                break;
-             case 53:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
-                      + data[i].pNum
-                      + "&tNum="
-                      + data[i].tNum
-                      + "&iNum="
-                      + data[i].iNum
-                      + "&clNum="
-                      + data[i].clNum
-                      + "&ciNum="
-                      + data[i].ciNum
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 체크리스트 아이템을 할당하였습니다.</p>";
-                break;
-             case 61:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
-                      + data[i].pNum
-                      + "&tNum="
-                      + data[i].tNum
-                      + "&iNum="
-                      + data[i].iNum               
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 이슈에 댓글을 남겼습니다.</p>";   
-                break;
-             case 63:
-                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
-                      + data[i].pNum
-                      + "&tNum="
-                      + data[i].tNum
-                      + "&iNum="
-                      + data[i].iNum               
-                      + "'>"
-                      + data[i].lName
-                      + "</a> 댓글을 참조했습니다.</p>";   
-                break;
-             }
-       
-             searchNotis
-                   .push(notiDefaultMsg
-                         + notiDetailMsg
-                         + "<h6> "
-                         + data[i].lTime
-                         + "</h6>"
-                         + "<hr class='style5'>");
-          }
-
-          $("#noti_div").html(searchNotis);
-          $("#notiModal").modal();
-       }         
-    });         
- });</script>
-</head>
-<body>
+$(function(){
+	$("#noti").on("click",function() {
+	    console.log("33");
+	    var searchNotis = [];
+	
+	    $.ajax({
+	       url : "${pageContext.request.contextPath}/readAndGetNoti",
+	       data : {
+	          mId : '${loginUser.mId}'
+	       },
+	       success : function(data) {
+	          console.log(data);
+	          $("#noti").html("");
+	          for (var i = 0; i < data.length; i++) {
+	
+	             console.log(data[i]);
+	
+	             var notiDefaultMsg = "<p style='text-align:left;'> <b> From. "
+	                   + data[i].mNickname
+	                   + "("
+	                   + data[i].mId
+	                   + ")</b> <br><br>";
+	             var notiDetailMsg = "";
+	
+	             switch (data[i].lCat) {
+	             // 프로젝트 생성
+	             //case 11:
+	             //   console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.");
+	             //   searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.</p>");
+	             //   break;
+	             // 프로젝트 멤버추가
+	             case 13:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/gantt?pNum="
+	                      + data[i].pNum
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 프로젝트의 멤버로 초대하였습니다.</p>";
+	                break;
+	             // 프로젝트 멤버삭제
+	             case 14:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/gantt?pNum="
+	                      + data[i].pNum
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 프로젝트의 멤버에서 제외했습니다.</p>";
+	                break;
+	             // 이슈 생성
+	             case 31:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
+	                      + data[i].pNum
+	                      + "&tNum="
+	                      + data[i].tNum
+	                      + "&iNum="
+	                      + data[i].iNum
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 이슈를 생성했습니다.</p>";
+	                break;
+	             // 이슈 멤버 할당
+	             case 33:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
+	                      + data[i].pNum
+	                      + "&tNum="
+	                      + data[i].tNum
+	                      + "&iNum="
+	                      + data[i].iNum
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 이슈를 할당하였습니다.</p>";
+	                break;
+	
+	             case 41:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
+	                      + data[i].pNum
+	                      + "&tNum="
+	                      + data[i].tNum
+	                      + "&iNum="
+	                      + data[i].iNum
+	                      + "&clNum="
+	                      + data[i].clNum
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 체크리스트를 추가하였습니다.</p>";
+	                break;
+	             case 42:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
+	                      + data[i].pNum
+	                      + "&tNum="
+	                      + data[i].tNum
+	                      + "&iNum="
+	                      + data[i].iNum
+	                      + "&clNum="
+	                      + data[i].clNum
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 체크리스트를 삭제하였습니다.</p>";
+	                break;
+	             case 51:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
+	                      + data[i].pNum
+	                      + "&tNum="
+	                      + data[i].tNum
+	                      + "&iNum="
+	                      + data[i].iNum
+	                      + "&clNum="
+	                      + data[i].clNum
+	                      + "&ciNum="
+	                      + data[i].ciNum
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 체크리스트 아이템을 추가하였습니다.</p>";
+	                break;
+	             case 52:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
+	                      + data[i].pNum
+	                      + "&tNum="
+	                      + data[i].tNum
+	                      + "&iNum="
+	                      + data[i].iNum
+	                      + "&clNum="
+	                      + data[i].clNum
+	                      + "&ciNum="
+	                      + data[i].ciNum
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 체크리스트 아이템을 삭제하였습니다.</p>";
+	                break;
+	             case 53:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
+	                      + data[i].pNum
+	                      + "&tNum="
+	                      + data[i].tNum
+	                      + "&iNum="
+	                      + data[i].iNum
+	                      + "&clNum="
+	                      + data[i].clNum
+	                      + "&ciNum="
+	                      + data[i].ciNum
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 체크리스트 아이템을 할당하였습니다.</p>";
+	                break;
+	             case 61:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
+	                      + data[i].pNum
+	                      + "&tNum="
+	                      + data[i].tNum
+	                      + "&iNum="
+	                      + data[i].iNum               
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 이슈에 댓글을 남겼습니다.</p>";   
+	                break;
+	             case 63:
+	                notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
+	                      + data[i].pNum
+	                      + "&tNum="
+	                      + data[i].tNum
+	                      + "&iNum="
+	                      + data[i].iNum               
+	                      + "'>"
+	                      + data[i].lName
+	                      + "</a> 댓글을 참조했습니다.</p>";   
+	                break;
+	             }
+	       
+	             searchNotis.push(notiDefaultMsg
+	                         + notiDetailMsg
+	                         + "<h6> "
+	                         + data[i].lTime
+	                         + "</h6>"
+	                         + "<hr class='style5'>");
+	          }
+	
+	          $("#noti_div").html(searchNotis);
+	          $("#notiModal").modal();
+	       }         
+	    });  
+	 }); 
+/* 로그아웃 처리 */
+$("#logout").on("click", function() {
+	console.log("close");
+	location.href = "${pageContext.request.contextPath}/logout";
+});
+});
+ </script>
+</head> 
+<body> 
 
 	<%-- <fmt:parseDate value=""/>  --%>
 	<input id="loginUser" type="hidden" value="${loginUser.mId}" />

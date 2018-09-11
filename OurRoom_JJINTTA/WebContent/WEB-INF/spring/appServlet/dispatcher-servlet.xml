@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans:beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:beans="http://www.springframework.org/schema/beans"
@@ -8,8 +9,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
 	<!-- controller패키지에 포함된 어노테이션으로 Controller설정되어 있는 컨트롤러 클래스 bean객체 만들기 -->
-	<context:component-scan
-		base-package="controller" />
+	<context:component-scan 	base-package="controller" />
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<beans:bean
@@ -30,16 +30,17 @@
 			<beans:value>.jsp</beans:value>
 		</beans:property>
 	</beans:bean>
-	
+
 	<!-- 로그인 인터셉터 등록 -->
-	<beans:bean id="loginInterceptor" class="interceptor.LoginInterceptor"></beans:bean>
+	<beans:bean id="loginInterceptor"
+		class="interceptor.LoginInterceptor"></beans:bean>
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/home" />
 			<mvc:mapping path="/project/*" />
 			<mvc:mapping path="/address" />
 			<mvc:mapping path="/myPage" />
-			<beans:ref bean="loginInterceptor"  />			
+			<beans:ref bean="loginInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 

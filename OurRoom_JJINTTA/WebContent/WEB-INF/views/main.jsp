@@ -693,36 +693,6 @@ body {
 		</div>
 	</div>
 
-	<!-- Add Google Maps -->
-	<!--<div id="googleMap" style="height: 400px; width: 100%;"></div>
-	<script>
-		function myMap() {
-			var myCenter = new google.maps.LatLng(41.878114, -87.629798);
-			var mapProp = {
-				center : myCenter,
-				zoom : 12,
-				scrollwheel : false,
-				draggable : false,
-				mapTypeId : google.maps.MapTypeId.ROADMAP
-			};
-			var map = new google.maps.Map(document.getElementById("googleMap"),
-					mapProp);
-			var marker = new google.maps.Marker({
-				position : myCenter
-			});
-			marker.setMap(map);
-		}
-	</script>
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
--->
-	<!--
-To use this code on your website, get a free API key from Google.
-Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
--->
-
-
-
 	<script>
 		$(document).ready(
 				function() {
@@ -1038,7 +1008,7 @@ Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
 								placeholder="Enter email">
 						</div>
 						<div class="form-group">
-							<label for="psw"><span
+							<label for="mPw"><span
 								class="glyphicon glyphicon-eye-open"></span> Password</label> <input
 								type="password" class="form-control" id="mPw" name="mPw"
 								placeholder="Enter password"><br>
@@ -1183,7 +1153,7 @@ Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
 								placeholder="Answer">
 						</div>
 					
-						<button type="button" id="loginBtn"
+						<button type="button" id=ForgetPwBtn
 							class="btn btn-success btn-block">
 							<span class="glyphicon glyphicon-off"></span> Check
 						</button>
