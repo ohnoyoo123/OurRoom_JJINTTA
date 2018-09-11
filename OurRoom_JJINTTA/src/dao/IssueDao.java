@@ -1,5 +1,6 @@
 package dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import model.Comment;
@@ -30,5 +31,13 @@ public interface IssueDao {
 	public Issue selectMinStartDate(Issue issue);
 
 	public Issue selectMaxEndDate(Issue issue);
+	
+	public List<Issue> selectIssueGreaterThanOrder(HashMap<String, Object> params);
+	
+	public void updateIssueOrder(Issue i);
+	
+	public void updateDraggedIssue(Issue issue);
+	
+	public int countIssuesInStep(Issue issue);
 	
 }

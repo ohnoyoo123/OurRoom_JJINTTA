@@ -51,6 +51,20 @@
 		and
 		i_num = #{iNum}
 	</update>
+	<update id="updateDraggedIssue" parameterType="issue">
+		update issue set i_step=#{iStep}, i_order=#{iOrder}
+		where
+		p_num=#{pNum} and
+		t_num=#{tNum} and
+		i_num=#{iNum}
+	</update>
+	<update id="updateIssueOrder" parameterType="issue">
+		update issue set i_order = #{iOrder} 
+		where
+		p_num = #{pNum} and 		
+		t_num = #{tNum} and
+		i_num = #{iNum}	
+	</update>
 
 	<delete id="deleteIssue" parameterType="issue">
 		delete from issue
@@ -97,6 +111,23 @@
 		t_num = #{tNum}
 		order by i_endDate desc
 		limit 1
+	</select>
+	
+	<select id="selectIssueGreaterThanOrder" parameterType="hashMap" resultMap="issueRM">
+		select * from issue 
+		where
+		p_num = #{pNum} and
+		t_num = #{tNum} and
+		i_step = #{iStep} and
+		i_order >= #{iOrder}
+	</select>
+	
+	<select id="countIssuesInStep" parameterType="issue" resultType="int">
+		select count(*) from issue
+		where
+		p_num = #{pNum} and
+		t_num = #{tNum} and
+		i_step = #{iStep}	
 	</select>
 	
 	<insert id="insertIssueMember" parameterType="issueMember">

@@ -108,10 +108,6 @@ textarea {
 		<svg id="gantt"></svg>
 	</div>
 
-	<div>
-		<i class="huge user icon"></i>
-	</div>
-
 	<%-- 태스크 추가 모달 --%>
 	<div class="modal fade" id="addTaskModal">
 		<div class="modal-dialog">
@@ -391,6 +387,9 @@ const makeGantt = (p, tList, iList) => {
 console.log(taskAndIssue);
 makeGantt(project, taskList, issueList)
 
+let selTask = 0;
+let selIssue = 0;
+
 var gantt = new Gantt('#gantt', taskAndIssue, {
   // can be a function that returns html or a simple html string
   on_click: function (task) {
@@ -586,10 +585,7 @@ gantt.change_view_mode('Month')
 		selectedtNum = $(this).attr('tNum')
 		selectedtName = $(this).attr('tName')
 		$('.selectedTask').html("태스크 이름 : " + selectedtName)
-		console.log(selectedtNum);
-		console.log(selectedtName);
 	})
-
 	//이슈 추가
 	$('#addIssue').on('click', () => {
 		console.log('이슈 멤버들 제발 좀');
@@ -772,6 +768,7 @@ gantt.change_view_mode('Month')
 	}
 
 	const showIssue = (data) => {
+		console.log(data);
 		selectedTask = data.issueList[0].tNum
 		selectedIssue = data.issueList[0].iNum
 		$('.selectedTask').html(data.issueList[0].tName)
@@ -1294,7 +1291,6 @@ gantt.change_view_mode('Month')
 			})
 
 	}
-
 
 })
 </script>

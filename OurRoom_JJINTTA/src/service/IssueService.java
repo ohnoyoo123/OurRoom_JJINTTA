@@ -147,4 +147,80 @@ public class IssueService {
 		return iDao.selectMaxEndDate(issue);
 	}
 
+	public List<Issue> orderChange(HashMap<String, Object> params) {
+		int pNum = Integer.parseInt((String)(params.get("pNum")));
+		int tNum = Integer.parseInt((String)(params.get("tNum")));
+		int iNumSource = Integer.parseInt((String)(params.get("iNum")));
+		
+		String firstStep = (String)params.get("firstStep");
+		int stepFrom = orderTranslate(firstStep);		
+		String finalStep = (String)params.get("finalStep");
+		int stepTo = orderTranslate(finalStep);
+		
+		int iOrderFormer = Integer.parseInt((String)(params.get("iOrderFormer")));
+		int iOrderLatter = Integer.parseInt((String)(params.get("iOrderLatter")));
+		
+		params.put("iStep", stepFrom);
+		params.put("iOrder", iOrderFormer);
+		
+		List<Issue> issuesOfFormerStep = iDao.selectIssueGreaterThanOrder(params);
+		System.out.println("이동전 이슈리스트 =========="+issuesOfFormerStep);
+		for(Issue i : issuesOfFormerStep) {
+			i.setiOrder(i.getiOrder()-1);
+			iDao.updateIssueOrder(i);
+		}
+		
+		Issue issue = new Issue();
+		issue.setpNum(pNum);
+		issue.settNum(tNum);
+		issue.setiNum(iNumSource);
+		issue.setiStep(stepTo);
+		
+		if(iOrderLatter!=0) {
+			params.put("iStep", stepTo);
+			params.put("iOrder", iOrderLatter);
+			
+			List<Issue> issuesOfLatterStep = iDao.selectIssueGreaterThanOrder(params);
+			System.out.println("이동후 이슈리스트 =========="+issuesOfLatterStep);
+			for(Issue i : issuesOfLatterStep) {
+				i.setiOrder(i.getiOrder()+1);
+				iDao.updateIssueOrder(i);
+			}			
+			issue.setiOrder(iOrderLatter);
+			iDao.updateDraggedIssue(issue);
+		}else {
+			int lastOrder = iDao.countIssuesInStep(issue);		
+			issue.setiOrder(lastOrder+1);		
+			iDao.updateDraggedIssue(issue);
+		}			
+		
+		Issue i = new Issue();
+		i.setiOrder(0);
+		return iDao.selectIssue(i);
+	}
+	
+	public int orderTranslate(String steps) {
+		int stepInNum=0;
+		switch (steps) {
+		case "Ideas":
+			stepInNum=0;
+			break;
+		case "ToDo":
+			stepInNum=1;
+			break;
+		case "Doing":
+			stepInNum=2;
+			break;
+		case "Done":
+			stepInNum=3;
+			break;
+		case "Review":
+			stepInNum=4;
+			break;
+		default:
+			break;
+		}
+		return stepInNum;
+	}
+
 }

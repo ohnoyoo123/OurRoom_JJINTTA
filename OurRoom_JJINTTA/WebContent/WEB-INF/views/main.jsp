@@ -231,7 +231,7 @@ opacity
 
 
 
- 
+
 
 
 
@@ -267,7 +267,7 @@ transform
 
 
 
- 
+
 
 
 
@@ -330,7 +330,7 @@ opacity
 
 
 
- 
+
 
 
 
@@ -366,7 +366,7 @@ opacity
 
 
 
- 
+
 
 
 
@@ -426,7 +426,6 @@ translateY
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar"
 	data-offset="60">
-
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -439,12 +438,12 @@ translateY
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#about">ABOUT</a></li>
+					<!-- <li><a href="#about">ABOUT</a></li>
 					<li><a href="#services">SERVICES</a></li>
 					<li><a href="#portfolio">PORTFOLIO</a></li>
 					<li><a href="#pricing">PRICING</a></li>
-					<li><a href="#contact">CONTACT</a></li>
-					<li><a id="login">LOGIN</a></li>
+					<li><a href="#contact">CONTACT</a></li> -->
+					<li><a id="login" href='loginForm'>LOGIN</a></li>
 				</ul>
 			</div>
 		</div>
@@ -800,11 +799,11 @@ Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
 	</div>
 
 	<script>
-		$(document).ready(function() {
+		/* $(document).ready(function() {
 			$("#login").click(function() {
 				$("#myModal").modal();
 			});
-		});
+		}); */
 	</script>
 	<a href="loginForm">로그인</a>
 

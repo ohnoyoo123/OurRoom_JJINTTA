@@ -25,10 +25,13 @@ var dragula = require('dragula');
             addItemButton: false,
             buttonContent: '+',
             dragEl: function (el, source) {
+
             },
             dragendEl: function (el) {
             },
             dropEl: function (el, target, source, sibling) {
+
+            //  console.log(el, target, source, sibling);
             },
             dragBoard: function (el, source) {
             },
@@ -111,6 +114,7 @@ var dragula = require('dragula');
                             el.dragendfn(el);
                     })
                     .on('drop', function (el, target, source, sibling) {
+
                         self.enableAllBoards();
 
                         var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
@@ -144,6 +148,7 @@ var dragula = require('dragula');
             nodeItem.classList.add('kanban-item');
             if (element.id) {
               nodeItem.setAttribute('data-eid', element.id)
+
             }
             nodeItem.innerHTML = element.title;
             //add function
@@ -235,6 +240,8 @@ var dragula = require('dragula');
                     var nodeItem = document.createElement('div');
                     nodeItem.classList.add('kanban-item');
                     nodeItem.dataset.eid = itemKanban.id;
+                    nodeItem.dataset.iorder = itemKanban.order;
+                    //nodeItem.dataset.ttt = itemKanban.ttt;
                     nodeItem.innerHTML = itemKanban.title;
                     //add function
                     nodeItem.clickfn = itemKanban.click;
@@ -644,8 +651,7 @@ function dragula (initialContainers, options) {
   if (len === 1 && Array.isArray(initialContainers) === false) {
     options = initialContainers;
     initialContainers = [];
-  }
-  var _mirror; // mirror image
+  }  var _mirror; // mirror image
   var _source; // source container
   var _item; // item being dragged
   var _offsetX; // reference x
@@ -693,6 +699,7 @@ function dragula (initialContainers, options) {
   return drake;
 
   function isContainer (el) {
+
     return drake.containers.indexOf(el) !== -1 || o.isContainer(el);
   }
 
