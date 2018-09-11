@@ -100,7 +100,7 @@ var dragula = require('dragula');
                                 }
                             })
                         }
-                
+
                         self.options.dragEl(el, source);
                         if (el !== null && typeof(el.dragfn) === 'function')
                             el.dragfn(el, source);
@@ -112,7 +112,7 @@ var dragula = require('dragula');
                     })
                     .on('drop', function (el, target, source, sibling) {
                         self.enableAllBoards();
-                
+
                         var boardJSON = __findBoardJSON(source.parentNode.dataset.id);
                         if (boardJSON.dragTo !== undefined) {
                             if (boardJSON.dragTo.indexOf(target.parentNode.dataset.id) === -1 && target.parentNode.dataset.id !== source.parentNode.dataset.id) {

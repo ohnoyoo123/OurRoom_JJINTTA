@@ -8,7 +8,6 @@
     <style>
         body{font-family: "Lato"; margin:0; padding: 0;}
       #myKanban{overflow-x: auto; padding:20px 0;}
-
       .success{background: #00B961; color:#fff}
       .info{background: #2A92BF; color:#fff}
       .warning{background: #F4CE46; color:#fff}

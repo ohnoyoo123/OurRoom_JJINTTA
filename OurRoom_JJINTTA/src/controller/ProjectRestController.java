@@ -79,10 +79,50 @@ public class ProjectRestController {
 
 		return pSvc.addProject(params);
 	}
+	
+	@PostMapping("/project/projectReload")
+	public Map<String, Object> projectReload(Issue issue) {
+		int pNum = issue.getpNum();
+		int tnum = issue.gettNum();
+		Map<String, Object> data = new HashMap<String, Object>();
+		Task task = new Task();
+		task.setpNum(pNum);
+		data.put("projectJson", pSvc.getProject(issue.getpNum()));
+		data.put("taskJson", tSvc.getTaskList(task));
+		data.put("issueJson", iSvc.getIssueList(issue));
+		return data;
+		
+	}
+	
+	@PostMapping("/project/taskDetail")
+	public Map<String, Object> taskDetail(Task task) {
+		System.out.println("요청 url : /project/taskDetail");
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("taskList", tSvc.getTaskList(task));
+		return data;
+		
+	}
+	
+	//날짜 비교용
+	@PostMapping("/project/matchDate")
+	public Map<String, Object> matchDate(Issue issue) {
+		System.out.println("요청 url : /project/matchDate");
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("issueList", iSvc.getIssueList(issue));
+		
+		Task task = new Task();
+		task.setpNum(issue.getpNum());
+		task.settNum(issue.gettNum());
+		data.put("taskList", tSvc.getTaskList(task));
+		data.put("minIStartDate", iSvc.getMinIStartDate(issue));
+		data.put("maxIEndDate", iSvc.getMaxIEndDate(issue));
+		return data;
+		
+	}
 
 	@PostMapping("/project/issueDetail")
 	public Map<String, Object> issueDetail(Issue issue) {
-		System.out.println("요청 url : " + "/project/issueDetail");
+		System.out.println("요청 url : /project/issueDetail");
 		System.out.println(issue);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("issueList", iSvc.getIssueList(issue));
@@ -90,6 +130,7 @@ public class ProjectRestController {
 		data.put("checkList", clSvc.getCheckList(issue));
 		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
 		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
+		data.put("commentList", iSvc.getCommentList(issue));
 		System.out.println("data : " + data);
 		return data;
 
@@ -104,10 +145,10 @@ public class ProjectRestController {
 	}
 
 	@PostMapping("/project/addTask")
-
 	public Map<String, Object> addTask(HttpSession session, Task task) {
 
-		System.out.println("요청 url : " + "/project/addTask");
+		System.out.println("요청 url : /project/addTask");
+		System.out.println(task);
 
 		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
 		tSvc.addTask(task, loginUser);
@@ -146,6 +187,15 @@ public class ProjectRestController {
 
 		return data;
 
+	}
+	
+	@PostMapping("/project/updateTask")
+	public Map<String, Object> updateTask(Task task) {
+		System.out.println("요청 url : " + "/project/updateTask");
+		tSvc.updateTask(task);
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("taskList", tSvc.getTaskList(task));
+		return data;
 	}
 
 	@PostMapping("/project/deleteTask")
@@ -297,9 +347,10 @@ public class ProjectRestController {
 
 	}
 	
-	@PostMapping("/project/issueUpdate")
+	//이슈 변경
+	@PostMapping("/project/updateIssue")
 	public Map<String, Object> issueUpdate(Issue issue) {
-		System.out.println("요청 url : /project/issueUpdate");
+		System.out.println("요청 url : /project/updateIssue");
 		System.out.println(issue);
 		iSvc.updateIssue(issue);
 		
@@ -314,14 +365,23 @@ public class ProjectRestController {
 
 	}
 	
+	//코멘트 입력
 	@PostMapping("/project/addComment")
-	public void addComment(Comment comment) {
+	public Map<String, Object> addComment(Comment comment) {
 		System.out.println("요청 url : /project/addComment");
 		System.out.println(comment);
 		iSvc.addComment(comment);
+		Map<String, Object> data = new HashMap<String, Object>();
+		Issue issue = new Issue();
+		issue.setpNum(comment.getpNum());
+		issue.settNum(comment.gettNum());
+		issue.setiNum(comment.getiNum());
+		data.put("commentList", iSvc.getCommentList(issue));
+		return data;
+		
 		
 	}
-
+	
 	@PostMapping("/project/test")
 	public void test(@RequestBody Task task) {
 		System.out.println("====================");

@@ -24,5 +24,11 @@ public interface IssueDao {
 	public void updateIssue(Issue issue);
 
 	public void insertComment(Comment comment);
+
+	public List<Comment> selectComment(Issue issue);
+
+	public Issue selectMinStartDate(Issue issue);
+
+	public Issue selectMaxEndDate(Issue issue);
 	
 }

@@ -40,10 +40,10 @@ public class Task {
 	public void settName(String tName) {
 		this.tName = tName;
 	}
-	public String gettDesc() {
+	public String gettDscr() {
 		return tDscr;
 	}
-	public void settDesc(String tDscr) {
+	public void settDscr(String tDscr) {
 		this.tDscr = tDscr;
 	}
 	public String gettStartDate() {

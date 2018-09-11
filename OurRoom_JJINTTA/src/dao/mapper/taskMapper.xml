@@ -6,14 +6,14 @@
 	<insert id="insertTask" parameterType="task">
 		insert into task values(
 		#{pNum},
-		#{tNum},
 		(select ifnull((select max(t.t_num)+1 from task t where p_num = #{pNum}), 1)),
+		(select ifnull((select max(t1.t_order)+1 from task t1 where p_num = #{pNum}), 1)),
 		#{tName},
 		#{tDscr},
 		#{tStartDate},
 		#{tEndDate},
-		null,
-		null,
+		"",
+		"",
 		null
 		)
 	</insert>
@@ -21,7 +21,7 @@
 	<update id="updateTask" parameterType="task">
 		update task
 		<set>
-			<if test="tOrder != null">
+			<if test="tOrder != 0">
 				t_order = #{tOrder},
 			</if>
 			<if test="tName != null">
@@ -37,7 +37,7 @@
 				t_endDate = #{tEndDate},
 			</if>
 			<if test="tNotiName != null">
-				t_notiNate = #{tNotiName},
+				t_notiName = #{tNotiName},
 			</if>
 			<if test="tNotiContent != null">
 				t_notiContent = #{tNotiContent},

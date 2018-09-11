@@ -32,6 +32,10 @@
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css">
+		<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
+
+
 <script>
   $(function () {
     $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
@@ -86,6 +90,12 @@ textarea {
 	line-height: 1.6;
 }
 
+#taskDetailModal_tNotiName{
+	display: inline-block;
+	min-width: 200px;
+	min-height: 16px;
+}
+
 </style>
 
 </head>
@@ -94,46 +104,47 @@ textarea {
 	<jsp:include page="../mainFrame.jsp" />
 	<div id="innerFrame">
 		<div id="projectInfo"></div>
-
-		<%-- <button class="btn" id="addTaskBtn" data-toggle="modal"
-			data-target="#addTaskModal">태스크 추가</button> --%>
 		<div id="sideTap"></div>
 		<svg id="gantt"></svg>
+	</div>
 
+	<div>
+		<i class="huge user icon"></i>
 	</div>
 
 	<%-- 태스크 추가 모달 --%>
 	<div class="modal fade" id="addTaskModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
-
 				<!-- Modal Header -->
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
-						태스크명: <input type="text" placeholder="enter task name" id="tName">
+						태스크명: <input type="text" placeholder="enter task name" id="addTaskModal_tName">
 					</h4>
 				</div>
-
-				<!-- Modal body -->
+				<!-- Modal Body -->
 				<div class="modal-body">
 					<div>
-						시작 : <br> <input type="text" class="datepicker tStartDate" readonly>
+						시작 : <br> <input type="text" class="datepicker" id="addTaskModal_tStartDate" disabled>
 					</div>
 					<div>
-						종료 : <br> <input type="text" class="datepicker tEndDate" readonly>
+						종료 : <br> <input type="text" class="datepicker" id="addTaskModal_tEndDate" disabled>
 					</div>
-				</div>
-
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-success" id="addTask">Add</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
-
+					태스크 설명
+					<div id="addTaskModal_tDscrForm">
+						<textarea id="addTaskModal_tDscr"></textarea>
+					</div>
+			</div>
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success" id="addTaskModalConfirmBtn">Add</button>
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
+</div>
+
 
 	<%-- 이슈 추가 모달 --%>
 	<div class="modal fade" id="addIssueModal">
@@ -197,6 +208,49 @@ textarea {
 		</div>
 	</div>
 
+	<%-- 태스크 상세보기 모달 --%>
+	<div class="modal fade" id="TaskDetailModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">
+						태스크명: <span id="taskDetailModal_tName"></span>
+						<input type="text" id="taskDetailModal_tNameForm" autofocus>
+					</h4>
+				</div>
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<div>
+						시작 : <br> <input type="text" class="datepicker" id="taskDetailModal_tStartDate" disabled>
+					</div>
+					<div>
+						종료 : <br> <input type="text" class="datepicker" id="taskDetailModal_tEndDate" disabled>
+					</div>
+					태스크 설명
+					<div id="taskDetailModal_tDscrForm">
+						<textarea id="taskDetailModal_tDscr"></textarea>
+						<button id="taskDetailModal_tDscrBtn">저장</button>
+					</div>
+					태스크 공지
+					<div>
+						공지 이름 :
+						<span id="taskDetailModal_tNotiName"></span>
+						<input type="text" id="taskDetailModal_tNotiNameForm">
+						<textarea id="taskDetailModal_tNotiContent"></textarea>
+						<button id="taskDetailModal_tNotiConfirmBtn">저장</button>
+					</div>
+			</div>
+			<!-- Modal footer -->
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 	<%-- 이슈 상세보기 모달 --%>
 	<div class="modal fade" id="IssueDetailModal">
 		<div class="modal-dialog">
@@ -234,8 +288,10 @@ textarea {
 					<div id="checkListList"></div>
 					======================================================================
 					<h3>코멘트</h3>
-					<div id="comment">
+					<div id="commentDiv">
 						${loginUser.mNickname} : <input type="text" style="width:80%" id="IssueDetailModal_cmContent"><button id="IssueDetailModal_cmBtn">저장</button>
+						<div id="commentArea">
+						</div>
 					</div>
 				</div>
 
@@ -247,29 +303,34 @@ textarea {
 			</div>
 		</div>
 	</div>
+
 	<%-- 숨겨진 이슈 상세보기 버튼 --%>
 	<div id="issueDetailBtn" data-toggle="modal" data-target="#IssueDetailModal"></div>
+
+	<%-- 숨겨진 태스크 상세보기 버튼 --%>
+	<div id="taskDetailBtn" data-toggle="modal" data-target="#TaskDetailModal"></div>
 
 
 <script type="text/javascript">
 
 $(document).ready(function () {
-console.log('==========================');
-let project = ${projectJson}
-console.log(project);
-let taskList = ${taskJson}
-console.log(taskList);
-let issueList = ${issueJson}
-console.log(issueList);
-console.log('==========================');
 
-selTask = 0
-selIssue = 0
-selCheckList = 0
-selCheckListItem = 0
-selMId = ''
+	console.log('==========================');
+	let project = ${projectJson}
+	console.log(project);
+	let taskList = ${taskJson}
+	console.log(taskList);
+	let issueList = ${issueJson}
+	console.log(issueList);
+	console.log('==========================');
 
-selectedIssueDscr = ''
+	let selectedTask = 0
+	let selectedissue = 0
+	let selCheckList = 0
+	let selCheckListItem = 0
+	let selMId = ''
+
+	selectedIssueDscr = ''
 
 
 class Project {
@@ -335,18 +396,74 @@ var gantt = new Gantt('#gantt', taskAndIssue, {
   on_click: function (task) {
 		if(task.id.charAt(0) == 'T'){
 			//클릭한 녀석이 태스크
-			// console.log(task.id);
-			// console.log(task.id.split('_')[1]);
-			// location.href=`/OurRoom/project/kanban2?pNum=${project.pNum}&tNum=` + task.id.split('_')[1]
+			selectedTask = task.id.split('_')[1]
+			$('#taskDetailBtn').trigger('click')
 		}else if (task.id.charAt(0) == 'I') {
 			//클릭한 녀석이 이슈
-			selTask = task.id.split('_')[3]
-			selIssue = task.id.split('_')[1]
+			selectedTask = task.id.split('_')[3]
+			selectedissue = task.id.split('_')[1]
 			$('#issueDetailBtn').trigger('click')
 		}
   },
   on_date_change: function (task, start, end) {
-    console.log(task, start, end);
+    // console.log(task, start, end);
+		if(task.id.charAt(0) == 'T'){
+			//드래그한 녀석이 태스크
+			selectedTask = task.id.split('_')[1]
+
+			tempStartDate = new Date(start)
+			tempStartDateString = ''
+			tempStartDateString += tempStartDate.getFullYear()
+			tempStartDateString += '-'
+			tempStartDateString += tempStartDate.getMonth()+1
+			tempStartDateString += '-'
+			tempStartDateString += tempStartDate.getDate()
+
+			tempEndDate = new Date(end)
+			tempEndDateString = ''
+			tempEndDateString += tempEndDate.getFullYear()
+			tempEndDateString += '-'
+			tempEndDateString += tempEndDate.getMonth()+1
+			tempEndDateString += '-'
+			tempEndDateString += tempEndDate.getDate()
+
+			data = {
+				pNum : ${project.pNum},
+				tNum : selectedTask,
+				tStartDate : tempStartDateString,
+				tEndDate :tempEndDateString
+			}
+			updateTask(data)
+		}else if (task.id.charAt(0) == 'I') {
+			//드래그한 녀석이 이슈
+			selectedTask = task.id.split('_')[3]
+			selectedissue = task.id.split('_')[1]
+
+			tempStartDate = new Date(start)
+			tempStartDateString = ''
+			tempStartDateString += tempStartDate.getFullYear()
+			tempStartDateString += '-'
+			tempStartDateString += tempStartDate.getMonth()+1
+			tempStartDateString += '-'
+			tempStartDateString += tempStartDate.getDate()
+
+			tempEndDate = new Date(end)
+			tempEndDateString = ''
+			tempEndDateString += tempEndDate.getFullYear()
+			tempEndDateString += '-'
+			tempEndDateString += tempEndDate.getMonth()+1
+			tempEndDateString += '-'
+			tempEndDateString += tempEndDate.getDate()
+
+			data = {
+				pNum : ${project.pNum},
+				tNum : selectedTask,
+				iNum : selectedissue,
+				iStartDate : tempStartDateString,
+				iEndDate : tempEndDateString
+			}
+			updateIssue(data)
+		}
   },
   on_progress_change: function (task, progress) {
     console.log(task, progress);
@@ -412,15 +529,21 @@ gantt.change_view_mode('Month')
 
 
 	//태스크 추가
-  $('#addTask').on('click', function () {
+  $('#addTaskModalConfirmBtn').on('click', function () {
+		console.log(${project.pNum});
+		console.log($('#addTaskModal_tName').val());
+		console.log($('#addTaskModal_tDscr').val());
+		console.log($('#addTaskModal_tStartDate').val());
+		console.log($('#addTaskModal_tEndDate').val());
 		selectedMId = []
     $.ajax({
       url: 'addTask',
       data: {
         pNum: ${project.pNum},
-        tName: $('#tName').val(),
-        tStartDate: $('.tStartDate').val(),
-        tEndDate: $('.tEndDate').val()
+        tName: $('#addTaskModal_tName').val(),
+				tDscr : $('#addTaskModal_tDscr').val(),
+        tStartDate: $('#addTaskModal_tStartDate').val(),
+        tEndDate: $('#addTaskModal_tEndDate').val(),
       },
       type: 'post',
       success: (data) => {
@@ -437,8 +560,6 @@ gantt.change_view_mode('Month')
 				$('#tName').val('')
 				$('.tStartDate').val('')
 				$('.tEndDate').val('')
-
-
       }
     })
   })
@@ -459,7 +580,7 @@ gantt.change_view_mode('Month')
 	let selectedtName = ''
 
 	//이슈 추가창 생성
-	$('.addIssueBtn').on('click', function(){
+	$(document).on('click', '.addIssueBtn', function(){
 		console.log(selectedMId);
 		selectedMId = []
 		selectedtNum = $(this).attr('tNum')
@@ -510,8 +631,103 @@ gantt.change_view_mode('Month')
 		})
 	})
 
-	let selectedTask = 0
-	let selectedIssue = 0
+	//코멘트 답글 생성
+	const showReComment = (data, cmNum) => {
+		for(let i = 0; i < data.commentList.length; i++){
+			if(data.commentList[i].cmSuper == cmNum){
+				txt += '<p cmNum="'
+				txt += data.commentList[i].cmNum
+				txt += '" mId="'
+				txt += data.commentList[i].mId
+				txt += '">'
+				txt += '&emsp;┗&emsp;'
+				txt += data.commentList[i].mId
+				txt += ' : '
+				txt += data.commentList[i].cmContent
+				txt += ' : '
+				txt += data.commentList[i].cmWriteTime
+				txt += '</p>'
+
+			}
+		}
+	}
+
+	//코멘트 생성
+	const showComment = (data) => {
+		console.log(data.commentList)
+		txt =''
+		for(let i = 0; i < data.commentList.length; i++){
+			if(data.commentList[i].cmSuper == 0){
+				txt += '<p cmNum="'
+				txt += data.commentList[i].cmNum
+				txt += '" mId="'
+				txt += data.commentList[i].mId
+				txt += '">'
+				txt += data.commentList[i].mId
+				txt += ' : '
+				txt += data.commentList[i].cmContent
+				txt += ' : '
+				txt += data.commentList[i].cmWriteTime
+				if($('#loginUser').val() == data.commentList[i].mId){
+					//답글 작성자가 본인이면 삭제 버튼 활성화
+					txt += '<button class="IssueDetailModal_deleteCmBtn">삭제</button>'
+				}
+				txt += '<button class="IssueDetailModal_reCmFormBtn" IssueDetailModal_reCmFormBtn="0">답글</button>'
+				txt += '</p>'
+				showReComment(data, data.commentList[i].cmNum)
+			}
+		}
+		$('#commentArea').html(txt)
+	}
+
+	//코멘트 답글폼 생성
+	$(document).on('click', '.IssueDetailModal_reCmFormBtn', function(){
+		console.log($(this).parent('p').attr('cmNum'));
+		if($(this).attr('IssueDetailModal_reCmFormBtn') == 0){
+			$(this).parent('p').append(`
+				<input type="text" class="IssueDetailModal_reCmContent"><button class="IssueDetailModal_reCmConfirmBtn">저장</button>
+				<button class="IssueDetailModal_reCmCancleBtn">취소</button>
+				`)
+				$(this).attr('IssueDetailModal_reCmFormBtn', '1')
+		}
+	})
+
+	//코멘트 답글폼 삭제
+	$(document).on('click', '.IssueDetailModal_reCmCancleBtn', function(){
+		$(this).siblings('.IssueDetailModal_reCmFormBtn').attr('IssueDetailModal_reCmFormBtn', '0')
+		$(this).parent('p').find('.IssueDetailModal_reCmContent').remove()
+		$(this).parent('p').find('.IssueDetailModal_reCmConfirmBtn').remove()
+		$(this).parent('p').find('.IssueDetailModal_reCmCancleBtn').remove()
+	})
+
+	//코멘트 답글 입력
+	$(document).on('click', '.IssueDetailModal_reCmConfirmBtn', function () {
+		console.log(${project.pNum});
+		console.log(selectedTask);
+		console.log(selectedIssue);
+		console.log($(this).parent('p').attr('cmNum'));
+		console.log($(this).siblings('.IssueDetailModal_reCmContent').val());
+
+		$.ajax({
+			url : 'addComment',
+			data : {
+				pNum : ${project.pNum},
+				tNum : selectedTask,
+				iNum : selectedIssue,
+				mId : $('#loginUser').val(),
+				cmContent : $(this).siblings('.IssueDetailModal_reCmContent').val(),
+				cmSuper :  $(this).parent('p').attr('cmNum')
+			},
+			type : 'post',
+			success : (data) => {
+				showComment(data)
+			}
+		})
+	})
+
+
+	// let selectedTask = 0
+	// let selectedIssue = 0
 	let issueMember = []
 
 	//체크리스트 친구들 만들기
@@ -560,7 +776,6 @@ gantt.change_view_mode('Month')
 		selectedIssue = data.issueList[0].iNum
 		$('.selectedTask').html(data.issueList[0].tName)
 		$('#IssueDetailModal_iName').html(data.issueList[0].iName)
-		$('#IssueDetailModaliName').html(data.issueList[0].iName)
 		$('#IssueDetailModal_iDscr').html(data.issueList[0].iDscr)
 		$('#IssueDetailModal_iStartDate').val(data.issueList[0].iStartDate)
 		$('#IssueDetailModal_iEndDate').val(data.issueList[0].iEndDate)
@@ -587,16 +802,16 @@ gantt.change_view_mode('Month')
 	//이슈 상세정보 보기
 	$('#issueDetailBtn').on('click', () => {
 		console.log('task');
-		console.log(selTask);
+		console.log(selectedTask);
 		console.log('issue');
-		console.log(selIssue);
+		console.log(selectedissue);
 
 		$.ajax({
 			url : 'issueDetail',
 			data : {
 				pNum : ${project.pNum},
-				tNum : selTask,
-				iNum : selIssue
+				tNum : selectedTask,
+				iNum : selectedissue
 			},
 			type : 'post',
 			success : (data) => {
@@ -604,7 +819,185 @@ gantt.change_view_mode('Month')
 				console.log(data);
 				showIssue(data)
 				showCheckList(data)
+				showComment(data)
 
+			}
+		})
+	})
+
+	let selectedTaskDscr = ''
+
+	const showTask = (data) => {
+		console.log(data);
+		$('#taskDetailModal_tName').show()
+		$('#taskDetailModal_tNameForm').hide()
+		$('#taskDetailModal_tDscrBtn').hide()
+		$('#taskDetailModal_tNotiNameForm').hide()
+		$('#taskDetailModal_tNotiConfirmBtn').hide()
+		$('#taskDetailModal_tNotiName').show()
+		selectedTaskName = data.taskList[0].tName
+		selectedTaskDscr = data.taskList[0].tDscr
+		selectedTaskNotiName = data.taskList[0].tNotiName
+		selectedTaskNotiContent = data.taskList[0].tNotiContent
+		$('#taskDetailModal_tName').html(data.taskList[0].tName)
+		$('#taskDetailModal_tStartDate').val(data.taskList[0].tStartDate)
+		$('#taskDetailModal_tEndDate').val(data.taskList[0].tEndDate)
+		$('#taskDetailModal_tDscr').val(data.taskList[0].tDscr)
+		$('#taskDetailModal_tNotiName').html(data.taskList[0].tNotiName)
+		$('#taskDetailModal_tNotiContent').val(data.taskList[0].tNotiContent)
+
+	}
+
+	//태스크 이름 수정폼 생성
+	$('#taskDetailModal_tName').on('click', () => {
+		$('#taskDetailModal_tName').hide()
+		$('#taskDetailModal_tNameForm').show().focus().val(selectedTaskName)
+	})
+
+	//태스크 이름 수정폼 삭제(포커스 잃을 시)
+	$('#taskDetailModal_tNameForm').on('focusout', () => {
+		$('#taskDetailModal_tName').show()
+		$('#taskDetailModal_tNameForm').hide()
+	})
+
+	//태스크 이름 변경
+	$('#taskDetailModal_tNameForm').keyup((e) => {
+		if((e.keyCode || e.which) == 13){
+			data = {
+				tNum : seletedTask,
+				tName : $('#taskDetailModal_tNameForm').val()
+			}
+			updateTask(data)
+		}
+	})
+
+	//태스크 시작 날짜 변경
+	$(document).on('change', '#taskDetailModal_tStartDate', () => {
+		data = {
+			tNum : seletedTask,
+			tStartDate : $('#taskDetailModal_tStartDate').val()
+		}
+		updateTask(data)
+	})
+
+	//태스크 종료 날짜 변경
+	$(document).on('change', '#taskDetailModal_tEndDate', () => {
+		data = {
+			tNum : seletedTask,
+			tEndDate : $('#taskDetailModal_tEndDate').val()
+		}
+		updateTask(data)
+	})
+
+	//태스크 설명 변경이 있으면 저장 버튼 활성
+	$('#taskDetailModal_tDscr').on('input propertychange', function() {
+		if(selectedTaskDscr != $('#taskDetailModal_tDscr').val()){
+			$("#taskDetailModal_tDscrBtn").show()
+		}else {
+			$("#taskDetailModal_tDscrBtn").hide()
+		}
+	})
+
+	//태스크 설명 변경
+	$('#taskDetailModal_tDscrBtn').on('click', () => {
+		data = {
+			tNum : seletedTask,
+			tDscr : $('#taskDetailModal_tDscr').val()
+		}
+		updateTask(data)
+	})
+
+	//태스크 공지 이름 변경폼 생성
+	$('#taskDetailModal_tNotiName').on('click', function(){
+		$('#taskDetailModal_tNotiName').hide()
+		$('#taskDetailModal_tNotiNameForm').show().focus().val(selectedTaskNotiName)
+	})
+
+	//태스크 공지 이름 변경
+	$('#taskDetailModal_tNotiNameForm').keyup((e) => {
+		if((e.keyCode || e.which) == 13){
+			data = {
+				tNotiName : $('#taskDetailModal_tNotiNameForm').val()
+			}
+			updateTask(data)
+		}
+	})
+
+	//태스크 공지 내용 저장 버튼
+	$('#taskDetailModal_tNotiContent').on('input propertychange', function() {
+		if(selectedTaskNotiContent != $('#taskDetailModal_tNotiContent').val()){
+			$("#taskDetailModal_tNotiConfirmBtn").show()
+		}else {
+			$("#taskDetailModal_tNotiConfirmBtn").hide()
+		}
+	})
+
+	//태스크 공지 내용 저장
+	$(document).on('click', '#taskDetailModal_tNotiConfirmBtn', () => {
+		data = {
+			tNotiContent : $('#taskDetailModal_tNotiContent').val()
+		}
+		updateTask(data)
+	})
+
+
+
+	//태스크 수정
+	const updateTask = (data) => {
+		console.log('updateTask')
+		console.log(data)
+		$.ajax({
+			url : 'updateTask',
+			data : {
+				pNum : ${project.pNum},
+				tNum : data.tNum,
+				tOrder : data.tOrder,
+				tName : data.tName,
+				tDscr : data.tDscr,
+				tStartDate : data.tStartDate,
+				tEndDate : data.tEndDate,
+				tNotiName : data.tNotiName,
+				tNotiContent : data.tNotiContent
+			},
+			type : 'post',
+			success : (data) => {
+				showTask(data)
+				$.ajax({
+					url : 'projectReload',
+					data : {
+						pNum : ${project.pNum},
+						tNum : selectedTask
+					},
+					type : 'post',
+					success : (data) => {
+						project = data.projectJson
+						taskList = data.taskJson
+						issueList = data.issueJson
+						taskAndIssue = []
+
+						makeGantt(project, taskList, issueList)
+						gantt.refresh(taskAndIssue)
+						sideTap(project, taskList, issueList)
+
+					}
+				})
+			}
+		})
+	}
+
+	//태스크 상세정보 보기
+	$('#taskDetailBtn').on('click', () => {
+		console.log('태스크 상세');
+		console.log(selectedTask);
+		$.ajax({
+			url : 'taskDetail',
+			data : {
+				pNum : ${project.pNum},
+				tNum : selectedTask,
+			},
+			type : 'post',
+			success : (data) => {
+				showTask(data)
 			}
 		})
 	})
@@ -756,15 +1149,15 @@ gantt.change_view_mode('Month')
 
 //수정하기//
 
-	const issueUpdate = (data) => {
-		console.log('issueUpdate')
+	const updateIssue = (data) => {
+		console.log('updateIssue')
 		console.log(data)
 		$.ajax({
-			url : 'issueUpdate',
+			url : 'updateIssue',
 			data : {
 				pNum : ${project.pNum},
-				tNum : selectedTask,
-				iNum : selectedIssue,
+				tNum : data.tNum,
+				iNum : data.iNum,
 				iStep : data.iStep,
 				iOrder : data.iOrder,
 				iName : data.iName,
@@ -799,26 +1192,34 @@ gantt.change_view_mode('Month')
 	$('#IssueDetailModal_iNameForm').keyup((e) => {
 		if((e.keyCode || e.which) == 13){
 			data = {
+				tNum : selectedTask,
+				iNum : selectedIssue,
 				iName : $('#IssueDetailModal_iNameForm').val()
 			}
-			issueUpdate(data)
+			updateIssue(data)
 		}
 	})
 
 	//이슈 시작 날짜 변경
 	$(document).on('change', '#IssueDetailModal_iStartDate', () => {
 		data = {
+			tNum : selectedTask,
+			iNum : selectedIssue,
 			iStartDate : $('#IssueDetailModal_iStartDate').val()
 		}
-		issueUpdate(data)
+		updateIssue(data)
+		matchDate_issueToTask(data)
 	})
 
 	//이슈 종료 날짜 변경
 	$(document).on('change', '#IssueDetailModal_iEndDate', () => {
 		data = {
+			tNum : selectedTask,
+			iNum : selectedIssue,
 			iEndDate : $('#IssueDetailModal_iEndDate').val()
 		}
-		issueUpdate(data)
+		updateIssue(data)
+		matchDate_issueToTask(data)
 	})
 
 	//이슈 설명 변경이 있으면 저장 버튼 활성
@@ -833,9 +1234,11 @@ gantt.change_view_mode('Month')
 	//이슈 설명 변경
 	$('#IssueDetailModal_iDscrBtn').on('click', () => {
 		data = {
+			tNum : selectedTask,
+			iNum : selectedIssue,
 			iDscr : $('#IssueDetailModal_iDscr').val()
 		}
-		issueUpdate(data)
+		updateIssue(data)
 	})
 
 
@@ -858,12 +1261,39 @@ gantt.change_view_mode('Month')
 				cmContent : $('#IssueDetailModal_cmContent').val()
 			},
 			type : 'post',
+			success : (data) => {
+				$('#IssueDetailModal_cmContent').val('')
+				showComment(data)
+			}
 
 		})
 
 	})
 
+	//이슈 날짜 변경시 태스크 날짜 변경
+	const matchDate_issueToTask = (data) => {
+			$.ajax({
+				url : 'matchDate',
+				data : {
+					pNum : ${project.pNum},
+					tNum : selectedTask,
+					iNum : selectedIssue
+				},
+				type : 'post',
+				success : (innerData) => {
+					console.log(innerData);
+					newData = {
+						tNum : selectedTask,
+						tStartDate : innerData.minIStartDate.iStartDate,
+						tEndDate : innerData.maxIEndDate.iEndDate
+					}
+					console.log('newData');
+					console.log(newData);
+					updateTask(newData)
+				}
+			})
 
+	}
 
 
 })

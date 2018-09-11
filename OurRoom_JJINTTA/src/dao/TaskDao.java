@@ -14,4 +14,6 @@ public interface TaskDao {
 	
 	/* 마지막 태스크번호 가져오기 */
 	public int selectTaskLastTNum(int pNum);
+
+	public void updateTask(Task task);
 }

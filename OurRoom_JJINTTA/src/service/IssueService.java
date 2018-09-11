@@ -127,8 +127,24 @@ public class IssueService {
 	}
 
 	public void addComment(Comment comment) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		comment.setCmWriteTime(sdf.format(new Date()));
+
 		iDao.insertComment(comment);
 		
+	}
+
+	public List<Comment> getCommentList(Issue issue) {
+		return iDao.selectComment(issue);
+	}
+
+	public Issue getMinIStartDate(Issue issue) {
+		return iDao.selectMinStartDate(issue);
+	}
+
+	public Issue getMaxIEndDate(Issue issue) {
+		return iDao.selectMaxEndDate(issue);
 	}
 
 }
