@@ -8,6 +8,7 @@
     <style>
         body{font-family: "Lato"; margin:0; padding: 0;}
       #myKanban{overflow-x: auto; padding:20px 0;}
+
       .success{background: #00B961; color:#fff}
       .info{background: #2A92BF; color:#fff}
       .warning{background: #F4CE46; color:#fff}
@@ -28,7 +29,7 @@
   <jsp:include page="../mainFrame.jsp" />
     <div id="innerFrame">
 
-	  <div class="container-fluid">
+     <div class="container-fluid">
      <div class="row">
         <div class="col-md-12">
 
@@ -103,6 +104,7 @@
     let kanbanIssues = []
 
     const makeKanban = (iList) => {
+
       let ideasIssues = []
       let todoIssues = []
       let doingIssues = []
@@ -206,27 +208,20 @@
              iEndDate : ''
            },
            type : 'post',
-			     success : (data) => {
-
-           console.log('ddddd');
-           console.log(data);
+              success : (data) => {
              newInum = data.newIssueNum
+             newOrder = data.newIssueOrder
              console.log('새로운 이슈 번호===');
              console.log(newInum);
 
              KanbanTest.addElement(
                  'ToDo',
                  {   'id': newInum,
-                     'title':issueName
+                     'title':issueName,
+                     'order' : newOrder
                  }
              );
-             newissueList = data.issueJson
-             KanbanTest ={
-               boards : makeKanban(newissueList)
-             }
-             console.log('-----------------------------dddd');
-             console.log(newissueList);
-			     }
+              }
          })
 
         KanbanTest.removeElement('temp')

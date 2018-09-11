@@ -148,6 +148,7 @@ var dragula = require('dragula');
             nodeItem.classList.add('kanban-item');
             if (element.id) {
               nodeItem.setAttribute('data-eid', element.id)
+              nodeItem.setAttribute('data-iOrder', element.order)
 
             }
             nodeItem.innerHTML = element.title;
@@ -160,7 +161,6 @@ var dragula = require('dragula');
             board.appendChild(nodeItem);
             return self;
         };
-
         this.addForm = function (boardID, formItem) {
             var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
             board.appendChild(formItem);
