@@ -10,7 +10,7 @@ public class Comment {
 	private int cmNum;
 	private String mId;
 	private String cmContent;
-	private Timestamp cmWriteTime;
+	private String cmWriteTime;
 	private int cmSuper;
 	
 	public int getpNum() {
@@ -49,10 +49,10 @@ public class Comment {
 	public void setCmContent(String cmContent) {
 		this.cmContent = cmContent;
 	}
-	public Timestamp getCmWriteTime() {
+	public String getCmWriteTime() {
 		return cmWriteTime;
 	}
-	public void setCmWriteTime(Timestamp cmWriteTime) {
+	public void setCmWriteTime(String cmWriteTime) {
 		this.cmWriteTime = cmWriteTime;
 	}
 	public int getCmSuper() {

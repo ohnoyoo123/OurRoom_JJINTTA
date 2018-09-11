@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import dao.LogDao;
+//import dao.LogDao;
 import dao.ProjectDao;
 import dao.TaskDao;
 import model.Log;
@@ -25,11 +25,11 @@ public class ProjectService {
 	@Autowired
 	TaskDao taskDao;
 
-	@Autowired
-	LogDao logDao;
-
-	@Autowired
-	LogService logSvc;
+//	@Autowired
+//	LogDao logDao;
+//
+//	@Autowired
+//	LogService logSvc;
 
 	public List<Project> getProjectListByMId(HashMap<String, Object> mId) {
 		return projectDao.selectProjectList(mId);
@@ -60,16 +60,16 @@ public class ProjectService {
 		logMap.put("lCat", Log.P_CREATE);
 		logMap.put("mId", (String) params.get("owner"));
 		
-		logSvc.insertLog(logMap);
+//		logSvc.insertLog(logMap);
 
 		// null point exception때문에
 		if (pmList != null) {
 			// 생성과 동시에 멤버추가 로그 생성
 			logMap.put("lCat",Log.P_ADD_MEMBER);
-			logSvc.insertLog(logMap);
+//			logSvc.insertLog(logMap);
 			
 			// 직전에 삽입된 로그의 번호를 가져온다.
-			int LastLNum = logDao.selectLogLastLNum(project.getpNum()); 
+//			int LastLNum = logDao.selectLogLastLNum(project.getpNum()); 
 			
 			for (String mId : pmList) {
 				ProjectMember pm = new ProjectMember();
@@ -84,9 +84,9 @@ public class ProjectService {
 				Map<String, Object> notiMap = new HashMap<String, Object>();
 				notiMap.put("pNum", project.getpNum());
 				notiMap.put("mId", mId);
-				notiMap.put("lNum", LastLNum);
+//				notiMap.put("lNum", LastLNum);
 				
-				logSvc.insertNoti(notiMap);
+//				logSvc.insertNoti(notiMap);
 			}
 
 		}

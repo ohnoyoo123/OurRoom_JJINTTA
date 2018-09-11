@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import dao.CheckListDao;
 import dao.IssueDao;
-import dao.LogDao;
+//import dao.LogDao;
 import dao.TaskDao;
 import model.CheckList;
 import model.CheckListItem;
@@ -32,24 +32,17 @@ public class TaskService {
 	@Autowired
 	CheckListDao clDao;
 
-	@Autowired
-	LogDao lDao;
-	
-	@Autowired
-	LogService logSvc;
+//	@Autowired
+//	LogDao lDao;
+//	
+//	@Autowired
+//	LogService logSvc;
 
 	public List<Task> getTaskList(Task task) {
 		return tDao.selectTask(task);
 	}
 
 	public void addTask(Task task, String loginUser) {
-		List<Task> taskList = tDao.selectTask(task);
-		if(taskList.size() != 0) {
-			int tNum = taskList.get(taskList.size()-1).gettNum() + 1;
-			task.settNum(tNum);
-		}else {
-			task.settNum(1);
-		}
 		//시간이 입력되어 있지 않으면 현재 시간으로 
 		if(task.gettStartDate() == "") {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -72,7 +65,7 @@ public class TaskService {
 		logMap.put("mId", loginUser);
 		logMap.put("lCat", Log.T_CREATE);
 
-		logSvc.insertLog(logMap);
+//		logSvc.insertLog(logMap);
 	}
 
 	public void deleteTask(Task task) {
@@ -107,5 +100,10 @@ public class TaskService {
 		checkListItemMember.setpNum(pNum);
 		checkListItemMember.settNum(tNum);
 		clDao.deleteCheckListItemMember(checkListItemMember);
+	}
+
+	public void updateTask(Task task) {
+		tDao.updateTask(task);
+		
 	}
 }
