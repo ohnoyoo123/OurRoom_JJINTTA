@@ -231,7 +231,7 @@ opacity
 
 
 
- 
+
 
 
 
@@ -267,7 +267,7 @@ transform
 
 
 
- 
+
 
 
 
@@ -330,7 +330,7 @@ opacity
 
 
 
- 
+
 
 
 
@@ -366,7 +366,7 @@ opacity
 
 
 
- 
+
 
 
 
@@ -426,7 +426,6 @@ translateY
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar"
 	data-offset="60">
-
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">

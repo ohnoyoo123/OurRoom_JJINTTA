@@ -21,7 +21,7 @@
 	<update id="updateTask" parameterType="task">
 		update task
 		<set>
-			<if test="tOrder != null">
+			<if test="tOrder != 0">
 				t_order = #{tOrder},
 			</if>
 			<if test="tName != null">

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -199,13 +200,14 @@ public class ProjectRestController {
 		
 		Task task = new Task();
 		task.setpNum(pNum);
-		
+		int newInum = issue.getiNum();
 		issue.setiNum(0);
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("projectJson", pSvc.getProject(pNum));
 		data.put("taskJson", tSvc.getTaskList(task));
 		data.put("issueJson", iSvc.getIssueList(issue));
+		data.put("newIssueNum", newInum);
 		
 		System.out.println("=----==--------------------------------------------");
 		System.out.println(tSvc.getTaskList(task));
@@ -301,5 +303,17 @@ public class ProjectRestController {
 	public void test(@RequestBody Task task) {
 		System.out.println("====================");
 		System.out.println(task);
+	}
+	@PostMapping("/project/issueOrderChange")
+	public Map<String, JsonObject> issueOrderChange(@RequestParam HashMap<String, Object> params){
+		System.out.println(params);
+		iSvc.orderChange(params);
+		return null;
+	}
+	@PostMapping("/project/getTasks")
+	public List<Task> getTasksByPnum(@RequestParam int pNum){
+		Task task = new Task();
+		task.setpNum(pNum);
+		return tSvc.getTaskList(task);		
 	}
 }

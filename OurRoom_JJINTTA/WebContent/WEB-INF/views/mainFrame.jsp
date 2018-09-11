@@ -17,7 +17,11 @@
 	href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"
 	type="text/css" />
 
-<script type="text/javascript">  
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
+
+
+<script type="text/javascript">
 	jQuery.browser = {};
 	(function() {
 		jQuery.browser.msie = false;
@@ -43,15 +47,14 @@ html, body {
 
 #top {
 	width: 100%;
-	height: 50px;
-	background-color: black;
+	height: 45px;
+	background-color: #339933;
 	color: white;
-	display: inline-block;
 }
 
 #left {
 	width: 50px;
-	background-color: black;
+	background-color: white;
 	height: 100%;
 	padding-top: 50px;
 	color: white;
@@ -60,33 +63,18 @@ html, body {
 
 .topIcon {
 	width: 50px;
-	height: 50px;
+	height: 40px;
 	float: right;
-	background-color: black;
-	margin-right: 50px;
-	font-size: 45px;
-	color: white;
+	background-color: #339933;
+	margin-right: 25px;
+	font-size: 40px;
+	color: #e6ffe6;
 	cursor: pointer;
 }
 
-.topHome {
-	width: 50px;
-	height: 50px;
-	background-color: black;
-	margin: 0 auto;
-	font-size: 45px;
-	color: white;
-	cursor: pointer;
-}
-
-.leftIcon {
-	width: 50px;
-	height: 50px;
-	background-color: black;
-	margin-bottom: 50px;
-	font-size: 45px;
-	color: white;
-	cursor: pointer;
+i::before{
+	margin: 0px;
+	padding: 0px;
 }
 </style>
 <script type="text/javascript">
@@ -129,7 +117,7 @@ html, body {
 			//writeToScreen('ERROR: ' + evt.data);
 		}
 		function doSend(message) {
-			//writeToScreen("Message Sent: " + message); 
+			//writeToScreen("Message Sent: " + message);
 			websocket.send(message);
 			//websocket.close();
 		}
@@ -143,11 +131,11 @@ html, body {
 </script>
 <script>
 	$(function() {
-		/* 알림버튼을 클릭했을 때 
+		/* 알림버튼을 클릭했을 때
 		   mId에 해당하는 모든 noti 가져오기*/
 		$("#noti").on("click", function() {
 			var searchNotis = [];
-			
+
 			$.ajax({
 				url : "${pageContext.request.contextPath}/readAndGetNoti",
 				data : {
@@ -158,7 +146,7 @@ html, body {
 					$("#noti").html("");
 					for(var i=0; i<data.length; i++){
 			      		console.log(data[i].lCat);
-			      		
+
 			      		switch(data[i].lCat){
 			      			// 프로젝트 생성
 			      			//case 11:
@@ -177,60 +165,56 @@ html, body {
 				      			break;
 				      		// 이슈 생성
 			      			case 31:
-				      			console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 생성했습니다."); 
+				      			console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 생성했습니다.");
 				      			searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 생성했습니다.</p>");
 				      			break;
 				      		// 이슈 멤버 할당
 				      		case 33:
-				      			console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 할당했습니다."); 
+				      			console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 할당했습니다.");
 				      			searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].iName+" 이슈를 할당했습니다.</p>");
 				      			break;
 			      		}
-						
-						
+
+
 			           /*  searchNotis.push("<p class='noti' mId="+data[i].mId+">"
 			            		+"pNum="+data[i].pNum+", pName="+ data[i].pName+", "  +"("+data[i].mId+")</p>")   */
-			        	  
+
 			          }
 					$("#output").html(searchNotis);
 				}
 			});
 		});
 
-	}); 
+	});
 </script>
 </head>
 <body>
-	<div id="output"></div>  
+	<div id="output"></div>
 	<input id="loginUser" type="hidden" value="${loginUser.mId}" />
 	<div id="top">
-		<div class="topIcon"> 
-			<a href='/OurRoom'><span class="glyphicon glyphicon-log-out"></span></a>
-		</div>
+		<h2 style="display:inline-block; vertical-align:bottom; cursor:pointer; margin-left:25px;" onclick="location.href='/OurRoom/home'">OurRoom</h2>
 		<div class="topIcon">
-			<span class="glyphicon glyphicon-bell" id="noti"></span> 
+			<span class="glyphicon glyphicon-log-out"></span>
+		</div>
 
+		<div class="topIcon" onclick="location.href='/OurRoom/myPage'">
+			<i class="user icon"></i>
 		</div>
+
 		<div class="topIcon">
-			<span class="glyphicon glyphicon-comment"></span>
+			<span class="glyphicon glyphicon-bell" id="noti"></span>
 		</div>
-		<div class="topHome">
-			<span class="glyphicon glyphicon-home"></span>
-		</div>
-	</div>
-	<div id="left">
-		<div class="leftIcon" onclick="location.href='/OurRoom/home'">
-			<span class="glyphicon glyphicon-home"></span>
-		</div>
-		<div class="leftIcon" onclick="location.href='/OurRoom/project/pList'"> 
+
+		<div class="topIcon" onclick="location.href='/OurRoom/project/pList'">
 			<span class="glyphicon glyphicon-briefcase"></span>
 		</div>
-		<div class="leftIcon" onclick="location.href='/OurRoom/address'">
+		<%-- <div class="topIcon" onclick="location.href='/OurRoom/address'">
 			<span class="glyphicon glyphicon-phone-alt"></span>
-		</div>
-		<div class="leftIcon" onclick="location.href='/OurRoom/myPage'">
-			<span class="glyphicon glyphicon-user"></span>
-		</div>
+		</div> --%>
+
+
 	</div>
+
+
 </body>
 </html>
