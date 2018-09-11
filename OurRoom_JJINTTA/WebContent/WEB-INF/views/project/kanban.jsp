@@ -1,67 +1,67 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html >
 <html>
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <title>Title</title>
+<title>Title</title>
 
-    <link rel="stylesheet" href="/OurRoom/js/jkanban.css">
+<link rel="stylesheet" href="/OurRoom/js/jkanban.css">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.js"></script>
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
+<style>
+body {
+	margin: 0;
+	padding: 0;
+}
 
-        textarea{
-          resize: none;
-        }
+textarea {
+	resize: none;
+}
 
-        #myKanban {
-            overflow-x: auto;
-            padding: 20px 0;
-            width: 100%;
-        }
+#myKanban {
+	overflow-x: auto;
+	padding: 20px 0;
+	width: 100%;
+}
 
-        .success {
-            background: #00B961;
-        }
+.success {
+	background: #00B961;
+}
 
-        .info {
-            background: #2A92BF;
-        }
+.info {
+	background: #2A92BF;
+}
 
-        .warning {
-            background: #F4CE46;
-        }
+.warning {
+	background: #F4CE46;
+}
 
-        .error {
-            background: #FB7D44;
-        }
-
-    </style>
+.error {
+	background: #FB7D44;
+}
+</style>
 </head>
 <body>
-  <jsp:include page="../mainFrame.jsp" />
-  <div id="innerFrame">
-    <div id="myKanban"></div>
-    <button id="addDefault">Add "Default" board</button>
-    <br>
-    <button id="addToDo">Add element in "To Do" Board</button>
-    <br>
-    <button id="removeBoard">Remove "Done" Board</button>
-    <br>
-    <button id="removeElement">Remove "My Task Test"</button>
-</div>
+	<jsp:include page="../mainFrame.jsp" />
+	<div id="innerFrame">
+		<div id="myKanban"></div>
+		<button id="addDefault">Add "Default" board</button>
+		<br>
+		<button id="addToDo">Add element in "To Do" Board</button>
+		<br>
+		<button id="removeBoard">Remove "Done" Board</button>
+		<br>
+		<button id="removeElement">Remove "My Task Test"</button>
+	</div>
 
-<script src="/OurRoom/js/jkanban.js"></script>
-<script>
+	<script src="/OurRoom/js/jkanban.js"></script>
+	<script>
     var KanbanTest = new jKanban({
         element: '#myKanban',
         gutter: '20px',

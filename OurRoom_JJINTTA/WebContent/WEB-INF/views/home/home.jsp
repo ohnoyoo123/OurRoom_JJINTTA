@@ -11,6 +11,10 @@
 	display: inline-block;
 	width: 90%;
 }
+
+body {
+	padding: 0 !important
+}
 </style>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -238,12 +242,11 @@
 								pNum : "17"
 							},
 							type : "post",
-							success : function(data){
+							success : function(data) {
 								console.log(data);
 							}
 						});
 					});
-
 				</script>
 				<div id="log_div">
 					<table border="1">
@@ -270,5 +273,6 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
+
 </body>
 </html>

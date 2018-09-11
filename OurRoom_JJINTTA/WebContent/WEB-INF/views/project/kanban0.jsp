@@ -1,41 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
 <style type="text/css">
+#ideas, #toDo, #doing, #done, #review {
+	float: left;
+	background-color: #0099ff;
+	width: 18%;
+	display: inline-block;
+	margin-left: 10px;
+	margin-right: 10px;
+	text-align: center;
+	border-radius: 10px;
+}
 
-  #ideas, #toDo, #doing, #done, #review{
-    float: left;
-    background-color: #0099ff;
-    width: 18%;
-    display: inline-block;
-    margin-left: 10px;
-    margin-right: 10px;
-    text-align: center;
-    border-radius: 10px;
-  }
+.issue {
+	background-color: #ff9999;
+	margin: 5px;
+	border-radius: 10px;
+	height: 80px;
+}
 
-  .issue{
-    background-color: #ff9999;
-    margin: 5px;
-    border-radius: 10px;
-    height: 80px;
-  }
-
-  .addIssue{
-    background-color: #ffff66;
-    margin: 5px;
-    border-radius: 10px;
-    height: 40px;
-  }
+.addIssue {
+	background-color: #ffff66;
+	margin: 5px;
+	border-radius: 10px;
+	height: 40px;
+}
 </style>
 
 <script>
@@ -47,23 +47,22 @@
 </head>
 
 <body>
-  <jsp:include page="../mainFrame.jsp" />
-  <div id="innerFrame">
-    <div id="projectInfo"></div>
-    <div id="taskInfo"></div>
-    <div id="ideas">ideas</div>
-    <div id="toDo">toDo</div>
-    <div id="doing">doing</div>
-    <div id="done">done</div>
-    <div id="review">review</div>
-  </div>
+	<jsp:include page="../mainFrame.jsp" />
+	<div id="innerFrame">
+		<div id="projectInfo"></div>
+		<div id="taskInfo"></div>
+		<div id="ideas">ideas</div>
+		<div id="toDo">toDo</div>
+		<div id="doing">doing</div>
+		<div id="done">done</div>
+		<div id="review">review</div>
+	</div>
 
-  <!-- 이슈 상세보기 모달 -->
-  <div class="modal fade" id="issueModal">
-  </div>
+	<!-- 이슈 상세보기 모달 -->
+	<div class="modal fade" id="issueModal"></div>
 
 
-  <!-- 이슈 추가 모달 -->
+	<!-- 이슈 추가 모달 -->
 	<div class="modal fade" id="addIssueModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -72,8 +71,8 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
-						이슈:<br>
-						<input type="text" placeholder="enter issue name" id="iName">
+						이슈:<br> <input type="text" placeholder="enter issue name"
+							id="iName">
 					</h4>
 				</div>
 
@@ -81,31 +80,27 @@
 				<div class="modal-body">
 					팀원 할당 : <br>
 					<c:forEach items="${projectMemberList}" var="pm">
-						<div class="selectedMId" mId=${pm.mId}>
-							${pm.mId}
-						</div>
+						<div class="selectedMId" mId=${pm.mId}>${pm.mId}</div>
 					</c:forEach>
 				</div>
 				할당된 팀원 : <br>
-				<div class="modal-body" id="assignedMember">
-				</div>
-				<div class="modal-body" id="selectedMId">
-				</div>
+				<div class="modal-body" id="assignedMember"></div>
+				<div class="modal-body" id="selectedMId"></div>
 				<div class="modal-body">
 					<div>
-						시작 : <br>
-						<input type="text" class="datepicker" id="iStartDate">
+						시작 : <br> <input type="text" class="datepicker"
+							id="iStartDate">
 					</div>
 					<div>
-						종료 : <br>
-						<input type="text" class="datepicker" id="iEndDate">
+						종료 : <br> <input type="text" class="datepicker" id="iEndDate">
 					</div>
 				</div>
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success" id="addIssueConfirm">Add</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal" id="issueModalClose">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal"
+						id="issueModalClose">Close</button>
 				</div>
 
 			</div>

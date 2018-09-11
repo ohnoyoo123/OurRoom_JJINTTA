@@ -216,22 +216,9 @@ opacity
 
 
 
-
-
-
-
-
-
 :
 
 
-
-
-
-
-
-
- 
 
 
 
@@ -252,37 +239,7 @@ transform
 
 
 
-
-
-
-
-
-
-:
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-translateY
-
-
-
-
-
-
+:translateY
 
 
 
@@ -321,6 +278,24 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
@@ -330,7 +305,25 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
+
+
 
 
 
@@ -357,7 +350,34 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
 
 
 
@@ -375,7 +395,34 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
 translateY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -422,6 +469,10 @@ translateY
 .modal-footer {
 	background-color: #f9f9f9;
 }
+
+body {
+	padding: 0 !important
+}
 </style>
 </head>
 <body id="myPage" data-spy="scroll" data-target=".navbar"
@@ -439,11 +490,11 @@ translateY
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#about">ABOUT</a></li>
+					<!-- <li><a href="#about">ABOUT</a></li>
 					<li><a href="#services">SERVICES</a></li>
 					<li><a href="#portfolio">PORTFOLIO</a></li>
 					<li><a href="#pricing">PRICING</a></li>
-					<li><a href="#contact">CONTACT</a></li>
+					<li><a href="#contact">CONTACT</a></li> -->
 					<li><a id="login">LOGIN</a></li>
 				</ul>
 			</div>
@@ -737,64 +788,413 @@ Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
 
 		});
 	</script>
+	<script>
+	$(function() {
+		/* 회원가입 아이디 중복체크 */
+		$("#sign_mId").blur(function() {
+			chkId();
+		});
+		
+		/* 회원가입 패스워드 체크 */
+		$("#sign_mPw").blur(function(){
+			chkPw(); 
+		});
+		
+		/* 회원가입 패스워드 확인 체크 */
+		$("#sign_mPw2").blur(function(){
+			chkPw2(); 
+		});
+		
+		/* 회원가입 닉네임 체크 */
+		$("#sign_mNickname").blur(function(){
+			chkNickname(); 
+		});
+		
+		/* 회원가입 답변 체크 */
+		$("#sign_mAnswer").blur(function(){
+			chkAnswer();
+		});
+		
+		/* 취소버튼 클릭 시 */
+		//$("#cancelBtn").on("click",function(){
+		//	
+		//	var isCancel = window.confirm("취소하시겠습니까?");
+		//	if(isCancel){
+		//		location.href="loginForm";
+		//	}
+		//});
+		
+		/* ID, PW, Nickname, 답변 유효성 체크 및 submit */
+		$("#signUpBtn").on("click",function(){
+			console.log("signUpBtn click");
+			if(chkId()&chkPw()&chkNickname()&chkAnswer()&chkPw2()){
+				$("#signForm").submit();
+			}
+			return false;
+		});
+		
+	});
+	/* ID Check */
+	function chkId(){
+		var isOk;
+		$("#sign_mId").val($.trim($("#sign_mId").val()));
+		var strId = $("#sign_mId").val(); 
+		var pattern = /^([\w]{1,})+[\w\.\-\_]+([\w]{1,})+@(?:[\w\-]{2,}\.)+[a-zA-Z]{2,}$/;
+		var bChecked = pattern.test(strId);
+		
+		// 좌우 공백 제거
+		//$("#mId").val($.trim($("#mId").val()));
+	
+		//ar strId = $("#mId").val();
+		
+		// ID 이메일형식 체크
+		if(!bChecked){
+			$("#idCheckMsg").css("color", "red");
+			$("#idCheckMsg").html("이메일 형식으로 입력해주세요.");
+			return false;
+		}
+		
+		// ID 중복체크 
+		$.ajax({
+			url : "idCheck",
+			async: false,
+			data : {
+				mId : $("#sign_mId").val()
+			},
+			success : function(result) {
+				if (result) {
+					$("#idCheckMsg").css("color", "red");
+					$("#idCheckMsg").html("이미 사용중인 아이디입니다.");
+					isOk = false;
+					
+				}else{ 
+					$("#idCheckMsg").css("color", "green");
+					$("#idCheckMsg").html("사용 가능한 아이디입니다.");
+					isOk = true;
+				}  
+			},
+			error : function(result) {    
+				$("#idCheckMsg").html("에러..." + result);
+				isOk = false;
+			}
+		});
+		return isOk;
+	}
+	
+	/* PW Check */
+	function chkPw(){
+		
+		$("#sign_mPw").val($.trim($("#sign_mPw").val()));
+		 var strPw = $("#sign_mPw").val()+'';
+		 var num = strPw.search(/[0-9]/g);
+		 var eng = strPw.search(/[a-z]/ig);
+		 var spe = strPw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+		
+		 // 비밀번호확인 텍스트 초기화
+		 $("#pw2CheckMsg").html("");
+		 
+		 if(strPw.length < 8 || strPw.length > 20){
 
-	<div class="container">
-		<h2>Modal Login Example</h2>
-		<!-- Trigger the modal with a button -->
-		<button type="button" class="btn btn-default btn-lg" id="myBtn">Login</button>
+			$("#pwCheckMsg").css("color", "red"); 
+			$("#pwCheckMsg").html("8자 이상, 20자 이하로 입력하세요");
+			return false;
+		 }
+		 if(strPw.search(/₩s/) != -1){
+			$("#pwCheckMsg").css("color", "red");
+			$("#pwCheckMsg").html("비밀번호는 공백없이 입력해주세요.");
+			return false;
+		 } 
+		 if(num < 0 || eng < 0 || spe < 0 ){
+			$("#pwCheckMsg").css("color", "red");
+			$("#pwCheckMsg").html("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+			return false;
+		 }
 
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" role="dialog">
-			<div class="modal-dialog">
+		$("#pwCheckMsg").css("color", "green");
+		$("#pwCheckMsg").html("사용 가능합니다.");
+			
+		return true;
 
-				<!-- Modal content-->
-				<div class="modal-content">
-					<div class="modal-header" style="padding: 35px 50px;">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4>
-							<span class="glyphicon glyphicon-lock" id="h4_login"></span>
-							Login
-						</h4>
-					</div>
-					<div class="modal-body" style="padding: 40px 50px;">
-						<form role="form" action="home" method="post">
-							<div class="form-group">
-								<label for="usrname"><span
-									class="glyphicon glyphicon-user"></span> Username</label> <input
-									type="text" class="form-control" id="mId" name="mId"
-									placeholder="Enter email">
-							</div>
-							<div class="form-group">
-								<label for="psw"><span
-									class="glyphicon glyphicon-eye-open"></span> Password</label> <input
-									type="password" class="form-control" id="mPw" name="mPw"
-									placeholder="Enter password"><br>
-								<p id="memberCheckMsg"></p>
-							</div>
-							<div class="checkbox">
-								<label><input type="checkbox" value="" checked>Remember
-									me</label>
-							</div>
-							<button type="button" id="loginBtn"
-								class="btn btn-success btn-block">
-								<span class="glyphicon glyphicon-off"></span> Login
-							</button>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" class="btn btn-danger btn-default pull-left"
-							data-dismiss="modal">
-							<span class="glyphicon glyphicon-remove"></span> Cancel
-						</button>
-						<p>
-							Not a member? <a href="joinForm_step1">Sign Up</a>
-						</p>
-						<p>
-							Forgot <a href="#">Password?</a>
-						</p>
-					</div>
+	}
+	// mPw와 mPw2가 같은지 비교
+	 function chkPw2() {
+        var pw = $("#sign_mPw").val();
+        var pw2 = $("#sign_mPw2").val();
+ 
+        if(!chkPw()){
+			$("#pw2CheckMsg").html("");
+        	return false;
+        }
+        
+        if (pw != pw2) {
+        	$("#pw2CheckMsg").css("color", "red");
+			$("#pw2CheckMsg").html("비밀번호가 다릅니다.");
+            return false;
+        }else{
+        	$("#pw2CheckMsg").css("color", "green");
+			$("#pw2CheckMsg").html("사용 가능합니다.");
+            return true;
+        }
+	}
+
+	
+	/* Nickname Check */
+	function chkNickname(){
+		var isOk = false;
+		
+		$("#sign_mNickname").val($.trim($("#sign_mNickname").val()));
+		var strNickname = $("#sign_mNickname").val();
+		if(strNickname.length < 2 || strNickname.length > 10) {
+			$("#nicknameCheckMsg").css("color", "red");
+		  	$("#nicknameCheckMsg").html("2~10자의 한글, 영문, 숫자만 사용할 수 있습니다.");
+		   	return false;
+		}
+
+		var chk = /[0-9]|[a-z]|[A-Z]|[가-힣]/;
+
+		for( var i = 0; i <= strNickname.length -1 ; i++ ){
+		  if(!chk.test(strNickname.charAt(i))){
+			  $("#nicknameCheckMsg").css("color", "red");
+			  $("#nicknameCheckMsg").html("2~10자의 한글, 영문, 숫자만 사용할 수 있습니다.");
+		   return false;
+		  }
+		}
+		
+		// NickName 중복체크 
+		$.ajax({
+			url : "nicknameCheck",
+			async: false,
+			data : {
+				mNickname : $("#sign_mNickname").val()
+			},
+			success : function(result) {
+				if (result) {
+					$("#nicknameCheckMsg").css("color", "red");
+					$("#nicknameCheckMsg").html("이미 사용중인 닉네임입니다.");
+					isOk = false;
+					
+				}else{
+					$("#nicknameCheckMsg").css("color", "green");
+					$("#nicknameCheckMsg").html("사용 가능한 닉네임입니다.");
+					isOk = true;
+				}
+			},
+			error : function(result) {
+				$("#nicknameCheckMsg").html("에러..." + result);
+				isOk = false;
+			}
+		});
+	 	
+		return isOk;
+	}
+
+	// Answer Check
+	function chkAnswer(){
+		$("#sign_mAnswer").val($.trim($("#sign_mAnswer").val()));
+		var strAnswer = $("#sign_mAnswer").val();
+
+		if(strAnswer.length < 2 || strAnswer.length > 20) {
+			$("#answerCheckMsg").css("color", "red");
+		  	$("#answerCheckMsg").html("2~20자의 한글, 영문, 숫자만 사용할 수 있습니다.");
+		   	return false;
+		}
+
+		var chk = /[0-9]|[a-z]|[A-Z]|[가-힣]/;
+
+		for( var i = 0; i <= strAnswer.length -1 ; i++ ){
+		  if(!chk.test(strAnswer.charAt(i))){
+			  $("#answerCheckMsg").css("color", "red");
+			  $("#answerCheckMsg").html("2~20자의 한글, 영문, 숫자만 사용할 수 있습니다.");
+		   return false;
+		  }
+		}
+		
+		$("#answerCheckMsg").css("color", "green");
+		$("#answerCheckMsg").html("사용 가능합니다.");
+		return true;
+	}
+	
+</script>
+
+	<!-- 로그인 -->
+	<!-- Modal -->
+	<div class="modal fade" id="loginModal" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="padding: 20px 20px;">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4>
+						<span class="glyphicon glyphicon-lock" id="h4_login"></span> Login
+					</h4>
 				</div>
+				<div class="modal-body" style="padding: 20px 20px;">
+					<form role="form" action="home" method="post">
+						<div class="form-group">
+							<label for="usrname"><span
+								class="glyphicon glyphicon-user"></span> Username</label> <input
+								type="text" class="form-control" id="mId" name="mId"
+								placeholder="Enter email">
+						</div>
+						<div class="form-group">
+							<label for="psw"><span
+								class="glyphicon glyphicon-eye-open"></span> Password</label> <input
+								type="password" class="form-control" id="mPw" name="mPw"
+								placeholder="Enter password"><br>
+							<p id="memberCheckMsg"></p>
+						</div>
+						<button type="button" id="loginBtn"
+							class="btn btn-success btn-block">
+							<span class="glyphicon glyphicon-off"></span> Login
+						</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-danger btn-default pull-left"
+						data-dismiss="modal">
+						<span class="glyphicon glyphicon-remove"></span> Cancel
+					</button>
+					<p>
+						Not a member? <a id="signUp_a">Sign Up</a>
+					</p>
+					<p>
+						Forgot <a id="findPw">Password?</a>
+					</p>
+				</div>
+			</div>
 
+		</div>
+	</div>
+
+	<!-- 회원가입 -->
+	<!-- Modal -->
+	<div class="modal fade" id="signUpModal" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="padding: 20px 5px;">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4>
+						<span class="glyphicon glyphicon-lock" id="h4_login"></span> Sign
+						Up
+					</h4>
+				</div>
+				<div class="modal-body" style="padding: 20px 20px;">
+					<form role="form" id="signForm" action="join" method="post">
+						<div class="form-group">
+							<label for="sign_mId"><span
+								class="glyphicon glyphicon-user"></span> Email</label> <input
+								type="text" class="form-control" id="sign_mId" name="mId"
+								placeholder="email">
+							<p id="idCheckMsg"></p>
+						</div>
+						<div class="form-group">
+							<label for="sign_mPw"><span
+								class="glyphicon glyphicon-eye-open"></span> Password</label> <input
+								type="password" class="form-control" id="sign_mPw" name="mPw"
+								placeholder="password">
+							<p id="pwCheckMsg"></p>
+						</div>
+						<div class="form-group">
+							<label for="sign_mPw2"><span
+								class="glyphicon glyphicon-eye-open"></span> Check Password </label> <input
+								type="password" class="form-control" id="sign_mPw2"
+								name="sign_mPw2" placeholder="Check password">
+							<p id="pw2CheckMsg"></p>
+						</div>
+						<div class="form-group">
+							<label for="sign_mNickname"><span
+								class="glyphicon glyphicon-font"></span> Nickname </label> <input
+								type="text" class="form-control" id="sign_mNickname"
+								name="mNickname" placeholder="Nickname">
+							<p id="nicknameCheckMsg"></p>
+						</div>
+						<div class="form-group">
+							<label for="sign_mQuestion"><span
+								class="glyphicon glyphicon-question-sign"></span> Question </label> <select
+								id="sign_mQuestion" name="mQuestion" class="form-control">
+								<option value="1" selected="selected">가장 아끼는 보물 1호는?</option>
+								<option value="2">졸업한 초등학교 이름은?</option>
+								<option value="3">어머니 성함은?</option>
+								<option value="4">아버지 성함은?</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="sign_mAnswer"><span
+								class="glyphicon glyphicon-comment"></span> Answer </label> <input
+								type="text" class="form-control" id=sign_mAnswer name="mAnswer"
+								placeholder="mAnswer">
+							<p id="answerCheckMsg"></p>
+						</div>
+						<button type="button" id="signUpBtn"
+							class="btn btn-success btn-block">
+							<span class="glyphicon glyphicon-off"></span> Sign Up
+						</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-danger btn-default pull-left"
+						data-dismiss="modal">
+						<span class="glyphicon glyphicon-remove"></span> Cancel
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<!-- 비밀번호 찾기 -->
+	<!-- Modal -->
+	<div class="modal fade" id="findPwModal" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="padding: 20px 20px;">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4>
+						<span class="glyphicon glyphicon-lock" id="h4_login"></span> Login
+					</h4>
+				</div>
+				<div class="modal-body" style="padding: 20px 20px;">
+					<form role="form" action="home" method="post">
+						<div class="form-group">
+							<label for="pwQ_mId"><span
+								class="glyphicon glyphicon-user"></span> Email </label> <input
+								type="text" class="form-control" id="pwQ_mId" name="mId"
+								placeholder="Enter email">
+						</div>
+						<div class="form-group">
+							<label for="pwQ_mQuestion"><span
+								class="glyphicon glyphicon-eye-open"></span> question </label> <select
+								id="pwQ_mQuestion" name="mQuestion">
+								<option value="1" selected="selected">가장 아끼는 보물 1호는?</option>
+								<option value="2">졸업한 초등학교 이름은?</option>
+								<option value="3">어머니 성함은?</option>
+								<option value="4">아버지 성함은?</option>
+							</select><br>
+						</div>
+						<div class="form-group">
+							<label for="pwQ_mAnswer"><span
+								class="glyphicon glyphicon-user"></span> Answer </label> <input
+								type="text" class="form-control" id="pwQ_mAnswer" name="mAnswer"
+								placeholder="Answer">
+						</div>
+					
+						<button type="button" id="loginBtn"
+							class="btn btn-success btn-block">
+							<span class="glyphicon glyphicon-off"></span> Check
+						</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" id="findPwCancelBtn" class="btn btn-danger btn-default pull-left"
+						data-dismiss="modal">
+						<span class="glyphicon glyphicon-remove"></span> Cancel
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -802,12 +1202,24 @@ Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
 	<script>
 		$(document).ready(function() {
 			$("#login").click(function() {
-				$("#myModal").modal();
+				$("#loginModal").modal('toggle');
+				//$("#signUpModal").modal('hide');
 			});
-		});
+			
+			$("#signUp_a").click(function() {
+				$("#signUpModal").modal('show');
+				$("#loginModal").modal('hide');
+			});
+			$("#findPw").click(function() {
+				$("#findPwModal").modal('show');
+				$("#loginModal").modal('hide');
+			});
+			$("#findPwCancelBtn").click(function(){
+				$("#loginModal").modal('show');
+			});
+			
+		}); 
 	</script>
-	<a href="loginForm">로그인</a>
-
 	<footer class="container-fluid text-center">
 		<a href="#myPage" title="To Top"> <span
 			class="glyphicon glyphicon-chevron-up"></span>

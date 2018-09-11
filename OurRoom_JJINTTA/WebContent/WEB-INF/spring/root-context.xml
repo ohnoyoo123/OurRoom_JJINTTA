@@ -16,7 +16,6 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	
-
 	<context:component-scan base-package="service" />
 	<!-- WebSocket Handler 등록 -->
 
@@ -32,7 +31,7 @@
 		<property name="driverClassName"
 			value="com.mysql.cj.jdbc.Driver" />
 		<property name="url"
-			value="jdbc:mysql://localhost:3306/ourRoom?serverTimezone=UTC" />
+			value="jdbc:mysql://192.168.0.20:3306/ourRoom?serverTimezone=UTC" />
 		<property name="username" value="root" />
 		<property name="password" value="1111" />
 	</bean>

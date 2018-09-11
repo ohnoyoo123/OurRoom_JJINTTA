@@ -77,36 +77,29 @@
 		m_id = #{mId}
 	</update>
 
-	<select id="selectNoti" parameterType="noti" resultMap="notiMsgRM">
-select l.p_num as p_num,
-	   p_name,
-       l.t_num as t_num,
-       t_name,
-       l.i_num as i_num,
-       i_name,
-       l.cl_num as cl_num,
-       cl_name,
-       l.ci_num as ci_num,
-       ci_name,
-       l.cm_num as cm_num,
-       cm_content,
-       l.m_id as m_id,
-       m_nickname,
-       l.l_num as l_num,
-       l_cat,
-       l_time,
-       n.m_id as l_id,
-       n_isRead
- from log l
- left join noti n on l.l_num = n.l_num and l.p_num = n.p_num
- left join project p on l.p_num = p.p_num
- left join task t on  l.p_num = t.p_num and l.t_num = t.t_num
- left join issue i on l.p_num = i.p_num and l.t_num = i.t_num and l.i_num = i.i_num
- left join checkList cl on l.p_num = cl.p_num and l.t_num = cl.t_num and l.i_num = cl.i_num and l.cl_num = cl.cl_num
- left join checkListItem ci on l.p_num = ci.p_num and l.t_num = cl.t_num and l.i_num = cl.i_num and l.cl_num = ci.cl_num and l.ci_num = ci.ci_num
- left join comment cm on l.p_num = cm.p_num and l.t_num = cm.t_num and l.i_num = cm.i_num and l.cm_num = cm.cm_num
- left join member m on l.m_id = m.m_id
-		where n.m_id = #{mId};
+	<select id="selectNoti" parameterType="noti"
+		resultMap="notiMsgRM">
+		select l.p_num as p_num,
+		l.l_num as l_num,
+		l_name,
+		t_num,
+		i_num,
+		cl_num,
+		ci_num,
+		cm_num,
+		l.m_id as m_id,
+		m_nickname,
+		l_cat,
+		l_time,
+		n.m_id as l_id,
+		n_isRead
+		from noti n
+		left join log l on l.l_num = n.l_num
+		and l.p_num = n.p_num
+		left join member m on l.m_id = m.m_id
+		where n.m_id
+		= #{mId}
+		order by l_time desc;
 
 	</select>
 
@@ -145,22 +138,17 @@ select l.p_num as p_num,
 
 	<resultMap type="hashMap" id="notiMsgRM">
 		<result property="pNum" column="p_num" />
-		<result property="pName" column="p_name" />
+		<result property="lNum" column="l_num" />
+		<result property="lName" column="l_name" />
 		<result property="tNum" column="t_num" />
-		<result property="tName" column="t_name" />
 		<result property="iNum" column="i_num" />
-		<result property="iName" column="i_name" />
 		<result property="clNum" column="cl_num" />
-		<result property="clName" column="cl_name" />
 		<result property="ciNum" column="ci_num" />
-		<result property="ciName" column="ci_name" />
 		<result property="cmNum" column="cm_num" />
-		<result property="cmContent" column="cm_content" />
 		<result property="mId" column="m_id" />
 		<result property="mNickname" column="m_nickname" />
-		<result property="lNum" column="l_num" />
 		<result property="lCat" column="l_cat" />
-		<result property="lTime" column="l_time" />
+		<result property="lTime" column="l_time" javaType="string" />
 		<result property="lId" column="l_id" />
 		<result property="nIsRead" column="n_isRead" />
 	</resultMap>

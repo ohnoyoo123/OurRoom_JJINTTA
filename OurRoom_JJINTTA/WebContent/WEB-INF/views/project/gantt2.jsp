@@ -2,11 +2,11 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
 
 <title>Gantt</title>
 <script
@@ -38,7 +38,6 @@
   });
 </script>
 <style type="text/css">
-
 #innerFrame {
 	display: inline-block;
 	width: 90vw;
@@ -48,34 +47,33 @@
 	float: right;
 }
 
-#gantt{
+#gantt {
 	display: inline-block;
 	/* height: 84vh; */
 	float: left;
-
 }
-#sideTap{
+
+#sideTap {
 	display: inline-block;
 	float: left;
 	width: 15vw;
 	/* height: 84vh; */
-
 }
 
-#sideTap .table th{
+#sideTap .table th {
 	height: 59px;
-	padding : 0;
+	padding: 0;
 	vertical-align: middle;
 }
 
-#sideTap .table td{
+#sideTap .table td {
 	height: 48px;
-	padding : 0;
+	padding: 0;
 	vertical-align: middle;
 }
 
-#addTaskBtn, .addIssueBtn{
-		float: right;
+#addTaskBtn, .addIssueBtn {
+	float: right;
 }
 </style>
 
@@ -109,10 +107,12 @@
 				<!-- Modal body -->
 				<div class="modal-body">
 					<div>
-						시작 : <br> <input type="text" class="datepicker tStartDate" readonly>
+						시작 : <br> <input type="text" class="datepicker tStartDate"
+							readonly>
 					</div>
 					<div>
-						종료 : <br> <input type="text" class="datepicker tEndDate" readonly>
+						종료 : <br> <input type="text" class="datepicker tEndDate"
+							readonly>
 					</div>
 				</div>
 
@@ -145,10 +145,12 @@
 				<!-- Modal body -->
 				<div class="modal-body">
 					<div>
-						시작 : <br> <input type="text" class="datepicker iStartDate" readonly>
+						시작 : <br> <input type="text" class="datepicker iStartDate"
+							readonly>
 					</div>
 					<div>
-						종료 : <br> <input type="text" class="datepicker iEndDate" readonly>
+						종료 : <br> <input type="text" class="datepicker iEndDate"
+							readonly>
 					</div>
 				</div>
 
@@ -181,10 +183,12 @@
 				<!-- Modal body -->
 				<div class="modal-body">
 					<div>
-						시작 : <br> <input type="text" class="datepicker iStartDate" readonly>
+						시작 : <br> <input type="text" class="datepicker iStartDate"
+							readonly>
 					</div>
 					<div>
-						종료 : <br> <input type="text" class="datepicker iEndDate" readonly>
+						종료 : <br> <input type="text" class="datepicker iEndDate"
+							readonly>
 					</div>
 				</div>
 
@@ -201,7 +205,7 @@
 	<div id="issueDetailBtn" data-toggle="modal" data-target="#IssueModal"></div>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
 $(document).ready(function () {
 console.log('==========================');
