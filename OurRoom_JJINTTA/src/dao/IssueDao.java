@@ -31,4 +31,6 @@ public interface IssueDao {
 	
 	public int countIssuesInStep(Issue issue);
 	
+	public int getIorder(Issue issue);
+	
 }

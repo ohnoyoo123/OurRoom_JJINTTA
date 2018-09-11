@@ -194,5 +194,9 @@ public class IssueService {
 		}
 		return stepInNum;
 	}
+	
+	public int getIssueOrder(Issue issue) {
+		return iDao.getIorder(issue);
+	}
 
 }

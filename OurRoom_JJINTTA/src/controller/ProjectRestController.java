@@ -201,6 +201,10 @@ public class ProjectRestController {
 		Task task = new Task();
 		task.setpNum(pNum);
 		int newInum = issue.getiNum();
+		issue.setiOrder(iSvc.getIssueOrder(issue));
+		int newOrder = issue.getiOrder();
+		System.out.println("==============");
+		System.out.println(newOrder);
 		issue.setiNum(0);
 		
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -208,6 +212,7 @@ public class ProjectRestController {
 		data.put("taskJson", tSvc.getTaskList(task));
 		data.put("issueJson", iSvc.getIssueList(issue));
 		data.put("newIssueNum", newInum);
+		data.put("newIssueOrder", newOrder);
 		
 		System.out.println("=----==--------------------------------------------");
 		System.out.println(tSvc.getTaskList(task));

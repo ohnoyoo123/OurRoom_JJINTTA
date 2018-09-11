@@ -92,6 +92,13 @@
 		</if>
 		order by i_order
 	</select>
+	<select id="getIorder" parameterType="issue" resultType="int">
+		select i_order from issue
+		where
+		p_num = #{pNum} and
+		t_num = #{tNum} and
+		i_num = #{iNum}
+	</select>
 	
 	<select id="selectIssueGreaterThanOrder" parameterType="hashMap" resultMap="issueRM">
 		select * from issue 

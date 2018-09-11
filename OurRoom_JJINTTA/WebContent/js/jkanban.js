@@ -148,6 +148,7 @@ var dragula = require('dragula');
             nodeItem.classList.add('kanban-item');
             if (element.id) {
               nodeItem.setAttribute('data-eid', element.id)
+              nodeItem.setAttribute('data-iOrder', element.order)
 
             }
             nodeItem.innerHTML = element.title;

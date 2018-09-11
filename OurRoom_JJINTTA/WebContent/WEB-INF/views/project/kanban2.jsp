@@ -210,13 +210,15 @@
            type : 'post',
 			     success : (data) => {
              newInum = data.newIssueNum
+             newOrder = data.newIssueOrder
              console.log('새로운 이슈 번호===');
              console.log(newInum);
 
              KanbanTest.addElement(
                  'ToDo',
                  {   'id': newInum,
-                     'title':issueName
+                     'title':issueName,
+                     'order' : newOrder
                  }
              );
 			     }
