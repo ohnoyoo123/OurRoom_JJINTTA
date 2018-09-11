@@ -56,9 +56,7 @@
   </div>
   </div>
   <script type="text/javascript">
-
   console.log(${issueJson});
-
   class Issue{
     constructor(id, title, order){
       this.id = id
@@ -87,7 +85,6 @@
   //  console.log(tempIssues);
     return tempIssues
   }
-
     class Board{
       constructor(step, issueList){
         this.id = step
@@ -96,19 +93,15 @@
         this.item = issuesForBoard(issueList)
       }
     }
-
     let issueList = ${issueList}
   //  console.log(issueList);
-
     let kanbanIssues = []
-
     const makeKanban = (iList) => {
       let ideasIssues = []
       let todoIssues = []
       let doingIssues = []
       let doneIssues = []
       let reviewIssues = []
-
       //issueList를 스텝별로 구분
       for(let i=0; i<iList.length; i++){
         if(iList[i].iStep==0){
@@ -125,21 +118,15 @@
       }
       let totalIssues = [ideasIssues,todoIssues,doingIssues,doneIssues,reviewIssues]
   //    console.log('확인!!!!!!!!!!!!!!');
-
       let steps = ['Ideas','ToDo','Doing','Done','Review']
-
       for(let i=0; i<totalIssues.length; i++){
   //      console.log('222222222222222222222');
   //      console.log(totalIssues[i]);
         let tempBoard = new Board(steps[i],totalIssues[i])
         kanbanIssues.push(tempBoard)
       }
-
       return kanbanIssues
-
     }
-
-
   var KanbanTest = new jKanban({
       element : '#myKanban',
       gutter  : '10px',
@@ -150,7 +137,6 @@
       },
       boards  : makeKanban(issueList),
       dropEl: function (el, target, source, sibling) {
-
         $.ajax({
           url: 'issueOrderChange',
           data: {
@@ -161,7 +147,6 @@
             finalStep: $(target).parent('div').attr('data-id'),
             iOrderFormer: el.getAttribute('data-iorder'),
             iOrderLatter: sibling!=null ? sibling.getAttribute('data-iorder') : 0
-
           },
           type: 'post',
           success: function (issueList) {
@@ -170,15 +155,11 @@
         })
       }
   });
-
   </script>
 
   <script type="text/javascript">
-
   $(document).ready(function () {
-
     $('#myKanban').click(function (event) {
-
     })
     $('#addToDo').on('click',function () {
       KanbanTest.addElement(
@@ -189,12 +170,9 @@
           }
       );
     })
-
     $('#myKanban').on('keypress','#textToDo',function (e) {
        if(e.keyCode == 13){
-
          let issueName = $('#textToDo').val()
-
          $.ajax({
            url : 'addIssue',
            data : {
@@ -207,32 +185,22 @@
            },
            type : 'post',
 			     success : (data) => {
-
-           console.log('ddddd');
-           console.log(data);
              newInum = data.newIssueNum
+             newOrder = data.newIssueOrder
              console.log('새로운 이슈 번호===');
              console.log(newInum);
-
              KanbanTest.addElement(
                  'ToDo',
                  {   'id': newInum,
-                     'title':issueName
+                     'title':issueName,
+                     'order' : newOrder
                  }
              );
-             newissueList = data.issueJson
-             KanbanTest ={
-               boards : makeKanban(newissueList)
-             }
-             console.log('-----------------------------dddd');
-             console.log(newissueList);
 			     }
          })
-
         KanbanTest.removeElement('temp')
         }
     })
-
     $('#goToTasksBtn').on('click',function () {
       $.ajax({
         url: 'getTasks',
@@ -245,22 +213,16 @@
           let txt=''
           for(let i=0; i<data.length; i++){
             console.log(data[i].tName);
-
           txt += `<a class="dropdown-item" href='kanban2?pNum=`+${project.pNum}+`&tNum=`+data[i].tNum+`'>`+data[i].tName+`</a><br/>`
-
           }
           console.log('a 태그');
           console.log(txt);
           $('#taskList').html(txt)
         //  $('#test').add('a').addClass('sss').attr('href', 'sss').val('value')
-
         }
       })
-
     })
-
   })
-
   </script>
 
 </body>
