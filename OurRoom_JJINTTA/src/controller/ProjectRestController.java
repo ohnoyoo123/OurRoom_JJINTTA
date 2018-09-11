@@ -111,8 +111,8 @@ public class ProjectRestController {
 
 		// String loginUser = ((Member)session.getAttribute("loginUser")).getmId();
 		String loginUser = "hong123@gmail.com";
+		System.out.println("================요청 태스크 정보" + task);
 		tSvc.addTask(task, loginUser);
-		System.out.println(task);
 		
 		int pNum = task.getpNum();
 		
