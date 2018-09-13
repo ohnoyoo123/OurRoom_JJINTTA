@@ -3,6 +3,7 @@ package dao;
 import java.util.HashMap;
 import java.util.List;
 
+import model.CheckListItem;
 import model.Comment;
 import model.Issue;
 import model.IssueMember;
@@ -41,6 +42,8 @@ public interface IssueDao {
    public int countIssuesInStep(Issue issue);
    
    public int getIorder(Issue issue);
+
+   public void deleteComment(Comment comment);
 
    
 }

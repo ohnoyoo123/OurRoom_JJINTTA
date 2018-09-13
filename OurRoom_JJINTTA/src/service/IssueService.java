@@ -227,5 +227,14 @@ public class IssueService {
 		return iDao.getIorder(issue);
 	}
 
+	public void deleteComment(Comment comment) {
+		iDao.deleteComment(comment);
+		comment.setCmSuper(comment.getCmNum());
+		comment.setCmNum(0);
+		iDao.deleteComment(comment);
+		
+		
+	}
+
 
 }

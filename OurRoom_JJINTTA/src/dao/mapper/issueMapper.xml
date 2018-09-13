@@ -92,6 +92,7 @@
 		</if>
 		order by i_order
 	</select>
+	
 	<select id="getIorder" parameterType="issue" resultType="int">
 		select i_order from issue
 		where
@@ -99,6 +100,27 @@
 		t_num = #{tNum} and
 		i_num = #{iNum}
 	</select>
+	
+	<select id="selectMinStartDate" parameterType="issue" resultMap="issueRM">
+		select * from issue
+		where 
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		order by i_startDate
+		limit 1
+	</select>
+	
+	<select id="selectMaxEndDate" parameterType="issue" resultMap="issueRM">
+		select * from issue
+		where 
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		order by i_endDate desc
+		limit 1
+	</select>
+	
 	
 	<select id="selectIssueGreaterThanOrder" parameterType="hashMap" resultMap="issueRM">
 		select * from issue 
@@ -144,10 +166,14 @@
 		select * from issue_member
 		where 
 		p_num = #{pNum}
+		<if test="tNum != 0">
 		and
 		t_num = #{tNum}
+		</if>
+		<if test="iNum != 0">
 		and
 		i_num = #{iNum}
+		</if>
 	</select>
 
 	<insert id="insertComment" parameterType="comment">
@@ -156,16 +182,31 @@
 		#{pNum},
 		#{tNum},
 		#{iNum},
-		ifnull(select max(c.c_num)+1 from
-		comment c where p_num = #{p_num} and t_num =
-		#{tNum} and i_num =
-		#{iNum}, 1),
+		(select ifnull((select max(cm.cm_num)+1 from comment cm where p_num = #{pNum} and t_num = #{tNum} and i_num = #{iNum}), 1)),
 		#{mId},
 		#{cmContent},
-		now(),
+		#{cmWriteTime},
 		#{cmSuper}
 		)
 	</insert>
+	
+	<delete id="deleteComment" parameterType="comment">
+		delete from comment
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		<if test="cmNum != 0">
+		and
+		cm_num = #{cmNum}
+		</if>
+		<if test="cmSuper != 0">
+		and
+		cm_super = #{cmSuper}
+		</if>
+	</delete>
 
 	<select id="selectComment" parameterType="issue"
 		resultMap="commentRM">

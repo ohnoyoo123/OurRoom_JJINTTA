@@ -85,8 +85,10 @@ public class ProjectRestController {
    
    @PostMapping("/project/projectReload")
    public Map<String, Object> projectReload(Issue issue) {
+	   System.out.println("요청 url : /project/projectReload");
+	   System.out.println(issue);
       int pNum = issue.getpNum();
-      int tnum = issue.gettNum();
+      issue.settNum(0);
       Map<String, Object> data = new HashMap<String, Object>();
       Task task = new Task();
       task.setpNum(pNum);
@@ -110,6 +112,7 @@ public class ProjectRestController {
    @PostMapping("/project/matchDate")
    public Map<String, Object> matchDate(Issue issue) {
       System.out.println("요청 url : /project/matchDate");
+      System.out.println("매치데이트 이슈 : " + issue);
       Map<String, Object> data = new HashMap<String, Object>();
       data.put("issueList", iSvc.getIssueList(issue));
       
@@ -185,7 +188,7 @@ public class ProjectRestController {
       data.put("projectJson", pSvc.getProject(pNum));
       data.put("taskJson", tSvc.getTaskList(task));
       data.put("issueJson", iSvc.getIssueList(issue));
-
+      data.put("commentList", iSvc.getCommentList(issue));
       return data;
 
    }
@@ -254,16 +257,19 @@ public class ProjectRestController {
 		int newOrder = issue.getiOrder();
 		System.out.println("==============");
 		System.out.println(newOrder);
+		issue.settNum(0);
 		issue.setiNum(0);
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("projectJson", pSvc.getProject(pNum));
 		data.put("taskJson", tSvc.getTaskList(task));
 		data.put("issueJson", iSvc.getIssueList(issue));
+		data.put("commentList", iSvc.getCommentList(issue));
 		data.put("newIssueNum", newInum);
 		data.put("newIssueOrder", newOrder);
 		
 		System.out.println("=----==--------------------------------------------");
+		System.out.println("이슈슈슈슈슈 : " + issue);
 		System.out.println(tSvc.getTaskList(task));
 		System.out.println(iSvc.getIssueList(issue));
 		return data;
@@ -288,6 +294,7 @@ public class ProjectRestController {
       data.put("checkList", clSvc.getCheckList(issue));
       data.put("checkListItem", clSvc.getAllCheckListItem(issue));
       data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
+      data.put("commentList", iSvc.getCommentList(issue));
       return data;
    }
 
@@ -305,6 +312,7 @@ public class ProjectRestController {
       data.put("checkList", clSvc.getCheckList(issue));
       data.put("checkListItem", clSvc.getAllCheckListItem(issue));
       data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
+      data.put("commentList", iSvc.getCommentList(issue));
       return data;
 
    }
@@ -332,6 +340,7 @@ public class ProjectRestController {
       data.put("checkList", clSvc.getCheckList(issue));
       data.put("checkListItem", clSvc.getAllCheckListItem(issue));
       data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
+      data.put("commentList", iSvc.getCommentList(issue));
       return data;
 
    }
@@ -349,8 +358,33 @@ public class ProjectRestController {
       data.put("checkList", clSvc.getCheckList(issue));
       data.put("checkListItem", clSvc.getAllCheckListItem(issue));
       data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
+      data.put("commentList", iSvc.getCommentList(issue));
       return data;
 
+   }
+   
+   //체크리스트 아이템 변경
+   @PostMapping("/project/updateCheckListItem")
+   public Map<String, Object> updateCheckListItem(CheckListItem checkListItem) {
+		System.out.println("요청 url : /project/updateCheckListItem");
+		System.out.println(checkListItem);
+		clSvc.updateCheckListItem(checkListItem);
+		
+		Issue issue = new Issue();
+		issue.setpNum(checkListItem.getpNum());
+		issue.settNum(checkListItem.gettNum());
+		issue.setiNum(checkListItem.getiNum());
+		
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("issueList", iSvc.getIssueList(issue));
+		data.put("issueMember", iSvc.getIssueMember(issue));
+		data.put("checkList", clSvc.getCheckList(issue));
+		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
+		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
+	    data.put("commentList", iSvc.getCommentList(issue));
+	    
+		return data;
    }
    
    //이슈 변경
@@ -359,6 +393,7 @@ public class ProjectRestController {
       System.out.println("요청 url : /project/updateIssue");
       System.out.println(issue);
       iSvc.updateIssue(issue);
+      issue.settNum(0);
       
       Map<String, Object> data = new HashMap<String, Object>();
       data.put("issueList", iSvc.getIssueList(issue));
@@ -366,7 +401,7 @@ public class ProjectRestController {
       data.put("checkList", clSvc.getCheckList(issue));
       data.put("checkListItem", clSvc.getAllCheckListItem(issue));
       data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));
-
+      data.put("commentList", iSvc.getCommentList(issue));
       return data;
 
    }
@@ -375,7 +410,6 @@ public class ProjectRestController {
    @PostMapping("/project/addComment")
    public Map<String, Object> addComment(Comment comment) {
       System.out.println("요청 url : /project/addComment");
-      System.out.println(comment);
       iSvc.addComment(comment);
       Map<String, Object> data = new HashMap<String, Object>();
       Issue issue = new Issue();
@@ -388,21 +422,54 @@ public class ProjectRestController {
       
    }
    
-   @PostMapping("/project/test")
-   public void test(@RequestBody Task task) {
-      System.out.println("====================");
-      System.out.println(task);
+   //코멘트 삭제
+   @PostMapping("/project/deleteComment")
+   public Map<String, Object> deleteComment(Comment comment) {
+	      System.out.println("요청 url : /project/deleteComment");
+	      System.out.println(comment);
+	      iSvc.deleteComment(comment);
+	      Map<String, Object> data = new HashMap<String, Object>();
+	      Issue issue = new Issue();
+	      issue.setpNum(comment.getpNum());
+	      issue.settNum(comment.gettNum());
+	      issue.setiNum(comment.getiNum());
+	      data.put("commentList", iSvc.getCommentList(issue));
+	      return data;
    }
+   
    @PostMapping("/project/issueOrderChange")
    public Map<String, JsonObject> issueOrderChange(@RequestParam HashMap<String, Object> params){
       System.out.println(params);
       iSvc.orderChange(params);
       return null;
    }
+   
    @PostMapping("/project/getTasks")
    public List<Task> getTasksByPnum(@RequestParam int pNum){
       Task task = new Task();
       task.setpNum(pNum);
       return tSvc.getTaskList(task);      
    }
+   
+   @PostMapping("/project/projectChart")
+   public Map<String, Object> projectChart(int pNum){
+	   System.out.println("요청 url : /project/projectChart");
+	   
+	   Task task = new Task();
+	   task.setpNum(pNum);
+	   
+	   Issue issue = new Issue();
+	   issue.setpNum(pNum);
+	   
+	   Map<String, Object> data = new HashMap<String, Object>();
+	   data.put("project", pSvc.getProject(pNum));
+	   data.put("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
+	   data.put("taskList", tSvc.getTaskList(task));
+	   data.put("issueList", iSvc.getIssueList(issue));
+	   data.put("issueMemberList", iSvc.getIssueMember(issue));
+	   
+	   return data;
+	   
+   }
+   
 }
