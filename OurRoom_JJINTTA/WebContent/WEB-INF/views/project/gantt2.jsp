@@ -29,6 +29,7 @@
    <script src='<c:url value="/js/popup.js"/>'></script>
    <script src='<c:url value="/js/svg_utils.js"/>'></script>
    <link href='<c:url value="/js/gantt.scss"/>' rel="stylesheet"> --%>
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 
@@ -103,6 +104,9 @@ textarea {
 <body>
 	<jsp:include page="../mainFrame.jsp" />
 	<div id="innerFrame">
+		<i class="material-icons" onclick="location.href='/OurRoom/project/chart?pNum=${project.pNum}'">
+			bar_chart
+		</i>
 		<div id="projectInfo"></div>
 		<div id="sideTap"></div>
 		<svg id="gantt"></svg>
@@ -121,12 +125,7 @@ textarea {
 				</div>
 				<!-- Modal Body -->
 				<div class="modal-body">
-					<div>
-						시작 : <br> <input type="text" class="datepicker" id="addTaskModal_tStartDate" disabled>
-					</div>
-					<div>
-						종료 : <br> <input type="text" class="datepicker" id="addTaskModal_tEndDate" disabled>
-					</div>
+
 					태스크 설명
 					<div id="addTaskModal_tDscrForm">
 						<textarea id="addTaskModal_tDscr"></textarea>
@@ -153,9 +152,9 @@ textarea {
 					<h2 class="modal-title">
 						<p class="selectedTask"></p>
 					</h2>
-					<h4 class="modal-title">
-						이슈명: <input type="text" placeholder="enter issue name" id="iName">
-					</h4>
+					<h6 class="modal-title">
+						<input type="text" placeholder="이슈명: enter issue name" id="iName">
+					</h6>
 				</div>
 
 				<!-- Modal body -->
@@ -473,7 +472,7 @@ var gantt = new Gantt('#gantt', taskAndIssue, {
 });
 
 
-gantt.change_view_mode('Day')
+gantt.change_view_mode('Month')
 
 	//간트 내부 좌단부 생성
 	const sideTap = (p, t, i) => {
@@ -541,8 +540,8 @@ gantt.change_view_mode('Day')
         pNum: ${project.pNum},
         tName: $('#addTaskModal_tName').val(),
 				tDscr : $('#addTaskModal_tDscr').val(),
-        tStartDate: $('#addTaskModal_tStartDate').val(),
-        tEndDate: $('#addTaskModal_tEndDate').val(),
+        tStartDate: '',
+        tEndDate: '',
       },
       type: 'post',
       success: (data) => {
@@ -584,7 +583,7 @@ gantt.change_view_mode('Day')
 		selectedMId = []
 		selectedtNum = $(this).attr('tNum')
 		selectedtName = $(this).attr('tName')
-		$('.selectedTask').html("태스크 이름 : " + selectedtName)
+		$('.selectedTask').html(selectedtName)
 	})
 	//이슈 추가
 	$('#addIssue').on('click', () => {

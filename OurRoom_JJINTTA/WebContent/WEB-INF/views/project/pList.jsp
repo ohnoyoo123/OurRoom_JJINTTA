@@ -6,16 +6,34 @@
 <head>
 <meta content="charset=UTF-8">
 <title>Insert title here</title>
+
 <style type="text/css">
+
 	#innerFrame{
-		background-color: yellow;
+		background-color: ;
 		display: inline-block;
 		width: 90%;
 
-	}
+	 }
+
 </style>
+
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+  <link rel="stylesheet"
+  	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
 </head>
 <body>
+
+  <script>
+    $(function () {
+      $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
+    });
+  </script>
 <jsp:include page="../mainFrame.jsp"/>
 
 	<div id = "innerFrame">
@@ -27,7 +45,7 @@
 			<c:if test="${pm.pmFav}">
 				<c:forEach items="${progProject}" var="pList">
 					<c:if test="${pList.pNum==pm.pNum }">
-						<a onclick="location.href='gantt?pNum=${pm.pNum }'">${pList.pName }</a>
+						<p style="cursor:pointer;" onclick="location.href='gantt?pNum=${pm.pNum }'">${pList.pName }</p>
 					</c:if>
           <br>
 				</c:forEach>
@@ -39,7 +57,7 @@
 				<c:forEach items="${progProject}" var="pList">
 					<c:if test="${pList.pNum==pm.pNum }">
 						<br>
-						<a onclick="location.href='gantt?pNum=${pm.pNum }'">${pList.pName }</a>
+							<p style="cursor:pointer;" onclick="location.href='gantt?pNum=${pm.pNum }'">${pList.pName }</p>
 						<br>
 					</c:if>
 				</c:forEach>
@@ -47,7 +65,7 @@
 		</c:forEach>
 	<h2>종료된 프로젝트</h2>
 		<c:forEach items="${pastProject }" var="past">
-			<a onclick="location.href='gantt?pNum=${past.pNum }'">${past.pName }</a>
+			<p style="cursor:pointer;" onclick="location.href='gantt?pNum=${past.pNum }'">${past.pName }</p>
 			<br>
 		</c:forEach>
 	</div>
@@ -61,16 +79,35 @@
 	      <div class="modal-header">
 	        <h4 class="modal-title">
 	       		프로젝트명:
-              <input type="hidden" name="owner" value="${loginUser.mId}"> <%-- ${세션에 있는 아이디 mId} --%>
-	        	  <input type="text" placeholder="enter project name" id="pName">
+              <input type="hidden" name="owner" value="${loginUser.mId}" > <%-- ${세션에 있는 아이디 mId} --%>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <div class="col-xs-10" style="margin-left:-12px;">
+                <input type="text" id="pName" class="form-control">
+              </div>
+
 	        </h4>
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+
 	      </div>
 
 	      <!-- Modal body -->
 	      <div class="modal-body">
-	        	팀원 초대:
-	        	<input type="text" placeholder="enter email or nickname" id="memberSearch">
+          <div class="col-xs-4" style="margin-left:-12px;">
+            시작 : <br> <input type="text" class="datepicker pStartDate form-control" readonly>
+          </div>
+          <div class="col-xs-4">
+            종료 : <br> <input type="text" class="datepicker pEndDate form-control" readonly>
+          </div>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+          <div class="">
+            <p>팀원 초대:</p>
+
+
+
+	        	<input type="text" id="memberSearch" class="form-control">
 					<!-- 	<input type="button" class='btn' value="검색" id="memberSearchBtn"> -->
 						<br>
             ===검색 결과 멤버 ===
@@ -78,14 +115,15 @@
             === 초대된 멤버 ===
             <p id="invitedMember"></p>
             <br/>
-            배경화면 선택: API..
+          </div>
 
+            <button type="button" class="btn btn-success" id = "newProject">생성</button>
+  	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 	      </div>
 
 	      <!-- Modal footer -->
 	      <div class="modal-footer">
-          <button type="button" class="btn btn-success" id = "newProject">생성</button>
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
 	      </div>
 
 	    </div>
@@ -163,6 +201,8 @@
 				url : "newProject",
 				data : {
 					pName : $('#pName').val(),
+          pStartDate: $('.pStartDate').val(),
+          pEndDate: $('.pEndDate').val(),
 					owner : '${loginUser.mId}',
 					members : invitedId
 				},

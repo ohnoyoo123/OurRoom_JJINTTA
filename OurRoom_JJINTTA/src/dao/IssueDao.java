@@ -41,6 +41,8 @@ public interface IssueDao {
    public int countIssuesInStep(Issue issue);
    
    public int getIorder(Issue issue);
+   
+   public List<HashMap<String, Object>> getIssuesPerMember(int pNum);
 
    
 }

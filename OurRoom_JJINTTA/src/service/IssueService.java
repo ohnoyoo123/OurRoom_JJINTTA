@@ -2,6 +2,7 @@ package service;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -10,8 +11,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import dao.CheckListDao;
 import dao.IssueDao;
+import dao.MemberDao;
 //import dao.LogDao;
 import model.CheckList;
 import model.CheckListItem;
@@ -29,6 +36,9 @@ public class IssueService {
 
    @Autowired
    CheckListDao clDao;
+   
+   @Autowired
+   MemberDao mDao;
 
 //   @Autowired
 //   LogDao lDao;
@@ -225,6 +235,26 @@ public class IssueService {
    
 	public int getIssueOrder(Issue issue) {
 		return iDao.getIorder(issue);
+	}
+
+	public JsonArray numberOfIssuesPerMember(int pNum) {		
+		
+		List<HashMap<String, Object>> data = new ArrayList<>();
+		for(HashMap<String, Object> issueMember : iDao.getIssuesPerMember(pNum)) {
+			HashMap<String, Object> temp = new HashMap<>();
+			temp.put("count", issueMember.get("count"));
+			String mId = (String)issueMember.get("member");
+			temp.put("member",mDao.selectById(mId).getmNickname());
+			System.out.println("======================");
+			System.out.println(mDao.selectById(mId).getmNickname());
+			data.add(temp);
+		}
+		
+		Gson gson = new Gson();		
+		String stringIssuePerMember = gson.toJson(data);
+		JsonArray issuePerMember = new JsonParser().parse(stringIssuePerMember).getAsJsonArray();
+		
+		return issuePerMember;		
 	}
 
 

@@ -184,5 +184,6 @@ public class PageController {
 		mav.setViewName("/project/kanban2");
 		return mav;
 
-	}
+	}	
+	
 }
