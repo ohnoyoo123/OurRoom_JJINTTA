@@ -77,6 +77,14 @@
 		i_num = #{iNum}
 		</if>
 	</delete>
+	
+	<select id="getIssuesPerMember" parameterType="int" resultType="hashMap">
+		select count(*) as count, m_id as member from issue_member
+		where
+		p_num = #{pNum}
+		group by
+		m_id	
+	</select>
 
 	<select id="selectIssue" parameterType="issue" resultMap="issueRM">
 		select * from issue

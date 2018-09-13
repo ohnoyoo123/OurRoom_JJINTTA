@@ -73,12 +73,13 @@ public class ProjectRestController {
          @RequestParam(value = "members[]", required = false) List<String> members) {
 
       HashMap<String, Object> params = new HashMap<String, Object>();
-
+      
       params.put("project", project);
       params.put("owner", owner);
       params.put("projectMember", members);
-
+      
       System.out.println("============================= new project!");
+      System.out.println(project);
 
       return pSvc.addProject(params);
    }

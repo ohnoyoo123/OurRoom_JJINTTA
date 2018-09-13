@@ -90,6 +90,9 @@ textarea {
 		  <select class="form-control" id="viewMode">
 		  </select>
 		</div>
+		<i class="material-icons" onclick="location.href='/OurRoom/project/chart?pNum=${project.pNum}'">
+			bar_chart
+		</i>
 		<div id="projectInfo"></div>
 		<div id="sideTap"></div>
 		<svg id="gantt"></svg>
@@ -108,12 +111,7 @@ textarea {
 				</div>
 				<!-- Modal Body -->
 				<div class="modal-body">
-					<div>
-						시작 : <br> <input type="text" class="datepicker" id="addTaskModal_tStartDate" disabled>
-					</div>
-					<div>
-						종료 : <br> <input type="text" class="datepicker" id="addTaskModal_tEndDate" disabled>
-					</div>
+
 					태스크 설명
 					<div id="addTaskModal_tDscrForm">
 						<textarea id="addTaskModal_tDscr"></textarea>
@@ -140,9 +138,9 @@ textarea {
 					<h2 class="modal-title">
 						<p class="selectedTask"></p>
 					</h2>
-					<h4 class="modal-title">
-						이슈명: <input type="text" placeholder="enter issue name" id="iName">
-					</h4>
+					<h6 class="modal-title">
+						<input type="text" placeholder="이슈명: enter issue name" id="iName">
+					</h6>
 				</div>
 
 				<!-- Modal body -->
@@ -569,8 +567,8 @@ textarea {
 	        pNum: ${project.pNum},
 	        tName: $('#addTaskModal_tName').val(),
 					tDscr : $('#addTaskModal_tDscr').val(),
-	        tStartDate: $('#addTaskModal_tStartDate').val(),
-	        tEndDate: $('#addTaskModal_tEndDate').val(),
+	        tStartDate: '',
+	        tEndDate: '',
 	      },
 	      type: 'post',
 	      success: (data) => {

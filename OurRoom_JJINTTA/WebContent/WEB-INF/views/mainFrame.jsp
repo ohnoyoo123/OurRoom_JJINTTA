@@ -18,6 +18,7 @@ hr.style13 {
 	border: 0;
 	box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
+
 </style>
 <link rel="stylesheet" href="/OurRoom/css/modal.css">
 <link rel="stylesheet"
@@ -33,7 +34,8 @@ hr.style13 {
 
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css">
    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
-
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 
 <script type="text/javascript">
    jQuery.browser = {};
@@ -85,11 +87,15 @@ html, body {
    color: #e6ffe6;
    cursor: pointer;
 }
-
-i::before{
-   margin: 0px;
-   padding: 0px;
+.material-icons.md-48 {
+  font-size: 45px;
 }
+#innerFrame, #innerFrame p{
+  font-family: 'New Gulim';
+  font-size: 18px;
+}
+
+
 </style>
 <script type="text/javascript">
 	$(function() {
@@ -141,8 +147,14 @@ i::before{
 
       }
    });
+   $(document).ready(function(){
+     $('input').addClass('form-control')
+     $('textarea').addClass('form-control')
+     $('.modal-title').css('font-size','25px')
+     $('.modal-body').css('font-size','15px')
+   })
 </script>
-<script> 
+<script>
 $("#noti").on("click",function() {
     console.log(11);
     var searchNotis = [];
@@ -290,10 +302,10 @@ $("#noti").on("click",function() {
                       + "&tNum="
                       + data[i].tNum
                       + "&iNum="
-                      + data[i].iNum               
+                      + data[i].iNum
                       + "'>"
                       + data[i].lName
-                      + "</a> 이슈에 댓글을 남겼습니다.</p>";   
+                      + "</a> 이슈에 댓글을 남겼습니다.</p>";
                 break;
              case 63:
                 notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/kanban2?pNum="
@@ -301,13 +313,13 @@ $("#noti").on("click",function() {
                       + "&tNum="
                       + data[i].tNum
                       + "&iNum="
-                      + data[i].iNum               
+                      + data[i].iNum
                       + "'>"
                       + data[i].lName
-                      + "</a> 댓글을 참조했습니다.</p>";   
+                      + "</a> 댓글을 참조했습니다.</p>";
                 break;
              }
-       
+
              searchNotis
                    .push(notiDefaultMsg
                          + notiDetailMsg
@@ -319,8 +331,8 @@ $("#noti").on("click",function() {
 
           $("#noti_div").html(searchNotis);
           $("#notiModal").modal();
-       }         
-    });         
+       }
+    });
  });</script>
 </head>
 <body>
@@ -328,19 +340,33 @@ $("#noti").on("click",function() {
 	<%-- <fmt:parseDate value=""/>  --%>
 	<input id="loginUser" type="hidden" value="${loginUser.mId}" />
 	<div id="top">
-   <h2 style="display:inline-block; vertical-align:bottom; cursor:pointer; margin-left:25px;" onclick="location.href='/OurRoom/home'">OurRoom</h2>		<div class="topIcon">
-			<span class="glyphicon glyphicon-log-out" id="logout"></span>
-		</div>
-		
+   <h2 style="display:inline-block; vertical-align:bottom; cursor:pointer; margin-left:25px;"
+     onclick="location.href='/OurRoom/project/pList'"> OurRoom </h2>
+  <div class="topIcon">
+     <i class="material-icons md-48">
+       power_off
+     </i>
+	</div>
+
 	      <div class="topIcon" onclick="location.href='/OurRoom/myPage'">
-	         <i class="user icon"></i>
+          <i class="material-icons md-48">
+            account_circle
+          </i>
 	      </div>
-	
+
 		<div class="topIcon">
-			<span class="glyphicon glyphicon-bell" id="noti"></span>
+
+      <%-- <i class="material-icons md-48">
+        notifications_active
+      </i> --%>
+      <i class="material-icons md-48">
+        notifications
+      </i>
 		</div>
 	      <div class="topIcon" onclick="location.href='/OurRoom/project/pList'">
-	         <span class="glyphicon glyphicon-briefcase"></span>
+          <i class="material-icons md-48">
+            work_outline
+          </i>
 	      </div>
     </div>
 
