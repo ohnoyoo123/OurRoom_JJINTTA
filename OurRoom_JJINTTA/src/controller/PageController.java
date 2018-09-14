@@ -8,7 +8,9 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
@@ -74,7 +76,8 @@ public class PageController {
 	}
 
 	@RequestMapping("/project/gantt")
-	public ModelAndView project_gantt(int pNum) {
+	public ModelAndView project_gantt(@RequestParam(value="tNum" ,  required=false ) String tNum, int pNum,  @RequestParam(required=false) String iNum ,@RequestParam(required=false) String log  ) {
+		System.out.println("tNum :" +tNum);
 		System.out.println("pNum : " + pNum);
 		ModelAndView mav = new ModelAndView();
 
@@ -106,11 +109,14 @@ public class PageController {
 		System.out.println("이슈리스트" + iSvc.getIssueList(issue));
 
 		mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
-
+		mav.addObject("pNum", pNum);
+		mav.addObject("tNum", tNum);
+		mav.addObject("iNum", iNum);
+		mav.addObject("log", log);
 		mav.setViewName("/project/gantt2");
 		return mav;
 	}
-
+ 
 	@RequestMapping("/project/kanban")
 	public ModelAndView project_kanban(int pNum, int tNum) {
 

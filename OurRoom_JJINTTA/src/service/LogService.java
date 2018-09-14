@@ -61,11 +61,11 @@ public class LogService {
 		case Log.P_UPDATE_NAME:
 			project = (Project) target;
 			log.setpNum(project.getpNum());
-
 			log.setlName(project.getpName());
 
 			break;
 		case Log.T_CREATE:
+		case Log.T_DELETE:
 			task = (Task) target;
 			log.setpNum(task.getpNum());
 			log.settNum(task.gettNum());
@@ -99,9 +99,9 @@ public class LogService {
 		case Log.CI_DELETE:
 		case Log.CI_ADD_MEMBER:
 			checkListItem = (CheckListItem) target;
+			System.out.println("aaaa : " + checkListItem);
 			log.setpNum(checkListItem.getpNum());
 			log.settNum(checkListItem.gettNum());
-			log.setiNum(checkListItem.getiNum());
 			log.setiNum(checkListItem.getiNum());
 			log.setClNum(checkListItem.getClNum());
 			log.setCiNum(checkListItem.getCiNum());
@@ -120,8 +120,8 @@ public class LogService {
 			if (lCat == Log.CM_ADD) {
 				issue = new Issue();
 				issue.setpNum(comment.getpNum());
-				issue.setpNum(comment.gettNum());
-				issue.setpNum(comment.getiNum());
+				issue.settNum(comment.gettNum());
+				issue.setiNum(comment.getiNum());
 				log.setlName(issueDao.selectIssue(issue).get(0).getiName());
 			} else {
 				log.setlName(comment.getCmContent());
@@ -147,6 +147,13 @@ public class LogService {
 		noti.setmId(mId);
 		noti.setlNum(lNum);
 		logDao.insertNoti(noti);
+
+	}
+
+	/* myPage 로그 조회 */
+	public List<Log> getMyLog(String mId) {
+		
+		return logDao.selectLogById(mId);
 
 	}
 

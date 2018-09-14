@@ -33,10 +33,10 @@
 
 
 	<!-- 프로젝트 로그 조회 -->
-	<select id="selectProjectLog" parameterType="int"
-		resultMap="logRM">
+	<select id="selectProjectLog" parameterType="int" resultMap="logRM">
 		select * from log
 		where p_num = #{value}
+		order by l_time desc
 	</select>
 
 	<select id="selectLog" parameterType="log" resultMap="logRM">
@@ -97,8 +97,7 @@
 		left join log l on l.l_num = n.l_num
 		and l.p_num = n.p_num
 		left join member m on l.m_id = m.m_id
-		where n.m_id
-		= #{mId}
+		where n.m_id = #{mId}
 		order by l_time desc;
 
 	</select>
@@ -113,7 +112,13 @@
 			and n_isRead = 0
 		</where>
 	</select>
-
+	
+	<!-- 로그인 유저 로그리스트 조회 -->
+	<select id="selectLogById" parameterType="string" resultMap="logRM">
+		select * from log
+		where m_id = #{value}
+		order by l_time desc
+	</select>
 
 	<resultMap type="log" id="logRM">
 		<result property="pNum" column="p_num" />

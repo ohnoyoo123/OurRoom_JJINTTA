@@ -7,20 +7,14 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
+import dao.LogDao;
 //import dao.LogDao;
 import model.CheckList;
 import model.CheckListItem;
@@ -29,11 +23,11 @@ import model.Issue;
 import model.IssueMember;
 import model.Log;
 import model.Member;
-import model.Noti;
 import model.Project;
 import model.Task;
 import service.CheckListService;
 import service.IssueService;
+import service.LogService;
 //import service.LogService;
 import service.MemberService;
 import service.ProjectService;
@@ -57,15 +51,12 @@ public class ProjectRestController {
 	@Autowired
 	TaskService tSvc;
 
-//	@Autowired
-//	LogService lSvc;
+	@Autowired
+	LogService lSvc;
 
-//	@Autowired
-//	LogDao lDao;
+	@Autowired
+	LogDao lDao;
 
-//	@Autowired
-//	LogService logSvc;
-	
 	@PostMapping("/project/newProject")
 	public int newProject(Project project, String owner,
 			@RequestParam(value = "members[]", required = false) List<String> members) {
@@ -80,7 +71,7 @@ public class ProjectRestController {
 
 		return pSvc.addProject(params);
 	}
-	
+
 	@PostMapping("/project/projectReload")
 	public Map<String, Object> projectReload(Issue issue) {
 		int pNum = issue.getpNum();
@@ -92,25 +83,25 @@ public class ProjectRestController {
 		data.put("taskJson", tSvc.getTaskList(task));
 		data.put("issueJson", iSvc.getIssueList(issue));
 		return data;
-		
+
 	}
-	
+
 	@PostMapping("/project/taskDetail")
 	public Map<String, Object> taskDetail(Task task) {
 		System.out.println("요청 url : /project/taskDetail");
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("taskList", tSvc.getTaskList(task));
 		return data;
-		
+
 	}
-	
-	//날짜 비교용
+
+	// 날짜 비교용
 	@PostMapping("/project/matchDate")
 	public Map<String, Object> matchDate(Issue issue) {
 		System.out.println("요청 url : /project/matchDate");
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("issueList", iSvc.getIssueList(issue));
-		
+
 		Task task = new Task();
 		task.setpNum(issue.getpNum());
 		task.settNum(issue.gettNum());
@@ -118,7 +109,7 @@ public class ProjectRestController {
 		data.put("minIStartDate", iSvc.getMinIStartDate(issue));
 		data.put("maxIEndDate", iSvc.getMaxIEndDate(issue));
 		return data;
-		
+
 	}
 
 	@PostMapping("/project/issueDetail")
@@ -187,7 +178,7 @@ public class ProjectRestController {
 		return data;
 
 	}
-	
+
 	@PostMapping("/project/updateTask")
 	public Map<String, Object> updateTask(Task task) {
 		System.out.println("요청 url : " + "/project/updateTask");
@@ -198,9 +189,11 @@ public class ProjectRestController {
 	}
 
 	@PostMapping("/project/deleteTask")
-	public void deleteTask(Task task) {
+	public void deleteTask(HttpSession session, Task task) {
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
+
 		System.out.println("요청 url : " + "/project/deleteTask");
-		tSvc.deleteTask(task);
+		tSvc.deleteTask(task, loginUser);
 	}
 
 	@PostMapping("/project/addIssue")
@@ -210,7 +203,7 @@ public class ProjectRestController {
 		System.out.println(issue);
 		System.out.println("=================================");
 		System.out.println(members);
-		String loginUser = ((Member)session.getAttribute("loginUser")).getmId();
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
 
 		Issue returnIssue = iSvc.addIssue(issue, loginUser);
 
@@ -222,10 +215,10 @@ public class ProjectRestController {
 			logMap.put("target", returnIssue);
 			logMap.put("mId", loginUser);
 			logMap.put("lCat", Log.I_ADD_MEMBER);
-//			logSvc.insertLog(logMap);
+			lSvc.insertLog(logMap);
 
 			// 직전에 삽입된 로그의 번호를 가져온다.
-//			int LastLNum = lDao.selectLogLastLNum(returnIssue.getpNum());
+			int LastLNum = lDao.selectLogLastLNum(returnIssue.getpNum());
 
 			for (String mId : members) {
 				IssueMember im = new IssueMember();
@@ -237,12 +230,11 @@ public class ProjectRestController {
 
 				// 로그 남기기(이슈 멤버추가 33)
 				// 알림 생성
-//				Map<String, Object> notiMap = new HashMap<String, Object>();
-//				notiMap.put("pNum", returnIssue.getpNum());
-//				notiMap.put("mId", mId);
-//				notiMap.put("lNum", LastLNum);
-//
-//				logSvc.insertNoti(notiMap);
+				Map<String, Object> notiMap = new HashMap<String, Object>();
+				notiMap.put("pNum", returnIssue.getpNum());
+				notiMap.put("mId", mId);
+				notiMap.put("lNum", LastLNum);
+				lSvc.insertNoti(notiMap);
 			}
 		}
 
@@ -256,7 +248,7 @@ public class ProjectRestController {
 		data.put("taskJson", tSvc.getTaskList(task));
 		data.put("issueJson", iSvc.getIssueList(issue));
 		data.put("newIssueNum", newInum);
-		
+
 		System.out.println("=----==--------------------------------------------");
 		System.out.println(tSvc.getTaskList(task));
 		System.out.println(iSvc.getIssueList(issue));
@@ -264,16 +256,20 @@ public class ProjectRestController {
 	}
 
 	@PostMapping("/project/deleteIssue")
-	public void deleteIssue(Issue issue) {
+	public void deleteIssue(HttpSession session, Issue issue) {
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
+
 		System.out.println("요청 url : " + "/project/deleteIssue");
-		iSvc.deleteIssue(issue);
+		iSvc.deleteIssue(issue, loginUser);
 	}
 
 	// 체크리스트를 새로 추가하고 체크리스트 다 받아오기
 	@PostMapping("/project/addCheckList")
-	public Map<String, Object> addCheckList(CheckList checkList) {
+	public Map<String, Object> addCheckList(HttpSession session, CheckList checkList) {
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
+
 		System.out.println("요청 url : " + "/project/addCheckList");
-		clSvc.addCheckList(checkList);
+		clSvc.addCheckList(checkList, loginUser);
 		Issue issue = new Issue();
 		issue.setpNum(checkList.getpNum());
 		issue.settNum(checkList.gettNum());
@@ -287,9 +283,11 @@ public class ProjectRestController {
 
 	// 체크리스트 삭제하고 체크리스트 다시!
 	@PostMapping("/project/deleteCheckList")
-	public Map<String, Object> deleteCheckList(CheckList checkList) {
+	public Map<String, Object> deleteCheckList(HttpSession session, CheckList checkList) {
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
+
 		System.out.println("요청 url : " + "/project/deleteCheckList");
-		clSvc.deleteCheckList(checkList);
+		clSvc.deleteCheckList(checkList, loginUser);
 
 		Issue issue = new Issue();
 		issue.setpNum(checkList.getpNum());
@@ -305,14 +303,16 @@ public class ProjectRestController {
 
 	// 체크리스트 아이템 생성하고 체크리스트 다시!!
 	@PostMapping("/project/addCheckListItem")
-	public Map<String, Object> addCheckListItem(CheckListItem checkListItem,
+	public Map<String, Object> addCheckListItem(HttpSession session, CheckListItem checkListItem,
 			@RequestParam(value = "members[]", required = false) List<String> members) {
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
+
 		System.out.println("요청 url : /project/addCheckListItem");
 		System.out.println(members);
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("checkListItem", checkListItem);
 		param.put("members", members);
-		clSvc.addCheckListItem(param);
+		clSvc.addCheckListItem(param, loginUser);
 
 		// 새로운 체크리스트 불러와서 보내주기
 		// 사실 이런것들을 서비스에서 해주면 좋을것 같은데??
@@ -331,9 +331,10 @@ public class ProjectRestController {
 	}
 
 	@PostMapping("/project/deleteCheckListItem")
-	public Map<String, Object> deleteCheckListItem(CheckListItem checkListItem) {
+	public Map<String, Object> deleteCheckListItem(HttpSession session, CheckListItem checkListItem) {
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
 		System.out.println("요청 url : /project/deleteCheckListItem");
-		clSvc.deleteCheckListItem(checkListItem);
+		clSvc.deleteCheckListItem(checkListItem, loginUser);
 
 		Issue issue = new Issue();
 		issue.setpNum(checkListItem.getpNum());
@@ -346,14 +347,14 @@ public class ProjectRestController {
 		return data;
 
 	}
-	
-	//이슈 변경
+
+	// 이슈 변경
 	@PostMapping("/project/updateIssue")
 	public Map<String, Object> issueUpdate(Issue issue) {
 		System.out.println("요청 url : /project/updateIssue");
 		System.out.println(issue);
 		iSvc.updateIssue(issue);
-		
+
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("issueList", iSvc.getIssueList(issue));
 		data.put("issueMember", iSvc.getIssueMember(issue));
@@ -364,8 +365,8 @@ public class ProjectRestController {
 		return data;
 
 	}
-	
-	//코멘트 입력
+
+	// 코멘트 입력
 	@PostMapping("/project/addComment")
 	public Map<String, Object> addComment(Comment comment) {
 		System.out.println("요청 url : /project/addComment");
@@ -378,25 +379,26 @@ public class ProjectRestController {
 		issue.setiNum(comment.getiNum());
 		data.put("commentList", iSvc.getCommentList(issue));
 		return data;
-		
-		
+
 	}
-	
+
 	@PostMapping("/project/test")
 	public void test(@RequestBody Task task) {
 		System.out.println("====================");
 		System.out.println(task);
 	}
+
 	@PostMapping("/project/issueOrderChange")
-	public Map<String, JsonObject> issueOrderChange(@RequestParam HashMap<String, Object> params){
+	public Map<String, JsonObject> issueOrderChange(@RequestParam HashMap<String, Object> params) {
 		System.out.println(params);
 		iSvc.orderChange(params);
 		return null;
 	}
+
 	@PostMapping("/project/getTasks")
-	public List<Task> getTasksByPnum(@RequestParam int pNum){
+	public List<Task> getTasksByPnum(@RequestParam int pNum) {
 		Task task = new Task();
 		task.setpNum(pNum);
-		return tSvc.getTaskList(task);		
+		return tSvc.getTaskList(task);
 	}
 }

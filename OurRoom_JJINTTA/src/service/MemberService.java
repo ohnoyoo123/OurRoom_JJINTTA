@@ -17,7 +17,7 @@ public class MemberService {
 
 	/* test 용 */
 	public List<Member> select() {
-		// TODO Auto-generated method stub
+
 		return mDao.selectMember();
 	}
 
@@ -100,8 +100,13 @@ public class MemberService {
 	}
 
 	public Member selectMember(String mId) {
-		
+
 		return mDao.selectById(mId);
+	}
+
+	public int updateNickname(Member member) {
+
+		return mDao.updateNickname(member);
 	}
 
 }

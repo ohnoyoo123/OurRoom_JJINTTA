@@ -182,6 +182,60 @@
 		i_num = #{iNum}
 	</select>
 	
+	<!-- 마지막 입력된 체크리스트 번호 가져오기 -->
+	<select id="selectCheckListLastClNum" parameterType="checkList" resultType="int">
+		select ifnull(max(cl_num),0) from checkList 
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		  
+	</select>
+	
+	<!-- 마지막 입력된 체크리스트 아이템 번호 가져오기 -->
+	<select id="selectCheckListItemLastCiNum" parameterType="checkListItem" resultType="int">
+		select ifnull(max(ci_num),0) from checkListItem 
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		and
+		cl_num =#{clNum}
+		  
+	</select>
+	
+	<!-- 체크리스트 아이템 조회 -->
+	<select id="selectCheckListItem" parameterType="checkListItem" resultMap="checkListItemRM">
+		select * from checkListItem 
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		and 
+		cl_num = #{clNum}
+		and 
+		ci_num = #{ciNum}
+	</select>
+	
+	<!-- 체크리스트 조회 -->
+	<select id="selectCheckList" parameterType="checkList" resultMap="checkListRM">
+		select * from checkList 
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		and 
+		cl_num = #{clNum}
+	</select>
+	
 	
 	<resultMap type="checkList" id="checkListRM">
 		<result property="pNum" column="p_num"/>

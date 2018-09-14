@@ -281,7 +281,7 @@
 					success: (data) => {
 						console.log(data);
 						$('#issueModal').html(
-							`<div class="modal-dialog">
+							'<div class="modal-dialog">
 								<div class="modal-content">
 
 									<!-- Modal Header -->

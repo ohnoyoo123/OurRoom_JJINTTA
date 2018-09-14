@@ -39,4 +39,8 @@ public interface MemberDao {
 
 	// 주소록 회원 삭제
 	public int deleteAddress(Address address);
+
+	public int updateNickname(Member member);
+
+	
 }

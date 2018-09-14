@@ -5,8 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import model.Address;
 import model.Member;
@@ -20,6 +24,9 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private ProjectService projectService;
+
+	// private final Logger logger =
+	// LoggerFactory.getLogger(MemberController.class);
 
 	/* 회원가입시 아이디 중복 체크 요청 */
 	@RequestMapping("idCheck")
@@ -78,7 +85,7 @@ public class MemberController {
 	/* 주소록에 회원 추가 */
 	@RequestMapping("addAddress")
 	public boolean addAddress(HttpSession session, Address address) {
-		String mId = ((Member)session.getAttribute("loginUser")).getmId();
+		String mId = ((Member) session.getAttribute("loginUser")).getmId();
 		address.setmId(mId);
 		System.out.println("[MemberController > addAddress] before : " + address);
 		boolean result = memberService.addAddress(address);
@@ -88,15 +95,15 @@ public class MemberController {
 
 	/* 주소록 회원 삭제 */
 	@RequestMapping("deleteAddress")
-	public boolean deleteAddress(HttpSession session,Address address) {
-		String mId = ((Member)session.getAttribute("loginUser")).getmId();
+	public boolean deleteAddress(HttpSession session, Address address) {
+		String mId = ((Member) session.getAttribute("loginUser")).getmId();
 		address.setmId(mId);
 		System.out.println("[MemberController > deleteAddress] before : " + address);
 		boolean result = memberService.deleteAddress(address);
 		System.out.println("[MemberController > deleteAddress] afrer : " + address);
 		return result;
 	}
-	
+
 	/* 주소록 프로젝트 멤버 리스트 조회 */
 	@RequestMapping("addressProjectMemberList")
 	public List<ProjectMember> addressProjectMemberList(String pNum) {
@@ -104,6 +111,29 @@ public class MemberController {
 
 		int num = Integer.parseInt(pNum);
 		System.out.println(projectService.getProjectMemberByPNum(num));
-		return projectService.getProjectMemberByPNum(num); 
+		return projectService.getProjectMemberByPNum(num);
 	}
+
+	@RequestMapping("updateNickname")
+	public int updateNickname(Member member) {
+		return memberService.updateNickname(member);
+	}
+
+	// @PostMapping("uploadProfile")
+	@RequestMapping(value = "uploadProfile", method = RequestMethod.POST, consumes = { "multipart/form-data" })
+	public ResponseEntity<String> uploadProfile(@RequestPart("profile") MultipartFile profile) throws Exception {
+	// public ResponseEntity<String> uploadProfile(@RequestParam("profile")
+	// MultipartFile profile) throws Exception {
+
+		// logger.info("originalName: " + file.getOriginalFilename());
+		// logger.info("originalName: " + file.getSize());
+		// logger.info("originalName: " + file.getContentType());
+		// System.out.println("originalName: " + file.getOriginalFilename());
+		// System.out.println("originalName: " + file.getSize());
+		// System.out.println("originalName: " + file.getContentType());
+		System.out.println("file : " + profile);
+		return null;
+
+	}
+
 }

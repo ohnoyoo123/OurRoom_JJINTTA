@@ -32,9 +32,6 @@
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css">
-		<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
-
 
 <script>
   $(function () {
@@ -42,7 +39,6 @@
   });
 </script>
 <style type="text/css">
-
 #innerFrame {
 	display: inline-block;
 	width: 90vw;
@@ -52,34 +48,33 @@
 	float: right;
 }
 
-#gantt{
+#gantt {
 	display: inline-block;
 	/* height: 84vh; */
 	float: left;
-
 }
-#sideTap{
+
+#sideTap {
 	display: inline-block;
 	float: left;
 	width: 15vw;
 	/* height: 84vh; */
-
 }
 
-#sideTap .table th{
+#sideTap .table th {
 	height: 59px;
-	padding : 0;
+	padding: 0;
 	vertical-align: middle;
 }
 
-#sideTap .table td{
+#sideTap .table td {
 	height: 48px;
-	padding : 0;
+	padding: 0;
 	vertical-align: middle;
 }
 
-#addTaskBtn, .addIssueBtn{
-		float: right;
+#addTaskBtn, .addIssueBtn {
+	float: right;
 }
 
 textarea {
@@ -90,12 +85,11 @@ textarea {
 	line-height: 1.6;
 }
 
-#taskDetailModal_tNotiName{
+#taskDetailModal_tNotiName {
 	display: inline-block;
 	min-width: 200px;
 	min-height: 16px;
 }
-
 </style>
 
 </head>
@@ -116,30 +110,34 @@ textarea {
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
-						태스크명: <input type="text" placeholder="enter task name" id="addTaskModal_tName">
+						태스크명: <input type="text" placeholder="enter task name"
+							id="addTaskModal_tName">
 					</h4>
 				</div>
 				<!-- Modal Body -->
 				<div class="modal-body">
 					<div>
-						시작 : <br> <input type="text" class="datepicker" id="addTaskModal_tStartDate" disabled>
+						시작 : <br> <input type="text" class="datepicker"
+							id="addTaskModal_tStartDate" disabled>
 					</div>
 					<div>
-						종료 : <br> <input type="text" class="datepicker" id="addTaskModal_tEndDate" disabled>
+						종료 : <br> <input type="text" class="datepicker"
+							id="addTaskModal_tEndDate" disabled>
 					</div>
 					태스크 설명
 					<div id="addTaskModal_tDscrForm">
 						<textarea id="addTaskModal_tDscr"></textarea>
 					</div>
-			</div>
-			<!-- Modal footer -->
-			<div class="modal-footer">
-				<button type="button" class="btn btn-success" id="addTaskModalConfirmBtn">Add</button>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-success"
+						id="addTaskModalConfirmBtn">Add</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
 
 	<%-- 이슈 추가 모달 --%>
@@ -169,28 +167,24 @@ textarea {
 				<!-- Modal body -->
 				<div class="modal-body">
 					<div>
-						시작 : <br> <input type="text" class="datepicker iStartDate" readonly>
+						시작 : <br> <input type="text" class="datepicker iStartDate"
+							readonly>
 					</div>
 					<div>
-						종료 : <br> <input type="text" class="datepicker iEndDate" readonly>
+						종료 : <br> <input type="text" class="datepicker iEndDate"
+							readonly>
 					</div>
 				</div>
 
 				<!-- Modal body -->
 				<div class="modal-body">
-					<div>
-						이슈 멤버 할당
-					</div>
+					<div>이슈 멤버 할당</div>
 					<div>
 						<c:forEach items="${projectMemberList}" var="member">
-							<div class="selectMId" mId="${member.mId}">
-								${member.mId}
-							</div>
+							<div class="selectMId" mId="${member.mId}">${member.mId}</div>
 						</c:forEach>
 						=====================
-						<div id="selectedMId">
-							할당된 멤버
-						</div>
+						<div id="selectedMId">할당된 멤버</div>
 					</div>
 				</div>
 
@@ -212,17 +206,19 @@ textarea {
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
-						태스크명: <span id="taskDetailModal_tName"></span>
-						<input type="text" id="taskDetailModal_tNameForm" autofocus>
+						태스크명: <span id="taskDetailModal_tName"></span> <input type="text"
+							id="taskDetailModal_tNameForm" autofocus>
 					</h4>
 				</div>
 				<!-- Modal Body -->
 				<div class="modal-body">
 					<div>
-						시작 : <br> <input type="text" class="datepicker" id="taskDetailModal_tStartDate" disabled>
+						시작 : <br> <input type="text" class="datepicker"
+							id="taskDetailModal_tStartDate" disabled>
 					</div>
 					<div>
-						종료 : <br> <input type="text" class="datepicker" id="taskDetailModal_tEndDate" disabled>
+						종료 : <br> <input type="text" class="datepicker"
+							id="taskDetailModal_tEndDate" disabled>
 					</div>
 					태스크 설명
 					<div id="taskDetailModal_tDscrForm">
@@ -231,20 +227,19 @@ textarea {
 					</div>
 					태스크 공지
 					<div>
-						공지 이름 :
-						<span id="taskDetailModal_tNotiName"></span>
-						<input type="text" id="taskDetailModal_tNotiNameForm">
+						공지 이름 : <span id="taskDetailModal_tNotiName"></span> <input
+							type="text" id="taskDetailModal_tNotiNameForm">
 						<textarea id="taskDetailModal_tNotiContent"></textarea>
 						<button id="taskDetailModal_tNotiConfirmBtn">저장</button>
 					</div>
-			</div>
-			<!-- Modal footer -->
-			<div class="modal-footer">
-				<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
 
 	<%-- 이슈 상세보기 모달 --%>
@@ -259,19 +254,22 @@ textarea {
 						<p class="selectedTask"></p>
 					</h2>
 					<h4 class="modal-title">
-						이슈명: <span id="IssueDetailModal_iName"></span>
-						<input type="text" id="IssueDetailModal_iNameForm" autofocus>
+						이슈명: <span id="IssueDetailModal_iName"></span> <input type="text"
+							id="IssueDetailModal_iNameForm" autofocus>
 					</h4>
-					이슈 멤버 : <p id="issueMember"></p>
+					이슈 멤버 :
+					<p id="issueMember"></p>
 				</div>
 
 				<!-- Modal body -->
 				<div class="modal-body">
 					<div>
-						시작 : <br> <input type="text" class="datepicker" id="IssueDetailModal_iStartDate" readonly>
+						시작 : <br> <input type="text" class="datepicker"
+							id="IssueDetailModal_iStartDate" readonly>
 					</div>
 					<div>
-						종료 : <br> <input type="text" class="datepicker" id="IssueDetailModal_iEndDate" readonly>
+						종료 : <br> <input type="text" class="datepicker"
+							id="IssueDetailModal_iEndDate" readonly>
 					</div>
 					이슈 설명
 					<div id="IssueDetailModal_iDscrForm">
@@ -279,15 +277,19 @@ textarea {
 						<button id="IssueDetailModal_iDscrBtn">저장</button>
 					</div>
 					======================================================================
-					<h3>체크리스트<button id="addCheckListForm">+</button></h3>
+					<h3>
+						체크리스트
+						<button id="addCheckListForm">+</button>
+					</h3>
 					<div id="checkListNameForm"></div>
 					<div id="checkListList"></div>
 					======================================================================
 					<h3>코멘트</h3>
 					<div id="commentDiv">
-						${loginUser.mNickname} : <input type="text" style="width:80%" id="IssueDetailModal_cmContent"><button id="IssueDetailModal_cmBtn">저장</button>
-						<div id="commentArea">
-						</div>
+						${loginUser.mNickname} : <input type="text" style="width: 80%"
+							id="IssueDetailModal_cmContent">
+						<button id="IssueDetailModal_cmBtn">저장</button>
+						<div id="commentArea"></div>
 					</div>
 				</div>
 
@@ -301,13 +303,15 @@ textarea {
 	</div>
 
 	<%-- 숨겨진 이슈 상세보기 버튼 --%>
-	<div id="issueDetailBtn" data-toggle="modal" data-target="#IssueDetailModal"></div>
+	<div id="issueDetailBtn" data-toggle="modal"
+		data-target="#IssueDetailModal"></div>
 
 	<%-- 숨겨진 태스크 상세보기 버튼 --%>
-	<div id="taskDetailBtn" data-toggle="modal" data-target="#TaskDetailModal"></div>
+	<div id="taskDetailBtn" data-toggle="modal"
+		data-target="#TaskDetailModal"></div>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
 
 $(document).ready(function () {
 
@@ -1291,8 +1295,29 @@ gantt.change_view_mode('Day')
 			})
 
 	}
+	 
+	//2018.09.12 김승겸 : 알림 링크로 issue상세보기 띄우기 
+    if(${not empty log}){
+        $('#IssueDetailModal').modal()
+        $.ajax({
+           url : 'issueDetail',
+           data : {
+              pNum : '${pNum}',
+              tNum : '${tNum}',
+              iNum : '${iNum}'
+           },
+           type : 'post',
+           success : (data) => {
+              console.log('성공');
+              console.log(data);
+              showIssue(data)
+              showCheckList(data)
+              showComment(data)
+           }
+        })
+     }
+}) 
 
-})
 </script>
 </body>
 </html>

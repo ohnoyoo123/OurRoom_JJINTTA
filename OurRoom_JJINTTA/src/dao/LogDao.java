@@ -27,4 +27,6 @@ public interface LogDao {
 	public int updateNoti(Noti noti);
 
 	public List<Noti> selectNoti(Noti noti);
+
+	public List<Log> selectLogById(String mId);
 }

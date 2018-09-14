@@ -11,6 +11,9 @@
 <title>OurRoom</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/OurRoom/css/modal.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat"
@@ -42,11 +45,11 @@ h4 {
 	line-height: 1.375em;
 	/*color: #303030;*/
 	font-weight: 400;
-	margin-bottom: 30px;
+	/* margin-bottom: 30px; */
 }
 
 .jumbotron {
-	background-color: #f4511e;
+	background-color: #00C996;
 	color: #fff;
 	padding: 100px 25px;
 	font-family: Montserrat, sans-serif;
@@ -61,12 +64,12 @@ h4 {
 }
 
 .logo-small {
-	color: #f4511e;
+	color: #00C996;
 	font-size: 50px;
 }
 
 .logo {
-	color: #f4511e;
+	color: #00C996;
 	font-size: 200px;
 }
 
@@ -84,15 +87,15 @@ h4 {
 
 .carousel-control.right, .carousel-control.left {
 	background-image: none;
-	color: #f4511e;
+	color: #00C996;
 }
 
 .carousel-indicators li {
-	border-color: #f4511e;
+	border-color: #00C996;
 }
 
 .carousel-indicators li.active {
-	background-color: #f4511e;
+	background-color: #00C996;
 }
 
 .item h4 {
@@ -108,7 +111,7 @@ h4 {
 }
 
 .panel {
-	border: 1px solid #f4511e;
+	border: 1px solid #00C996;
 	border-radius: 0 !important;
 	transition: box-shadow 0.5s;
 }
@@ -149,13 +152,13 @@ h4 {
 
 .panel-footer .btn {
 	margin: 15px 0;
-	background-color: #f4511e;
+	background-color: #00C996;
 	color: #fff;
 }
 
 .navbar {
 	margin-bottom: 0;
-	background-color: #f4511e;
+	background-color: #00C996;
 	z-index: 9999;
 	border: 0;
 	font-size: 12px !important;
@@ -170,7 +173,7 @@ h4 {
 }
 
 .navbar-nav li a:hover, .navbar-nav li.active a {
-	color: #f4511e !important;
+	color: #00C996 !important;
 	background-color: #fff !important;
 }
 
@@ -182,7 +185,7 @@ h4 {
 footer .glyphicon {
 	font-size: 20px;
 	margin-bottom: 20px;
-	color: #f4511e;
+	color: #00C996;
 }
 
 .slideanim {
@@ -216,7 +219,47 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -239,7 +282,47 @@ transform
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :translateY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -296,6 +379,26 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
@@ -314,7 +417,27 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -368,7 +491,37 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -404,7 +557,37 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
 translateY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -459,15 +642,21 @@ translateY
 	}
 }
 
+.modal.fade .modal-dialog {
+	/* top: 50px; */
+	
+}
+
 .modal-header, #h4_login, .close {
-	background-color: #5cb85c;
+	background-color: royalblue;
 	color: white !important;
 	text-align: center;
 	font-size: 30px;
+	/* padding: 20px 20px; */
 }
 
 .modal-footer {
-	background-color: #f9f9f9;
+	
 }
 
 body {
@@ -993,9 +1182,9 @@ body {
 
 			<!-- Modal content-->
 			<div class="modal-content">
-				<div class="modal-header" style="padding: 20px 20px;">
+				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4>
+					<h4 style="">
 						<span class="glyphicon glyphicon-lock" id="h4_login"></span> Login
 					</h4>
 				</div>
@@ -1021,15 +1210,9 @@ body {
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" class="btn btn-danger btn-default pull-left"
-						data-dismiss="modal">
-						<span class="glyphicon glyphicon-remove"></span> Cancel
-					</button>
 					<p>
-						Not a member? <a id="signUp_a">Sign Up</a>
-					</p>
-					<p>
-						Forgot <a id="findPw">Password?</a>
+						Not a member? <a id="signUp_a">Sign Up</a> <br> Forgot <a
+							id="findPw">Password?</a>
 					</p>
 				</div>
 			</div>
@@ -1039,7 +1222,7 @@ body {
 
 	<!-- 회원가입 -->
 	<!-- Modal -->
-	<div class="modal fade" id="signUpModal" role="dialog">
+	<div class="modal signUp fade" id="signUpModal" role="dialog">
 		<div class="modal-dialog">
 
 			<!-- Modal content-->
@@ -1057,8 +1240,7 @@ body {
 							<label for="sign_mId"><span
 								class="glyphicon glyphicon-user"></span> Email</label> <input
 								type="text" class="form-control" id="sign_mId" name="mId"
-								placeholder="email">
-							<p id="idCheckMsg"></p>
+								placeholder="email"> <span id="idCheckMsg"></span>
 						</div>
 						<div class="form-group">
 							<label for="sign_mPw"><span
@@ -1125,7 +1307,7 @@ body {
 				<div class="modal-header" style="padding: 20px 20px;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4>
-						<span class="glyphicon glyphicon-lock" id="h4_login"></span> Login
+						<i class="fas fa-key"></i> Forget Password
 					</h4>
 				</div>
 				<div class="modal-body" style="padding: 20px 20px;">
@@ -1138,7 +1320,7 @@ body {
 						</div>
 						<div class="form-group">
 							<label for="pwQ_mQuestion"><span
-								class="glyphicon glyphicon-eye-open"></span> question </label> <select
+								class="glyphicon glyphicon-question-sign"></span> question </label> <select
 								id="pwQ_mQuestion" name="mQuestion">
 								<option value="1" selected="selected">가장 아끼는 보물 1호는?</option>
 								<option value="2">졸업한 초등학교 이름은?</option>
@@ -1148,11 +1330,11 @@ body {
 						</div>
 						<div class="form-group">
 							<label for="pwQ_mAnswer"><span
-								class="glyphicon glyphicon-user"></span> Answer </label> <input
+								class="glyphicon glyphicon-comment"></span> Answer </label> <input
 								type="text" class="form-control" id="pwQ_mAnswer" name="mAnswer"
 								placeholder="Answer">
 						</div>
-					
+
 						<button type="button" id=ForgetPwBtn
 							class="btn btn-success btn-block">
 							<span class="glyphicon glyphicon-off"></span> Check
@@ -1160,8 +1342,8 @@ body {
 					</form>
 				</div>
 				<div class="modal-footer">
-					<button type="submit" id="findPwCancelBtn" class="btn btn-danger btn-default pull-left"
-						data-dismiss="modal">
+					<button type="submit" id="findPwCancelBtn"
+						class="btn btn-danger btn-default pull-left" data-dismiss="modal">
 						<span class="glyphicon glyphicon-remove"></span> Cancel
 					</button>
 				</div>
@@ -1189,6 +1371,8 @@ body {
 			});
 			
 		}); 
+		
+	
 	</script>
 	<footer class="container-fluid text-center">
 		<a href="#myPage" title="To Top"> <span

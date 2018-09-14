@@ -30,8 +30,9 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
 			value="com.mysql.cj.jdbc.Driver" />
+			<!-- 시간출력 문제로 serverTimezone을 UTC -> Asia/Seoul 로 변경  -->
 		<property name="url"
-			value="jdbc:mysql://192.168.0.20:3306/ourRoom?serverTimezone=UTC" />
+			value="jdbc:mysql://192.168.0.20:3306/ourRoom?serverTimezone=Asia/Seoul" />
 		<property name="username" value="root" />
 		<property name="password" value="1111" />
 	</bean>

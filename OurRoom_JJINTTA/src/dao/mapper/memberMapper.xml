@@ -13,7 +13,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="m_question" property="mQuestion" />
 		<result column="m_answer" property="mAnswer" />
 	</resultMap>
-	
+
 	<resultMap type="address" id="addressMap">
 		<result column="m_id" property="mId" />
 		<result column="a_id" property="aId" />
@@ -38,6 +38,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update member
 		set m_pw =
 		sha(#{mPw})
+		where m_id = #{mId}
+	</update>
+	<update id="updateNickname" parameterType="member">
+		update member
+		set
+		m_nickName = #{mNickname}
 		where m_id = #{mId}
 	</update>
 
@@ -71,33 +77,41 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<!-- 키워드로 회원 조회 -->
-	<select id="selectMemberByKeyword" parameterType="String" resultMap="memberMap">
+	<select id="selectMemberByKeyword" parameterType="String"
+		resultMap="memberMap">
 		select * from member
-		where m_id like '%${value}%' 
-		   or m_nickname like '%${value}%' 
+		where m_id like '%${value}%'
+		or
+		m_nickname like '%${value}%'
 	</select>
-	
+
 	<!-- member 관련 end -->
-	
+
 	<!-- address 관련 start -->
-	
+
 	<insert id="insertAddress" parameterType="address">
-		insert into address values (#{mId}, #{aId})
+		insert into address
+		values (#{mId}, #{aId})
 	</insert>
-	
+
 	<!-- 주소록 조회 -->
-	<select id="selectAddressById" parameterType="String" resultMap="memberMap">
+	<select id="selectAddressById" parameterType="String"
+		resultMap="memberMap">
 		select * from member
-		where m_id in ( select a_id from address where m_id = #{value} )
+		where m_id in ( select a_id from address
+		where m_id = #{value} )
 	</select>
-	
+
 	<!-- 주소록 회원 삭제 -->
 	<delete id="deleteAddress" parameterType="address">
-		delete from address where m_id = #{mId} and a_id = #{aId}
+		delete from address
+		where m_id = #{mId} and a_id = #{aId}
 	</delete>
-	
-	<select id="selectAddressMemberBymId_aId" parameterType="address" resultMap="addressMap">
-		select * from address where m_id = #{mId} and a_id = #{aId}
+
+	<select id="selectAddressMemberBymId_aId"
+		parameterType="address" resultMap="addressMap">
+		select * from address where m_id =
+		#{mId} and a_id = #{aId}
 	</select>
 	<!-- address 관련 end -->
 </mapper>

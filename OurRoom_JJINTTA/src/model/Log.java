@@ -24,6 +24,7 @@ public class Log {
 	public static final int P_DELETE_MEMBER = 14; // 프로젝트 멤버 삭제
 	public static final int P_UPDATE_NAME = 19; // 프로젝트 이름 변경
 	public static final int T_CREATE = 21; // 태스크 생성
+	public static final int T_DELETE = 22; // 태스크 삭제
 	public static final int I_CREATE = 31; // 이슈 생성
 	public static final int I_DELETE = 32; // 이슈 삭제
 	public static final int I_ADD_MEMBER = 33; // 이슈 멤버 할당
