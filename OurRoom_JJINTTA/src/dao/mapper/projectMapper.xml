@@ -40,6 +40,9 @@
 			<if test="pEndDate != null">
 				p_endDate = #{pEndDate}
 			</if>
+			<if test="pBackground != null">
+				p_background = #{pBackground}
+			</if>
 		</set>
 		where
 		p_num = #{pNum}

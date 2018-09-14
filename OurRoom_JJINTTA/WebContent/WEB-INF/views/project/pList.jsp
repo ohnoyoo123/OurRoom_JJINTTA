@@ -56,14 +56,11 @@
 </head>
 <body>
 
-  <script>
-    $(function () {
-      $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
-    });
-  </script>
 <jsp:include page="../mainFrame.jsp"/>
 
 	<div id = "innerFrame">
+
+    <div id="container"></div>
 
 	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProject">
 	프로젝트 추가
@@ -115,19 +112,16 @@
               <div class="col-xs-10" style="margin-left:-12px;">
                 <input type="text" id="pName" class="form-control">
               </div>
-
 	        </h4>
-
-
 	      </div>
 
 	      <!-- Modal body -->
 	      <div class="modal-body">
           <div class="col-xs-4" style="margin-left:-12px;">
-            시작 : <br> <input type="text" class="datepicker pStartDate form-control" readonly>
+            시작 : <br> <input type="text" class="datepicker form-control" id="addProjectModal_pStartDate" readonly>
           </div>
           <div class="col-xs-4">
-            종료 : <br> <input type="text" class="datepicker pEndDate form-control" readonly>
+            종료 : <br> <input type="text" class="datepicker form-control" id="addProjectModal_pEndDate" readonly>
           </div>
           <br/>
           <br/>
@@ -135,9 +129,6 @@
           <br/>
           <div class="">
             <p>팀원 초대:</p>
-
-
-
 	        	<input type="text" id="memberSearch" class="form-control">
 					<!-- 	<input type="button" class='btn' value="검색" id="memberSearchBtn"> -->
 						<br>
@@ -206,6 +197,9 @@
 
 
 <script type="text/javascript">
+  $(function () {
+    $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
+  });
 
   $(document).ready(function () {
 
@@ -303,7 +297,6 @@
         },
         type : 'post',
         success : (data) => {
-
           showProjectChartModal(data)
         }
       })
@@ -314,47 +307,112 @@
 
     let projectInfo = document.getElementById("projectChartModal_chartBody_projectInfo").getContext('2d');
     let projectProgress = document.getElementById("projectChartModal_chartBody_projectProgress").getContext('2d');
-    let projectSignedIssue = document.getElementById("projectChartModal_chartBody_signedIssue").getContext('2d');
-    let projectCompltedIssue = document.getElementById("projectChartModal_chartBody_completedIssue").getContext('2d');
+    let signedIssue = document.getElementById("projectChartModal_chartBody_signedIssue").getContext('2d');
+    let completedIssue = document.getElementById("projectChartModal_chartBody_completedIssue").getContext('2d');
 
 
       const showProjectChartModal = (data) => {
-
+        $('.chartjs-size-monitor').remove()
         $('#projectChartModal_pName').html(data.project.pName)
+        .attr('onclick', `location.href="/OurRoom/project/gantt?pNum=\${selectedProject}"`)
+        .css({'cursor' : 'pointer', 'color' : 'blue'})
 
-        const dynamicColors = function() {
-           let r = Math.floor(Math.random() * 255);
-           let g = Math.floor(Math.random() * 255);
-           let b = Math.floor(Math.random() * 255);
-           return "rgb(" + r + "," + g + "," + b + ")";
+        const dynamicColors = function(num) {
+          const rainbow = []
+          //빨강
+          rainbow.push('#ff3333')
+          //주황
+          rainbow.push('#ffb833')
+          //노랑
+          rainbow.push('#ffff33')
+          //초록
+          rainbow.push('#33ff33')
+          //파랑
+          rainbow.push('#3333ff')
+          //남색
+          rainbow.push('#aa33ff')
+          //보라
+          rainbow.push('#ff33ff')
+
+           colors = []
+           let index = 0
+           for(let i = 0; i < num; i++){
+             index = i % 7
+             colors.push(rainbow[index])
+           }
+           return colors
         };
 
+        const dynamicColors2 = function(num) {
+          const rainbow2 = []
+          //빨강
+          rainbow2.push('#ff9999')
+          //주황
+          rainbow2.push('#ffdb99')
+          //노랑
+          rainbow2.push('#ffff99')
+          //초록
+          rainbow2.push('#99ff99')
+          //파랑
+          rainbow2.push('#9999ff')
+          //남색
+          rainbow2.push('#d499ff')
+          //보라
+          rainbow2.push('#ff99ff')
 
-
+           colors = []
+           let index = 0
+           for(let i = 0; i < num; i++){
+             index = i % 7
+             colors.push(rainbow2[index])
+           }
+           return colors
+        };
 
         const projectChartModal_chartBody_projectInfo = new Chart(projectInfo, {
-          type : 'doughnut',
+          type : 'horizontalBar',
           data : {
-            labels : ['완료', '미완'],
-            datasets : [{
-              data : [80, 20],
-              backgroundColor : ['#000000', '#ffffff'],
+            labels : ['전체 진행률'],
+            datasets : [
+              {
+              data : [{
+                x : new Date(),
+                y : 1
+              },{
+                x : new Date(),
+                y : 10
+              }],
+              label: '지난 기한',
+              backgroundColor : dynamicColors(1),
               borderColor: 'rgba(0, 0, 0, 0.75)',
               hoverBorderColor: 'rgba(0, 0, 0, 1)',
               borderWidth : 1
-            }],
+            },
+          ],
           },
           options : {
-          },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        displayFormats: {
+                            quarter: 'MMM YYYY'
+                        }
+                    }
+                }]
+            },
+            responsive: true,
+            maintainAspectRatio: true,
+          }
         })
 
-        let completedIssue = 0
-        let uncompletedIssue = 0
+        let completedIssueCount = 0
+        let uncompletedIssueCount = 0
         for(let i = 0; i < data.issueList.length; i++){
           if(data.issueList[i].iStep == 3 || data.issueList[i].iStep == 4){
-            completedIssue++
+            completedIssueCount++
           }else {
-            uncompletedIssue++
+            uncompletedIssueCount++
           }
         }
 
@@ -363,8 +421,8 @@
           data : {
             labels : ['완료 이슈', '미완료 이슈'],
             datasets : [{
-              data : [completedIssue, uncompletedIssue],
-              backgroundColor : [dynamicColors(), dynamicColors()],
+              data : [completedIssueCount, uncompletedIssueCount],
+              backgroundColor : dynamicColors(2),
               borderColor: 'rgba(0, 0, 0, 0.75)',
               hoverBorderColor: 'rgba(0, 0, 0, 1)',
               borderWidth : 1
@@ -375,7 +433,7 @@
         })
 
         let projectMember = []
-        let signedIssue = []
+        let signedIssueCount = []
         let colorSet = []
 
         for(let i = 0; i < data.projectMemberList.length; i++){
@@ -389,17 +447,17 @@
               count++
             }
           }
-          signedIssue.push(count)
+          signedIssueCount.push(count)
         }
 
-        const projectChartModal_chartBody_projectSignedIssue = new Chart(projectSignedIssue, {
+        const projectChartModal_chartBody_signedIssue = new Chart(signedIssue, {
           type : 'polarArea',
           data : {
             labels : projectMember,
             datasets : [{
               label : ' #할당 이슈',
-              data : signedIssue,
-              backgroundColor : colorSet,
+              data : signedIssueCount,
+              backgroundColor : dynamicColors(projectMember.length),
               borderColor: 'rgba(0, 0, 0, 0.75)',
               hoverBorderColor: 'rgba(0, 0, 0, 1)',
               borderWidth : 1
@@ -442,7 +500,7 @@
           uncompletedIssueInTask.push(uncompletedCount)
         }
 
-        const projectChartModal_chartBody_projectCompltedIssue = new Chart(projectCompltedIssue, {
+        const projectChartModal_chartBody_completedIssue = new Chart(completedIssue, {
           type : 'bar',
           data : {
             labels : taskListName,
@@ -450,7 +508,7 @@
               {
               label : '완료 이슈',
               data : completedIssueInTask,
-              backgroundColor : ['#000000', '#000000'],
+              backgroundColor : dynamicColors(taskListName.length),
               borderColor: 'rgba(0, 0, 0, 0.75)',
               hoverBorderColor: 'rgba(0, 0, 0, 1)',
               borderWidth : 1
@@ -458,7 +516,7 @@
             {
               label : '미완료 이슈',
               data : uncompletedIssueInTask,
-              backgroundColor : ['#ffffff', '#ffffff'],
+              backgroundColor : dynamicColors2(taskListName.length),
               borderColor: 'rgba(0, 0, 0, 0.75)',
               hoverBorderColor: 'rgba(0, 0, 0, 1)',
               borderWidth : 1
@@ -483,8 +541,18 @@
           }
         })
 
+        $('#projectChartModal').on('hidden.bs.modal', function () {
+          projectChartModal_chartBody_projectInfo.destroy()
+          projectChartModal_chartBody_projectProgress.destroy()
+          projectChartModal_chartBody_signedIssue.destroy()
+          projectChartModal_chartBody_completedIssue.destroy()
+        })
 
       }
+
+
+
+
 })
 </script>
 

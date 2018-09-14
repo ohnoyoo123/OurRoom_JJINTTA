@@ -44,9 +44,12 @@
 #sideTap{
 	display: inline-block;
 	float: left;
-	width: 15vw;
+	max-width: 15vw;
 	/* height: 84vh; */
 
+}
+
+#sideTap .table{
 }
 
 #sideTap .table th{
@@ -79,6 +82,12 @@ textarea {
 	min-height: 16px;
 }
 
+#projectDetailModal_pName{
+	display: inline-block;
+	min-width: 200px;
+	min-height: 16px;
+}
+
 </style>
 
 </head>
@@ -90,9 +99,6 @@ textarea {
 		  <select class="form-control" id="viewMode">
 		  </select>
 		</div>
-		<i class="material-icons" onclick="location.href='/OurRoom/project/chart?pNum=${project.pNum}'">
-			bar_chart
-		</i>
 		<div id="projectInfo"></div>
 		<div id="sideTap"></div>
 		<svg id="gantt"></svg>
@@ -154,10 +160,10 @@ textarea {
 				<!-- Modal body -->
 				<div class="modal-body">
 					<div>
-						시작 : <br> <input type="text" class="datepicker iStartDate" readonly>
+						시작 : <br> <input type="text" class="datepicker" id="addIssueModal_iStartDate" readonly>
 					</div>
 					<div>
-						종료 : <br> <input type="text" class="datepicker iEndDate" readonly>
+						종료 : <br> <input type="text" class="datepicker" id="addIssueModal_iEndDate"readonly>
 					</div>
 				</div>
 
@@ -188,6 +194,45 @@ textarea {
 			</div>
 		</div>
 	</div>
+
+	<%-- 프로젝트 상세보기 모달 --%>
+	<div class="modal fade" id="projectDetailModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">
+							프로젝트명 :<br>
+							<span id="projectDetailModal_pName"></span>
+							<input type="text" id="projectDetailModal_pNameForm" autofocus>
+						</h4>
+				</div>
+
+				<!-- Modal Body -->
+				<div class="modal-body">
+					<div>
+					시작 : <br> <input type="text" class="datepicker" id="projectDetailModal_pStartDate" readonly>
+					</div>
+					<div>
+					종료 : <br> <input type="text" class="datepicker" id="projectDetailModal_pEndDate"readonly>
+					</div>
+					===========
+					할당되어 있는 멤버들
+					<div id="projectDetailModal_assingedMember">
+
+					</div>
+
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 	<%-- 태스크 상세보기 모달 --%>
 	<div class="modal fade" id="TaskDetailModal">
@@ -291,6 +336,9 @@ textarea {
 	<%-- 숨겨진 태스크 상세보기 버튼 --%>
 	<div id="taskDetailBtn" data-toggle="modal" data-target="#TaskDetailModal"></div>
 
+	<%-- 숨겨진 태스크 상세보기 버튼 --%>
+	<div id="projectDetailBtn" data-toggle="modal" data-target="#projectDetailModal"></div>
+
 	<%-- <script type="text/javascript" src="/OurRoom/js/gantt.js"> </script> --%>
 	<script>
 	$(function () {
@@ -299,14 +347,36 @@ textarea {
 
 	$(document).ready(function () {
 
-		console.log('==========================');
+		const rainbow2 = []
+		//빨강
+		rainbow2.push('#ff9999')
+		//주황
+		rainbow2.push('#ffdb99')
+		//노랑
+		rainbow2.push('#ffff99')
+		//초록
+		rainbow2.push('#99ff99')
+		//파랑
+		rainbow2.push('#9999ff')
+		//남색
+		rainbow2.push('#d499ff')
+		//보라
+		rainbow2.push('#ff99ff')
+
+		const dynamicColors2 = function(num) {
+			 colors = []
+			 let index = 0
+			 for(let i = 0; i < num; i++){
+				 index = i % 7
+				 colors.push(rainbow2[index])
+			 }
+			 return colors
+		};
+
+
 		let project = ${projectJson}
-		console.log(project);
 		let taskList = ${taskJson}
-		console.log(taskList);
 		let issueList = ${issueJson}
-		console.log(issueList);
-		console.log('==========================');
 
 		let selectedTask = 0
 		let selectedissue = 0
@@ -319,12 +389,13 @@ textarea {
 		let viewMode = ''
 
 	class Project {
-		constructor(id, name, start, end, progress){
+		constructor(id, name, start, end, progress, custom_class){
 			this.id = id
 			this.name = name
 			this.start = start
 			this.end = end
 			this.progress = progress
+			this.custom_class = custom_class
 		}
 	}
 
@@ -372,12 +443,12 @@ textarea {
 
 		projectProgress = (count / iList.length) * 100
 
-		let tempProject = new Project('P_' + p.pNum + '', p.pName, p.pStartDate, p.pEndDate, projectProgress)
+		let tempProject = new Project('P_' + p.pNum + '', p.pName, p.pStartDate, p.pEndDate, projectProgress, 'project')
 		taskAndIssue.push(tempProject)
 
-		count = 0
-		length = 0
 	  for(let i = 0; i < tList.length; i++) {
+			count = 0
+			length = 0
 			for(let j = 0; j < iList.length; j++){
 				if(tList[i].tNum == iList[j].tNum){
 					length++
@@ -414,71 +485,55 @@ textarea {
 		event.stopPropagation();
 	}
 
-	var gantt = new Gantt('#gantt', taskAndIssue, {
+	const gantt = new Gantt('#gantt', taskAndIssue, {
 	  // can be a function that returns html or a simple html string
 	  on_click: function (task) {
-			if(task.id.charAt(0) == 'T'){
+			if(task.id.charAt(0) == 'P'){
+				$('#projectDetailBtn').trigger('click')
+			}else if(task.id.charAt(0) == 'T'){
 				//클릭한 녀석이 태스크
 				selectedTask = task.id.split('_')[1]
 				$('#taskDetailBtn').trigger('click')
 			}else if (task.id.charAt(0) == 'I') {
 				//클릭한 녀석이 이슈
 				selectedTask = task.id.split('_')[3]
-				console.log('dsadasdsadsadsadsadsads');
-				console.log(selectedTask);
 				selectedissue = task.id.split('_')[1]
 				$('#issueDetailBtn').trigger('click')
 			}
 	  },
 	  on_date_change: function (task, start, end) {
 	    // console.log(task, start, end);
-			if(task.id.charAt(0) == 'T'){
-				//드래그한 녀석이 태스크
-				// selectedTask = task.id.split('_')[1]
-				//
-				// tempStartDate = new Date(start)
-				// tempStartDateString = ''
-				// tempStartDateString += tempStartDate.getFullYear()
-				// tempStartDateString += '-'
-				// tempStartDateString += tempStartDate.getMonth()+1
-				// tempStartDateString += '-'
-				// tempStartDateString += tempStartDate.getDate()
-				//
-				// tempEndDate = new Date(end)
-				// tempEndDateString = ''
-				// tempEndDateString += tempEndDate.getFullYear()
-				// tempEndDateString += '-'
-				// tempEndDateString += tempEndDate.getMonth()+1
-				// tempEndDateString += '-'
-				// tempEndDateString += tempEndDate.getDate()
-				//
-				// data = {
-				// 	pNum : ${project.pNum},
-				// 	tNum : selectedTask,
-				// 	tStartDate : tempStartDateString,
-				// 	tEndDate :tempEndDateString
-				// }
-				// updateTask(data)
+			tempStartDate = new Date(start)
+			tempStartDateString = ''
+			tempStartDateString += tempStartDate.getFullYear()
+			tempStartDateString += '-'
+			tempStartDateString += tempStartDate.getMonth()+1
+			tempStartDateString += '-'
+			tempStartDateString += tempStartDate.getDate()
+
+			tempEndDate = new Date(end)
+			tempEndDateString = ''
+			tempEndDateString += tempEndDate.getFullYear()
+			tempEndDateString += '-'
+			tempEndDateString += tempEndDate.getMonth()+1
+			tempEndDateString += '-'
+			tempEndDateString += tempEndDate.getDate()
+
+			if(task.id.charAt(0) == 'P'){
+
+				data = {
+					pStartDate : tempStartDateString,
+					pEndDate : tempEndDateString
+				}
+				updateProject(data)
+
+			}else if(task.id.charAt(0) == 'T'){
+				selectedTask = task.id.split('_')[1]
+
 			}else if (task.id.charAt(0) == 'I') {
 				//드래그한 녀석이 이슈
 				selectedTask = task.id.split('_')[3]
 				selectedissue = task.id.split('_')[1]
-
-				tempStartDate = new Date(start)
-				tempStartDateString = ''
-				tempStartDateString += tempStartDate.getFullYear()
-				tempStartDateString += '-'
-				tempStartDateString += tempStartDate.getMonth()+1
-				tempStartDateString += '-'
-				tempStartDateString += tempStartDate.getDate()
-
-				tempEndDate = new Date(end)
-				tempEndDateString = ''
-				tempEndDateString += tempEndDate.getFullYear()
-				tempEndDateString += '-'
-				tempEndDateString += tempEndDate.getMonth()+1
-				tempEndDateString += '-'
-				tempEndDateString += tempEndDate.getDate()
 
 				data = {
 					pNum : ${project.pNum},
@@ -496,7 +551,23 @@ textarea {
 	  on_view_change: function (mode) {
 	    console.log(mode);
 			$('.task').children('.handle-group').remove()
-			$('.progress').remove()
+
+			//프로젝트 바
+			$('.gantt .project .bar-progress').css({
+			})
+
+			//태스크 바
+			$('.gantt .task .bar-progress').each(function(i){
+				$(this).css('fill', rainbow2[i%7])
+			})
+
+			//이슈 바
+			$('.gantt .issue').each(function(i){
+				$(this).find('.bar').css({
+					'fill' : $(this).prevAll('.task:first').find('.bar-progress').css('fill'),
+					'opacity' : '0.5'
+				})
+			})
 		},
 
 	});
@@ -516,9 +587,7 @@ textarea {
 			txt += '</th>'
 			txt += '</tr>'
 			txt += '<tr>'
-			txt += '<td>'
-			txt += project.pName
-			txt += '<button id="addTaskBtn" class="btn" data-toggle="modal" data-target="#addTaskModal">+</button>'
+			txt += '<td>태스크추가<button id="addTaskBtn" class="btn" data-toggle="modal" data-target="#addTaskModal">+</button>'
 			txt += '</td>'
 			txt += '</tr>'
 			for(let i = 0; i < taskList.length; i++){
@@ -556,10 +625,6 @@ textarea {
 		//태스크 추가
 	  $('#addTaskModalConfirmBtn').on('click', function () {
 			console.log(${project.pNum});
-			console.log($('#addTaskModal_tName').val());
-			console.log($('#addTaskModal_tDscr').val());
-			console.log($('#addTaskModal_tStartDate').val());
-			console.log($('#addTaskModal_tEndDate').val());
 			selectedMId = []
 	    $.ajax({
 	      url: 'addTask',
@@ -582,9 +647,8 @@ textarea {
 	        gantt.refresh(taskAndIssue)
 					sideTap(project, taskList, issueList)
 	        $('.close').trigger('click')
-					$('#tName').val('')
-					$('.tStartDate').val('')
-					$('.tEndDate').val('')
+					$('#addTaskModal_tName').val('')
+					$('#addTaskModal_tDscr').val('')
 	      }
 	    })
 	  })
@@ -616,42 +680,46 @@ textarea {
 		$('#addIssue').on('click', () => {
 			console.log('이슈 멤버들 제발 좀');
 			console.log(selectedMId);
-			$.ajax({
-				url : 'addIssue',
-				data : {
-					pNum : ${project.pNum},
-					tNum : selectedtNum,
-					iName : $('#iName').val(),
-					iDscr : $('#addIssueModal_iDscr').val(),
-					iStep : 1,
-					iStartDate : $('.iStartDate').val(),
-					iEndDate : $('.iEndDate').val(),
-					members : selectedMId
-				},
-				type : 'post',
-				success : (data) => {
-					console.log('이슈 추가 성공');
-					console.log(data)
-					$('#iName').val('')
-					$('#addIssueModal_dscr').val('')
-					$('.iStartDate').val('')
-					$('.iEndDate').val('')
-					$('#selectedMId').empty()
-					selectedMId = []
+			if($('#addIssueModal_iStartDate').val() > $('#addIssueModal_iEndDate').val()){
+				$('#addIssueModal_iStartDate').val('')
+				$('#addIssueModal_iEndDate').val('')
+				alert('잘못된 날짜 입력')
+			}else {
+				$.ajax({
+					url : 'addIssue',
+					data : {
+						pNum : ${project.pNum},
+						tNum : selectedtNum,
+						iName : $('#iName').val(),
+						iDscr : $('#addIssueModal_iDscr').val(),
+						iStep : 1,
+						iStartDate : $('#addIssueModal_iStartDate').val(),
+						iEndDate : $('#addIssueModal_iEndDate').val(),
+						members : selectedMId
+					},
+					type : 'post',
+					success : (data) => {
+						// matchDate_issueToTask()
+						$('#iName').val('')
+						$('#addIssueModal_dscr').val('')
+						$('.iStartDate').val('')
+						$('.iEndDate').val('')
+						$('#selectedMId').empty()
+						selectedMId = []
 
-					project = data.projectJson
-					taskList = data.taskJson
-					issueList = data.issueJson
-					taskAndIssue = []
+						project = data.projectJson
+						taskList = data.taskJson
+						issueList = data.issueJson
+						taskAndIssue = []
 
-					makeGantt(project, taskList, issueList)
-					gantt.refresh(taskAndIssue)
-					sideTap(project, taskList, issueList)
-					$('.close').trigger('click')
+						makeGantt(project, taskList, issueList)
+						gantt.refresh(taskAndIssue)
+						sideTap(project, taskList, issueList)
+						$('.close').trigger('click')
+					}
+				})
 
-
-				}
-			})
+			}
 		})
 
 		//코멘트 답글 생성
@@ -729,8 +797,6 @@ textarea {
 		//코멘트 답글 입력
 		$(document).on('click', '.IssueDetailModal_reCmConfirmBtn', function () {
 			console.log(${project.pNum});
-			console.log(selectedTask);
-			console.log(selectedIssue);
 			console.log($(this).parent('p').attr('cmNum'));
 			console.log($(this).siblings('.IssueDetailModal_reCmContent').val());
 
@@ -853,7 +919,7 @@ textarea {
 
 
 		const showIssue = (data) => {
-			console.log(data);
+			//여기 문제가 있는데 잘 모르겠다
 			selectedTask = data.issueList[0].tNum
 			selectedIssue = data.issueList[0].iNum
 			$('.selectedTask').html(data.issueList[0].tName)
@@ -982,8 +1048,10 @@ textarea {
 
 		//태스크 설명 변경
 		$('#taskDetailModal_tDscrBtn').on('click', () => {
+			console.log('태스크 공지 변경 누름');
+			console.log($('#taskDetailModal_tDscr').val());
 			data = {
-				tNum : seletedTask,
+				tNum : selectedTask,
 				tDscr : $('#taskDetailModal_tDscr').val()
 			}
 			updateTask(data)
@@ -999,6 +1067,7 @@ textarea {
 		$('#taskDetailModal_tNotiNameForm').keyup((e) => {
 			if((e.keyCode || e.which) == 13){
 				data = {
+					tNum : selectedTask,
 					tNotiName : $('#taskDetailModal_tNotiNameForm').val()
 				}
 				updateTask(data)
@@ -1017,6 +1086,7 @@ textarea {
 		//태스크 공지 내용 저장
 		$(document).on('click', '#taskDetailModal_tNotiConfirmBtn', () => {
 			data = {
+				tNum : selectedTask,
 				tNotiContent : $('#taskDetailModal_tNotiContent').val()
 			}
 			updateTask(data)
@@ -1085,6 +1155,10 @@ textarea {
 					gantt.refresh(taskAndIssue)
 					sideTap(project, taskList, issueList)
 
+					$('#projectDetailModal_pName').html(project.pName)
+					$('#projectDetailModal_pStartDate').val(project.pStartDate)
+					$('#projectDetailModal_pEndDate').val(project.pEndDate)
+
 				}
 			})
 
@@ -1140,7 +1214,7 @@ textarea {
 
 		//체크리스트 아이템 추가 폼 생성
 		$(document).on('click', '.addCheckListItemFormBtn', function(){
-			singedCheckListItemMember = []
+			assingedCheckListItemMember = []
 
 			txt =''
 			txt += '<input type="text" id="addCheckListItemName">'
@@ -1148,7 +1222,7 @@ textarea {
 			txt += '<br>'
 			txt += '====이슈 할당 멤버===='
 			for(let i = 0; i < issueMember.length; i++){
-				txt += '<div class="unsignedCheckListItemMember" mId="'
+				txt += '<div class="unasassingedCheckListItemMember" mId="'
 				txt += issueMember[i].mId
 				txt += '">'
 				txt += issueMember[i].mId
@@ -1163,7 +1237,7 @@ textarea {
 		let singedCheckListItemMember = []
 
 		//체크리스트 아이템 멤버 추가
-		$(document).on('click', '.unsignedCheckListItemMember', function(){
+		$(document).on('click', '.unassingedCheckListItemMember', function(){
 			if(!singedCheckListItemMember.includes($(this).attr('mId'))){
 				console.log(singedCheckListItemMember);
 				singedCheckListItemMember.push($(this).attr('mId'))
@@ -1272,10 +1346,10 @@ textarea {
 					iImpr : data.iImpr
 				},
 				type : 'post',
-				success : (data) => {
-					console.log(data);
-					showIssue(data)
-					showCheckList(data)
+				success : (innerData) => {
+					console.log(innerData);
+					showIssue(innerData)
+					showCheckList(innerData)
 					projectReload()
 					matchDate_issueToTask()
 				}
@@ -1309,22 +1383,32 @@ textarea {
 
 		//이슈 시작 날짜 변경
 		$(document).on('change', '#IssueDetailModal_iStartDate', () => {
-			data = {
-				tNum : selectedTask,
-				iNum : selectedIssue,
-				iStartDate : $('#IssueDetailModal_iStartDate').val()
+			if($('#IssueDetailModal_iStartDate').val() < $('#IssueDetailModal_iEndDate').val()){
+				data = {
+					tNum : selectedTask,
+					iNum : selectedIssue,
+					iStartDate : $('#IssueDetailModal_iStartDate').val()
+				}
+				updateIssue(data)
+			}else{
+				alert('삐익!!')
+				$('#IssueDetailModal_iStartDate').val(issueList[0].iStartDate)
 			}
-			updateIssue(data)
 		})
 
 		//이슈 종료 날짜 변경
 		$(document).on('change', '#IssueDetailModal_iEndDate', () => {
-			data = {
-				tNum : selectedTask,
-				iNum : selectedIssue,
-				iEndDate : $('#IssueDetailModal_iEndDate').val()
+			if($('#IssueDetailModal_iStartDate').val() < $('#IssueDetailModal_iEndDate').val()){
+				data = {
+					tNum : selectedTask,
+					iNum : selectedIssue,
+					iEndDate : $('#IssueDetailModal_iEndDate').val()
+				}
+				updateIssue(data)
+			}else{
+				alert('삐비빅')
+				$('#IssueDetailModal_iEndDate').val(issueList[0].iEndDate)
 			}
-			updateIssue(data)
 		})
 
 		//이슈 설명 변경이 있으면 저장 버튼 활성
@@ -1345,6 +1429,98 @@ textarea {
 			}
 			updateIssue(data)
 		})
+
+		//프로젝트 상세 보기
+		$('#projectDetailBtn').on('click', function () {
+			$('#projectDetailModal_pNameForm').hide().val('')
+			$('#projectDetailModal_pName').show().html(project.pName)
+			$('#projectDetailModal_pStartDate').val(project.pStartDate)
+			$('#projectDetailModal_pEndDate').val(project.pEndDate)
+
+			//네임폼 클릭 이벤트
+			$('#projectDetailModal_pName').on('click', () => {
+				$('#projectDetailModal_pName').hide()
+				$('#projectDetailModal_pNameForm').show().val($('#projectDetailModal_pName').html()).focus()
+
+				//엔터이벤트
+				$('#projectDetailModal_pNameForm').keyup((e) => {
+					if((e.keyCode || e.which) == 13){
+						data = {
+							pName : $('#projectDetailModal_pNameForm').val()
+						}
+						updateProject(data)
+						$('#projectDetailModal_pNameForm').hide()
+						$('#projectDetailModal_pName').show()
+
+					}
+				})
+
+				//포커스 아웃
+				$('#projectDetailModal_pNameForm').on('focusout', () => {
+					$('#projectDetailModal_pNameForm').hide()
+					$('#projectDetailModal_pName').show()
+				})
+
+			})
+
+			$('#projectDetailModal_pStartDate').on('change', () => {
+
+				if($('#projectDetailModal_pStartDate').val() < $('#projectDetailModal_pEndDate').val()){
+					data = {
+						pStartDate : $('#projectDetailModal_pStartDate').val()
+					}
+					updateProject(data)
+				}else{
+					alert('프로젝트 시작일이 종료일보다 늦습니다.')
+					$('#projectDetailModal_pStartDate').val(project.pStartDate)
+				}
+			})
+
+			$('#projectDetailModal_pEndDate').on('change', () => {
+				if($('#projectDetailModal_pStartDate').val() < $('#projectDetailModal_pEndDate').val()){
+					data = {
+						pEndDate : $('#projectDetailModal_pEndDate').val()
+					}
+					updateProject(data)
+				}else{
+					alert('프로젝트 종료일이 시작일보다 빠릅니다.')
+					$('#projectDetailModal_pEndDate').val(project.pEndDate)
+				}
+			})
+
+
+			$('#projectDetailModal_assingedMember').append()
+
+			$.ajax({
+				url : 'projectDetail',
+				data : {
+					pNum : ${project.pNum}
+				},
+				type : 'post',
+				success : (data) => {
+
+				}
+			})
+		})
+
+
+		//프로젝트 내용 변경
+		const updateProject = (data) => {
+			$.ajax({
+				url : 'updateProject',
+				data : {
+					pNum : ${project.pNum},
+					pName : data.pName,
+					pStartDate : data.pStartDate,
+					pEndDate : data.pEndDate,
+					pBackGround : data.pBackground
+				},
+				type : 'post',
+				success : () => {
+					projectReload()
+				}
+			})
+		}
 
 
 
@@ -1372,13 +1548,11 @@ textarea {
 
 		})
 
-		//코멘트 삭제
-		$(document).on('click', '.IssueDetailModal_deleteCmBtn', function(){
-
-		})
-
 		//이슈 날짜 변경시 태스크 날짜 변경
 		const matchDate_issueToTask = () => {
+			console.log('여기가 좀 이상해');
+			console.log(selectedTask);
+			console.log(selectedIssue);
 				$.ajax({
 					url : 'matchDate',
 					data : {
@@ -1404,10 +1578,7 @@ textarea {
 
 		}
 
-		//뷰모드 만들기
-		gantt.change_view_mode('Day')
-		viewMode = 'Day'
-
+		//뷰모드
 		txt = ''
 		txt += '<option>Month</option>'
 		txt += '<option>Week</option>'
@@ -1424,29 +1595,6 @@ textarea {
 				gantt.change_view_mode('Day')
 			}
 		})
-
-		//로그에서 넘어왔을 때 테스트용
-		if(0){
-			$('#IssueDetailModal').modal()
-			${log.tNum}
-			${log.iNum}
-			$.ajax({
-				url : 'issueDetail',
-				data : {
-					pNum : 41,
-					tNum : 1,
-					iNum : 1
-				},
-				type : 'post',
-				success : (data) => {
-					console.log('성공');
-					console.log(data);
-					showIssue(data)
-					showCheckList(data)
-					showComment(data)
-				}
-			})
-		}
 
 
 

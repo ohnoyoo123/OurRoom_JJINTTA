@@ -108,4 +108,9 @@ public class ProjectService {
 
 	}
 
+	public void updateProject(Project project) {
+		projectDao.updateProject(project);
+		
+	}
+
 }

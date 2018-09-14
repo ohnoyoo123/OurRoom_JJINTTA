@@ -84,6 +84,13 @@ public class ProjectRestController {
       return pSvc.addProject(params);
    }
    
+   @PostMapping("/project/updateProject")
+   public void updateProject(Project project) {
+	   System.out.println("요청 url : /project/updateProject");
+	   pSvc.updateProject(project);
+	   
+   }
+   
    @PostMapping("/project/projectReload")
    public Map<String, Object> projectReload(Issue issue) {
 	   System.out.println("요청 url : /project/projectReload");
@@ -98,6 +105,22 @@ public class ProjectRestController {
       data.put("issueJson", iSvc.getIssueList(issue));
       return data;
       
+   }
+   
+   @PostMapping("/project/projectDetail")
+   public Map<String, Object> projectDetail(HttpSession session, Project project) {
+      System.out.println("요청 url : /project/projectDetail");
+      String mId = ((Member) session.getAttribute("loginUser")).getmId();
+      System.out.println(project);
+      System.out.println(mId);
+      
+      List<Member> addressList = mSvc.selectAddress(mId);
+      System.out.println("어드레스 : " + addressList);
+      
+      Map<String, Object> data = new HashMap<String, Object>();
+      data.put("addressList", addressList);
+      
+      return data;
    }
    
    @PostMapping("/project/taskDetail")
@@ -394,7 +417,7 @@ public class ProjectRestController {
       System.out.println("요청 url : /project/updateIssue");
       System.out.println(issue);
       iSvc.updateIssue(issue);
-      issue.settNum(0);
+//      issue.settNum(0);
       
       Map<String, Object> data = new HashMap<String, Object>();
       data.put("issueList", iSvc.getIssueList(issue));
