@@ -194,10 +194,28 @@
 				}
 			});
 		});
-	</script>
+	</script> 
+	<c:choose>
+		<c:when test="${empty userImage }">
+			<div>
+				<img id="profileImg" src="/OurRoom/2018/9/16/hong123@gmailcom.jpg"
+					style="border-radius: 0%; padding-top: 10px; height: 100px; width: 100px;">
+			</div>
+		</c:when>
+		<c:otherwise>
+			<div>
+				<img id="profileImg" src="/displayFile?fileName=${userImage }"
+					style="border-radius: 0%; padding-top: 10px; height: 100px; width: 100px;">
+			</div>
+		</c:otherwise>
+	</c:choose>   
+
 	<img id="profile" alt="" src="/OurRoom/img/default_profile.png"
 		width="300px" height="300px">
 	<input type='file' id='file' name='file' accept="image/*" />
+
+
+
 	<script>
 		$(function() {
 			/* */
@@ -206,8 +224,7 @@
 
 				e.preventDefault();
 				file.click();
-				
-				
+
 				/* 	$.ajax({
 						url : "uploadProfile",
 						enctype : "multipart/form-data",
@@ -224,15 +241,15 @@
 			});
 
 			$("#file").on("change", function() {
-				
+
 				var file = $("#file");
 				console.log(file);
 				var formData = new FormData();
 
-				formData.append("profile", file);
-				
+				formData.append("profile", file[0].files[0]);
+
 				console.log(formData);
-			
+
 				$.ajax({
 					url : "uploadProfile",
 					type : 'POST',
@@ -241,13 +258,28 @@
 					processData : false,
 					contentType : false,
 					success : function(data) {
-						alert(data);
+						alert("프로필 이미지가 변경 되었습니다.")
 					}
 				});
 			});
 
+			/* 		var fileName = '${loginUser.mId}';
+						fileName = fileName.replace('.', '');
+						console.log(fileName);
+						var profile = new File("C://java/bitcampOurRoom/profile/2018/9/16/"
+								var file = new File(["foo"], "foo.txt", {
+									  type: "text/plain",
+									});
+						console.log("file" + profile); */
+			
+			
+					
+				$("#profile").attr("src","/OurRoom/2018/**/**/hong123@gmailcom.jpg");
+				console.log($("#profile"));
 		});
 	</script>
+
+ 
 
 </body>
 </html>

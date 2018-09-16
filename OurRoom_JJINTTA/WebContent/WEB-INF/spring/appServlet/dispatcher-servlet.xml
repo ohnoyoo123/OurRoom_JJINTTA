@@ -35,8 +35,15 @@
 
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="10000000" />
+		<beans:property name="maxUploadSize" value="10485760" />
 	</beans:bean>
+	
+	<beans:bean id = "uploadPath" class="java.lang.String">
+	<!-- <beans:constructor-arg value="C:\java\bitcampOurRoom\profile"> -->
+	<beans:constructor-arg value="/OurRoom/profile/">
+
+	</beans:constructor-arg>
+</beans:bean>
 	<!-- 로그인 인터셉터 등록 -->
 	<beans:bean id="loginInterceptor"
 		class="interceptor.LoginInterceptor"></beans:bean>

@@ -2,13 +2,16 @@ package controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +20,7 @@ import model.Member;
 import model.ProjectMember;
 import service.MemberService;
 import service.ProjectService;
+import util.UploadFileUtils;
 
 @RestController
 public class MemberController {
@@ -25,8 +29,9 @@ public class MemberController {
 	@Autowired
 	private ProjectService projectService;
 
-	// private final Logger logger =
-	// LoggerFactory.getLogger(MemberController.class);
+	private String uploadPath = this.getClass().getResource("/").getPath(); // classes 폴더의 최상위 경로;
+
+	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	/* 회원가입시 아이디 중복 체크 요청 */
 	@RequestMapping("idCheck")
@@ -119,19 +124,28 @@ public class MemberController {
 		return memberService.updateNickname(member);
 	}
 
-	// @PostMapping("uploadProfile")
-	@RequestMapping(value = "uploadProfile", method = RequestMethod.POST, consumes = { "multipart/form-data" })
-	public ResponseEntity<String> uploadProfile(@RequestPart("profile") MultipartFile profile) throws Exception {
-	// public ResponseEntity<String> uploadProfile(@RequestParam("profile")
-	// MultipartFile profile) throws Exception {
+	/* 이미지 업로드 (myPage) */
+	@RequestMapping(value = "uploadProfile", method = RequestMethod.POST)
+	public ResponseEntity<String> uploadProfile(HttpSession session, @RequestParam MultipartFile profile)
+			throws Exception {
+		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
 
-		// logger.info("originalName: " + file.getOriginalFilename());
-		// logger.info("originalName: " + file.getSize());
-		// logger.info("originalName: " + file.getContentType());
-		// System.out.println("originalName: " + file.getOriginalFilename());
-		// System.out.println("originalName: " + file.getSize());
-		// System.out.println("originalName: " + file.getContentType());
-		System.out.println("file : " + profile);
+		String uploadPath = session.getServletContext().getRealPath("/")+"profile/";
+
+		String ext = profile.getOriginalFilename().substring(profile.getOriginalFilename().lastIndexOf("."));
+		;
+		// 파일명 : 유저 + 확장자(.jpg등등)
+		String fileName = loginUser.replace(".", "") + ext;
+
+		System.out.println("fileName : " + fileName);
+		logger.info("originalName: " + profile.getOriginalFilename());
+		logger.info("originalName: " + profile.getSize());
+		logger.info("originalName: " + profile.getContentType());
+
+		System.out.println(uploadPath);
+		// 이미지 업로드
+		UploadFileUtils.uploadFile(uploadPath, fileName, profile.getBytes());
+
 		return null;
 
 	}
