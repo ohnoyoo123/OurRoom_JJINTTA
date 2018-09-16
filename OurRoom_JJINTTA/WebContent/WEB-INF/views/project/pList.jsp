@@ -9,94 +9,81 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 <style type="text/css">
 
-	#innerFrame{
-		background-color: ;
-		display: inline-block;
-		width: 90%;
-
-	 }
-
-
-  .openProjectModal{
-    cursor : pointer;
-  }
-
-  #projectChartModal .modal-dialog{
-    width: 70vw;
-  }
-
-  .projectChartModal_chartBody{
-    width: 50%;
-    height: 50%;
-    display: block;
-    margin : 0;
-    padding: 0;
-    float: left;
-  }
-
-  #projectChartModal_chartBody_projectInfo,
-  #projectChartModal_chartBody_projectProgress,
-  #projectChartModal_chartBody_signedIssue,
-  #projectChartModal_chartBody_completedIssue
-  {
-    width : 50%;
-    height: 50%;
-  }
 
 </style>
 
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-  <link rel="stylesheet"
-  	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
-  <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/OurRoom/css/pList.css">
+
 </head>
 <body>
 
 <jsp:include page="../mainFrame.jsp"/>
 
 	<div id = "innerFrame">
+    <div id="pList">
 
-    <div id="container"></div>
+      <div id="pList_top">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProject">
+        프로젝트 추가
+        </button>
+      </div>
 
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addProject">
-	프로젝트 추가
-	</button>
-	<h2>즐겨찾기 프로젝트</h2>
-		<c:forEach items="${pmList}" var="pm">
-			<c:if test="${pm.pmFav}">
-				<c:forEach items="${progProject}" var="pList">
-					<c:if test="${pList.pNum==pm.pNum }">
-						<%-- <a onclick="location.href='gantt?pNum=${pm.pNum }'">${pList.pName}</a> --%>
-            <span class="openProjectChartModal" pNum="${pList.pNum}" data-target="#projectChartModal" data-toggle="modal">${pList.pName}</span>
-					</c:if>
-          <br>
-				</c:forEach>
-			</c:if>
-		</c:forEach>
-	<h2>진행중인 프로젝트</h2>
-		<c:forEach items="${pmList}" var="pm">
-			<c:if test="${!pm.pmFav}">
-				<c:forEach items="${progProject}" var="pList">
-					<c:if test="${pList.pNum==pm.pNum }">
-						<br>
-						<%-- <a onclick="location.href='gantt?pNum=${pm.pNum }'">${pList.pName }</a> --%>
-            <span class="openProjectChartModal" pNum="${pList.pNum}" data-target="#projectChartModal" data-toggle="modal">${pList.pName}</span>
-						<br>
-					</c:if>
-				</c:forEach>
-			</c:if>
-		</c:forEach>
-	<h2>종료된 프로젝트</h2>
-		<c:forEach items="${pastProject }" var="past">
-			<%-- <a onclick="location.href='gantt?pNum=${past.pNum }'">${past.pName }</a> --%>
-      <span class="openProjectChartModal" pNum="${past.pNum}" data-target="#projectChartModal" data-toggle="modal">${past.pName}</span>
-			<br>
-		</c:forEach>
-	</div>
+      <div id="pList_fav">
+        <h2>
+          <span class="glyphicon glyphicon-star"></span> 즐겨찾기 프로젝트
+        </h2>
+          <button id="pList_fav_toggle" data-toggle="collapse" data-target="#pList_fav_content" class="btn btn-success">접기</button>
+        <div id="pList_fav_content" class="collapse in">
+          <c:forEach items="${pmList}" var="pm">
+            <c:if test="${pm.pmFav}">
+              <c:forEach items="${progProject}" var="pList">
+                <c:if test="${pList.pNum==pm.pNum }">
+                  <div class="pList_fav_content_project openProjectChartModal" pNum="${pList.pNum}" data-target="#projectChartModal" data-toggle="modal">
+                  <span>${pList.pName}</span>
+                  </div>
+                </c:if>
+              <br>
+              </c:forEach>
+            </c:if>
+          </c:forEach>
+        </div>
+      </div>
+
+      <div id="pList_prog">
+        <h2>
+          <span class="glyphicon glyphicon-briefcase"> </span> 진행중인 프로젝트
+        </h2><button id="pList_prog_toggle" data-toggle="collapse" data-target="#pList_prog_content"  class="btn btn-success">접기</button>
+        <div id="pList_prog_content" class="collapse in">
+          <c:forEach items="${pmList}" var="pm">
+            <c:if test="${!pm.pmFav}">
+              <c:forEach items="${progProject}" var="pList">
+                <c:if test="${pList.pNum==pm.pNum }">
+                  <div class="pList_prog_content_project openProjectChartModal" pNum="${pList.pNum}" data-target="#projectChartModal" data-toggle="modal">
+                  <span >${pList.pName}</span>
+                  </div>
+                </c:if>
+              </c:forEach>
+            </c:if>
+          </c:forEach>
+        </div>
+      </div>
+
+      <div id="pList_past">
+        <h2>
+          <span class="glyphicon glyphicon-remove-sign"> </span> 종료된 프로젝트
+        </h2><button id="pList_past_toggle" data-toggle="collapse" data-target="#pList_past_content"  class="btn btn-success">펴기</button>
+        <div id="pList_past_content" class="collapse">
+          <c:forEach items="${pastProject}" var="past">
+            <div class="pList_past_content_project openProjectChartModal" pNum="${past.pNum}" data-target="#projectChartModal" data-toggle="modal">
+            <span>${past.pName}</span>
+            </div>
+          </c:forEach>
+        </div>
+      </div>
+
+
+      </div>
+    </div>
 
 	<!-- The Modal -->
 	<div class="modal fade" id="addProject">
@@ -547,8 +534,33 @@
           projectChartModal_chartBody_signedIssue.destroy()
           projectChartModal_chartBody_completedIssue.destroy()
         })
-
       }
+
+      //버튼 모양 바꾸기
+      $('#pList_fav_content').on('hidden.bs.collapse	', function(){
+        $('#pList_fav_toggle').html('펴기')
+      })
+
+      $('#pList_fav_content').on('shown.bs.collapse	', function(){
+        $('#pList_fav_toggle').html('접기')
+      })
+
+      $('#pList_prog_content').on('hidden.bs.collapse	', function(){
+        $('#pList_prog_toggle').html('펴기')
+      })
+
+      $('#pList_prog_content').on('shown.bs.collapse	', function(){
+        $('#pList_prog_toggle').html('접기')
+      })
+      $('#pList_past_content').on('hidden.bs.collapse	', function(){
+        $('#pList_past_toggle').html('펴기')
+      })
+
+      $('#pList_past_content').on('shown.bs.collapse	', function(){
+        $('#pList_past_toggle').html('접기')
+      })
+
+
 
 
 

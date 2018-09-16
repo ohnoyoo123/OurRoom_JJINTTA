@@ -13,91 +13,22 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<%-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.2.0/frappe-gantt.css"/>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.2.0/frappe-gantt.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.2.0/frappe-gantt.js.map"></script> --%>
-
-<%-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.2.0/frappe-gantt.min.css"/> --%>
 <link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
-<style type="text/css">
-
-#innerFrame {
-	display: inline-block;
-	width: 90vw;
-}
-
-#addTaskBtn {
-	float: right;
-}
-
-#gantt{
-	display: inline-block;
-	/* height: 84vh; */
-	float: left;
-
-}
-#sideTap{
-	display: inline-block;
-	float: left;
-	max-width: 15vw;
-	/* height: 84vh; */
-
-}
-
-#sideTap .table{
-}
-
-#sideTap .table th{
-	height: 59px;
-	padding : 0;
-	vertical-align: middle;
-}
-
-#sideTap .table td{
-	height: 48px;
-	padding : 0;
-	vertical-align: middle;
-}
-
-#addTaskBtn, .addIssueBtn{
-		float: right;
-}
-
-textarea {
-	width: 100%;
-	resize: none;
-	overflow-y: hidden; /* prevents scroll bar flash */
-	padding: 0.5em; /* prevents text jump on Enter keypress */
-	line-height: 1.6;
-}
-
-#taskDetailModal_tNotiName{
-	display: inline-block;
-	min-width: 200px;
-	min-height: 16px;
-}
-
-#projectDetailModal_pName{
-	display: inline-block;
-	min-width: 200px;
-	min-height: 16px;
-}
-
-</style>
+<link rel="stylesheet" href="/OurRoom/css/gantt.css">
 
 </head>
 
 <body>
 	<jsp:include page="../mainFrame.jsp" />
 	<div id="innerFrame">
-		<div class="form-group" style="width:200px">
-		  <select class="form-control" id="viewMode">
-		  </select>
+		<div class="form-group" style="width:200px;">
+			<select class="form-control" id="viewMode">
+			</select>
 		</div>
 		<div id="projectInfo"></div>
 		<div id="sideTap"></div>
@@ -377,6 +308,7 @@ textarea {
 		let project = ${projectJson}
 		let taskList = ${taskJson}
 		let issueList = ${issueJson}
+		let projectMemberList = ${projectMemberJson}
 
 		let selectedTask = 0
 		let selectedissue = 0
@@ -583,34 +515,44 @@ textarea {
 			txt += '<table class="table table-bordered">'
 			txt += '<tr>'
 			txt += '<th>'
+
+			for(let i = 0; i < projectMemberList.length; i++){
+				if($('#loginUser').val() == projectMemberList[i].mId){
+					if(projectMemberList[i].pmFav){
+						txt += '<h1><span class="glyphicon glyphicon-star gantt_fav_btn"></span>'
+					}else{
+						txt += '<h1><span class="glyphicon glyphicon-star-empty gantt_fav_btn"></span>'
+					}
+				}
+			}
 			txt += project.pName
-			txt += '</th>'
+			txt += '</h1></th>'
 			txt += '</tr>'
 			txt += '<tr>'
-			txt += '<td>태스크추가<button id="addTaskBtn" class="btn" data-toggle="modal" data-target="#addTaskModal">+</button>'
+			txt += '<td>태스크추가<button id="addTaskBtn" class="btn btn-success" data-toggle="modal" data-target="#addTaskModal"><span class="glyphicon glyphicon-plus"></span></button>'
 			txt += '</td>'
 			txt += '</tr>'
 			for(let i = 0; i < taskList.length; i++){
 				txt += '<tr>'
-				txt += '<td><span onclick="location.href=\'/OurRoom/project/kanban2?pNum='
+				txt += '<td><div class="sideTap_td"><span onclick="location.href=\'/OurRoom/project/kanban2?pNum='
 				txt += ${project.pNum}
 				txt += '&tNum='
 				txt += taskList[i].tNum
 				txt += '\'">'
 				txt += taskList[i].tName
-				txt += '</span><button class="btn addIssueBtn" tNum="'
+				txt += '</span><button class="btn btn-success addIssueBtn" tNum="'
 				txt += taskList[i].tNum
 				txt += '" tName="'
 				txt += taskList[i].tName
-				txt += '" data-toggle="modal" data-target="#addIssueModal">+</button>'
-				txt += '</td>'
+				txt += '" data-toggle="modal" data-target="#addIssueModal"><span class="glyphicon glyphicon-plus"></span></button>'
+				txt += '</div></td>'
 				txt += '</tr>'
 				for(let j = 0; j < issueList.length; j++){
 					if(taskList[i].tNum == issueList[j].tNum){
 						txt += '<tr>'
-						txt += '<td>'
+						txt += '<td><div class="sideTap_td">'
 						txt += issueList[j].iName
-						txt += '</td>'
+						txt += '</div></td>'
 						txt += '</tr>'
 					}
 				}
@@ -624,6 +566,9 @@ textarea {
 
 		//태스크 추가
 	  $('#addTaskModalConfirmBtn').on('click', function () {
+
+
+
 			console.log(${project.pNum});
 			selectedMId = []
 	    $.ajax({
@@ -678,8 +623,7 @@ textarea {
 		})
 		//이슈 추가
 		$('#addIssue').on('click', () => {
-			console.log('이슈 멤버들 제발 좀');
-			console.log(selectedMId);
+
 			if($('#addIssueModal_iStartDate').val() > $('#addIssueModal_iEndDate').val()){
 				$('#addIssueModal_iStartDate').val('')
 				$('#addIssueModal_iEndDate').val('')
@@ -714,6 +658,7 @@ textarea {
 
 						makeGantt(project, taskList, issueList)
 						gantt.refresh(taskAndIssue)
+						matchDate_issueToTask()
 						sideTap(project, taskList, issueList)
 						$('.close').trigger('click')
 					}
@@ -1489,7 +1434,6 @@ textarea {
 			})
 
 
-			$('#projectDetailModal_assingedMember').append()
 
 			$.ajax({
 				url : 'projectDetail',
@@ -1498,6 +1442,11 @@ textarea {
 				},
 				type : 'post',
 				success : (data) => {
+					console.log(data);
+					txt = ''
+					for(let i = 0; i < data.addressList.length; i++){
+						$('#projectDetailModal_assingedMember').html(data.addressList[i].mId)
+					}
 
 				}
 			})
@@ -1596,7 +1545,43 @@ textarea {
 			}
 		})
 
+		$('.table').addClass('table-striped')
+		$('.table').addClass('grid-background')
 
+		$('.gantt_fav_btn').on('click', () => {
+			for(let i = 0; i < projectMemberList.length; i++){
+				if($('#loginUser').val() == projectMemberList[i].mId){
+					data = {
+						pmFav : !projectMemberList[i].pmFav
+					}
+					updateProjectMember(data)
+
+					if(	$('.gantt_fav_btn').hasClass('glyphicon-star')){
+						$('.gantt_fav_btn').removeClass('glyphicon-star')
+						$('.gantt_fav_btn').addClass('glyphicon-star-empty')
+					}else{
+						$('.gantt_fav_btn').removeClass('glyphicon-star-empty')
+						$('.gantt_fav_btn').addClass('glyphicon-star')
+					}
+				}
+			}
+		})
+
+		const updateProjectMember = (data) => {
+			$.ajax({
+				url : 'updateProjectMember',
+				data : {
+					pNum : ${project.pNum},
+					mId : $('#loginUser').val(),
+					pmIsAdmin : data.pmIsAdmin,
+					pmIsAuth : data.pmIsAuth,
+					pmFav : data.pmFav
+				},
+				type : 'post',
+				success : () => {
+				}
+			})
+		}
 
 	})
 	</script>

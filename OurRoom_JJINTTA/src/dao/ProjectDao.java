@@ -27,4 +27,7 @@ public interface ProjectDao {
 	//프로젝트 내용 변경
 	public void updateProject(Project project);
 
+	//프로젝트 멤버 내용 변경
+	public void updateProjectMember(ProjectMember projectMember);
+
 }

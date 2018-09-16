@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dao.LogDao;
 //import dao.LogDao;
 import dao.ProjectDao;
 import dao.TaskDao;
@@ -25,12 +26,12 @@ public class ProjectService {
 	@Autowired
 	TaskDao taskDao;
 
-//	@Autowired
-//	LogDao logDao;
-//
-//	@Autowired
-//	LogService logSvc;
+	@Autowired
+	LogDao logDao;
 
+	@Autowired
+	LogService logSvc;
+	
 	public List<Project> getProjectListByMId(HashMap<String, Object> mId) {
 		return projectDao.selectProjectList(mId);
 	}
@@ -110,6 +111,11 @@ public class ProjectService {
 
 	public void updateProject(Project project) {
 		projectDao.updateProject(project);
+		
+	}
+
+	public void updateProjectMember(ProjectMember projectMember) {
+		projectDao.updateProjectMember(projectMember);
 		
 	}
 

@@ -88,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 주소록 조회 -->
 	<select id="selectAddressById" parameterType="String" resultMap="memberMap">
 		select * from member
-		where m_id in ( select a_id from address where m_id = #{value} )
+		where m_id in ( select a_id from address where m_id = #{mId} )
 	</select>
 	
 	<!-- 주소록 회원 삭제 -->

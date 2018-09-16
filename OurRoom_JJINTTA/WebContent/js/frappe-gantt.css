@@ -35,7 +35,7 @@
   fill: #b8c2cc;
   stroke: #8D99A6;
   stroke-width: 0;
-  transition: stroke-width .3s ease;
+  transition: stroke-width .5s ease;
   user-select: none; }
 
 .gantt .bar-progress {

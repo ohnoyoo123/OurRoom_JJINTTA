@@ -1,0 +1,83 @@
+#innerFrame {
+	display: inline-block;
+	width: 90vw;
+}
+
+#addTaskBtn {
+	float: right;
+}
+
+#gantt{
+	display: inline-block;
+	/* height: 84vh; */
+	float: left;
+
+}
+#sideTap{
+	display: inline-block;
+	float: left;
+	min-width: 25vh;
+	max-width: 25vw;
+	/* height: 84vh; */
+	margin-left: 50px;
+}
+
+#sideTap .table{
+}
+
+#sideTap .table th{
+	height: 59px;
+	padding : 0px;
+	font-size: 15px;
+	background-color: #ffffff
+}
+
+#sideTap .table td{
+	margin: 0;
+	padding : 0px;
+	height: 48px;
+	/* line-height: 48px; */
+	border-bottom: 2px solid rgba(0, 0, 0, .1);
+	/* vertical-align: middle; */
+
+}
+
+/*무슨 짓을 해도 수직 가운데 정렬이 안됨*/
+/* #sideTap .table td > *{
+	vertical-align: middle;
+} */
+
+#addTaskBtn, .addIssueBtn{
+		float: right;
+		/* background-color: #339933; */
+		display: inline;
+		margin: 0;
+}
+
+textarea {
+	width: 100%;
+	resize: none;
+	overflow-y: hidden; /* prevents scroll bar flash */
+	padding: 0.5em; /* prevents text jump on Enter keypress */
+	line-height: 1.6;
+}
+
+#taskDetailModal_tNotiName{
+	display: inline-block;
+	min-width: 200px;
+	min-height: 16px;
+}
+
+#projectDetailModal_pName{
+	display: inline-block;
+	min-width: 200px;
+	min-height: 16px;
+}
+
+#viewMode{
+	margin-left: 50px;
+}
+
+#gantt_fav{
+	
+}

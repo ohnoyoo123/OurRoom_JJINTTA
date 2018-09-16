@@ -67,7 +67,6 @@ public class PageController {
 		pmList = pSvc.getProjectMemberByMId(paramMId);
 		mav.addObject("pmList", pmList);
 		System.out.println(pmList);
-		// System.out.println(projectList);
 
 		mav.setViewName("/project/pList");
 		return mav;
@@ -106,6 +105,11 @@ public class PageController {
 		System.out.println("이슈리스트" + iSvc.getIssueList(issue));
 
 		mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
+		
+		String stringProjectMember = gson.toJson(pSvc.getProjectMemberByPNum(pNum));
+		JsonArray projectMemberJson = new JsonParser().parse(stringProjectMember).getAsJsonArray();
+		mav.addObject("projectMemberJson", projectMemberJson);
+
 
 		mav.setViewName("/project/gantt2");
 		return mav;

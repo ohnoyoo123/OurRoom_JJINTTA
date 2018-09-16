@@ -32,6 +32,7 @@ import model.Log;
 import model.Member;
 import model.Noti;
 import model.Project;
+import model.ProjectMember;
 import model.Task;
 import service.CheckListService;
 import service.IssueService;
@@ -67,6 +68,7 @@ public class ProjectRestController {
 
    @Autowired
    LogService logSvc;
+   
    
    @PostMapping("/project/newProject")
    public int newProject(Project project, String owner,
@@ -119,6 +121,7 @@ public class ProjectRestController {
       
       Map<String, Object> data = new HashMap<String, Object>();
       data.put("addressList", addressList);
+      System.out.println(addressList);
       
       return data;
    }
@@ -491,6 +494,17 @@ public class ProjectRestController {
 	   data.put("taskList", tSvc.getTaskList(task));
 	   data.put("issueList", iSvc.getIssueList(issue));
 	   data.put("issueMemberList", iSvc.getIssueMember(issue));
+	   
+	   return data;
+	   
+   }
+   
+   @PostMapping("/project/updateProjectMember")
+   public Map<String, Object> updateProjectMember(ProjectMember projectMember) {
+	   System.out.println("요청 url : /project/updateProjectMember");
+	   pSvc.updateProjectMember(projectMember);
+	   Map<String, Object> data = new HashMap<String, Object>();
+	   data.put("project", pSvc.getProject(projectMember.getpNum()));
 	   
 	   return data;
 	   
