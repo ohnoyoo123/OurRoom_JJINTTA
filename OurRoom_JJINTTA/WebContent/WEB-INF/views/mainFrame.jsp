@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
@@ -18,6 +18,7 @@ hr.style13 {
 	border: 0;
 	box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
+
 </style>
 <link rel="stylesheet" href="/OurRoom/css/modal.css">
 <link rel="stylesheet"
@@ -86,6 +87,13 @@ html, body {
 	font-size: 40px;
 	color: #e6ffe6;
 	cursor: pointer;
+}
+.material-icons.md-48 {
+  font-size: 45px;
+}
+#innerFrame, #innerFrame p{
+  font-family: 'New Gulim';
+  font-size: 18px;
 }
 
 i::before {
@@ -356,7 +364,13 @@ i::before {
 		</div>
 
 		<div class="topIcon">
-			<span class="glyphicon glyphicon-bell" id="noti"></span>
+
+      <%-- <i class="material-icons md-48">
+        notifications_active
+      </i> --%>
+      <i class="material-icons md-48">
+        notifications
+      </i>
 		</div>
 		<div class="topIcon" onclick="location.href='/OurRoom/project/pList'">
 			<span class="glyphicon glyphicon-briefcase"></span>

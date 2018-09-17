@@ -1,0 +1,99 @@
+#innerFrame{
+  background-color: ;
+  display: inline-block;
+  width: 90%;
+ }
+
+
+.openProjectModal{
+  cursor : pointer;
+}
+
+#projectChartModal .modal-dialog{
+  width: 70vw;
+}
+
+.projectChartModal_chartBody{
+  width: 48%;
+  height: 48%;
+  display: inline-block;
+  margin : 0;
+  padding: 0;
+  float: left;
+}
+
+#projectChartModal_chartBody_projectInfo,
+#projectChartModal_chartBody_projectProgress,
+#projectChartModal_chartBody_signedIssue,
+#projectChartModal_chartBody_completedIssue
+{
+  width : 50%;
+  height: 50%;
+}
+
+#pList{
+    margin-left: 15%;
+    margin-right: 15%;
+    /* background-color: rgba(0, 255, 0, 0.1); */
+}
+
+#pList_top{
+  /* left : 100%; */
+}
+
+#pList_top button{
+  float: right;
+}
+
+#pList_fav{
+  margin-top: 70px;
+}
+
+#pList_prog{
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+}
+
+#pList_past{
+  margin-bottom: 50px;
+}
+
+#pList_fav_content, #pList_prog_content, #pList_past_content{
+  height: 20vh;
+  overflow-y : auto;
+}
+
+.pList_fav_content_project, .pList_prog_content_project, .pList_past_content_project{
+  width: 30%;
+  margin: 1%;
+  padding: 8px;
+  height: 87%;
+  float: left;
+  /* background-color: rgba(0, 255, 0, 0.1); */
+  border: 1px solid rgba(0, 255, 0, 0.4);
+}
+
+h2{
+  display: inline-block;
+}
+
+.material-icons.md-30 {
+  font-size: 30px;
+  vertical-align: bottom;
+}
+
+.material-icons.md-55.add_circle{
+  font-size: 65px;
+  /* vertical-align: bottom; */
+  position: absolute;
+  color: #0047b3;
+  opacity: 0.75;
+  left : 80%;
+  top : 20px;
+  cursor: pointer;
+
+}
+#pList_fav_toggle, #pList_prog_toggle, #pList_past_toggle{
+  cursor: pointer;
+}

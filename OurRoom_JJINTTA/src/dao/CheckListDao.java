@@ -28,4 +28,6 @@ public interface CheckListDao {
 	public void insertCheckListItemMember(CheckListItemMember checkListItemMember);
 
 	public List<CheckListItemMember> selectAllCheckListItemMember(Issue issue);
+
+	public void updateCheckListItem(CheckListItem checkListItem);
 }

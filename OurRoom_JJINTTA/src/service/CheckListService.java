@@ -80,7 +80,6 @@ public class CheckListService {
 
 	//체크리스트 아이템 지우면서 할당된 멤버도 같이 지우기
 	public void deleteCheckListItem(CheckListItem checkListItem) {
-		System.out.println("헤헤헹 : " + checkListItem);
 		clDao.deleteCheckListItem(checkListItem);
 		
 		//멤버 지우기
@@ -92,6 +91,11 @@ public class CheckListService {
 		checkListItemMember.setCiNum(checkListItem.getCiNum());
 		
 		clDao.deleteCheckListItemMember(checkListItemMember);
+		
+	}
+
+	public void updateCheckListItem(CheckListItem checkListItem) {
+		clDao.updateCheckListItem(checkListItem);
 		
 	}
 
