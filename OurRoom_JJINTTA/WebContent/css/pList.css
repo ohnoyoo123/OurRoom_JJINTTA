@@ -38,7 +38,7 @@
 }
 
 #pList_top{
-  display: block;
+  /* left : 100%; */
 }
 
 #pList_top button{
@@ -46,7 +46,7 @@
 }
 
 #pList_fav{
-  margin-top: 50px;
+  margin-top: 70px;
 }
 
 #pList_prog{
@@ -68,7 +68,7 @@
   width: 30%;
   margin: 1%;
   padding: 8px;
-  height: 88%;
+  height: 87%;
   float: left;
   /* background-color: rgba(0, 255, 0, 0.1); */
   border: 1px solid rgba(0, 255, 0, 0.4);
@@ -76,4 +76,24 @@
 
 h2{
   display: inline-block;
+}
+
+.material-icons.md-30 {
+  font-size: 30px;
+  vertical-align: bottom;
+}
+
+.material-icons.md-55.add_circle{
+  font-size: 65px;
+  /* vertical-align: bottom; */
+  position: absolute;
+  color: #0047b3;
+  opacity: 0.75;
+  left : 80%;
+  top : 20px;
+  cursor: pointer;
+
+}
+#pList_fav_toggle, #pList_prog_toggle, #pList_past_toggle{
+  cursor: pointer;
 }

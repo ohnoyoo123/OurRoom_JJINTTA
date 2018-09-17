@@ -20,7 +20,6 @@
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 <link rel="stylesheet" href="/OurRoom/css/gantt.css">
-
 </head>
 
 <body>
@@ -149,8 +148,13 @@
 					종료 : <br> <input type="text" class="datepicker" id="projectDetailModal_pEndDate"readonly>
 					</div>
 					===========
-					할당되어 있는 멤버들
-					<div id="projectDetailModal_assingedMember">
+					프로젝트 멤버
+					<div id="projectDetailModal_assignedMemberList">
+
+					</div>
+					===========
+					주소록 멤버
+					<div id="projectDetailModal_addressList">
 
 					</div>
 
@@ -246,7 +250,7 @@
 					======================================================================
 					<h3>코멘트</h3>
 					<div id="commentDiv">
-						${loginUser.mNickname} : <input type="text" style="width:80%" id="IssueDetailModal_cmContent"><button id="IssueDetailModal_cmBtn">저장</button>
+						${loginUser.mNickname} : <input type="text" style="width:80%" id="IssueDetailModal_cmContent"><button id="IssueDetailModal_cmBtn" class="btn">저장</button>
 						<div id="commentArea">
 						</div>
 					</div>
@@ -519,14 +523,14 @@
 			for(let i = 0; i < projectMemberList.length; i++){
 				if($('#loginUser').val() == projectMemberList[i].mId){
 					if(projectMemberList[i].pmFav){
-						txt += '<h1><span class="glyphicon glyphicon-star gantt_fav_btn"></span>'
+						txt += '<h2><i class="material-icons md-30 gantt_fav_btn">favorite</i>'
 					}else{
-						txt += '<h1><span class="glyphicon glyphicon-star-empty gantt_fav_btn"></span>'
+						txt += '<h2><i class="material-icons md-30 gantt_fav_btn">favorite_border</i>'
 					}
 				}
 			}
 			txt += project.pName
-			txt += '</h1></th>'
+			txt += '</h2></th>'
 			txt += '</tr>'
 			txt += '<tr>'
 			txt += '<td>태스크추가<button id="addTaskBtn" class="btn btn-success" data-toggle="modal" data-target="#addTaskModal"><span class="glyphicon glyphicon-plus"></span></button>'
@@ -534,7 +538,7 @@
 			txt += '</tr>'
 			for(let i = 0; i < taskList.length; i++){
 				txt += '<tr>'
-				txt += '<td><div class="sideTap_td"><span onclick="location.href=\'/OurRoom/project/kanban2?pNum='
+				txt += '<td><span onclick="location.href=\'/OurRoom/project/kanban2?pNum='
 				txt += ${project.pNum}
 				txt += '&tNum='
 				txt += taskList[i].tNum
@@ -545,14 +549,14 @@
 				txt += '" tName="'
 				txt += taskList[i].tName
 				txt += '" data-toggle="modal" data-target="#addIssueModal"><span class="glyphicon glyphicon-plus"></span></button>'
-				txt += '</div></td>'
+				txt += '</td>'
 				txt += '</tr>'
 				for(let j = 0; j < issueList.length; j++){
 					if(taskList[i].tNum == issueList[j].tNum){
 						txt += '<tr>'
-						txt += '<td><div class="sideTap_td">'
+						txt += '<td>'
 						txt += issueList[j].iName
-						txt += '</div></td>'
+						txt += '</td>'
 						txt += '</tr>'
 					}
 				}
@@ -724,7 +728,7 @@
 			console.log($(this).parent('p').attr('cmNum'));
 			if($(this).attr('IssueDetailModal_reCmFormBtn') == 0){
 				$(this).parent('p').append(`
-					<input type="text" class="IssueDetailModal_reCmContent"><button class="IssueDetailModal_reCmConfirmBtn">저장</button>
+					<input type="text" class="IssueDetailModal_reCmContent form-control" style="width:60%;"><button class="IssueDetailModal_reCmConfirmBtn">저장</button>
 					<button class="IssueDetailModal_reCmCancleBtn">취소</button>
 					`)
 					$(this).attr('IssueDetailModal_reCmFormBtn', '1')
@@ -1433,7 +1437,10 @@
 				}
 			})
 
-
+			$('#projectDetailModal_assignedMemberList').html('')
+			for(let i = 0; i < projectMemberList.length; i++){
+				$('#projectDetailModal_assignedMemberList').append(projectMemberList[i].mId).append('<br>')
+			}
 
 			$.ajax({
 				url : 'projectDetail',
@@ -1445,7 +1452,7 @@
 					console.log(data);
 					txt = ''
 					for(let i = 0; i < data.addressList.length; i++){
-						$('#projectDetailModal_assingedMember').html(data.addressList[i].mId)
+						$('#projectDetailModal_addressList').html(data.addressList[i].mId)
 					}
 
 				}
@@ -1556,12 +1563,18 @@
 					}
 					updateProjectMember(data)
 
-					if(	$('.gantt_fav_btn').hasClass('glyphicon-star')){
-						$('.gantt_fav_btn').removeClass('glyphicon-star')
-						$('.gantt_fav_btn').addClass('glyphicon-star-empty')
+					// if(	$('.gantt_fav_btn').hasClass('glyphicon-star')){
+					// 	$('.gantt_fav_btn').removeClass('glyphicon-star')
+					// 	$('.gantt_fav_btn').addClass('glyphicon-star-empty')
+					// }else{
+					// 	$('.gantt_fav_btn').removeClass('glyphicon-star-empty')
+					// 	$('.gantt_fav_btn').addClass('glyphicon-star')
+					// }
+
+					if($('.gantt_fav_btn').html() == 'favorite'){
+						$('.gantt_fav_btn').html('favorite_border')
 					}else{
-						$('.gantt_fav_btn').removeClass('glyphicon-star-empty')
-						$('.gantt_fav_btn').addClass('glyphicon-star')
+						$('.gantt_fav_btn').html('favorite')
 					}
 				}
 			}
