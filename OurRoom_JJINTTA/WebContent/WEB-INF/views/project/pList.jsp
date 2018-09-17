@@ -20,19 +20,17 @@
 <jsp:include page="../mainFrame.jsp"/>
 
 	<div id = "innerFrame">
-    <div id="pList">
 
       <div id="pList_top">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProject">
-        프로젝트 추가
-        </button>
+        <i class="material-icons md-55 add_circle" data-toggle="modal" data-target="#addProject">add_box</i>
       </div>
-
+      <div id="pList">
       <div id="pList_fav">
         <h2>
-          <span class="glyphicon glyphicon-star"></span> 즐겨찾기 프로젝트
-        </h2>
-          <button id="pList_fav_toggle" data-toggle="collapse" data-target="#pList_fav_content" class="btn btn-success">접기</button>
+          <i class="material-icons md-30">favorite</i>
+        <span id="pList_fav_toggle" data-toggle="collapse" data-target="#pList_fav_content">즐겨찾기 프로젝트</span>
+      </h2>
+          <%-- <button id="pList_fav_toggle" data-toggle="collapse" data-target="#pList_fav_content" class="btn btn-success">접기</button> --%>
         <div id="pList_fav_content" class="collapse in">
           <c:forEach items="${pmList}" var="pm">
             <c:if test="${pm.pmFav}">
@@ -42,7 +40,6 @@
                   <span>${pList.pName}</span>
                   </div>
                 </c:if>
-              <br>
               </c:forEach>
             </c:if>
           </c:forEach>
@@ -51,8 +48,9 @@
 
       <div id="pList_prog">
         <h2>
-          <span class="glyphicon glyphicon-briefcase"> </span> 진행중인 프로젝트
-        </h2><button id="pList_prog_toggle" data-toggle="collapse" data-target="#pList_prog_content"  class="btn btn-success">접기</button>
+          <i class="material-icons md-30">assignment</i>
+          <span id="pList_prog_toggle" data-toggle="collapse" data-target="#pList_prog_content">진행중인 프로젝트</span>
+        </h2>
         <div id="pList_prog_content" class="collapse in">
           <c:forEach items="${pmList}" var="pm">
             <c:if test="${!pm.pmFav}">
@@ -70,8 +68,9 @@
 
       <div id="pList_past">
         <h2>
-          <span class="glyphicon glyphicon-remove-sign"> </span> 종료된 프로젝트
-        </h2><button id="pList_past_toggle" data-toggle="collapse" data-target="#pList_past_content"  class="btn btn-success">펴기</button>
+          <i class="material-icons md-30">archive</i>
+          <span id="pList_past_toggle" data-toggle="collapse" data-target="#pList_past_content">종료된 프로젝트</span>
+        </h2>
         <div id="pList_past_content" class="collapse">
           <c:forEach items="${pastProject}" var="past">
             <div class="pList_past_content_project openProjectChartModal" pNum="${past.pNum}" data-target="#projectChartModal" data-toggle="modal">
@@ -537,28 +536,28 @@
       }
 
       //버튼 모양 바꾸기
-      $('#pList_fav_content').on('hidden.bs.collapse	', function(){
-        $('#pList_fav_toggle').html('펴기')
-      })
-
-      $('#pList_fav_content').on('shown.bs.collapse	', function(){
-        $('#pList_fav_toggle').html('접기')
-      })
-
-      $('#pList_prog_content').on('hidden.bs.collapse	', function(){
-        $('#pList_prog_toggle').html('펴기')
-      })
-
-      $('#pList_prog_content').on('shown.bs.collapse	', function(){
-        $('#pList_prog_toggle').html('접기')
-      })
-      $('#pList_past_content').on('hidden.bs.collapse	', function(){
-        $('#pList_past_toggle').html('펴기')
-      })
-
-      $('#pList_past_content').on('shown.bs.collapse	', function(){
-        $('#pList_past_toggle').html('접기')
-      })
+      // $('#pList_fav_content').on('hidden.bs.collapse	', function(){
+      //   $('#pList_fav_toggle').html('펴기')
+      // })
+      //
+      // $('#pList_fav_content').on('shown.bs.collapse	', function(){
+      //   $('#pList_fav_toggle').html('접기')
+      // })
+      //
+      // $('#pList_prog_content').on('hidden.bs.collapse	', function(){
+      //   $('#pList_prog_toggle').html('펴기')
+      // })
+      //
+      // $('#pList_prog_content').on('shown.bs.collapse	', function(){
+      //   $('#pList_prog_toggle').html('접기')
+      // })
+      // $('#pList_past_content').on('hidden.bs.collapse	', function(){
+      //   $('#pList_past_toggle').html('펴기')
+      // })
+      //
+      // $('#pList_past_content').on('shown.bs.collapse	', function(){
+      //   $('#pList_past_toggle').html('접기')
+      // })
 
 
 

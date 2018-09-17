@@ -22,23 +22,25 @@
 	margin-left: 50px;
 }
 
-#sideTap .table{
+#sideTap .table > *{
+	vertical-align: middle;
 }
 
 #sideTap .table th{
 	height: 59px;
 	padding : 0px;
 	font-size: 15px;
-	background-color: #ffffff
+	background-color: #ffffff;
+	vertical-align: middle;
 }
 
 #sideTap .table td{
 	margin: 0;
 	padding : 0px;
+	padding-left : 10px;
 	height: 48px;
-	/* line-height: 48px; */
 	border-bottom: 2px solid rgba(0, 0, 0, .1);
-	/* vertical-align: middle; */
+	vertical-align: middle;
 
 }
 
@@ -79,5 +81,21 @@ textarea {
 }
 
 #gantt_fav{
-	
+
+}
+
+.material-icons.md-30{
+	font-size : 30px;
+	vertical-align: bottom;
+	cursor: pointer;
+}
+
+#IssueDetailModal_cmContent{
+	display: block;
+}
+
+#IssueDetailModal_cmBtn{
+	display: inline-block;
+	width : 15%;
+	float: right;
 }
