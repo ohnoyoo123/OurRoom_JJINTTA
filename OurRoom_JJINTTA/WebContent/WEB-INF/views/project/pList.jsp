@@ -256,8 +256,8 @@
 				url : "newProject",
 				data : {
 					pName : $('#pName').val(),
-          pStartDate: $('.pStartDate').val(),
-          pEndDate: $('.pEndDate').val(),
+          pStartDate: $('#addProjectModal_pStartDate').val(),
+          pEndDate: $('#addProjectModal_pEndtDate').val(),
 					owner : '${loginUser.mId}',
 					members : invitedId
 				},

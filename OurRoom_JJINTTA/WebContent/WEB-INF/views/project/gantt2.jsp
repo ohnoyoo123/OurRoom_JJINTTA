@@ -533,7 +533,9 @@
 			txt += '</h2></th>'
 			txt += '</tr>'
 			txt += '<tr>'
-			txt += '<td>태스크추가<button id="addTaskBtn" class="btn btn-success" data-toggle="modal" data-target="#addTaskModal"><span class="glyphicon glyphicon-plus"></span></button>'
+			txt += '<td>'
+			txt += project.pName
+		 	txt += '<button id="addTaskBtn" class="btn btn-success" data-toggle="modal" data-target="#addTaskModal"><span class="glyphicon glyphicon-plus"></span></button>'
 			txt += '</td>'
 			txt += '</tr>'
 			for(let i = 0; i < taskList.length; i++){
@@ -619,11 +621,13 @@
 
 		//이슈 추가창 생성
 		$(document).on('click', '.addIssueBtn', function(){
+
 			console.log(selectedMId);
 			selectedMId = []
-			selectedtNum = $(this).attr('tNum')
+			selectedTask = $(this).attr('tNum')
 			selectedtName = $(this).attr('tName')
 			$('.selectedTask').html("태스크 이름 : " + selectedtName)
+
 		})
 		//이슈 추가
 		$('#addIssue').on('click', () => {
@@ -637,7 +641,7 @@
 					url : 'addIssue',
 					data : {
 						pNum : ${project.pNum},
-						tNum : selectedtNum,
+						tNum : selectedTask,
 						iName : $('#iName').val(),
 						iDscr : $('#addIssueModal_iDscr').val(),
 						iStep : 1,
@@ -662,7 +666,6 @@
 
 						makeGantt(project, taskList, issueList)
 						gantt.refresh(taskAndIssue)
-						matchDate_issueToTask()
 						sideTap(project, taskList, issueList)
 						$('.close').trigger('click')
 					}
@@ -810,7 +813,7 @@
 							if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
 								txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
 								txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn">X</button>'
-								if(data.checkList[i].clIsDone == 1){
+								if(data.checkListItem[i].ciIsDone == true){
 									txt += '<input type="checkbox" class="form-check-input ci_checkbox" checked>완료<br>'
 								}else {
 									txt += '<input type="checkbox" class="form-check-input ci_checkbox">완료<br>'
@@ -1555,7 +1558,7 @@
 		$('.table').addClass('table-striped')
 		$('.table').addClass('grid-background')
 
-		$('.gantt_fav_btn').on('click', () => {
+		$(document).on('click', '.gantt_fav_btn', () => {
 			for(let i = 0; i < projectMemberList.length; i++){
 				if($('#loginUser').val() == projectMemberList[i].mId){
 					data = {
