@@ -8,6 +8,7 @@
 
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 hr.style5 {
 	background-color: #fff;

@@ -24,9 +24,11 @@ public class UploadFileUtils {
 		// String savedName = uid.toString() + "_" + originalName;
 		String savedName = originalName;
 
-		String savedPath = calcPath(uploadPath);
+		// String savedPath = calcPath(uploadPath);
+		String savedPath = uploadPath;
 
-		File target = new File(uploadPath + savedPath, savedName);
+		// File target = new File(uploadPath + savedPath, savedName);
+		File target = new File(uploadPath, savedName);
 
 		FileCopyUtils.copy(fileData, target);
 
@@ -46,18 +48,22 @@ public class UploadFileUtils {
 
 	private static String makeIcon(String uploadPath, String path, String fileName) throws Exception {
 
-		String iconName = uploadPath + path + File.separator + fileName;
+		// String iconName = uploadPath + path + File.separator + fileName;
+		String iconName = uploadPath + File.separator + fileName;
 
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 
 	private static String makeThumbnail(String uploadPath, String path, String fileName) throws Exception {
 
-		BufferedImage sourceImg = ImageIO.read(new File(uploadPath + path, fileName));
+		// BufferedImage sourceImg = ImageIO.read(new File(uploadPath + path,
+		// fileName));
+		BufferedImage sourceImg = ImageIO.read(new File(uploadPath, fileName));
 
 		BufferedImage destImg = Scalr.resize(sourceImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);
 
-		String thumbnailName = uploadPath + path + File.separator + "s_" + fileName;
+		// String thumbnailName = uploadPath + path + File.separator + "s_" + fileName;
+		String thumbnailName = uploadPath + File.separator + "s_" + fileName;
 
 		File newFile = new File(thumbnailName);
 		String formatName = fileName.substring(fileName.lastIndexOf(".") + 1);
@@ -76,7 +82,7 @@ public class UploadFileUtils {
 
 		String datePath = monthPath + File.separator + new DecimalFormat("00").format(cal.get(Calendar.DATE));
 
-		//makeDir(uploadPath, yearPath, monthPath, datePath);
+		makeDir(uploadPath, yearPath, monthPath, datePath);
 
 		logger.info(datePath);
 

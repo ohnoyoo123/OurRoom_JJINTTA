@@ -1,13 +1,19 @@
 package controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import javax.swing.ImageIcon;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -130,7 +136,7 @@ public class MemberController {
 			throws Exception {
 		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
 
-		String uploadPath = session.getServletContext().getRealPath("/")+"profile/";
+		String uploadPath = session.getServletContext().getRealPath("/") + "profile/";
 
 		String ext = profile.getOriginalFilename().substring(profile.getOriginalFilename().lastIndexOf("."));
 		;
@@ -150,4 +156,25 @@ public class MemberController {
 
 	}
 
+	/* 프로필사진 로드 */
+	@RequestMapping(value = "getProfile", produces = MediaType.IMAGE_JPEG_VALUE)
+	public byte[] getProfile(HttpSession session, String fileName) throws IOException {
+		// 경로 : tomcat서버의 rootContext / profile/;
+		String uploadPath = session.getServletContext().getRealPath("/") + "profile/";
+
+		File profile = new File(uploadPath + fileName + ".jpg");
+
+		System.out.println("getProfile : " + profile);
+		if (profile.exists()) {
+
+			byte[] byteArr = IOUtils.toByteArray(new FileInputStream(profile));
+			// Base64로 인코딩
+			byte[] encoded = Base64.encodeBase64(byteArr);
+			return encoded;
+
+		} else {
+			return null;
+		}
+
+	}
 }

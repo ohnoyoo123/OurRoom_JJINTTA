@@ -6,12 +6,21 @@
 <html>
 <head>
 <style>
-#file {
-	width: 0;
-	height: 0;
+.button {
+	background-color: Crimson;
+	border-radius: 5px;
+	color: white;
+	padding: .5em;
+	text-decoration: none;
+}
+
+.button:focus, .button:hover {
+	background-color: FireBrick;
+	color: White;
 }
 </style>
 <meta content="charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script type="text/javascript" src="/OurRoom/js/member/member.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -28,9 +37,25 @@
 </head>
 <body>
 	<jsp:include page="../mainFrame.jsp" />
-	<div class="container" align="center">
-		<div class="row">
-			<div class="col-sm-3">
+	<div class="container">
+		<div class="row justify-content-md-center">
+			<div class="col-lg-5">
+				<div class="form-group">
+					<h2 align="center">MyPage</h2>
+
+					<hr>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-md-center">
+			<div class="col-lg-3">
+				<div class="form-group">
+					<div id="profile_div"></div>
+					<input type='file' id='file' name='file' accept="image/*"
+						hidden="hidden" />
+				</div>
+			</div>
+			<div class="col-lg-3">
 				<div class="form-group">
 					<p>
 						<input type="text" class="myInfo form-control"
@@ -45,32 +70,40 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-5">
+		<div class="row justify-content-md-center">
+			<div class="col-lg-6">
 				<div class="form-group">
+					<h3>나의 로그</h3>
+					<hr>
 					<c:forEach var="myLog" items="${myLogList }" begin="0" end="4">
 						<p>${myLog.lCat}:${myLog.lName}:${myLog.lTime }}</p>
 					</c:forEach>
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-5">
+		<div class="row justify-content-md-center">
+			<div class="col-lg-6">
 				<div class="form-group">
 					<div>
-						<h2>정보수정</h2>
-						<label for="mNickname">Nickname</label> <input id="mNickname"
-							type="text" class="form-control" value="${member.mNickname }"
-							placeholder="Enter Nickname" readonly="readonly"> <span
-							id="nicknameCheckMsg"></span><br> <label for="nic">Password</label>
-						<input id="mPw" type="password" class="form-control"
-							placeholder="Enter Password" readonly="readonly"><br>
-						<span id="pwCheckMsg"></span> <input id="mPw2" type="password"
-							class="form-control" placeholder="Check Password"
-							readonly="readonly">
+						<h3>정보수정</h3>
+						<hr>
+						<fieldset>
+							<label for="mNickname">Nickname</label> <input id="mNickname"
+								type="text" class="form-control" value="${member.mNickname }"
+								placeholder="Enter Nickname" readonly="readonly"><span
+								id="nicknameCheckMsg">&nbsp;</span>
 
+						</fieldset>
+						<fieldset>
+							<label for="nic">Password</label> <input id="mPw" type="password"
+								class="form-control" placeholder="Enter Password"
+								readonly="readonly"> <span id="pwCheckMsg">&nbsp;
+							</span> <input id="mPw2" type="password" class="form-control"
+								placeholder="Check Password" readonly="readonly">
+						</fieldset>
+						<br> <a id="dropMember" class="button js-button"
+							role="button" style="color: white;">회원탈퇴</a>
 
-						<button id="dropMember">회원탈퇴</button>
 
 
 					</div>
@@ -194,49 +227,16 @@
 				}
 			});
 		});
-	</script> 
-	<c:choose>
-		<c:when test="${empty userImage }">
-			<div>
-				<img id="profileImg" src="/OurRoom/2018/9/16/hong123@gmailcom.jpg"
-					style="border-radius: 0%; padding-top: 10px; height: 100px; width: 100px;">
-			</div>
-		</c:when>
-		<c:otherwise>
-			<div>
-				<img id="profileImg" src="/displayFile?fileName=${userImage }"
-					style="border-radius: 0%; padding-top: 10px; height: 100px; width: 100px;">
-			</div>
-		</c:otherwise>
-	</c:choose>   
-
-	<img id="profile" alt="" src="/OurRoom/img/default_profile.png"
-		width="300px" height="300px">
-	<input type='file' id='file' name='file' accept="image/*" />
-
-
-
+	</script>
 	<script>
 		$(function() {
 			/* */
-			$('#profile').click(function(e) {
+			$(document).on("click", "#profile", function(e) {
+				//$('#profile').click(function(e) {
 				var file = $("#file");
 
 				e.preventDefault();
 				file.click();
-
-				/* 	$.ajax({
-						url : "uploadProfile",
-						enctype : "multipart/form-data",
-						data : formData,
-						dataType : 'text',
-						processData : false,
-						contentType : false,
-						type : 'POST',
-						success : function(data) {
-							alert(data);
-						}
-					}); */
 
 			});
 
@@ -258,28 +258,39 @@
 					processData : false,
 					contentType : false,
 					success : function(data) {
-						alert("프로필 이미지가 변경 되었습니다.")
+						alert("프로필 이미지가 변경 되었습니다.");
+						getProfile();
 					}
 				});
 			});
 
-			/* 		var fileName = '${loginUser.mId}';
-						fileName = fileName.replace('.', '');
-						console.log(fileName);
-						var profile = new File("C://java/bitcampOurRoom/profile/2018/9/16/"
-								var file = new File(["foo"], "foo.txt", {
-									  type: "text/plain",
-									});
-						console.log("file" + profile); */
-			
-			
-					
-				$("#profile").attr("src","/OurRoom/2018/**/**/hong123@gmailcom.jpg");
-				console.log($("#profile"));
+			getProfile();
+			function getProfile() {
+				console.log("profile");
+				var loginUser = '${loginUser.mId}';
+				$
+						.ajax({
+							url : "getProfile",
+							data : {
+								fileName : loginUser.replace(".", ""),
+
+							},
+							success : function(data) {
+								var src = '';
+								if (data) {
+									src = 'data:image/jpg;base64,' + data;
+								} else {
+									src = "/OurRoom/img/default_profile.png";
+								}
+
+								$("#profile_div")
+										.html(
+												'<img id="profile" src="'+ src +'" width="170px" height="170px">');
+							}
+						});
+			}
+			;
 		});
 	</script>
-
- 
-
 </body>
 </html>
