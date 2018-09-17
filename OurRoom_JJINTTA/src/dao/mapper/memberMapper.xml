@@ -12,6 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="m_nickname" property="mNickname" />
 		<result column="m_question" property="mQuestion" />
 		<result column="m_answer" property="mAnswer" />
+		<result column="m_profile" property="mProfile" />
 	</resultMap>
 
 	<resultMap type="address" id="addressMap">
@@ -46,8 +47,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		m_nickName = #{mNickname}
 		where m_id = #{mId}
 	</update>
-
-
+	<update id="updateProfile" parameterType="member">
+		update member
+		set
+		m_profile = #{mProfile}
+		where m_id = #{mId}
+	</update>
 	<!-- select영역 -->
 	<select id="selectByNickname" parameterType="String"
 		resultMap="memberMap">

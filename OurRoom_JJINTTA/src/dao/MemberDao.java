@@ -28,12 +28,12 @@ public interface MemberDao {
 	// 키워드로 회원 조회 (아이디 또는 닉네임)
 	public List<Member> selectMemberByKeyword(String keyword);
 
-	// 주소록 조회 
+	// 주소록 조회
 	public List<Member> selectAddressById(String mId);
 
 	// 주소록 추가
 	public int insertAddress(Address address);
-	
+
 	// 주소록 포함 회원 조회
 	public Address selectAddressMemberBymId_aId(Address address);
 
@@ -42,5 +42,6 @@ public interface MemberDao {
 
 	public int updateNickname(Member member);
 
-	
+	public void updateProfile(Member member);
+
 }

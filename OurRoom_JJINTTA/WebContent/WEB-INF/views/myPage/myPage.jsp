@@ -240,8 +240,16 @@
 
 			});
 
-			$("#file").on("change", function() {
-
+			$("#file").on("change", function(event) {
+				
+				// 취소버튼 클릭시 
+				var target = event.target || event.srcElement;
+				console.log(target, "changed.");
+				console.log(event);
+				if (target.value.length == 0) {
+					return false;
+				}
+				//
 				var file = $("#file");
 				console.log(file);
 				var formData = new FormData();
@@ -267,25 +275,24 @@
 			getProfile();
 			function getProfile() {
 				console.log("profile");
-				var loginUser = '${loginUser.mId}';
+				var mProfile = '${loginUser.mProfile}';
 				$
 						.ajax({
 							url : "getProfile",
 							data : {
-								fileName : loginUser.replace(".", ""),
-
+								profileName : mProfile 
 							},
 							success : function(data) {
 								var src = '';
 								if (data) {
 									src = 'data:image/jpg;base64,' + data;
 								} else {
-									src = "/OurRoom/img/default_profile.png";
+									src = "C:java/profile/default_profile.PNG";
 								}
 
 								$("#profile_div")
 										.html(
-												'<img id="profile" src="'+ src +'" width="170px" height="170px">');
+												'<img id="profile" class="rounded-circle" src="'+ src +'" width="170px" height="170px">');
 							}
 						});
 			}

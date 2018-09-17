@@ -3,18 +3,23 @@ package controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.ibatis.javassist.bytecode.annotation.MemberValue;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,8 +39,8 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private ProjectService projectService;
-
-	private String uploadPath = this.getClass().getResource("/").getPath(); // classes 폴더의 최상위 경로;
+	@Resource(name = "uploadPath")
+	private String uploadPath;
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
@@ -135,22 +140,50 @@ public class MemberController {
 	public ResponseEntity<String> uploadProfile(HttpSession session, @RequestParam MultipartFile profile)
 			throws Exception {
 		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
+		// String uploadPath = session.getServletContext().getRealPath("/") +
+		// "profile/";
 
-		String uploadPath = session.getServletContext().getRealPath("/") + "profile/";
-
+		String md5Id = DigestUtils.md5DigestAsHex(loginUser.getBytes());
+		System.out.println("md5Id : " + md5Id);
 		String ext = profile.getOriginalFilename().substring(profile.getOriginalFilename().lastIndexOf("."));
-		;
+
 		// 파일명 : 유저 + 확장자(.jpg등등)
-		String fileName = loginUser.replace(".", "") + ext;
-
+		String fileName = md5Id + ext;
 		System.out.println("fileName : " + fileName);
-		logger.info("originalName: " + profile.getOriginalFilename());
-		logger.info("originalName: " + profile.getSize());
-		logger.info("originalName: " + profile.getContentType());
+		// File oldFile = new File(fileName)
 
-		System.out.println(uploadPath);
+		Member member = new Member();
+		member.setmId(loginUser);
+		member.setmProfile(fileName);
+
+		// 파일을 특정위치에 저장
+		File dir = new File(uploadPath);
+		if (!dir.exists())
+			dir.mkdirs(); // 해당경로에 디렉토리가 없으면 생성
+		File attachFile = new File(uploadPath + fileName);
+
+		/*
+		 * if (attachFile.exists()) { if (attachFile.delete()) {
+		 * System.out.println("삭제완료"); } else { System.out.println("삭제못해쪄.."); }
+		 * attachFile.deleteOnExit(); }
+		 */
+
+		// 파일 복사
+		try {
+			profile.transferTo(attachFile);
+		} catch (IOException ioE) {
+			if (attachFile != null) {
+				attachFile.delete();
+			}
+			throw ioE;
+		} finally {
+		}
 		// 이미지 업로드
-		UploadFileUtils.uploadFile(uploadPath, fileName, profile.getBytes());
+		// UploadFileUtils.uploadFile(uploadPath, fileName, profile.getBytes());
+
+		memberService.setProfile(member);
+
+		session.setAttribute("loginUser", memberService.selectMember(member.getmId()));
 
 		return null;
 
@@ -158,23 +191,35 @@ public class MemberController {
 
 	/* 프로필사진 로드 */
 	@RequestMapping(value = "getProfile", produces = MediaType.IMAGE_JPEG_VALUE)
-	public byte[] getProfile(HttpSession session, String fileName) throws IOException {
-		// 경로 : tomcat서버의 rootContext / profile/;
-		String uploadPath = session.getServletContext().getRealPath("/") + "profile/";
+	public byte[] getProfile(HttpSession session, String profileName) throws IOException, NoSuchAlgorithmException {
 
-		File profile = new File(uploadPath + fileName + ".jpg");
+		// String profileName = ((Member)
+		// session.getAttribute("loginUser")).getmProfile();
+		System.out.println(profileName);
+		File profile = new File(uploadPath + profileName);
 
-		System.out.println("getProfile : " + profile);
-		if (profile.exists()) {
-
-			byte[] byteArr = IOUtils.toByteArray(new FileInputStream(profile));
-			// Base64로 인코딩
-			byte[] encoded = Base64.encodeBase64(byteArr);
-			return encoded;
-
+		if (profileName == null || profileName.equals("")) {
+			profile = new File(uploadPath + "default_profile.PNG");
 		} else {
-			return null;
+			System.out.println("getProfile : " + profile);
+			if (profile.exists()) {
+
+			} else {
+				profile = new File(uploadPath + "default_profile.PNG");
+			}
+
 		}
 
+		FileInputStream fis = new FileInputStream(profile);
+
+		byte[] byteArr = IOUtils.toByteArray(fis);
+		if (fis != null) {
+			fis.close();
+		}
+		// Base64로 인코딩
+		byte[] encoded = Base64.encodeBase64(byteArr);
+		return encoded;
+
 	}
+
 }

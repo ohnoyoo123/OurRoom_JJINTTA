@@ -39,8 +39,7 @@
 	</beans:bean>
 	
 	<beans:bean id = "uploadPath" class="java.lang.String">
-	<!-- <beans:constructor-arg value="C:\java\bitcampOurRoom\profile"> -->
-	<beans:constructor-arg value="/OurRoom/profile/">
+	<beans:constructor-arg value="C:/java/profile/">
 
 	</beans:constructor-arg>
 </beans:bean>

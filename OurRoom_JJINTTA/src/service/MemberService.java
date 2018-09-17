@@ -109,4 +109,9 @@ public class MemberService {
 		return mDao.updateNickname(member);
 	}
 
+	public void setProfile(Member member) {
+		mDao.updateProfile(member);
+
+	}
+
 }
