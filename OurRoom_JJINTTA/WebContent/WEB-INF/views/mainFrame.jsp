@@ -343,9 +343,9 @@ $("#noti").on("click",function() {
    <h2 style="display:inline-block; vertical-align:bottom; cursor:pointer; margin-left:25px;"
      onclick="location.href='/OurRoom/project/pList'"> OurRoom </h2>
   <div class="topIcon">
-     <i class="material-icons md-48">
-       power_off
-     </i>
+    <i class="material-icons md-48">
+      exit_to_app
+    </i>
 	</div>
 
 	      <div class="topIcon" onclick="location.href='/OurRoom/myPage'">

@@ -42,7 +42,6 @@
                   <span>${pList.pName}</span>
                   </div>
                 </c:if>
-              <br>
               </c:forEach>
             </c:if>
           </c:forEach>
@@ -85,6 +84,7 @@
       </div>
     </div>
 
+ <%-- 프로젝트 추가 모달 --%>
 	<!-- The Modal -->
 	<div class="modal fade" id="addProject">
 	  <div class="modal-dialog">
@@ -105,26 +105,27 @@
 	      <!-- Modal body -->
 	      <div class="modal-body">
           <div class="col-xs-4" style="margin-left:-12px;">
-            시작 : <br> <input type="text" class="datepicker form-control" id="addProjectModal_pStartDate" readonly>
+            시작 : <br> <input type="text" class="datepicker form-control" id="addProjectModal_pStartDate">
           </div>
           <div class="col-xs-4">
-            종료 : <br> <input type="text" class="datepicker form-control" id="addProjectModal_pEndDate" readonly>
+            종료 : <br> <input type="text" class="datepicker form-control" id="addProjectModal_pEndDate">
           </div>
           <br/>
           <br/>
           <br/>
           <br/>
-          <div class="">
+          <div>
             <p>팀원 초대:</p>
 	        	<input type="text" id="memberSearch" class="form-control">
 					<!-- 	<input type="button" class='btn' value="검색" id="memberSearchBtn"> -->
 						<br>
-            ===검색 결과 멤버 ===
+
             <p id="searchedMember"></p>
-            === 초대된 멤버 ===
+            초대된 팀원
             <p id="invitedMember"></p>
             <br/>
           </div>
+
 
             <button type="button" class="btn btn-success" id = "newProject">생성</button>
   	        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
