@@ -29,6 +29,7 @@
 #sideTap .table th{
 	height: 59px;
 	padding : 0px;
+	padding-left : 10px;
 	font-size: 15px;
 	background-color: #ffffff;
 	vertical-align: middle;
@@ -41,6 +42,8 @@
 	height: 48px;
 	border-bottom: 2px solid rgba(0, 0, 0, .1);
 	vertical-align: middle;
+	font-size : 14px;
+	font-weight: bold;
 
 }
 

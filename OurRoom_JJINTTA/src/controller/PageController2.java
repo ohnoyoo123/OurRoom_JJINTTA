@@ -15,6 +15,7 @@ import model.Log;
 import model.Member;
 import model.Project;
 import model.ProjectMember;
+import service.LogService;
 //import service.LogService;
 import service.MemberService;
 import service.ProjectService;
@@ -29,8 +30,8 @@ public class PageController2 {
 	@Autowired
 	private ProjectService projectService;
 
-//	@Autowired
-//	private LogService logService;
+	@Autowired
+	private LogService logService;
 
 	@RequestMapping("loginForm")
 	public String loginForm() {
@@ -107,7 +108,7 @@ public class PageController2 {
 			// 2. 진행중인 프로젝트 멤버 리스트 조회
 			projectMemberList.addAll(projectService.getProjectMemberByPNum(p.getpNum()));
 			// 4. 로그정보
-//			projectLogList.addAll(logService.getProjectLog(p.getpNum()));
+			projectLogList.addAll(logService.getProjectLog(p.getpNum()));
 		}
 
 		// 3. 진행중인 프로젝트에 공지존재하는 태스크 리스트

@@ -24,6 +24,7 @@ import model.ProjectMember;
 import model.Task;
 import service.CheckListService;
 import service.IssueService;
+import service.MemberService;
 import service.ProjectService;
 import service.TaskService;
 import util.ProjectUtil;
@@ -42,6 +43,9 @@ public class PageController {
 
 	@Autowired
 	CheckListService clSvc;
+	
+	@Autowired
+	MemberService mSvc;
 
 	@RequestMapping("/project/pList")
 	public ModelAndView project(HttpSession session) {
@@ -65,6 +69,7 @@ public class PageController {
 
 		List<ProjectMember> pmList = new ArrayList<>();
 		pmList = pSvc.getProjectMemberByMId(paramMId);
+		
 		mav.addObject("pmList", pmList);
 		System.out.println(pmList);
 
