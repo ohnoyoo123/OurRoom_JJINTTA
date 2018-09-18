@@ -190,14 +190,14 @@
 					태스크 설명
 					<div id="taskDetailModal_tDscrForm">
 						<textarea id="taskDetailModal_tDscr"></textarea>
-						<button id="taskDetailModal_tDscrBtn">저장</button>
+						<button id="taskDetailModal_tDscrBtn" type="button">저장</button>
 					</div>
 					태스크 공지
 					<div>
 						공지 이름 : <span id="taskDetailModal_tNotiName"></span> <input
 							type="text" id="taskDetailModal_tNotiNameForm">
 						<textarea id="taskDetailModal_tNotiContent"></textarea>
-						<button id="taskDetailModal_tNotiConfirmBtn">저장</button>
+						<button id="taskDetailModal_tNotiConfirmBtn" type="button">저장</button>
 					</div>
 				</div>
 				<!-- Modal footer -->
@@ -247,11 +247,11 @@
 						<div id="IssueDetailModal_iDscrForm">
 							<h4>이슈 설명</h4>
 							<textarea id="IssueDetailModal_iDscr"></textarea>
-							<button id="IssueDetailModal_iDscrBtn">저장</button>
+							<button id="IssueDetailModal_iDscrBtn" type="button">저장</button>
 						</div>
 						<h4>
 							체크리스트
-							<button id="addCheckListForm">+</button>
+							<button id="addCheckListForm" type="button">+</button>
 						</h4>
 						<div id="checkListNameForm"></div>
 						<div id="checkListList"></div>
@@ -259,7 +259,7 @@
 						<div id="commentDiv">
 							${loginUser.mNickname} : <input type="text" style="width: 80%"
 								id="IssueDetailModal_cmContent">
-							<button id="IssueDetailModal_cmBtn" class="btn">저장</button>
+							<button id="IssueDetailModal_cmBtn" class="btn" type="button">저장</button>
 							<div id="commentArea"></div>
 						</div>
 					</div>
@@ -1566,7 +1566,7 @@
     })
     $('.table').addClass('table-striped')
     $('.table').addClass('grid-background')
-    $('.gantt_fav_btn').on('click', () => {
+		$(document).on('click', '.gantt_fav_btn', function(){
        for(let i = 0; i < projectMemberList.length; i++){
           if($('#loginUser').val() == projectMemberList[i].mId){
              data = {
@@ -1808,7 +1808,7 @@
                       }
                    })
 								 }
-              
+
            })
        </script>
     </body>
