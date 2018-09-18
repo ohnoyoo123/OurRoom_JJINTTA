@@ -101,7 +101,7 @@
             <br/>
             <div id="progressPercent"></div>
             <progress id="animationProgress" max="1" value="0" style="width: 100%"></progress>
-            
+
             <%-- 이슈 할당 --%>
             <canvas id="projectChartModal_chartBody_signedIssue"></canvas>
 
@@ -263,10 +263,6 @@
     })
   })
 
-  // var projectInfo = document.getElementById("projectChartModal_chartBody_projectInfo").getContext('2d');
-
-
-  // let projectInfo = document.getElementById("projectChartModal_chartBody_projectInfo").getContext('2d');
   let projectProgress = document.getElementById("projectChartModal_chartBody_projectProgress").getContext('2d');
   let signedIssue = document.getElementById("projectChartModal_chartBody_signedIssue").getContext('2d');
   let completedIssue = document.getElementById("projectChartModal_chartBody_completedIssue").getContext('2d');
@@ -281,32 +277,6 @@
     const showProjectChartModal = (data) => {
       $('.chartjs-size-monitor').remove()
       $('#projectChartModal_pName').html(data.project.pName)
-
-      const dynamicColors = function(num) {
-        const rainbow = []
-        //빨강
-        rainbow.push('#ff3333')
-        //주황
-        rainbow.push('#ffb833')
-        //노랑
-        rainbow.push('#ffff33')
-        //초록
-        rainbow.push('#33ff33')
-        //파랑
-        rainbow.push('#3333ff')
-        //남색
-        rainbow.push('#aa33ff')
-        //보라
-        rainbow.push('#ff33ff')
-
-         colors = []
-         let index = 0
-         for(let i = 0; i < num; i++){
-           index = i % 7
-           colors.push(rainbow[index])
-         }
-         return colors
-      };
 
       let completedIssueCount = 0
       let uncompletedIssueCount = 0
@@ -355,7 +325,6 @@
 
       for(let i = 0; i < data.projectMemberList.length; i++){
          projectMember.push(data.projectMemberList[i].mId)
-         colorSet.push(dynamicColors())
       }
       for(let i = 0; i < projectMember.length; i++){
          let count = 0
@@ -489,11 +458,7 @@
          projectChartModal_chartBody_completedIssue.destroy()
       })
      }
-
-
-
-
-
+     
   </script>
 
   <script type="text/javascript">
