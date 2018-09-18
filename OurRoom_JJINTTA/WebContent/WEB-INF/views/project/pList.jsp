@@ -4,6 +4,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.min.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"
+	type="text/css" />
 <meta content="charset=UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -217,12 +227,15 @@
 																	'<img id="profile" class="rounded-circle" src="'+ src +'" width="170px" height="170px">'); */
 											}
 										});
-
 								return img;
 							}
 							;
 						})
 	</script>
 
-</body>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.min.js"></script>
 </html>

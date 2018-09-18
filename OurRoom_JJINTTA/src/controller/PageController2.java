@@ -75,7 +75,7 @@ public class PageController2 {
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("member", member);
-		mav.setViewName("project/pList");
+		mav.setViewName("redirect:project/pList");
 		return mav;
 	}
 

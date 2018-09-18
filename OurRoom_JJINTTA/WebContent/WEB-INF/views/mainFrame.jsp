@@ -21,19 +21,25 @@ hr.style13 {
 	box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
 </style>
-<link rel="stylesheet" href="/OurRoom/css/modal.css">
 <link rel="stylesheet"
 	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+<link rel="stylesheet" href="/OurRoom/css/modal.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.min.js"></script>
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"
 	type="text/css" />
+<!-- 
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css">
+<script
+	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
+ -->
 
 <script type="text/javascript">
 	jQuery.browser = {};
