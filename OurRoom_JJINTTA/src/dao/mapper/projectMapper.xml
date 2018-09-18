@@ -40,6 +40,9 @@
 			<if test="pEndDate != null">
 				p_endDate = #{pEndDate}
 			</if>
+			<if test="pBackground != null">
+				p_background = #{pBackground}
+			</if>
 		</set>
 		where
 		p_num = #{pNum}
@@ -114,6 +117,25 @@
 		p_num = #{pNum}
 		</where>
 	</select>
+	
+	<update id="updateProjectMember" parameterType="projectMember">
+		update project_member
+		<set>
+			<if test="pmIsAdmin != null">
+				pm_isAdmin = #{pmIsAdmin},
+			</if>
+			<if test="pmIsAuth != null">
+				pm_isAdmin = #{pmIsAuth},
+			</if>
+			<if test="pmFav != null">
+				pm_fav = #{pmFav}
+			</if>
+		</set>
+		where
+		p_num = #{pNum}
+		and
+		m_id = #{mId}
+	</update>
 
 	<resultMap type="project" id="projectRM">
 		<result property="pNum" column="p_num" />

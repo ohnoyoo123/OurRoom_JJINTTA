@@ -41,6 +41,10 @@ public class IssueService {
 
 	}
 
+	public int getIssueOrder(Issue issue) {
+		return iDao.getIorder(issue);
+	}
+
 	public List<IssueMember> getIssueMember(Issue issue) {
 		return iDao.selectAllIssueMember(issue);
 	}
@@ -97,7 +101,6 @@ public class IssueService {
 		logMap.put("lCat", Log.I_DELETE);
 
 		logSvc.insertLog(logMap);
-		
 
 		// 이슈 멤버 삭제
 		IssueMember issueMember = new IssueMember();
@@ -135,11 +138,18 @@ public class IssueService {
 
 	}
 
+	public void deleteComment(Comment comment) {
+		iDao.deleteComment(comment);
+		comment.setCmSuper(comment.getCmNum());
+		comment.setCmNum(0);
+		iDao.deleteComment(comment);
+
+	}
+
 	public void addComment(Comment comment) {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		comment.setCmWriteTime(sdf.format(new Date()));
-
 		iDao.insertComment(comment);
 
 		// log생성
@@ -239,5 +249,4 @@ public class IssueService {
 		}
 		return stepInNum;
 	}
-
 }

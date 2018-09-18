@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dao.LogDao;
-//import dao.LogDao;
+import dao.MemberDao;
 import dao.ProjectDao;
 import dao.TaskDao;
 import model.Log;
@@ -30,6 +30,9 @@ public class ProjectService {
 
 	@Autowired
 	LogService logSvc;
+
+	@Autowired
+	MemberDao mDao;
 
 	public List<Project> getProjectListByMId(HashMap<String, Object> mId) {
 		return projectDao.selectProjectList(mId);
@@ -67,7 +70,6 @@ public class ProjectService {
 			// 생성과 동시에 멤버추가 로그 생성
 			logMap.put("lCat", Log.P_ADD_MEMBER);
 			logSvc.insertLog(logMap);
-
 			// 직전에 삽입된 로그의 번호를 가져온다.
 			int LastLNum = logDao.selectLogLastLNum(project.getpNum());
 
@@ -78,6 +80,7 @@ public class ProjectService {
 				pm.setPmFav(false);
 				pm.setPmIsAdmin(false);
 				pm.setPmIsAuth(false);
+				pm.setmNickname(mDao.selectById(mId).getmId());
 				projectDao.insertProjectMember(pm);
 
 				// 알림 생성
@@ -96,6 +99,7 @@ public class ProjectService {
 		owner.setPmFav(false);
 		owner.setPmIsAdmin(true);
 		owner.setPmIsAuth(true);
+		owner.setmNickname(mDao.selectById((String) params.get("owner")).getmNickname());
 		projectDao.insertProjectMember(owner);
 
 		return project.getpNum();
@@ -105,6 +109,16 @@ public class ProjectService {
 	// 프로젝트 번호로 참가 인원 가져오기
 	public List<ProjectMember> getProjectMemberByPNum(int pNum) {
 		return projectDao.selectProjectMemberByPNum(pNum);
+
+	}
+
+	public void updateProject(Project project) {
+		projectDao.updateProject(project);
+
+	}
+
+	public void updateProjectMember(ProjectMember projectMember) {
+		projectDao.updateProjectMember(projectMember);
 
 	}
 

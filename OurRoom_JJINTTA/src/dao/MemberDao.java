@@ -44,4 +44,7 @@ public interface MemberDao {
 
 	public void updateProfile(Member member);
 
+	// 닉네임 조회
+	public String selectNicknameById(String value);
+
 }

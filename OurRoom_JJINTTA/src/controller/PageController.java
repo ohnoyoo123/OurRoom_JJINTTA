@@ -74,9 +74,9 @@ public class PageController {
 
 		List<ProjectMember> pmList = new ArrayList<>();
 		pmList = pSvc.getProjectMemberByMId(paramMId);
+
 		mav.addObject("pmList", pmList);
 		System.out.println(pmList);
-		// System.out.println(projectList);
 
 		mav.setViewName("/project/pList");
 		return mav;
@@ -120,12 +120,16 @@ public class PageController {
 		Map<String, String> profileList = new HashMap<String, String>();
 		List<Member> projectMemberList = new ArrayList<Member>();
 
+		mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
+
+		String stringProjectMember = gson.toJson(pSvc.getProjectMemberByPNum(pNum));
+		JsonArray projectMemberJson = new JsonParser().parse(stringProjectMember).getAsJsonArray();
+		mav.addObject("projectMemberJson", projectMemberJson);
+
 		for (ProjectMember pm : pSvc.getProjectMemberByPNum(pNum)) {
 			projectMemberList.add(mSvc.selectMember(pm.getmId()));
 
 			try {
-				System.out.println("1 : " + mSvc.selectMember(pm.getmId()).getmProfile());
-				// profileList.add(UploadFileUtils.getProfileUtilToString(mSvc.selectMember(pm.getmId()).getmProfile()));
 				profileList.put(pm.getmId(),
 						UploadFileUtils.getProfileUtilToString(mSvc.selectMember(pm.getmId()).getmProfile()));
 
@@ -137,6 +141,7 @@ public class PageController {
 				e.printStackTrace();
 			}
 		}
+		
 		mav.addObject("profileList", profileList);
 		// mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
 		mav.addObject("projectMemberList", projectMemberList);
@@ -222,4 +227,5 @@ public class PageController {
 		return mav;
 
 	}
+
 }

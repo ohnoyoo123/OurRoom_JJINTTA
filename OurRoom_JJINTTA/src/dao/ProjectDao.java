@@ -24,4 +24,10 @@ public interface ProjectDao {
 	//프로젝트에 멤버 추가(생성시만..?)
 	public int insertProjectMember(ProjectMember projectMember);
 
+	//프로젝트 내용 변경
+	public void updateProject(Project project);
+
+	//프로젝트 멤버 내용 변경
+	public void updateProjectMember(ProjectMember projectMember);
+	
 }

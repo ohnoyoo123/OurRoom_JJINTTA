@@ -146,8 +146,10 @@ var dragula = require('dragula');
             var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
             var nodeItem = document.createElement('div');
             nodeItem.classList.add('kanban-item');
+
             if (element.id) {
               nodeItem.setAttribute('data-eid', element.id)
+              nodeItem.setAttribute('data-iOrder', element.order)
 
             }
             nodeItem.innerHTML = element.title;
@@ -160,7 +162,6 @@ var dragula = require('dragula');
             board.appendChild(nodeItem);
             return self;
         };
-
         this.addForm = function (boardID, formItem) {
             var board = self.element.querySelector('[data-id="' + boardID + '"] .kanban-drag');
             board.appendChild(formItem);
@@ -238,9 +239,10 @@ var dragula = require('dragula');
                     //create item
                     var itemKanban = board.item[itemkey];
                     var nodeItem = document.createElement('div');
-                    nodeItem.classList.add('kanban-item');
+                    nodeItem.classList.add('kanban-item');                    
                     nodeItem.dataset.eid = itemKanban.id;
                     nodeItem.dataset.iorder = itemKanban.order;
+
                     //nodeItem.dataset.ttt = itemKanban.ttt;
                     nodeItem.innerHTML = itemKanban.title;
                     //add function

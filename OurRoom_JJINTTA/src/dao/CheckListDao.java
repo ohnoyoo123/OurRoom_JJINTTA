@@ -35,6 +35,10 @@ public interface CheckListDao {
 
 	// 2018.09.13 [김승겸] : 체크리스트 아이템 조회
 	public CheckListItem selectCheckListItem(CheckListItem checkListItem);
+
 	// 2018.09.13 [김승겸] : 체크리스트 조회
 	public CheckList selectCheckList(CheckList checkList);
+
+	public void updateCheckListItem(CheckListItem checkListItem);
+
 }

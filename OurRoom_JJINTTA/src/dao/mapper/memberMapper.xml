@@ -82,6 +82,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from member
 	</select>
 
+	<select id="selectNicknameById" parameterType="String"
+		resultType="String">
+		select m_nickname from member
+		where m_id = #{value}
+	</select>
+
 	<!-- 키워드로 회원 조회 -->
 	<select id="selectMemberByKeyword" parameterType="String"
 		resultMap="memberMap">
@@ -105,7 +111,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultMap="memberMap">
 		select * from member
 		where m_id in ( select a_id from address
-		where m_id = #{value} )
+		 				 where m_id = #{value} )
 	</select>
 
 	<!-- 주소록 회원 삭제 -->

@@ -77,6 +77,14 @@
 		i_num = #{iNum}
 		</if>
 	</delete>
+	
+	<select id="getIssuesPerMember" parameterType="int" resultType="hashMap">
+		select count(*) as count, m_id as member from issue_member
+		where
+		p_num = #{pNum}
+		group by
+		m_id	
+	</select>
 
 	<select id="selectIssue" parameterType="issue" resultMap="issueRM">
 		select * from issue
@@ -91,6 +99,14 @@
 			i_num = #{iNum}
 		</if>
 		order by i_order
+	</select>
+	
+	<select id="getIorder" parameterType="issue" resultType="int">
+		select i_order from issue
+		where
+		p_num = #{pNum} and
+		t_num = #{tNum} and
+		i_num = #{iNum}
 	</select>
 	
 	<select id="selectMinStartDate" parameterType="issue" resultMap="issueRM">
@@ -112,6 +128,7 @@
 		order by i_endDate desc
 		limit 1
 	</select>
+	
 	
 	<select id="selectIssueGreaterThanOrder" parameterType="hashMap" resultMap="issueRM">
 		select * from issue 
@@ -157,10 +174,14 @@
 		select * from issue_member
 		where 
 		p_num = #{pNum}
+		<if test="tNum != 0">
 		and
 		t_num = #{tNum}
+		</if>
+		<if test="iNum != 0">
 		and
 		i_num = #{iNum}
+		</if>
 	</select>
 
 	<insert id="insertComment" parameterType="comment">
@@ -176,6 +197,24 @@
 		#{cmSuper}
 		)
 	</insert>
+	
+	<delete id="deleteComment" parameterType="comment">
+		delete from comment
+		where
+		p_num = #{pNum}
+		and
+		t_num = #{tNum}
+		and
+		i_num = #{iNum}
+		<if test="cmNum != 0">
+		and
+		cm_num = #{cmNum}
+		</if>
+		<if test="cmSuper != 0">
+		and
+		cm_super = #{cmSuper}
+		</if>
+	</delete>
 
 	<select id="selectComment" parameterType="issue"
 		resultMap="commentRM">

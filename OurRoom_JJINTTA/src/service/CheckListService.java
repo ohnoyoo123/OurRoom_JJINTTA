@@ -63,13 +63,11 @@ public class CheckListService {
 		int pNum = checkList.getpNum();
 		int tNum = checkList.gettNum();
 		int iNum = checkList.getiNum();
-		
+
 		checkList.setClName(clDao.selectCheckList(checkList).getClName());
-		
+
 		clDao.deleteCheckList(checkList);
 
-		
-		
 		// 로그남기기(체크리스트 삭제 42)
 		Map<String, Object> logMap = new HashMap<String, Object>();
 		logMap.put("target", checkList);
@@ -155,11 +153,11 @@ public class CheckListService {
 	// 체크리스트 아이템 지우면서 할당된 멤버도 같이 지우기
 	public void deleteCheckListItem(CheckListItem checkListItem, String loginUser) {
 		System.out.println("[CheckListService > deleteCheckListItem] : " + checkListItem);
-		
+
 		checkListItem.setCiName(clDao.selectCheckListItem(checkListItem).getCiName());
-		
+
 		clDao.deleteCheckListItem(checkListItem);
-		
+
 		// 로그남기기 (체크리스트 아이템 삭제 52)
 		Map<String, Object> logMap = new HashMap<String, Object>();
 		logMap.put("target", checkListItem);
@@ -177,6 +175,11 @@ public class CheckListService {
 		checkListItemMember.setCiNum(checkListItem.getCiNum());
 
 		clDao.deleteCheckListItemMember(checkListItemMember);
+
+	}
+
+	public void updateCheckListItem(CheckListItem checkListItem) {
+		clDao.updateCheckListItem(checkListItem);
 
 	}
 

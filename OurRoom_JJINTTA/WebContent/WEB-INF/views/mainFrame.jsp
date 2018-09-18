@@ -34,12 +34,8 @@ hr.style13 {
 <link rel="stylesheet"
 	href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"
 	type="text/css" />
-<!-- 
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.css">
-<script
-	src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.3/dist/semantic.min.js"></script>
- -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 
 <script type="text/javascript">
 	jQuery.browser = {};
@@ -92,22 +88,21 @@ html, body {
 	cursor: pointer;
 }
 
-i::before {
-	margin: 0px;
-	padding: 0px;
+.material-icons.md-48 {
+	font-size: 45px;
+}
+
+#innerFrame, #innerFrame p {
+	font-family: 'New Gulim';
+	font-size: 18px;
 }
 </style>
 <script type="text/javascript">
 	$(function() {
 		var wsUri = "ws://localhost:8080/OurRoom/websocket/echo";
 		var loginUser = '${loginUser.mId}';
-		send_message();
 
 		function send_message() {
-			console.log("sendMessage");
-			//웹소켓 생성
-			websocket = new WebSocket(wsUri);
-
 			websocket.onopen = function(evt) {
 				onOpen(evt)
 			};
@@ -147,6 +142,13 @@ i::before {
 			//pre.innerHTML = message;
 
 		}
+
+		$(document).ready(function() {
+			$('input').addClass('form-control')
+			$('textarea').addClass('form-control')
+			$('.modal-title').css('font-size', '25px')
+			$('.modal-body').css('font-size', '15px')
+		})
 	});
 </script>
 <script>
@@ -154,12 +156,11 @@ i::before {
 			.ready(
 					function() {
 
-						/* 알림버튼을 클릭했을 때 
-						   mId에 해당하는 모든 noti 가져오기*/
 						$("#noti")
 								.on(
 										"click",
 										function() {
+											console.log(11);
 											var searchNotis = [];
 
 											$
@@ -170,12 +171,10 @@ i::before {
 														},
 														success : function(data) {
 															console.log(data);
-															$("#noti").html("");
-															for (var i = 0; i < data.length; i++) {
 
+															for (var i = 0; i < data.length; i++) {
 																console
 																		.log(data[i]);
-
 																var notiDefaultMsg = "<p style='text-align:left;'> <b> From. "
 																		+ data[i].mNickname
 																		+ "("
@@ -230,7 +229,6 @@ i::before {
 																			+ data[i].lName
 																			+ "</a> 이슈를 할당하였습니다.</p>";
 																	break;
-
 																case 41:
 																	notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/gantt?pNum="
 																			+ data[i].pNum
@@ -332,7 +330,6 @@ i::before {
 																			+ "</a> 댓글을 참조했습니다.</p>";
 																	break;
 																}
-
 																searchNotis
 																		.push(notiDefaultMsg
 																				+ notiDetailMsg
@@ -373,15 +370,15 @@ i::before {
 								});
 								break;
 							default:
- 
+
 								break;
 							}
 
 						});
 						/* 로그아웃 처리 */
 						$("#logout")
-								.on( 
-										"click", 
+								.on(
+										"click",
 										function() {
 											location.href = "${pageContext.request.contextPath}/logout";
 										});
@@ -390,28 +387,27 @@ i::before {
 </head>
 
 <body>
+	<%-- <fmt:parseDate value=""/>  --%>
 	<input id="loginUser" type="hidden" value="${loginUser.mId}" />
-	<div id="top"> 
+	<div id="top">
 		<h2
-			style="display: inline-block; vertical-align: middle; cursor: pointer; margin-left: 25px; line-height: 0.3;"
-			onclick="location.href='/OurRoom/home'">OurRoom</h2>
+			style="display: inline-block; vertical-align: bottom; cursor: pointer; margin-left: 25px;"
+			onclick="location.href='/OurRoom/project/pList'">OurRoom</h2>
 		<div class="topIcon">
-			<span class="glyphicon glyphicon-log-out" id="logout"></span>
+			<i class="material-icons md-48"> exit_to_app </i>
 		</div>
 
-		<div class="topIcon" onclick="location.href='/OurRoom/myPage'" 
-			style="line-height: 1.2;"> 
-			<span class="fas fa-user"></span>
+		<div class="topIcon" onclick="location.href='/OurRoom/myPage'">
+			<i class="material-icons md-48"> account_circle </i>
 		</div>
- 
+
 		<div class="topIcon">
-			<span class="glyphicon glyphicon-bell" id="noti"></span>
+			<i class="material-icons md-48" id="noti"> notifications </i>
 		</div>
 		<div class="topIcon" onclick="location.href='/OurRoom/project/pList'">
-			<span class="glyphicon glyphicon-briefcase"></span>
+			<i class="material-icons md-48"> work_outline </i>
 		</div>
 	</div>
-
 	<!-- 알림 modal -->
 	<div class="row">
 		<div class="modal right fade" id="notiModal" tabindex="-1"
@@ -433,6 +429,6 @@ i::before {
 			</div>
 		</div>
 	</div>
-</body>
 
+</body>
 </html>

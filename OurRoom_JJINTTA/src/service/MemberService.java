@@ -103,6 +103,10 @@ public class MemberService {
 
 		return mDao.selectById(mId);
 	}
+	
+	public String selectNicknameById(String value) {
+		return mDao.selectNicknameById(value);
+	}
 
 	public int updateNickname(Member member) {
 
