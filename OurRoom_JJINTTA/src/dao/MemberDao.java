@@ -39,4 +39,9 @@ public interface MemberDao {
 
 	// 주소록 회원 삭제
 	public int deleteAddress(Address address);
+	
+	//닉네임 조회
+	public String selectNicknameById(String value);
+
+
 }
