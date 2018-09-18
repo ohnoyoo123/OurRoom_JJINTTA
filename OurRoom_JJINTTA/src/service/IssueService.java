@@ -195,7 +195,8 @@ public class IssueService {
       }         
       
       Issue i = new Issue();
-      i.setiOrder(0);
+      i.setpNum(pNum);
+      i.settNum(tNum);
       return iDao.selectIssue(i);
    }
    

@@ -465,10 +465,10 @@ public class ProjectRestController {
    }
    
    @PostMapping("/project/issueOrderChange")
-   public Map<String, JsonObject> issueOrderChange(@RequestParam HashMap<String, Object> params){
+   public List<Issue> issueOrderChange(@RequestParam HashMap<String, Object> params){
       System.out.println(params);
-      iSvc.orderChange(params);
-      return null;
+      
+      return iSvc.orderChange(params);
    }
    
    @PostMapping("/project/getTasks")
