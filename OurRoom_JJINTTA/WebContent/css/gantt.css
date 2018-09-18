@@ -175,3 +175,8 @@ textarea {
 .modal-content{
 	width: 700px;
 }
+
+.material-icons.modal_icon{
+	font-size: 25px;
+	vertical-align: middle;
+}

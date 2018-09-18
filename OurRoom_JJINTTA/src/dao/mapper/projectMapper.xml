@@ -89,7 +89,8 @@
 		#{mId},
 		#{pmIsAdmin},
 		#{pmIsAuth},
-		#{pmFav}
+		#{pmFav},
+		#{mNickname}
 		)
 	</insert>
 
@@ -150,6 +151,7 @@
 		<result property="pmIsAdmin" column="pm_isAdmin"/>
 		<result property="pmIsAuth" column="pm_isAuth"/>
 		<result property="pmFav" column="pm_fav"/>
+		<result property="mNickname" column="m_nickname"/>
 	</resultMap>
 	
 	

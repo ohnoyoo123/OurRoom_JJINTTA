@@ -249,7 +249,7 @@
 							<textarea id="IssueDetailModal_iDscr"></textarea>
 							<button id="IssueDetailModal_iDscrBtn">저장</button>
 						</div>
-						<h4>체크리스트<button id="addCheckListForm">+</button></h4>
+						<h4>체크리스트</h4>
 						<div id="checkListNameForm"></div>
 						<div id="checkListList"></div>
 						<h4>코멘트</h4>
@@ -261,9 +261,12 @@
 					</div>
 
 					<div id="IssueDetailModal_right">
-						사이드<br>
-						체크리스트 +<br>
-						멤버<br>
+						<i class="material-icons modal_icon">account_box</i>이슈 멤버
+						<div id="IssueDetailModal_right_issueMember">
+
+						</div>
+						<%-- <button id="addCheckListForm" class="btn btn-success">+</button><br>
+						멤버<br> --%>
 					</div>
 
 				</div>
@@ -319,7 +322,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<%-- 숨겨진 이슈 상세보기 버튼 --%>
 	<div id="issueDetailBtn" data-toggle="modal" data-target="#IssueDetailModal"></div>
 
@@ -708,7 +711,6 @@
 
 						makeGantt(project, taskList, issueList)
 						gantt.refresh(taskAndIssue)
-						matchDate_issueToTask()
 						sideTap(project, taskList, issueList)
 						$('.close').trigger('click')
 					}
@@ -923,10 +925,14 @@
 			$('#IssueDetailModal_iStartDate').val(data.issueList[0].iStartDate)
 			$('#IssueDetailModal_iEndDate').val(data.issueList[0].iEndDate)
 
-			$('#issueMember').html('')
+			$('#IssueDetailModal_right_issueMember').html('')
+			txt = ''
 			for (var k = 0; k < data.issueMember.length; k++) {
-				$('#issueMember').append(data.issueMember[k].mId).append(', ')
+				txt += '<i class="material-icons modal_icon">account_box</i>'
+				txt += (data.issueMember[k].mNickname)
+				txt += '<br>'
 			}
+			$('#IssueDetailModal_right_issueMember').html(txt)
 
 			$('#issueDscr').html(data.issueList[0].iDscr)
 			$('#IssueDetailModal_iDscrBtn').hide()

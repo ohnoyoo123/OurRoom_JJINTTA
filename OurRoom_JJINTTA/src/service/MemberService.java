@@ -103,5 +103,9 @@ public class MemberService {
 		
 		return mDao.selectById(mId);
 	}
+	
+	public String selectNicknameById(String value) {
+		return selectNicknameById(value);
+	}
 
 }
