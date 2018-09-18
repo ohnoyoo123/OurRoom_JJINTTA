@@ -214,20 +214,21 @@
 </div>
 
 
-	<%-- 이슈 상세보기 모달 --%>
-	<div class="modal fade" id="IssueDetailModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
 
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title">
-						<p class="selectedTask"></p>
-					</h2>
-					<h4 class="modal-title">
-						<span id="IssueDetailModal_iName"></span>
-						<input type="text" id="IssueDetailModal_iNameForm" autofocus>
+<%-- 이슈 상세보기 모달 --%>
+<div class="modal fade" id="IssueDetailModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h2 class="modal-title">
+					<p class="selectedTask"></p>
+				</h2>
+				<h4 class="modal-title">
+					이슈명: <span id="IssueDetailModal_iName"></span>
+					<input type="text" id="IssueDetailModal_iNameForm" autofocus>
 					</h4>
 					이슈 멤버 : <p id="issueMember"></p>
 				</div>
@@ -318,8 +319,7 @@
 			</div>
 		</div>
 	</div>
-
-
+	
 	<%-- 숨겨진 이슈 상세보기 버튼 --%>
 	<div id="issueDetailBtn" data-toggle="modal" data-target="#IssueDetailModal"></div>
 
@@ -666,13 +666,11 @@
 
 		//이슈 추가창 생성
 		$(document).on('click', '.addIssueBtn', function(){
-
 			console.log(selectedMId);
 			selectedMId = []
-			selectedTask = $(this).attr('tNum')
+			selectedtNum = $(this).attr('tNum')
 			selectedtName = $(this).attr('tName')
 			$('.selectedTask').html("태스크 이름 : " + selectedtName)
-
 		})
 		//이슈 추가
 		$('#addIssue').on('click', () => {
@@ -686,7 +684,7 @@
 					url : 'addIssue',
 					data : {
 						pNum : ${project.pNum},
-						tNum : selectedTask,
+						tNum : selectedtNum,
 						iName : $('#iName').val(),
 						iDscr : $('#addIssueModal_iDscr').val(),
 						iStep : 1,
@@ -710,6 +708,7 @@
 
 						makeGantt(project, taskList, issueList)
 						gantt.refresh(taskAndIssue)
+						matchDate_issueToTask()
 						sideTap(project, taskList, issueList)
 						$('.close').trigger('click')
 					}
@@ -857,7 +856,7 @@
 							if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
 								txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
 								txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn">X</button>'
-								if(data.checkListItem[i].ciIsDone == true){
+								if(data.checkList[i].clIsDone == 1){
 									txt += '<input type="checkbox" class="form-check-input ci_checkbox" checked>완료<br>'
 								}else {
 									txt += '<input type="checkbox" class="form-check-input ci_checkbox">완료<br>'
@@ -1608,7 +1607,7 @@
 		$('.table').addClass('table-striped')
 		$('.table').addClass('grid-background')
 
-		$(document).on('click', '.gantt_fav_btn', () => {
+		$('.gantt_fav_btn').on('click', () => {
 			for(let i = 0; i < projectMemberList.length; i++){
 				if($('#loginUser').val() == projectMemberList[i].mId){
 					data = {
