@@ -9,28 +9,6 @@
   cursor : pointer;
 }
 
-#projectChartModal .modal-dialog{
-  width: 70vw;
-}
-
-.projectChartModal_chartBody{
-  width: 48%;
-  height: 48%;
-  display: inline-block;
-  margin : 0;
-  padding: 0;
-  float: left;
-}
-
-#projectChartModal_chartBody_projectInfo,
-#projectChartModal_chartBody_projectProgress,
-#projectChartModal_chartBody_signedIssue,
-#projectChartModal_chartBody_completedIssue
-{
-  width : 50%;
-  height: 50%;
-}
-
 #pList{
     margin-left: 15%;
     margin-right: 15%;

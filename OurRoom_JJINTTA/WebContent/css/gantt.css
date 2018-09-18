@@ -3,10 +3,6 @@
 	width: 90vw;
 }
 
-#addTaskBtn {
-	float: right;
-}
-
 #gantt{
 	display: inline-block;
 	/* height: 84vh; */
@@ -18,7 +14,6 @@
 	float: left;
 	min-width: 25vh;
 	max-width: 25vw;
-	/* height: 84vh; */
 	margin-left: 50px;
 }
 
@@ -30,27 +25,28 @@
 	height: 59px;
 	padding : 0px;
 	padding-left : 10px;
-	font-size: 15px;
+	/* font-size: 14px; */
 	background-color: #ffffff;
 	vertical-align: middle;
 }
 
 #sideTap .table td{
 	margin: 0;
-	padding : 0px;
-	padding-left : 10px;
+	padding : 0;
+	/* padding-right : 20px; */
+	/* padding-left : 20px; */
 	height: 48px;
 	border-bottom: 2px solid rgba(0, 0, 0, .1);
 	vertical-align: middle;
 	font-size : 14px;
-	font-weight: bold;
 
 }
 
-/*무슨 짓을 해도 수직 가운데 정렬이 안됨*/
-/* #sideTap .table td > *{
-	vertical-align: middle;
-} */
+#sideTap .table td span{
+	font-size : 18px;
+	font-weight: bold;
+
+}
 
 #addTaskBtn, .addIssueBtn{
 		float: right;
@@ -58,6 +54,7 @@
 		display: inline;
 		margin: 0;
 }
+
 
 textarea {
 	width: 100%;
@@ -80,7 +77,10 @@ textarea {
 }
 
 #viewMode{
-	margin-left: 50px;
+	/* margin-left: 50px; */
+ display: inline-block;
+ float: right;
+ margin-top: 50px;
 }
 
 #gantt_fav{
@@ -88,7 +88,7 @@ textarea {
 }
 
 .material-icons.md-30{
-	font-size : 30px;
+	font-size : 45px;
 	vertical-align: bottom;
 	cursor: pointer;
 }
@@ -101,4 +101,77 @@ textarea {
 	display: inline-block;
 	width : 15%;
 	float: right;
+}
+
+#gantt_nameForm{
+	display: inline-block;
+	font-size: 45px;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+#gantt_top{
+	margin-left: 50px;
+}
+
+.gantt_icon{
+	margin-left: 5px;
+	margin-right: 5px;
+	display: inline-block;
+	border : 2px solid #339933;
+	color : #339933;
+	border-radius: 15%;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 20px;
+	font-weight: lighter;
+}
+
+#IssueDetailModal_iStartDate_div, #IssueDetailModal_iEndDate_div{
+	width: 50%;
+	margin: auto;
+}
+
+#IssueDetailModal_iStartDate_div{
+	float: left;
+}
+
+#IssueDetailModal_iEndDate_div{
+	float: right;
+}
+
+#IssueDetailModal_iStartDate, #IssueDetailModal_iEndDate{
+	float: left;
+	width: 80%;
+}
+
+
+#IssueDetailModal_iDscrForm{
+	margin-top: 70px;
+}
+
+#IssueDetailModal_iDscrBtn{
+
+}
+
+.modal-body{
+	display: flex;
+	flex-wrap: wrap; // allow wrapping items
+}
+
+#IssueDetailModal_left{
+	flex-grow: 1;
+	flex-basis: 75%;
+}
+
+#IssueDetailModal_right{
+	flex-grow: 1;
+	flex-basis: 25%;
+	border : 2px solid;
+}
+
+.modal-content{
+	width: 700px;
 }

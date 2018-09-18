@@ -17,6 +17,7 @@
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 <link rel="stylesheet" href="/OurRoom/css/gantt.css">
@@ -25,9 +26,10 @@
 <body>
 	<jsp:include page="../mainFrame.jsp" />
 	<div id="innerFrame">
-		<div class="form-group" style="width:200px;">
-			<select class="form-control" id="viewMode">
-			</select>
+		<div id="gantt_top">
+			<span id="gantt_nameForm">
+			</span>
+			<form id="viewMode"><form>
 		</div>
 		<div id="projectInfo"></div>
 		<div id="sideTap"></div>
@@ -224,7 +226,7 @@
 						<p class="selectedTask"></p>
 					</h2>
 					<h4 class="modal-title">
-						이슈명: <span id="IssueDetailModal_iName"></span>
+						<span id="IssueDetailModal_iName"></span>
 						<input type="text" id="IssueDetailModal_iNameForm" autofocus>
 					</h4>
 					이슈 멤버 : <p id="issueMember"></p>
@@ -232,27 +234,79 @@
 
 				<!-- Modal body -->
 				<div class="modal-body">
-					<div>
-						시작 : <br> <input type="text" class="datepicker" id="IssueDetailModal_iStartDate" readonly>
-					</div>
-					<div>
-						종료 : <br> <input type="text" class="datepicker" id="IssueDetailModal_iEndDate" readonly>
-					</div>
-					이슈 설명
-					<div id="IssueDetailModal_iDscrForm">
-						<textarea id="IssueDetailModal_iDscr"></textarea>
-						<button id="IssueDetailModal_iDscrBtn">저장</button>
-					</div>
-					======================================================================
-					<h3>체크리스트<button id="addCheckListForm">+</button></h3>
-					<div id="checkListNameForm"></div>
-					<div id="checkListList"></div>
-					======================================================================
-					<h3>코멘트</h3>
-					<div id="commentDiv">
-						${loginUser.mNickname} : <input type="text" style="width:80%" id="IssueDetailModal_cmContent"><button id="IssueDetailModal_cmBtn" class="btn">저장</button>
-						<div id="commentArea">
+
+					<div id="IssueDetailModal_left">
+						<div id="IssueDetailModal_iStartDate_div">
+							<h4>이슈 시작일</h4><input type="text" class="datepicker" id="IssueDetailModal_iStartDate" readonly>
 						</div>
+						<div id="IssueDetailModal_iEndDate_div">
+							<h4>이슈 종료일</h4><input type="text" class="datepicker" id="IssueDetailModal_iEndDate" readonly>
+						</div>
+						<br>
+						<div id="IssueDetailModal_iDscrForm">
+							<h4>이슈 설명</h4>
+							<textarea id="IssueDetailModal_iDscr"></textarea>
+							<button id="IssueDetailModal_iDscrBtn">저장</button>
+						</div>
+						<h4>체크리스트<button id="addCheckListForm">+</button></h4>
+						<div id="checkListNameForm"></div>
+						<div id="checkListList"></div>
+						<h4>코멘트</h4>
+						<div id="commentDiv">
+							${loginUser.mNickname} : <input type="text" style="width:80%" id="IssueDetailModal_cmContent"><button id="IssueDetailModal_cmBtn" class="btn">저장</button>
+							<div id="commentArea">
+							</div>
+						</div>
+					</div>
+
+					<div id="IssueDetailModal_right">
+						사이드<br>
+						체크리스트 +<br>
+						멤버<br>
+					</div>
+
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<%-- 차트 모달 --%>
+	<!-- The Modal -->
+	<div class="modal fade" id="projectChartModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">
+						프로젝트명: <span id="projectChartModal_pName"></span>
+					</h4>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="projectChartModal_chartBody">
+						<div>1</div>
+						<canvas id="projectChartModal_chartBody_projectInfo"></canvas>
+					</div>
+					<div class="projectChartModal_chartBody">
+						<div>2</div>
+						<canvas id="projectChartModal_chartBody_projectProgress"></canvas>
+					</div>
+					<div class="projectChartModal_chartBody">
+						<div>3</div>
+						<canvas id="projectChartModal_chartBody_signedIssue"></canvas>
+					</div>
+					<div class="projectChartModal_chartBody">
+						<div>4</div>
+						<canvas id="projectChartModal_chartBody_completedIssue"></canvas>
 					</div>
 				</div>
 
@@ -264,6 +318,7 @@
 			</div>
 		</div>
 	</div>
+
 
 	<%-- 숨겨진 이슈 상세보기 버튼 --%>
 	<div id="issueDetailBtn" data-toggle="modal" data-target="#IssueDetailModal"></div>
@@ -519,23 +574,12 @@
 			txt += '<table class="table table-bordered">'
 			txt += '<tr>'
 			txt += '<th>'
-
-			for(let i = 0; i < projectMemberList.length; i++){
-				if($('#loginUser').val() == projectMemberList[i].mId){
-					if(projectMemberList[i].pmFav){
-						txt += '<h2><i class="material-icons md-30 gantt_fav_btn">favorite</i>'
-					}else{
-						txt += '<h2><i class="material-icons md-30 gantt_fav_btn">favorite_border</i>'
-					}
-				}
-			}
-			txt += project.pName
-			txt += '</h2></th>'
+			txt += '</th>'
 			txt += '</tr>'
 			txt += '<tr>'
-			txt += '<td>'
+			txt += '<td><div class="gantt_icon">P</div>'
 			txt += project.pName
-		 	txt += '<button id="addTaskBtn" class="btn btn-success" data-toggle="modal" data-target="#addTaskModal"><span class="glyphicon glyphicon-plus"></span></button>'
+		 	txt += '<i id="addTaskBtn" class="material-icons" data-toggle="modal" data-target="#addTaskModal">add_box</i>'
 			txt += '</td>'
 			txt += '</tr>'
 			for(let i = 0; i < taskList.length; i++){
@@ -544,7 +588,7 @@
 				txt += ${project.pNum}
 				txt += '&tNum='
 				txt += taskList[i].tNum
-				txt += '\'">'
+				txt += '\'"><div class="gantt_icon">t</div>'
 				txt += taskList[i].tName
 				txt += '</span><button class="btn btn-success addIssueBtn" tNum="'
 				txt += taskList[i].tNum
@@ -556,7 +600,7 @@
 				for(let j = 0; j < issueList.length; j++){
 					if(taskList[i].tNum == issueList[j].tNum){
 						txt += '<tr>'
-						txt += '<td>'
+						txt += '<td><div class="gantt_icon">i</div>'
 						txt += issueList[j].iName
 						txt += '</td>'
 						txt += '</tr>'
@@ -597,9 +641,10 @@
 	        makeGantt(project, taskList, issueList)
 	        gantt.refresh(taskAndIssue)
 					sideTap(project, taskList, issueList)
-	        $('.close').trigger('click')
 					$('#addTaskModal_tName').val('')
 					$('#addTaskModal_tDscr').val('')
+					$('.close').trigger('click')
+
 	      }
 	    })
 	  })
@@ -651,11 +696,10 @@
 					},
 					type : 'post',
 					success : (data) => {
-						// matchDate_issueToTask()
 						$('#iName').val('')
-						$('#addIssueModal_dscr').val('')
-						$('.iStartDate').val('')
-						$('.iEndDate').val('')
+						$('#addIssueModal_iDscr').val('')
+						$('#addIssueModal_iStartDate').val('')
+						$('#addIssueModal_iEndDate').val('')
 						$('#selectedMId').empty()
 						selectedMId = []
 
@@ -1539,13 +1583,19 @@
 
 		//뷰모드
 		txt = ''
-		txt += '<option>Month</option>'
-		txt += '<option>Week</option>'
-		txt += '<option selected>Day</option>'
+		txt += '<label class="radio-inline">'
+		txt += '<input type="radio" name="optradio" value="Month">Month'
+		txt += '</label>'
+		txt += '<label class="radio-inline">'
+		txt += '<input type="radio" name="optradio" value="Week">Week'
+		txt += '</label>'
+		txt += '<label class="radio-inline">'
+		txt += '<input type="radio" name="optradio" value="Day" checked>Day'
+		txt += '</label>'
 
 		$('#viewMode').html(txt)
 
-		$('#viewMode').on('change', function(){
+		$(document).on('change', '#viewMode input[type=radio]',  function(){
 			if($(this).val() == 'Month'){
 				gantt.change_view_mode('Month')
 			}else if ($(this).val() == 'Week') {
@@ -1598,6 +1648,289 @@
 				}
 			})
 		}
+
+		txt = ''
+		for(let i = 0; i < projectMemberList.length; i++){
+			if($('#loginUser').val() == projectMemberList[i].mId){
+				if(projectMemberList[i].pmFav){
+					txt += '<i class="material-icons md-30 gantt_fav_btn">favorite</i> '
+				}else{
+					txt += '<i class="material-icons md-30 gantt_fav_btn">favorite_border</i> '
+				}
+			}
+		}
+		txt += project.pName
+		txt += ' <i class="material-icons md-30" id="projectChart" data-toggle="modal" data-target="#projectChartModal">insert_chart</i>'
+
+
+
+		$('#gantt_nameForm').html(txt)
+
+		//챠트용
+
+		//프로젝트 번호 판별용
+
+		//모달창 생성하면서 데이터 불러오기(프로젝트 차트용)
+		$("#projectChartModal").on('shown.bs.modal', function() {
+			$.ajax({
+				url : 'projectChart',
+				data : {
+					pNum : ${project.pNum}
+				},
+				type : 'post',
+				success : (data) => {
+					showProjectChartModal(data)
+				}
+			})
+		})
+
+		// var projectInfo = document.getElementById("projectChartModal_chartBody_projectInfo").getContext('2d');
+
+
+		let projectInfo = document.getElementById("projectChartModal_chartBody_projectInfo").getContext('2d');
+		let projectProgress = document.getElementById("projectChartModal_chartBody_projectProgress").getContext('2d');
+		let signedIssue = document.getElementById("projectChartModal_chartBody_signedIssue").getContext('2d');
+		let completedIssue = document.getElementById("projectChartModal_chartBody_completedIssue").getContext('2d');
+
+
+			const showProjectChartModal = (data) => {
+				$('.chartjs-size-monitor').remove()
+				$('#projectChartModal_pName').html(data.project.pName)
+
+				const dynamicColors = function(num) {
+					const rainbow = []
+					//빨강
+					rainbow.push('#ff3333')
+					//주황
+					rainbow.push('#ffb833')
+					//노랑
+					rainbow.push('#ffff33')
+					//초록
+					rainbow.push('#33ff33')
+					//파랑
+					rainbow.push('#3333ff')
+					//남색
+					rainbow.push('#aa33ff')
+					//보라
+					rainbow.push('#ff33ff')
+
+					 colors = []
+					 let index = 0
+					 for(let i = 0; i < num; i++){
+						 index = i % 7
+						 colors.push(rainbow[index])
+					 }
+					 return colors
+				};
+
+				const dynamicColors2 = function(num) {
+					const rainbow2 = []
+					//빨강
+					rainbow2.push('#ff9999')
+					//주황
+					rainbow2.push('#ffdb99')
+					//노랑
+					rainbow2.push('#ffff99')
+					//초록
+					rainbow2.push('#99ff99')
+					//파랑
+					rainbow2.push('#9999ff')
+					//남색
+					rainbow2.push('#d499ff')
+					//보라
+					rainbow2.push('#ff99ff')
+
+					 colors = []
+					 let index = 0
+					 for(let i = 0; i < num; i++){
+						 index = i % 7
+						 colors.push(rainbow2[index])
+					 }
+					 return colors
+				};
+
+				function formatDate(date) {
+					var d = new Date(date),
+					month = '' + (d.getMonth() + 1),
+					day = '' + d.getDate(),
+					year = d.getFullYear();
+
+					if (month.length < 2) month = '0' + month;
+					if (day.length < 2) day = '0' + day;
+
+					return [year, month, day].join('-');
+				}
+
+
+				let today = new Date
+				let chart_pStartDate = new Date(project.pStartDate)
+				let chart_pEndDate = new Date(project.pEndDate)
+
+				const projectChartModal_chartBody_projectInfo = new Chart(projectInfo, {
+					type : 'doughnut',
+					data : {
+						labels : ['지난 기간 : ' + (new Date(today - chart_pStartDate).getDate()-1).toString() + '일',
+											'남은 기간 : ' + (new Date(chart_pEndDate - today).getDate()-1).toString() + '일'],
+						datasets : [{
+							data : [new Date(today - chart_pStartDate).getDate()-1, new Date(chart_pEndDate - today).getDate()-1],
+							backgroundColor : ['#309fdb', '#e95b54'],
+							borderColor: 'rgba(0, 0, 0, 0.75)',
+							hoverBorderColor: 'rgba(0, 0, 0, 1)',
+							borderWidth : 1
+						}],
+					},
+					options : {
+						responsive: true,
+						maintainAspectRatio: true,
+						percentageInnerCutout: 80,
+						animationEasing: 'easeOutQuart',
+						animateScale: false,
+					}
+				})
+
+				let completedIssueCount = 0
+				let uncompletedIssueCount = 0
+				for(let i = 0; i < data.issueList.length; i++){
+					if(data.issueList[i].iStep == 3 || data.issueList[i].iStep == 4){
+						completedIssueCount++
+					}else {
+						uncompletedIssueCount++
+					}
+				}
+
+				const projectChartModal_chartBody_projectProgress = new Chart(projectProgress, {
+					type : 'pie',
+					data : {
+						labels : ['완료 이슈', '미완료 이슈'],
+						datasets : [{
+							data : [completedIssueCount, uncompletedIssueCount],
+							backgroundColor : ['#309fdb', '#e95b54'],
+							borderColor: 'rgba(0, 0, 0, 0.75)',
+							hoverBorderColor: 'rgba(0, 0, 0, 1)',
+							borderWidth : 1
+						}],
+					},
+					options : {
+					}
+				})
+
+				let projectMember = []
+				let signedIssueCount = []
+				let colorSet = []
+
+				for(let i = 0; i < data.projectMemberList.length; i++){
+					projectMember.push(data.projectMemberList[i].mId)
+					colorSet.push(dynamicColors())
+				}
+				for(let i = 0; i < projectMember.length; i++){
+					let count = 0
+					for(let j = 0; j < data.issueMemberList.length; j++){
+						if(projectMember[i] == data.issueMemberList[j].mId){
+							count++
+						}
+					}
+					signedIssueCount.push(count)
+				}
+
+				const projectChartModal_chartBody_signedIssue = new Chart(signedIssue, {
+					type : 'polarArea',
+					data : {
+						labels : projectMember,
+						datasets : [{
+							label : ' #할당 이슈',
+							data : signedIssueCount,
+							backgroundColor : dynamicColors(projectMember.length),
+							borderColor: 'rgba(0, 0, 0, 0.75)',
+							hoverBorderColor: 'rgba(0, 0, 0, 1)',
+							borderWidth : 1
+						}],
+					},
+					options : {
+						scales: {
+								yAxes: [{
+										ticks: {
+												beginAtZero:true
+										}
+								}]
+						},
+					}
+				})
+
+				let taskListName = []
+				let completedIssueInTask = []
+				let uncompletedIssueInTask = []
+				let completedCount = 0
+				let uncompletedCount = 0
+
+				for(let i = 0; i < data.taskList.length; i++){
+					taskListName.push(data.taskList[i].tName)
+				}
+
+				for(let i = 0; i < data.taskList.length; i++){
+					completedCount = 0
+					uncompletedCount = 0
+					for(let j = 0; j < data.issueList.length; j++){
+						if(data.taskList[i].tNum == data.issueList[j].tNum){
+							if(data.issueList[j].iStep == 3 || data.issueList[j].iStep == 4){
+								completedCount++
+							}else{
+								uncompletedCount++
+							}
+						}
+					}
+					completedIssueInTask.push(completedCount)
+					uncompletedIssueInTask.push(uncompletedCount)
+				}
+
+				const projectChartModal_chartBody_completedIssue = new Chart(completedIssue, {
+					type : 'bar',
+					data : {
+						labels : taskListName,
+						datasets : [
+							{
+							label : '완료 이슈',
+							data : completedIssueInTask,
+							backgroundColor : '#309fdb',
+							borderColor: 'rgba(0, 0, 0, 0.75)',
+							hoverBorderColor: 'rgba(0, 0, 0, 1)',
+							borderWidth : 1
+						},
+						{
+							label : '미완료 이슈',
+							data : uncompletedIssueInTask,
+							backgroundColor : '#e95b54',
+							borderColor: 'rgba(0, 0, 0, 0.75)',
+							hoverBorderColor: 'rgba(0, 0, 0, 1)',
+							borderWidth : 1
+
+						}
+					],
+					},
+					options : {
+						scales: {
+							xAxes: [{
+								stacked : true,
+							}],
+							yAxes: [{
+								stacked : true,
+								ticks: {
+									beginAtZero:true
+								}
+							}]
+						},
+						responsive: true,
+						maintainAspectRatio: true,
+					}
+				})
+
+				$('#projectChartModal').on('hidden.bs.modal', function () {
+					projectChartModal_chartBody_projectInfo.destroy()
+					projectChartModal_chartBody_projectProgress.destroy()
+					projectChartModal_chartBody_signedIssue.destroy()
+					projectChartModal_chartBody_completedIssue.destroy()
+				})
+			}
+
 
 	})
 	</script>
