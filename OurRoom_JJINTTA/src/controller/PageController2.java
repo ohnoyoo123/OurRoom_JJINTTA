@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +19,6 @@ import service.LogService;
 //import service.LogService;
 import service.MemberService;
 import service.ProjectService;
-import test.PathTest;
 import util.ProjectUtil;
 
 @Controller
@@ -128,14 +126,7 @@ public class PageController2 {
 	/* 사이트 첫 페이지 */
 	@RequestMapping("main")
 	public String index() {
-		File f = new File("");
-		System.out.println("1 : " + f.getAbsolutePath());
 
-		f = new File("");
-		System.out.println("2 : " + f.getAbsolutePath());
-		System.out.println("3 : " + System.getProperty("user.dir"));
-
-		PathTest.getPath();
 		return "main";
 	}
 
