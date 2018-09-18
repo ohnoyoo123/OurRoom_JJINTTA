@@ -180,3 +180,7 @@ textarea {
 	font-size: 25px;
 	vertical-align: middle;
 }
+
+.hover{
+	cursor : pointer;
+}

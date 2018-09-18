@@ -510,4 +510,13 @@ public class ProjectRestController {
 	   
    }
    
+   @PostMapping("/project/getNickname")
+   public String getNickname(String mId) {
+	   System.out.println("요청 url : /project/getNickname");
+	   System.out.println(mId);
+	   System.out.println(mSvc.selectNicknameById(mId));
+	   return mSvc.selectNicknameById(mId);
+	   
+   }
+   
 }

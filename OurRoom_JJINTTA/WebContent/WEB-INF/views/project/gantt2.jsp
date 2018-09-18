@@ -261,7 +261,6 @@
 					</div>
 
 					<div id="IssueDetailModal_right">
-						<i class="material-icons modal_icon">account_box</i>이슈 멤버
 						<div id="IssueDetailModal_right_issueMember">
 
 						</div>
@@ -926,12 +925,38 @@
 			$('#IssueDetailModal_iEndDate').val(data.issueList[0].iEndDate)
 
 			$('#IssueDetailModal_right_issueMember').html('')
-			txt = ''
+			txt =''
+			txt += '<span class="hover" data-toggle="collapse" data-target="#IssueDetailModal_right_issueMember_list"><i class="material-icons modal_icon">account_box</i>이슈 멤버▼</span><br>'
+			txt += '<div id="IssueDetailModal_right_issueMember_list" class="collapse">'
+			txt += '이슈 할당 멤버<br>'
 			for (var k = 0; k < data.issueMember.length; k++) {
 				txt += '<i class="material-icons modal_icon">account_box</i>'
-				txt += (data.issueMember[k].mNickname)
+				$.ajax({
+					url : 'getNickname',
+					data : {
+						mId : data.issueMember[k].mId
+					},
+					type : 'post',
+					success : (data) => {
+						txt += '<span nickname="'
+						txt += data
+						txt += '">'
+						txt += data
+						txt += '</span>'
+					},
+					async : false
+				})
 				txt += '<br>'
 			}
+			txt += '이슈 미할당 멤버<br>'
+			for(var k = 0; k < data.issueMember.length; k++){
+				txt += '<i class="material-icons modal_icon">account_box</i>'
+				console.log(projectMemberList);
+			}
+
+
+
+			txt += '</div>'
 			$('#IssueDetailModal_right_issueMember').html(txt)
 
 			$('#issueDscr').html(data.issueList[0].iDscr)
