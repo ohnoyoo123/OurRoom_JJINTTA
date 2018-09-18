@@ -7,6 +7,7 @@ public class ProjectMember {
 	private Boolean pmIsAdmin;
 	private Boolean pmIsAuth;
 	private Boolean pmFav;
+	private String mNickname;
 	
 	public int getpNum() {
 		return pNum;
@@ -38,10 +39,16 @@ public class ProjectMember {
 	public void setPmFav(Boolean pmFav) {
 		this.pmFav = pmFav;
 	}
+	public String getmNickname() {
+		return mNickname;
+	}
+	public void setmNickname(String mNickname) {
+		this.mNickname = mNickname;
+	}
 	@Override
 	public String toString() {
 		return "ProjectMember [pNum=" + pNum + ", mId=" + mId + ", pmIsAdmin=" + pmIsAdmin + ", pmIsAuth=" + pmIsAuth
-				+ ", pmFav=" + pmFav + "]";
+				+ ", pmFav=" + pmFav + ", mNickname=" + mNickname + "]";
 	}
 	
 	

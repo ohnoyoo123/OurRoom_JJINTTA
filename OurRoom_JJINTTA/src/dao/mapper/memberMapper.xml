@@ -69,6 +69,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select *
 		from member
 	</select>
+	
+	<select id="selectNicknameById" parameterType="String" resultType="String">
+		select m_nickname from member
+		where m_id = #{value}
+	</select>
 
 	<!-- 키워드로 회원 조회 -->
 	<select id="selectMemberByKeyword" parameterType="String" resultMap="memberMap">
