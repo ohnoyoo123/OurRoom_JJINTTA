@@ -1,14 +1,16 @@
 package controller;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,15 +28,20 @@ import model.ProjectMember;
 import model.Task;
 import service.CheckListService;
 import service.IssueService;
+import service.MemberService;
 import service.ProjectService;
 import service.TaskService;
 import util.ProjectUtil;
+import util.UploadFileUtils;
 
 @Controller
 public class PageController {
 
 	@Autowired
 	ProjectService pSvc;
+
+	@Autowired
+	MemberService mSvc;
 
 	@Autowired
 	TaskService tSvc;
@@ -76,8 +83,9 @@ public class PageController {
 	}
 
 	@RequestMapping("/project/gantt")
-	public ModelAndView project_gantt(@RequestParam(value="tNum" ,  required=false ) String tNum, int pNum,  @RequestParam(required=false) String iNum ,@RequestParam(required=false) String log  ) {
-		System.out.println("tNum :" +tNum);
+	public ModelAndView project_gantt(@RequestParam(value = "tNum", required = false) String tNum, int pNum,
+			@RequestParam(required = false) String iNum, @RequestParam(required = false) String log) {
+		System.out.println("tNum :" + tNum);
 		System.out.println("pNum : " + pNum);
 		ModelAndView mav = new ModelAndView();
 
@@ -108,7 +116,30 @@ public class PageController {
 
 		System.out.println("이슈리스트" + iSvc.getIssueList(issue));
 
-		mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
+		// List<String> profileList = new ArrayList<String>();
+		Map<String, String> profileList = new HashMap<String, String>();
+		List<Member> projectMemberList = new ArrayList<Member>();
+
+		for (ProjectMember pm : pSvc.getProjectMemberByPNum(pNum)) {
+			projectMemberList.add(mSvc.selectMember(pm.getmId()));
+
+			try {
+				System.out.println("1 : " + mSvc.selectMember(pm.getmId()).getmProfile());
+				// profileList.add(UploadFileUtils.getProfileUtilToString(mSvc.selectMember(pm.getmId()).getmProfile()));
+				profileList.put(pm.getmId(),
+						UploadFileUtils.getProfileUtilToString(mSvc.selectMember(pm.getmId()).getmProfile()));
+
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto -generated catch block
+				e.printStackTrace();
+			}
+		}
+		mav.addObject("profileList", profileList);
+		// mav.addObject("projectMemberList", pSvc.getProjectMemberByPNum(pNum));
+		mav.addObject("projectMemberList", projectMemberList);
 		mav.addObject("pNum", pNum);
 		mav.addObject("tNum", tNum);
 		mav.addObject("iNum", iNum);
@@ -116,7 +147,7 @@ public class PageController {
 		mav.setViewName("/project/gantt2");
 		return mav;
 	}
- 
+
 	@RequestMapping("/project/kanban")
 	public ModelAndView project_kanban(int pNum, int tNum) {
 
@@ -178,7 +209,7 @@ public class PageController {
 		task.settNum(tNum);
 		System.out.println("혹시? : " + tSvc.getTaskList(task));
 		mav.addObject("task", tSvc.getTaskList(task));
-		
+
 		Gson gson = new Gson();
 		Issue issue = new Issue();
 		issue.setpNum(pNum);
@@ -186,7 +217,7 @@ public class PageController {
 		String stringIssue = gson.toJson(iSvc.getIssueList(issue));
 		JsonArray issueJson = new JsonParser().parse(stringIssue).getAsJsonArray();
 		mav.addObject("issueList", issueJson);
-		
+
 		mav.setViewName("/project/kanban2");
 		return mav;
 

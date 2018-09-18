@@ -13,26 +13,16 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-<%-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.2.0/frappe-gantt.css"/>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.2.0/frappe-gantt.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.2.0/frappe-gantt.js.map"></script> --%>
-
-<%-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/frappe-gantt/0.2.0/frappe-gantt.min.css"/> --%>
 <link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
-<script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-<%-- <script type="text/javascript" src='<c:url value="/js/arrow.js"/>'></script>
-   <script src='<c:url value="/js/bar.js"/>'></script>
-   <script src='<c:url value="/js/date_utils.js"/>'></script>
-   <script src='<c:url value="/js/index.js"/>'></script>
-   <script src='<c:url value="/js/popup.js"/>'></script>
-   <script src='<c:url value="/js/svg_utils.js"/>'></script>
-   <link href='<c:url value="/js/gantt.scss"/>' rel="stylesheet"> --%>
+<!-- <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+<script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script> -->
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
-
-
+<script type="text/javascript" src="/OurRoom/js/member/member.js"></script>
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
   $(function () {
     $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
@@ -181,7 +171,13 @@ textarea {
 					<div>이슈 멤버 할당</div>
 					<div>
 						<c:forEach items="${projectMemberList}" var="member">
-							<div class="selectMId" mId="${member.mId}">${member.mId}</div>
+							<div class="selectMId" mId="${member.mId}"
+								mNickname="${member.mNickname}">
+
+								<img id="profile" class="rounded-circle img-circle"
+									src="data:image/jpg;base64, ${profileList.get(member.mId) }"
+									width="30px" height="30px"> ${member.mNickname}
+							</div>
 						</c:forEach>
 						=====================
 						<div id="selectedMId">할당된 멤버</div>
@@ -257,8 +253,7 @@ textarea {
 						이슈명: <span id="IssueDetailModal_iName"></span> <input type="text"
 							id="IssueDetailModal_iNameForm" autofocus>
 					</h4>
-					이슈 멤버 :
-					<p id="issueMember"></p>
+					이슈 멤버 : <span id="issueMember"></span>
 				</div>
 
 				<!-- Modal body -->
@@ -564,17 +559,21 @@ gantt.change_view_mode('Day')
 				$('.tStartDate').val('')
 				$('.tEndDate').val('')
       }
-    })
+    }) 
   })
 
 
 	//이슈에 멤버 할당
 	selectedMId = []
+	selectedHTML = []
 	$('.selectMId').on('click', function(){
-		console.log($(this).attr('mId'));
+		// no cloning necessary    
+		var imgAndNickname = $(this).find('img').parent().html(); 
+		var img = $(this).find('img');
 		if(!selectedMId.includes($(this).attr('mId'))){
-			selectedMId.push($(this).attr('mId'))
-			$('#selectedMId').html(selectedMId)
+			selectedMId.push($(this).attr('mId'));
+			selectedHTML.push(imgAndNickname)
+			$('#selectedMId').html(selectedHTML)
 		}
 	})
 
@@ -782,8 +781,9 @@ gantt.change_view_mode('Day')
 		$('#IssueDetailModal_iEndDate').val(data.issueList[0].iEndDate)
 
 		$('#issueMember').html('')
-		for (var k = 0; k < data.issueMember.length; k++) {
-			$('#issueMember').append(data.issueMember[k].mId).append(', ')
+		for (var k = 0; k < data.issueMember.length; k++) {			
+			var img = "<img class='rounded-circle img-circle' src='data:image/jpg;base64, "+ data.profileList[data.issueMember[k].mId] + "' width='30px' height='30px'>";
+			$('#issueMember').append(img+""+data.issueMember[k].mNickname).append(', ')
 		}
 
 		$('#issueDscr').html(data.issueList[0].iDscr)
@@ -806,6 +806,7 @@ gantt.change_view_mode('Day')
 		console.log(selectedTask);
 		console.log('issue');
 		console.log(selectedissue);
+		$('#issueMember').html('');
 
 		$.ajax({
 			url : 'issueDetail',

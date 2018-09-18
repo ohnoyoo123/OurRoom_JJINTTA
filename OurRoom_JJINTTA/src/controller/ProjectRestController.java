@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,7 @@ import model.IssueMember;
 import model.Log;
 import model.Member;
 import model.Project;
+import model.ProjectMember;
 import model.Task;
 import service.CheckListService;
 import service.IssueService;
@@ -32,6 +36,7 @@ import service.LogService;
 import service.MemberService;
 import service.ProjectService;
 import service.TaskService;
+import util.UploadFileUtils;
 
 @RestController
 public class ProjectRestController {
@@ -116,9 +121,33 @@ public class ProjectRestController {
 	public Map<String, Object> issueDetail(Issue issue) {
 		System.out.println("요청 url : /project/issueDetail");
 		System.out.println(issue);
+		// [김승겸] 09.18
+		Map<String, String> profileList = new HashMap<String, String>();
+		List<Member> issueMember = new ArrayList<Member>();
+		for (IssueMember im : iSvc.getIssueMember(issue)) {
+			issueMember.add(mSvc.selectMember(im.getmId()));
+			try {
+				System.out.println("1 : " + mSvc.selectMember(im.getmId()).getmProfile());
+				// profileList.add(UploadFileUtils.getProfileUtilToString(mSvc.selectMember(pm.getmId()).getmProfile()));
+				// 작은 사진으로 가져오기.....너무 크면 느려
+				System.out.println("작은사진 : s_" + mSvc.selectMember(im.getmId()).getmProfile());
+				profileList.put(im.getmId(),
+						UploadFileUtils.getProfileUtilToString("s_" + mSvc.selectMember(im.getmId()).getmProfile()));
+
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto -generated catch block
+				e.printStackTrace();
+			}
+		}
+
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("issueList", iSvc.getIssueList(issue));
-		data.put("issueMember", iSvc.getIssueMember(issue));
+		// data.put("issueMember", iSvc.getIssueMember(issue));
+		data.put("profileList", profileList);
+		data.put("issueMember", issueMember);
 		data.put("checkList", clSvc.getCheckList(issue));
 		data.put("checkListItem", clSvc.getAllCheckListItem(issue));
 		data.put("checkListItemMember", clSvc.getAllCheckListItemMember(issue));

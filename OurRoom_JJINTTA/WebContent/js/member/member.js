@@ -53,57 +53,83 @@ function chkNickname() {
 }
 
 /* PW Check */
-function chkPw(){
-	
-	$("#mPw").val($.trim($("#mPw").val()));
-	 var strPw = $("#mPw").val()+'';
-	 var num = strPw.search(/[0-9]/g);
-	 var eng = strPw.search(/[a-z]/ig);
-	 var spe = strPw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-	
-	 // 비밀번호확인 텍스트 초기화
-	 $("#pw2CheckMsg").html("");
-	 
-	 if(strPw.length < 8 || strPw.length > 20){
+function chkPw() {
 
-		$("#pwCheckMsg").css("color", "red"); 
+	$("#mPw").val($.trim($("#mPw").val()));
+	var strPw = $("#mPw").val() + '';
+	var num = strPw.search(/[0-9]/g);
+	var eng = strPw.search(/[a-z]/ig);
+	var spe = strPw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+	// 비밀번호확인 텍스트 초기화
+	$("#pw2CheckMsg").html("");
+
+	if (strPw.length < 8 || strPw.length > 20) {
+
+		$("#pwCheckMsg").css("color", "red");
 		$("#pwCheckMsg").html("8자 이상, 20자 이하로 입력하세요");
 		return false;
-	 }
-	 if(strPw.search(/₩s/) != -1){
+	}
+	if (strPw.search(/₩s/) != -1) {
 		$("#pwCheckMsg").css("color", "red");
 		$("#pwCheckMsg").html("비밀번호는 공백없이 입력해주세요.");
 		return false;
-	 } 
-	 if(num < 0 || eng < 0 || spe < 0 ){
+	}
+	if (num < 0 || eng < 0 || spe < 0) {
 		$("#pwCheckMsg").css("color", "red");
 		$("#pwCheckMsg").html("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
 		return false;
-	 }
+	}
 
 	$("#pwCheckMsg").css("color", "green");
 	$("#pwCheckMsg").html("사용 가능합니다.");
-		
+
 	return true;
 
 }
 // mPw와 mPw2가 같은지 비교
- function chkPw2() {
-    var pw = $("#mPw").val();
-    var pw2 = $("#mPw2").val();
+function chkPw2() {
+	var pw = $("#mPw").val();
+	var pw2 = $("#mPw2").val();
 
-    if(!chkPw()){
+	if (!chkPw()) {
 		$("#pw2CheckMsg").html("");
-    	return false;
-    }
-    
-    if (pw != pw2) {
-    	$("#pw2CheckMsg").css("color", "red");
+		return false;
+	}
+
+	if (pw != pw2) {
+		$("#pw2CheckMsg").css("color", "red");
 		$("#pw2CheckMsg").html("비밀번호가 다릅니다.");
-        return false;
-    }else{
-    	$("#pw2CheckMsg").css("color", "green");
+		return false;
+	} else {
+		$("#pw2CheckMsg").css("color", "green");
 		$("#pw2CheckMsg").html("사용 가능합니다.");
-        return true;
-    }
+		return true;
+	}
+}
+
+// 프로필 이미지 가져오기
+function getProfile(profile) {
+	var img;
+	console.log("profile");
+	$.ajax({
+		url : "/OurRoom/getProfile",
+		async : false,
+		data : {
+			profileName : profile
+		},
+		success : function(data) {
+			var src = '';
+			if (data) {
+				src = 'data:image/jpg;base64,' + data;
+			} else {
+				src = "C:java/profile/default_profile.PNG";
+			}
+
+			img = "<img class='rounded-circle' src='" + src
+					+ "' width='30px' height='30px'>";
+		}
+	});
+
+	return img;
 }

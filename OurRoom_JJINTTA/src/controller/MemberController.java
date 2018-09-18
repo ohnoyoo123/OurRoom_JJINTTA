@@ -161,25 +161,15 @@ public class MemberController {
 		if (!dir.exists())
 			dir.mkdirs(); // 해당경로에 디렉토리가 없으면 생성
 		File attachFile = new File(uploadPath + fileName);
-
-		/*
-		 * if (attachFile.exists()) { if (attachFile.delete()) {
-		 * System.out.println("삭제완료"); } else { System.out.println("삭제못해쪄.."); }
-		 * attachFile.deleteOnExit(); }
-		 */
-
+//		FileInputStream fis = new FileInputStream(attachFile);
+//		ImageIcon icon = new ImageIcon(IOUtils.toByteArray(fis));
 		// 파일 복사
-		try {
-			profile.transferTo(attachFile);
-		} catch (IOException ioE) {
-			if (attachFile != null) {
-				attachFile.delete();
-			}
-			throw ioE;
-		} finally {
-		}
+		/*
+		 * try { profile.transferTo(attachFile); } catch (IOException ioE) { if
+		 * (attachFile != null) { attachFile.delete(); } throw ioE; } finally { }
+		 */
 		// 이미지 업로드
-		// UploadFileUtils.uploadFile(uploadPath, fileName, profile.getBytes());
+		 UploadFileUtils.uploadFile(uploadPath, fileName, profile.getBytes());
 
 		memberService.setProfile(member);
 
@@ -195,30 +185,31 @@ public class MemberController {
 
 		// String profileName = ((Member)
 		// session.getAttribute("loginUser")).getmProfile();
-		System.out.println(profileName);
-		File profile = new File(uploadPath + profileName);
-
-		if (profileName == null || profileName.equals("")) {
-			profile = new File(uploadPath + "default_profile.PNG");
-		} else {
-			System.out.println("getProfile : " + profile);
-			if (profile.exists()) {
-
-			} else {
-				profile = new File(uploadPath + "default_profile.PNG");
-			}
-
-		}
-
-		FileInputStream fis = new FileInputStream(profile);
-
-		byte[] byteArr = IOUtils.toByteArray(fis);
-		if (fis != null) {
-			fis.close();
-		}
-		// Base64로 인코딩
-		byte[] encoded = Base64.encodeBase64(byteArr);
-		return encoded;
+		// System.out.println(profileName);
+		// File profile = new File(uploadPath + profileName);
+		//
+		// if (profileName == null || profileName.equals("")) {
+		// profile = new File(uploadPath + "default_profile.PNG");
+		// } else {
+		// System.out.println("getProfile : " + profile);
+		// if (profile.exists()) {
+		//
+		// } else {
+		// profile = new File(uploadPath + "default_profile.PNG");
+		// }
+		//
+		// }
+		//
+		// FileInputStream fis = new FileInputStream(profile);
+		//
+		// byte[] byteArr = IOUtils.toByteArray(fis);
+		// if (fis != null) {
+		// fis.close();
+		// }
+		// // Base64로 인코딩
+		// byte[] encoded = Base64.encodeBase64(byteArr);
+		// // return encoded;
+		return UploadFileUtils.getProfileUtilToByteArray(profileName);
 
 	}
 
