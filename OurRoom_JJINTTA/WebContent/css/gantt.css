@@ -1,83 +1,83 @@
 #innerFrame {
-	display: inline-block;
-	width: 90vw;
+   display: inline-block;
+   width: 90vw;
 }
 
 #gantt{
-	display: inline-block;
-	/* height: 84vh; */
-	float: left;
+   display: inline-block;
+   /* height: 84vh; */
+   float: left;
 
 }
 #sideTap{
-	display: inline-block;
-	float: left;
-	min-width: 25vh;
-	max-width: 25vw;
-	margin-left: 50px;
+   display: inline-block;
+   float: left;
+   min-width: 25vh;
+   max-width: 25vw;
+   margin-left: 50px;
 }
 
 #sideTap .table > *{
-	vertical-align: middle;
+   vertical-align: middle;
 }
 
 #sideTap .table th{
-	height: 59px;
-	padding : 0px;
-	padding-left : 10px;
-	/* font-size: 14px; */
-	background-color: #ffffff;
-	vertical-align: middle;
+   height: 59px;
+   padding : 0px;
+   padding-left : 10px;
+   /* font-size: 14px; */
+   background-color: #ffffff;
+   vertical-align: middle;
 }
 
 #sideTap .table td{
-	margin: 0;
-	padding : 0;
-	/* padding-right : 20px; */
-	/* padding-left : 20px; */
-	height: 48px;
-	border-bottom: 2px solid rgba(0, 0, 0, .1);
-	vertical-align: middle;
-	font-size : 14px;
+   margin: 0;
+   padding : 0;
+   /* padding-right : 20px; */
+   /* padding-left : 20px; */
+   height: 48px;
+   border-bottom: 2px solid rgba(0, 0, 0, .1);
+   vertical-align: middle;
+   font-size : 14px;
 
 }
 
 #sideTap .table td span{
-	font-size : 18px;
-	font-weight: bold;
+   font-size : 18px;
+   font-weight: bold;
 
 }
 
 #addTaskBtn, .addIssueBtn{
-		float: right;
-		/* background-color: #339933; */
-		display: inline;
-		margin: 0;
+      float: right;
+      /* background-color: #339933; */
+      display: inline;
+      margin: 0;
 }
 
 
 textarea {
-	width: 100%;
-	resize: none;
-	overflow-y: hidden; /* prevents scroll bar flash */
-	padding: 0.5em; /* prevents text jump on Enter keypress */
-	line-height: 1.6;
+   width: 100%;
+   resize: none;
+   overflow-y: hidden; /* prevents scroll bar flash */
+   padding: 0.5em; /* prevents text jump on Enter keypress */
+   line-height: 1.6;
 }
 
 #taskDetailModal_tNotiName{
-	display: inline-block;
-	min-width: 200px;
-	min-height: 16px;
+   display: inline-block;
+   min-width: 200px;
+   min-height: 16px;
 }
 
 #projectDetailModal_pName{
-	display: inline-block;
-	min-width: 200px;
-	min-height: 16px;
+   display: inline-block;
+   min-width: 200px;
+   min-height: 16px;
 }
 
 #viewMode{
-	/* margin-left: 50px; */
+   /* margin-left: 50px; */
  display: inline-block;
  float: right;
  margin-top: 50px;
@@ -88,68 +88,68 @@ textarea {
 }
 
 .material-icons.md-30{
-	font-size : 45px;
-	vertical-align: bottom;
-	cursor: pointer;
+   font-size : 45px;
+   vertical-align: bottom;
+   cursor: pointer;
 }
 
 #IssueDetailModal_cmContent{
-	display: block;
+   display: block;
 }
 
 #IssueDetailModal_cmBtn{
-	display: inline-block;
-	width : 15%;
-	float: right;
+   display: inline-block;
+   width : 15%;
+   float: right;
 }
 
 #gantt_nameForm{
-	display: inline-block;
-	font-size: 45px;
-	font-weight: bold;
-	margin-bottom: 20px;
+   display: inline-block;
+   font-size: 45px;
+   font-weight: bold;
+   margin-bottom: 20px;
 }
 
 #gantt_top{
-	margin-left: 50px;
+   margin-left: 50px;
 }
 
 .gantt_icon{
-	margin-left: 5px;
-	margin-right: 5px;
-	display: inline-block;
-	border : 2px solid #339933;
-	color : #339933;
-	border-radius: 15%;
-	width: 30px;
-	height: 30px;
-	text-align: center;
-	vertical-align: middle;
-	font-size: 20px;
-	font-weight: lighter;
+   margin-left: 5px;
+   margin-right: 5px;
+   display: inline-block;
+   border : 2px solid #339933;
+   color : #339933;
+   border-radius: 15%;
+   width: 30px;
+   height: 30px;
+   text-align: center;
+   vertical-align: middle;
+   font-size: 20px;
+   font-weight: lighter;
 }
 
 #IssueDetailModal_iStartDate_div, #IssueDetailModal_iEndDate_div{
-	width: 50%;
-	margin: auto;
+   width: 50%;
+   margin: auto;
 }
 
 #IssueDetailModal_iStartDate_div{
-	float: left;
+   float: left;
 }
 
 #IssueDetailModal_iEndDate_div{
-	float: right;
+   float: right;
 }
 
 #IssueDetailModal_iStartDate, #IssueDetailModal_iEndDate{
-	float: left;
-	width: 80%;
+   float: left;
+   width: 80%;
 }
 
 
 #IssueDetailModal_iDscrForm{
-	margin-top: 70px;
+   margin-top: 70px;
 }
 
 #IssueDetailModal_iDscrBtn{
@@ -157,23 +157,23 @@ textarea {
 }
 
 .modal-body{
-	display: flex;
-	flex-wrap: wrap; // allow wrapping items
+   display: flex;
+   flex-wrap: wrap; // allow wrapping items
 }
 
 #IssueDetailModal_left{
-	flex-grow: 1;
-	flex-basis: 75%;
+   flex-grow: 1;
+   flex-basis: 75%;
 }
 
 #IssueDetailModal_right{
-	flex-grow: 1;
-	flex-basis: 25%;
-	border : 2px solid;
+   flex-grow: 1;
+   flex-basis: 25%;
+   border : 2px solid;
 }
 
 .modal-content{
-	width: 700px;
+   width: 700px;
 }
 
 .material-icons.modal_icon{

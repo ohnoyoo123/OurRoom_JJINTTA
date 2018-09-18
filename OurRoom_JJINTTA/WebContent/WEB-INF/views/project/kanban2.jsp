@@ -28,6 +28,7 @@
       #innerFrame{
         background-color:#ffffe6
       }
+
     </style>
 
     <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
@@ -92,22 +93,24 @@
 
         <!-- Modal body -->
         <div class="modal-body">
+
+          <%-- 프로젝트 완료 현황 --%>
           <div class="projectChartModal_chartBody">
-            <div>1</div>
-            <canvas id="projectChartModal_chartBody_projectInfo"></canvas>
-          </div>
-          <div class="projectChartModal_chartBody">
-            <div>2</div>
+            <div id="daysLeft"></div>
             <canvas id="projectChartModal_chartBody_projectProgress"></canvas>
-          </div>
-          <div class="projectChartModal_chartBody">
-            <div>3</div>
+            <br/>
+            <div id="progressPercent"></div>
+            <progress id="animationProgress" max="1" value="0" style="width: 100%"></progress>
+            
+            <%-- 이슈 할당 --%>
             <canvas id="projectChartModal_chartBody_signedIssue"></canvas>
-          </div>
-          <div class="projectChartModal_chartBody">
-            <div>4</div>
+
+            <%-- 태스크별 이슈완료 --%>
+            <br/>
             <canvas id="projectChartModal_chartBody_completedIssue"></canvas>
+
           </div>
+
         </div>
 
         <!-- Modal footer -->
@@ -263,11 +266,17 @@
   // var projectInfo = document.getElementById("projectChartModal_chartBody_projectInfo").getContext('2d');
 
 
-  let projectInfo = document.getElementById("projectChartModal_chartBody_projectInfo").getContext('2d');
+  // let projectInfo = document.getElementById("projectChartModal_chartBody_projectInfo").getContext('2d');
   let projectProgress = document.getElementById("projectChartModal_chartBody_projectProgress").getContext('2d');
   let signedIssue = document.getElementById("projectChartModal_chartBody_signedIssue").getContext('2d');
   let completedIssue = document.getElementById("projectChartModal_chartBody_completedIssue").getContext('2d');
+  let pEndDate = ${project.pEndDate}
+  let today = new Date
+  let chart_pEndDate = new Date(pEndDate)
 
+  let remainDates = '남은 기한 : '+(new Date(chart_pEndDate - today).getDate()-1).toString()+'일'
+
+  $('#daysLeft').html(remainDates)
 
     const showProjectChartModal = (data) => {
       $('.chartjs-size-monitor').remove()
@@ -299,69 +308,6 @@
          return colors
       };
 
-      const dynamicColors2 = function(num) {
-        const rainbow2 = []
-        //빨강
-        rainbow2.push('#ff9999')
-        //주황
-        rainbow2.push('#ffdb99')
-        //노랑
-        rainbow2.push('#ffff99')
-        //초록
-        rainbow2.push('#99ff99')
-        //파랑
-        rainbow2.push('#9999ff')
-        //남색
-        rainbow2.push('#d499ff')
-        //보라
-        rainbow2.push('#ff99ff')
-
-         colors = []
-         let index = 0
-         for(let i = 0; i < num; i++){
-           index = i % 7
-           colors.push(rainbow2[index])
-         }
-         return colors
-      };
-
-      const projectChartModal_chartBody_projectInfo = new Chart(projectInfo, {
-        type : 'horizontalBar',
-        data : {
-          labels : ['전체 진행률'],
-          datasets : [
-            {
-            data : [{
-              x : new Date(),
-              y : 1
-            },{
-              x : new Date(),
-              y : 10
-            }],
-            label: '지난 기한',
-            backgroundColor : dynamicColors(1),
-            borderColor: 'rgba(0, 0, 0, 0.75)',
-            hoverBorderColor: 'rgba(0, 0, 0, 1)',
-            borderWidth : 1
-          },
-        ],
-        },
-        options : {
-          scales: {
-              xAxes: [{
-                  type: 'time',
-                  time: {
-                      displayFormats: {
-                          quarter: 'MMM YYYY'
-                      }
-                  }
-              }]
-          },
-          responsive: true,
-          maintainAspectRatio: true,
-        }
-      })
-
       let completedIssueCount = 0
       let uncompletedIssueCount = 0
       for(let i = 0; i < data.issueList.length; i++){
@@ -372,62 +318,94 @@
         }
       }
 
+      let percent = (completedIssueCount/(completedIssueCount+uncompletedIssueCount))*100
+      percent = '진행률 : '+percent.toString()+'%'
+      $('#progressPercent').html(percent)
+      let progress = document.getElementById('animationProgress');
       const projectChartModal_chartBody_projectProgress = new Chart(projectProgress, {
         type : 'pie',
         data : {
           labels : ['완료 이슈', '미완료 이슈'],
           datasets : [{
             data : [completedIssueCount, uncompletedIssueCount],
-            backgroundColor : dynamicColors(2),
+            backgroundColor : ['#3366cc','#adc1eb'],
             borderColor: 'rgba(0, 0, 0, 0.75)',
             hoverBorderColor: 'rgba(0, 0, 0, 1)',
             borderWidth : 1
           }],
         },
         options : {
+          title: {
+          display: true,
+          text: '전체 진행률',
+          fontStyle: 'bold',
+          fontSize: 20
+          },
+          animation: {
+					duration: 2000,
+					onProgress: function(animation) {
+            progress.value = completedIssueCount/(completedIssueCount+uncompletedIssueCount);
+					}
+          }
         }
       })
-
       let projectMember = []
       let signedIssueCount = []
       let colorSet = []
 
       for(let i = 0; i < data.projectMemberList.length; i++){
-        projectMember.push(data.projectMemberList[i].mId)
-        colorSet.push(dynamicColors())
+         projectMember.push(data.projectMemberList[i].mId)
+         colorSet.push(dynamicColors())
       }
       for(let i = 0; i < projectMember.length; i++){
-        let count = 0
-        for(let j = 0; j < data.issueMemberList.length; j++){
-          if(projectMember[i] == data.issueMemberList[j].mId){
-            count++
-          }
-        }
-        signedIssueCount.push(count)
+         let count = 0
+         for(let j = 0; j < data.issueMemberList.length; j++){
+            if(projectMember[i] == data.issueMemberList[j].mId){
+               count++
+            }
+         }
+         signedIssueCount.push(count)
       }
-
+      console.log('확인');
+      console.log(projectMember);
       const projectChartModal_chartBody_signedIssue = new Chart(signedIssue, {
-        type : 'polarArea',
-        data : {
-          labels : projectMember,
-          datasets : [{
-            label : ' #할당 이슈',
-            data : signedIssueCount,
-            backgroundColor : dynamicColors(projectMember.length),
-            borderColor: 'rgba(0, 0, 0, 0.75)',
-            hoverBorderColor: 'rgba(0, 0, 0, 1)',
-            borderWidth : 1
-          }],
-        },
-        options : {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero:true
+         type : 'bar',
+         data : {
+            labels : projectMember,
+            datasets : [{
+               data : signedIssueCount,
+               backgroundColor : '#3366cc',
+               borderColor: 'rgba(0, 0, 0, 0.75)',
+               hoverBorderColor: 'rgba(0, 0, 0, 1)',
+               borderWidth : 1
+            }],
+         },
+         options : {
+            scales: {
+                  yAxes: [{
+                        ticks: {
+                              beginAtZero:true,
+                              fixedStepSize: 1
+                        }
+                  }]
+            },
+            title: {
+            display: true,
+            text: '팀원별 할당 이슈',
+            fontStyle: 'bold',
+            fontSize: 20
+            },
+            legend: {
+             display: false
+           },
+           tooltips: {
+               callbacks: {
+                  label: function(tooltipItem) {
+                         return tooltipItem.yLabel;
                   }
-              }]
-          },
-        }
+               }
+           }
+         }
       })
 
       let taskListName = []
@@ -437,73 +415,83 @@
       let uncompletedCount = 0
 
       for(let i = 0; i < data.taskList.length; i++){
-        taskListName.push(data.taskList[i].tName)
+         taskListName.push(data.taskList[i].tName)
       }
 
       for(let i = 0; i < data.taskList.length; i++){
-        completedCount = 0
-        uncompletedCount = 0
-        for(let j = 0; j < data.issueList.length; j++){
-          if(data.taskList[i].tNum == data.issueList[j].tNum){
-            if(data.issueList[j].iStep == 3 || data.issueList[j].iStep == 4){
-              completedCount++
-            }else{
-              uncompletedCount++
+         completedCount = 0
+         uncompletedCount = 0
+         for(let j = 0; j < data.issueList.length; j++){
+            if(data.taskList[i].tNum == data.issueList[j].tNum){
+               if(data.issueList[j].iStep == 3 || data.issueList[j].iStep == 4){
+                  completedCount++
+               }else{
+                  uncompletedCount++
+               }
             }
-          }
-        }
-        completedIssueInTask.push(completedCount)
-        uncompletedIssueInTask.push(uncompletedCount)
+         }
+         completedIssueInTask.push(completedCount)
+         uncompletedIssueInTask.push(uncompletedCount)
       }
 
       const projectChartModal_chartBody_completedIssue = new Chart(completedIssue, {
-        type : 'bar',
-        data : {
-          labels : taskListName,
-          datasets : [
+         type : 'bar',
+         data : {
+            labels : taskListName,
+            datasets : [
+               {
+               label : '완료 이슈',
+               data : completedIssueInTask,
+               backgroundColor : '#3366cc',
+               borderColor: 'rgba(0, 0, 0, 0.75)',
+               hoverBorderColor: 'rgba(0, 0, 0, 1)',
+               borderWidth : 1
+            },
             {
-            label : '완료 이슈',
-            data : completedIssueInTask,
-            backgroundColor : dynamicColors(taskListName.length),
-            borderColor: 'rgba(0, 0, 0, 0.75)',
-            hoverBorderColor: 'rgba(0, 0, 0, 1)',
-            borderWidth : 1
-          },
-          {
-            label : '미완료 이슈',
-            data : uncompletedIssueInTask,
-            backgroundColor : dynamicColors2(taskListName.length),
-            borderColor: 'rgba(0, 0, 0, 0.75)',
-            hoverBorderColor: 'rgba(0, 0, 0, 1)',
-            borderWidth : 1
+               label : '미완료 이슈',
+               data : uncompletedIssueInTask,
+               backgroundColor : '#adc1eb',
+               borderColor: 'rgba(0, 0, 0, 0.75)',
+               hoverBorderColor: 'rgba(0, 0, 0, 1)',
+               borderWidth : 1
 
-          }
-        ],
-        },
-        options : {
-          scales: {
-            xAxes: [{
-              stacked : true,
-            }],
-            yAxes: [{
-              stacked : true,
-              ticks: {
-                beginAtZero:true
-              }
-            }]
-          },
-          responsive: true,
-          maintainAspectRatio: true,
-        }
+            }
+         ],
+         },
+         options : {
+            scales: {
+               xAxes: [{
+                  stacked : true,
+               }],
+               yAxes: [{
+                  stacked : true,
+                  ticks: {
+                     beginAtZero:true,
+                     fixedStepSize: 1
+                  }
+               }]
+            },
+            responsive: true,
+            maintainAspectRatio: true,
+            title: {
+            display: true,
+            text: '태스크별 현황',
+            fontStyle: 'bold',
+            fontSize: 20
+            }
+         }
       })
 
       $('#projectChartModal').on('hidden.bs.modal', function () {
-        projectChartModal_chartBody_projectInfo.destroy()
-        projectChartModal_chartBody_projectProgress.destroy()
-        projectChartModal_chartBody_signedIssue.destroy()
-        projectChartModal_chartBody_completedIssue.destroy()
+         projectChartModal_chartBody_projectInfo.destroy()
+         projectChartModal_chartBody_projectProgress.destroy()
+         projectChartModal_chartBody_signedIssue.destroy()
+         projectChartModal_chartBody_completedIssue.destroy()
       })
-    }
+     }
+
+
+
 
 
   </script>
