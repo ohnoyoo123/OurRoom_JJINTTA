@@ -350,10 +350,6 @@ $("#noti").on("click",function() {
          </div>
 
       <div class="topIcon">
-
-      <%-- <i class="material-icons md-48">
-        notifications_active
-      </i> --%>
       <i class="material-icons md-48">
         notifications
       </i>

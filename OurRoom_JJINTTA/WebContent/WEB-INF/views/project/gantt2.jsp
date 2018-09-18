@@ -1808,14 +1808,8 @@
                       }
                    })
 								 }
-                   $('#projectChartModal').on('hidden.bs.modal', function () {
-                      projectChartModal_chartBody_projectInfo.destroy()
-                      projectChartModal_chartBody_projectProgress.destroy()
-                      projectChartModal_chartBody_signedIssue.destroy()
-                      projectChartModal_chartBody_completedIssue.destroy()
-                   })
-
-                   })
+              
+           })
        </script>
     </body>
     </html>
