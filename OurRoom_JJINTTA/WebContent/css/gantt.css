@@ -156,7 +156,7 @@ textarea {
 
 }
 
-.modal-body{
+.modal-body.flex{
    display: flex;
    flex-wrap: wrap; // allow wrapping items
 }

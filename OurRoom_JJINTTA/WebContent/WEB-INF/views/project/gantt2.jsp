@@ -234,7 +234,7 @@
 				</div>
 
 				<!-- Modal body -->
-				<div class="modal-body">
+				<div class="modal-body flex">
 
 					<div id="IssueDetailModal_left">
 						<div id="IssueDetailModal_iStartDate_div">
@@ -924,6 +924,16 @@
 			$('#IssueDetailModal_iStartDate').val(data.issueList[0].iStartDate)
 			$('#IssueDetailModal_iEndDate').val(data.issueList[0].iEndDate)
 
+			let unassinedIssueMember = []
+
+			for(let i = 0; i < projectMemberList.length; i++){
+				unassinedIssueMember.push(projectMemberList[i].mId)
+			}
+			for(let i = 0; i < data.issueMember.length; i++){
+					unassinedIssueMember = unassinedIssueMember.filter(x => x !== data.issueMember[i].mId)
+			}
+			console.log('unassinedIssueMember');
+			console.log(unassinedIssueMember);
 			$('#IssueDetailModal_right_issueMember').html('')
 			txt =''
 			txt += '<span class="hover" data-toggle="collapse" data-target="#IssueDetailModal_right_issueMember_list"><i class="material-icons modal_icon">account_box</i>이슈 멤버▼</span><br>'
@@ -949,9 +959,24 @@
 				txt += '<br>'
 			}
 			txt += '이슈 미할당 멤버<br>'
-			for(var k = 0; k < data.issueMember.length; k++){
+			for(var k = 0; k < unassinedIssueMember.length; k++){
 				txt += '<i class="material-icons modal_icon">account_box</i>'
-				console.log(projectMemberList);
+				$.ajax({
+					url : 'getNickname',
+					data : {
+						mId : unassinedIssueMember[k]
+					},
+					type : 'post',
+					success : (data) => {
+						txt += '<span nickname="'
+						txt += data
+						txt += '">'
+						txt += data
+						txt += '</span>'
+					},
+					async : false
+				})
+				txt += '<br>'
 			}
 
 
