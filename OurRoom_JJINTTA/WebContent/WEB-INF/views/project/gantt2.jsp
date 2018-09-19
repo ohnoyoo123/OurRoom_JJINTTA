@@ -17,6 +17,7 @@
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 <script src="/OurRoom/js/frappe-gantt.js"></script>
@@ -29,8 +30,7 @@
 	<div id="innerFrame">
 		<div id="gantt_top">
 			<span id="gantt_nameForm"> </span>
-			<form id="viewMode">
-				<form>
+			<form id="viewMode"></form>
 		</div>
 		<div id="projectInfo"></div>
 		<div id="sideTap"></div>
@@ -1821,5 +1821,5 @@
 
            })
        </script>
-    </body>
-    </html>
+</body>
+</html>

@@ -37,6 +37,12 @@ hr.style13 {
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+<script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
+
+
 <script type="text/javascript">
 	jQuery.browser = {};
 	(function() {
@@ -96,24 +102,25 @@ html, body {
 	font-family: 'New Gulim';
 	font-size: 18px;
 }
-body{
+
+body {
 	position: relative;
 }
-body:after{
-	content : "";
-	position : fixed;
-	top:0;
-	left:0;
+
+body:after {
+	content: "";
+	position: fixed;
+	top: 0;
+	left: 0;
 	background-image: url("/OurRoom/img/background4.jpg");
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	width:100%;
-	height:100%;
-	z-index:-1;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
 	opacity: 0.7;
 }
-
 </style>
 <script type="text/javascript">
 	$(function() {
