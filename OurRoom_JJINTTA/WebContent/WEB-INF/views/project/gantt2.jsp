@@ -94,7 +94,24 @@
 							id="addIssueModal_iEndDate" readonly>
 					</div>
 				</div>
+				<!--  09.18 김승겸 : 사라져서 추가함 -->
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div>이슈 멤버 할당</div>
+					<div>
+						<c:forEach items="${projectMemberList}" var="member">
+							<div class="selectMId" mId="${member.mId}"
+								mNickname="${member.mNickname}">
 
+								<img id="profile" class="rounded-circle img-circle"
+									src="data:image/jpg;base64, ${profileList.get(member.mId) }"
+									width="30px" height="30px"> ${member.mNickname}
+							</div>
+						</c:forEach>
+						=====================
+						<div id="selectedMId">할당된 멤버</div>
+					</div>
+				</div>
 				<!-- Modal footer -->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success" id="addIssue">Add</button>
@@ -589,15 +606,20 @@
          }
        })
      })
-      //이슈에 멤버 할당
-      selectedMId = []
-      $('.selectMId').on('click', function(){
-         console.log($(this).attr('mId'));
-         if(!selectedMId.includes($(this).attr('mId'))){
-            selectedMId.push($(this).attr('mId'))
-            $('#selectedMId').html(selectedMId)
-         }
-      })
+     //08.19 김승겸!!! 
+     //이슈에 멤버 할당
+	selectedMId = []
+	selectedHTML = []
+	$('.selectMId').on('click', function(){
+		// no cloning necessary    
+		var imgAndNickname = $(this).find('img').parent().html(); 
+		var img = $(this).find('img');
+		if(!selectedMId.includes($(this).attr('mId'))){
+			selectedMId.push($(this).attr('mId'));
+			selectedHTML.push(imgAndNickname)
+			$('#selectedMId').html(selectedHTML)
+		}
+	})
       //선택한 태스크 판별용 변수
       let selectedtNum = 0
       let selectedtName = ''

@@ -1,123 +1,157 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
-    <style>
-        body{font-family: "Lato"; margin:0; padding: 0;}
-      #myKanban{overflow-x: auto; padding-left: 0px; margin-left: -10px; padding-top: 20px}
+<style>
+body {
+	font-family: "Lato";
+	margin: 0;
+	padding: 0;
+}
 
-      .success{background: #00B961; color:#fff}
-      .info{background: #2A92BF; color:#fff}
-      .warning{background: #F4CE46; color:#fff}
-      .error{background: #FB7D44; color:#fff}
-      .material-icons.md-12{
-        font-size: 45px;
-        color: green;
-      }
-      .material-icons.md-30{
-        font-size: 40px;
-        vertical-align: bottom;
-        padding-bottom: 5px;
-      }
-      i{
-        cursor:pointer;
-      }
+#myKanban {
+	overflow-x: auto;
+	padding-left: 0px;
+	margin-left: -10px;
+	padding-top: 20px
+}
 
-    </style>
+.success {
+	background: #00B961;
+	color: #fff
+}
 
-    <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+.info {
+	background: #2A92BF;
+	color: #fff
+}
 
-    <script src="/OurRoom/js/jkanban.js"></script>
-    <link rel="stylesheet" href="/OurRoom/js/jkanban.css">
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+.warning {
+	background: #F4CE46;
+	color: #fff
+}
+
+.error {
+	background: #FB7D44;
+	color: #fff
+}
+
+.material-icons.md-12 {
+	font-size: 45px;
+	color: green;
+}
+
+.material-icons.md-30 {
+	font-size: 40px;
+	vertical-align: bottom;
+	padding-bottom: 5px;
+}
+
+i {
+	cursor: pointer;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+
+<script src="/OurRoom/js/jkanban.js"></script>
+<link rel="stylesheet" href="/OurRoom/js/jkanban.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 </head>
 <body>
-  <jsp:include page="../mainFrame.jsp" />
-    <div id="innerFrame">
+	<jsp:include page="../mainFrame.jsp" />
+	<div id="innerFrame">
 
-     <div class="container-fluid" style="padding:90px; margin-top:-40px;">
-     <div class="row">
-        <div class="col-md-12">
-					<div style="text-align:center;">
-          <h1 style="display: inline-block"><a style="color:black; font-weight:bold;" href='gantt?pNum=${project.pNum}'>${project.pName}</a> </h1>
-          <%-- <i class="material-icons md-30" data-toggle="tooltip" data-placement="right" title="차트 보기"> --%>
-          <i class="material-icons md-30" data-toggle="modal" data-target="#projectChartModal">
-            insert_chart
-          </i>
-					<div class="dropdown" style="float:right;" >
+		<div class="container-fluid" style="padding: 90px; margin-top: -40px;">
+			<div class="row">
+				<div class="col-lg-12">
+					<div style="text-align: center;">
+						<h1 style="display: inline-block">
+							<a style="color: black; font-weight: bold;"
+								href='gantt?pNum=${project.pNum}'>${project.pName}</a>
+						</h1>
+						<%-- <i class="material-icons md-30" data-toggle="tooltip" data-placement="right" title="차트 보기"> --%>
+						<i class="material-icons md-30" data-toggle="modal"
+							data-target="#projectChartModal"> insert_chart </i>
+						<div class="dropdown" style="float: right;">
 
-            <button style="padding-bottom:-20px; display: inline-block; margin-top:40px; margin-right:15px;" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='goToTasksBtn'>
-              ${task[0].tName} Kanban Boards
-            </button>
-            <div class="dropdown-menu" id='taskList'>
-            </div>
+							<button
+								style="padding-bottom: -20px; display: inline-block; margin-top: 40px; margin-right: 15px;"
+								type="button" class="btn btn-primary dropdown-toggle"
+								data-toggle="dropdown" id='goToTasksBtn'>
+								${task[0].tName} Kanban Boards</button>
+							<div class="dropdown-menu" id='taskList'></div>
 
-         </div>
+						</div>
+					</div>
+
+					<hr>
+					<i class="material-icons md-12" id="addToDo" data-toggle="tooltip"
+						data-placement="right" title="이슈 추가"> add_circle </i>
+
+					<div id="myKanban" style="margin-top: 10px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<%-- 차트 모달 --%>
+	<!-- The Modal -->
+	<div class="modal fade" id="projectChartModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">
+						프로젝트명: <span id="projectChartModal_pName"></span>
+					</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 
-				<hr>
-          <i class="material-icons md-12" id="addToDo" data-toggle="tooltip" data-placement="right" title="이슈 추가">
-            add_circle
-          </i>
+				<!-- Modal body -->
+				<div class="modal-body">
 
-           <div id="myKanban" style="margin-top:10px;"></div>
-        </div>
-     </div>
-  </div>
-  </div>
+					<%-- 프로젝트 완료 현황 --%>
+					<div class="projectChartModal_chartBody">
+						<div id="daysLeft"></div>
+						<canvas id="projectChartModal_chartBody_projectProgress"></canvas>
+						<br />
+						<div id="progressPercent"></div>
+						<progress id="animationProgress" max="1" value="0"
+							style="width: 100%"></progress>
 
+						<%-- 이슈 할당 --%>
+						<canvas id="projectChartModal_chartBody_signedIssue"></canvas>
 
-  <%-- 차트 모달 --%>
-  <!-- The Modal -->
-  <div class="modal fade" id="projectChartModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
+						<%-- 태스크별 이슈완료 --%>
+						<br />
+						<canvas id="projectChartModal_chartBody_completedIssue"></canvas>
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">
-            프로젝트명: <span id="projectChartModal_pName"></span>
-          </h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
+					</div>
 
-        <!-- Modal body -->
-        <div class="modal-body">
+				</div>
 
-          <%-- 프로젝트 완료 현황 --%>
-          <div class="projectChartModal_chartBody">
-            <div id="daysLeft"></div>
-            <canvas id="projectChartModal_chartBody_projectProgress"></canvas>
-            <br/>
-            <div id="progressPercent"></div>
-            <progress id="animationProgress" max="1" value="0" style="width: 100%"></progress>
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
 
-            <%-- 이슈 할당 --%>
-            <canvas id="projectChartModal_chartBody_signedIssue"></canvas>
+			</div>
+		</div>
+	</div>
 
-            <%-- 태스크별 이슈완료 --%>
-            <br/>
-            <canvas id="projectChartModal_chartBody_completedIssue"></canvas>
-
-          </div>
-
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <%-- 이슈 상세보기 모달 --%>
+	<%-- 이슈 상세보기 모달 --%>
 	<div class="modal fade" id="IssueDetailModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -186,7 +220,7 @@
 		</div>
 	</div>
 
-  <script type="text/javascript">
+	<script type="text/javascript">
 
   console.log(${issueJson});
 
@@ -644,7 +678,7 @@
 
   </script>
 
-  <script type="text/javascript">
+	<script type="text/javascript">
 
   $(document).ready(function () {
 

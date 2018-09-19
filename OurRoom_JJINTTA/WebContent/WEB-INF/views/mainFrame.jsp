@@ -30,16 +30,16 @@ hr.style13 {
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.min.js"></script>
-<link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css"
-	type="text/css" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
 
 <link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css">
+<!-- 밑의 스크립트때문에 알림모달이 안뜸.. -->
+<!-- <script src="https://code.jquery.com/jquery-1.9.0.js"></script> -->
+<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.min.js"></script>
 <script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
 
 
