@@ -35,7 +35,7 @@
             <c:if test="${pm.pmFav}">
               <c:forEach items="${progProject}" var="pList">
                 <c:if test="${pList.pNum==pm.pNum }">
-                  <div class="pList_fav_content_project" onclick="location.href='/OurRoom/project/gantt?pNum=' + ${pList.pNum}">
+                  <div class="pList_fav_content_project img-rounded" onclick="location.href='/OurRoom/project/gantt?pNum=' + ${pList.pNum}">
                   <span>${pList.pName}</span>
                   </div>
                 </c:if>
@@ -55,7 +55,7 @@
             <c:if test="${!pm.pmFav}">
               <c:forEach items="${progProject}" var="pList">
                 <c:if test="${pList.pNum==pm.pNum }">
-                  <div class="pList_prog_content_project" onclick="location.href='/OurRoom/project/gantt?pNum=' + ${pList.pNum}">
+                  <div class="pList_prog_content_project img-rounded" onclick="location.href='/OurRoom/project/gantt?pNum=' + ${pList.pNum}">
                   <span >${pList.pName}</span>
                   </div>
                 </c:if>
@@ -72,7 +72,7 @@
         </h2>
         <div id="pList_past_content" class="collapse">
           <c:forEach items="${pastProject}" var="past">
-            <div class="pList_past_content_project" onclick="location.href='/OurRoom/project/gantt?pNum=' + ${past.pNum}">
+            <div class="pList_past_content_project img-rounded" onclick="location.href='/OurRoom/project/gantt?pNum=' + ${past.pNum}">
             <span>${past.pName}</span>
             </div>
           </c:forEach>

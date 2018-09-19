@@ -25,9 +25,6 @@
       i{
         cursor:pointer;
       }
-      #innerFrame{
-        background-color:#ffffe6
-      }
 
     </style>
 
@@ -122,6 +119,74 @@
     </div>
   </div>
 
+  <%-- 이슈 상세보기 모달 --%>
+	<div class="modal fade" id="IssueDetailModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h2 class="modal-title">
+						<p class="selectedTask"></p>
+					</h2>
+					<h4 class="modal-title">
+						<span id="IssueDetailModal_iName"></span> <input type="text"
+							id="IssueDetailModal_iNameForm" autofocus>
+					</h4>
+					이슈 멤버 :
+					<p id="issueMember"></p>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body flex">
+
+					<div id="IssueDetailModal_left">
+						<div id="IssueDetailModal_iStartDate_div">
+							<h4>이슈 시작일</h4>
+							<input type="text" class="datepicker"
+								id="IssueDetailModal_iStartDate" readonly>
+						</div>
+						<div id="IssueDetailModal_iEndDate_div">
+							<h4>이슈 종료일</h4>
+							<input type="text" class="datepicker"
+								id="IssueDetailModal_iEndDate" readonly>
+						</div>
+						<br>
+						<div id="IssueDetailModal_iDscrForm">
+							<h4>이슈 설명</h4>
+							<textarea id="IssueDetailModal_iDscr"></textarea>
+							<button id="IssueDetailModal_iDscrBtn" type="button">저장</button>
+						</div>
+						<h4>
+							체크리스트
+							<button id="addCheckListForm" type="button">+</button>
+						</h4>
+						<div id="checkListNameForm"></div>
+						<div id="checkListList"></div>
+						<h4>코멘트</h4>
+						<div id="commentDiv">
+							${loginUser.mNickname} : <input type="text" style="width: 80%"
+								id="IssueDetailModal_cmContent">
+							<button id="IssueDetailModal_cmBtn" class="btn" type="button">저장</button>
+							<div id="commentArea"></div>
+						</div>
+					</div>
+
+					<div id="IssueDetailModal_right">
+						사이드<br> 체크리스트 +<br> 멤버<br>
+					</div>
+
+				</div>
+
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+				</div>
+
+			</div>
+		</div>
+	</div>
 
   <script type="text/javascript">
 
@@ -209,17 +274,134 @@
       return kanbanIssues
 
     }
+// 1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
+    const showIssue = (data) => {
+       //여기 문제가 있는데 잘 모르겠다
+       selectedTask = data.issueList[0].tNum
+       selectedIssue = data.issueList[0].iNum
+       $('.selectedTask').html(data.issueList[0].tName)
+       $('#IssueDetailModal_iName').html(data.issueList[0].iName)
+       $('#IssueDetailModal_iDscr').html(data.issueList[0].iDscr)
+       $('#IssueDetailModal_iStartDate').val(data.issueList[0].iStartDate)
+       $('#IssueDetailModal_iEndDate').val(data.issueList[0].iEndDate)
 
+       $('#issueMember').html('')
+       for (var k = 0; k < data.issueMember.length; k++) {
+          $('#issueMember').append(data.issueMember[k].mId).append(', ')
+       }
 
+       $('#issueDscr').html(data.issueList[0].iDscr)
+       $('#IssueDetailModal_iDscrBtn').hide()
+       $('#IssueDetailModal_iNameForm').hide()
+       //이슈멤버 리스트
+       issueMember = []
+       issueMember = data.issueMember
+       selectedIssueName = ''
+       selectedIssueName = data.issueList[0].iName
+       selectedIssueDscr = ''
+       selectedIssueDscr = data.issueList[0].iDscr
+
+    }
+
+    const showCheckList = (data) =>{
+       console.log('체크체크');
+       console.log(data);
+       let txt =''
+             for (var i = 0; i < data.checkList.length; i++) {
+                txt += '<div class=\'checkList\''
+                txt += ' pNum=' + data.checkList[i].pNum
+                txt += ' tNum=' + data.checkList[i].tNum
+                txt += ' iNum=' + data.checkList[i].iNum
+                txt += ' clNum=' + data.checkList[i].clNum
+                txt += ' clName = ' + data.checkList[i].clName
+                txt += '>'
+                txt += '체크리스트 이름 : ' + data.checkList[i].clName
+                txt +=  '<button style="float:right;" class="deleteCheckListBtn">X</button>'
+                txt +=  '<button style="float:right;" class="addCheckListItemFormBtn">O</button><br>'
+                txt += '<div class="addCheckListItemForm"></div>'
+                txt += '======================================================================'
+                for (var j = 0; j < data.checkListItem.length; j++) {
+                   if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
+                      txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
+                      txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn">X</button>'
+                      if(data.checkList[i].clIsDone == 1){
+                         txt += '<input type="checkbox" class="form-check-input ci_checkbox" checked>완료<br>'
+                      }else {
+                         txt += '<input type="checkbox" class="form-check-input ci_checkbox">완료<br>'
+                      }
+                      for(var k = 0; k < data.checkListItemMember.length; k++){
+                         if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
+                            txt += data.checkListItemMember[k].mId
+                            txt += '<br>'
+                         }
+                      }
+                      txt += '----------------------------------------------------------------------------------------------------------------'
+                      txt += '</div>'
+                   }
+                }
+                txt += '</div>'
+                txt += '</div>'
+                txt += '</div>'
+                txt += '<br>'
+             }
+             $('#checkListList').html(txt)
+             $('#checkListNameForm').empty()
+    }
+    //코멘트 생성
+    const showComment = (data) => {
+       console.log(data.commentList)
+       txt =''
+       for(let i = 0; i < data.commentList.length; i++){
+          if(data.commentList[i].cmSuper == 0){
+             txt += '<p cmNum="'
+             txt += data.commentList[i].cmNum
+             txt += '" mId="'
+             txt += data.commentList[i].mId
+             txt += '">'
+             txt += data.commentList[i].mId
+             txt += ' : '
+             txt += data.commentList[i].cmContent
+             txt += ' : '
+             txt += data.commentList[i].cmWriteTime
+             if($('#loginUser').val() == data.commentList[i].mId){
+                //답글 작성자가 본인이면 삭제 버튼 활성화
+                txt += '<button class="IssueDetailModal_deleteCmBtn">삭제</button>'
+             }
+             txt += '<button class="IssueDetailModal_reCmFormBtn" IssueDetailModal_reCmFormBtn="0">답글</button>'
+             txt += '</p>'
+             showReComment(data, data.commentList[i].cmNum)
+          }
+       }
+       $('#commentArea').html(txt)
+    }
+// 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
   var KanbanTest = new jKanban({
       element : '#myKanban',
       gutter  : '10px',
       click : function(el){
             //var addBoardDefault = document.getElementById(el.data-eid)
-          // var x = el.getAttribute('data-eid')
+          let selectedissue = el.getAttribute('data-eid')
+
           // alert(x+'번 이슈 상세보기')      //    alert(x);
+          $.ajax({
+             url : 'issueDetail',
+             data : {
+                pNum : ${project.pNum},
+                tNum : ${task[0].tNum},
+                iNum : selectedissue
+             },
+             type : 'post',
+             success : (data) => {
+                console.log('성공');
+                console.log(data);
+                showIssue(data)
+                showCheckList(data)
+                showComment(data)
 
+             }
+          })
 
+          $('#IssueDetailModal').modal()
 
       },
       boards  : makeKanban(issueList),
@@ -267,11 +449,19 @@
   let signedIssue = document.getElementById("projectChartModal_chartBody_signedIssue").getContext('2d');
   let completedIssue = document.getElementById("projectChartModal_chartBody_completedIssue").getContext('2d');
   let pEndDate = ${project.pEndDate}
-  let today = new Date
-  let chart_pEndDate = new Date(pEndDate)
 
-  let remainDates = '남은 기한 : '+(new Date(chart_pEndDate - today).getDate()-1).toString()+'일'
+  let today = new Date()
 
+  let yy = ${project.pEndDate.split('-')[0]}
+  let mm = ${project.pEndDate.split('-')[1]}
+  let dd = ${project.pEndDate.split('-')[2]}
+  let ddddd = yy + '-' + mm + '-' + dd
+
+  let chart_pEndDate = new Date(ddddd)
+
+  let calculatedDays = Math.floor((Date.UTC(chart_pEndDate.getFullYear(), chart_pEndDate.getMonth(), chart_pEndDate.getDate()) - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) ) /(1000 * 60 * 60 * 24))
+  let remainDates = '남은 기한 : '+calculatedDays+'일'
+  
   $('#daysLeft').html(remainDates)
 
     const showProjectChartModal = (data) => {
@@ -289,6 +479,7 @@
       }
 
       let percent = (completedIssueCount/(completedIssueCount+uncompletedIssueCount))*100
+      percent = percent.toFixed(1)
       percent = '진행률 : '+percent.toString()+'%'
       $('#progressPercent').html(percent)
       let progress = document.getElementById('animationProgress');
