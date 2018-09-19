@@ -49,7 +49,7 @@ h4 {
 }
 
 .jumbotron {
-	background-color: #00C996;
+	background-color: #339933;
 	color: #fff;
 	padding: 100px 25px;
 	font-family: Montserrat, sans-serif;
@@ -64,12 +64,12 @@ h4 {
 }
 
 .logo-small {
-	color: #00C996;
+	color: #339933;
 	font-size: 50px;
 }
 
 .logo {
-	color: #00C996;
+	color: #339933;
 	font-size: 200px;
 }
 
@@ -87,15 +87,15 @@ h4 {
 
 .carousel-control.right, .carousel-control.left {
 	background-image: none;
-	color: #00C996;
+	color: #339933;
 }
 
 .carousel-indicators li {
-	border-color: #00C996;
+	border-color: #339933;
 }
 
 .carousel-indicators li.active {
-	background-color: #00C996;
+	background-color: #339933;
 }
 
 .item h4 {
@@ -111,7 +111,7 @@ h4 {
 }
 
 .panel {
-	border: 1px solid #00C996;
+	border: 1px solid #339933;
 	border-radius: 0 !important;
 	transition: box-shadow 0.5s;
 }
@@ -152,14 +152,14 @@ h4 {
 
 .panel-footer .btn {
 	margin: 15px 0;
-	background-color: #00C996;
+	background-color: #339933;
 	color: #fff;
 }
 
 .navbar {
 	margin-bottom: 0;
-	background-color: #00C996;
-	z-index: 9999;
+	background-color: #339933;
+	z-index: 999;
 	border: 0;
 	font-size: 12px !important;
 	line-height: 1.42857143 !important;
@@ -185,7 +185,7 @@ h4 {
 footer .glyphicon {
 	font-size: 20px;
 	margin-bottom: 20px;
-	color: #00C996;
+	color: #339933;
 }
 
 .slideanim {
@@ -239,7 +239,143 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -302,7 +438,143 @@ transform
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :translateY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -399,6 +671,74 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
@@ -427,7 +767,75 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -511,6 +919,74 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
@@ -539,7 +1015,75 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -622,6 +1166,74 @@ translateY
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 (0%);
 }
 }
@@ -642,25 +1254,23 @@ translateY
 	}
 }
 
-.modal.fade .modal-dialog {
-	/* top: 50px; */
-	
-}
-
 .modal-header, #h4_login, .close {
 	background-color: royalblue;
 	color: white !important;
 	text-align: center;
 	font-size: 30px;
-	/* padding: 20px 20px; */
-}
-
-.modal-footer {
-	
 }
 
 body {
 	padding: 0 !important
+}
+
+.login {
+	top: 100px;
+}
+
+.form-group {
+	margin-bottom: 0;
 }
 </style>
 </head>
@@ -675,16 +1285,11 @@ body {
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#myPage">OurRoom</a>
+				<a class="navbar-brand" href="#myPage"><b>ourRoom</b></a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
-					<!-- <li><a href="#about">ABOUT</a></li>
-					<li><a href="#services">SERVICES</a></li>
-					<li><a href="#portfolio">PORTFOLIO</a></li>
-					<li><a href="#pricing">PRICING</a></li>
-					<li><a href="#contact">CONTACT</a></li> -->
-					<li><a id="login">LOGIN</a></li>
+					<li><a id="login"><b style="font-size: 15px;">LOGIN</b></a></li>
 				</ul>
 			</div>
 		</div>
@@ -700,102 +1305,27 @@ body {
 	</div>
 
 	<!-- Container (About Section) -->
-	<div id="about" class="container-fluid">
+	<div id="about" class="container-fluid text-center">
 		<div class="row">
-			<div class="col-sm-8">
-				<h2>About Company Page</h2>
-				<br>
-				<h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-					nisi ut aliquip ex ea commodo consequat.</h4>
-				<br>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-					do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-					enim ad minim veniam, quis nostrud exercitation ullamco laboris
-					nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat
-					cupidatat non proident, sunt in culpa qui officia deserunt mollit
-					anim id est laborum consectetur adipiscing elit, sed do eiusmod
-					tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-					minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-					aliquip ex ea commodo consequat.</p>
-				<br>
-				<button class="btn btn-default btn-lg">Get in Touch</button>
-			</div>
-			<div class="col-sm-4">
-				<span class="glyphicon glyphicon-signal logo"></span>
+			<div class="col-lg-12">
+				<img class="img-rounded" src="/OurRoom/img/localImage.png">
 			</div>
 		</div>
 	</div>
 
-	<div class="container-fluid bg-grey">
+	<div class="container-fluid bg-grey text-center">
 		<div class="row">
-			<div class="col-sm-4">
-				<span class="glyphicon glyphicon-globe logo slideanim"></span>
-			</div>
-			<div class="col-sm-8">
-				<h2>Our Values</h2>
-				<br>
-				<h4>
-					<strong>MISSION:</strong> Our mission lorem ipsum dolor sit amet,
-					consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-					labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-					nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat.
-				</h4>
-				<br>
-				<p>
-					<strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet,
-					consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-					labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-					nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-					sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-					Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-					nisi ut aliquip ex ea commodo consequat.
-				</p>
+			<div class="col-lg-12">
+				<img class="img-rounded" src="/OurRoom/img/localImage.png">
 			</div>
 		</div>
 	</div>
 
 	<!-- Container (Services Section) -->
-	<div id="services" class="container-fluid text-center">
-		<h2>SERVICES</h2>
-		<h4>What we offer</h4>
-		<br>
-		<div class="row slideanim">
-			<div class="col-sm-4">
-				<span class="glyphicon glyphicon-off logo-small"></span>
-				<h4>POWER</h4>
-				<p>Lorem ipsum dolor sit amet..</p>
-			</div>
-			<div class="col-sm-4">
-				<span class="glyphicon glyphicon-heart logo-small"></span>
-				<h4>LOVE</h4>
-				<p>Lorem ipsum dolor sit amet..</p>
-			</div>
-			<div class="col-sm-4">
-				<span class="glyphicon glyphicon-lock logo-small"></span>
-				<h4>JOB DONE</h4>
-				<p>Lorem ipsum dolor sit amet..</p>
-			</div>
-		</div>
-		<br> <br>
-		<div class="row slideanim">
-			<div class="col-sm-4">
-				<span class="glyphicon glyphicon-leaf logo-small"></span>
-				<h4>GREEN</h4>
-				<p>Lorem ipsum dolor sit amet..</p>
-			</div>
-			<div class="col-sm-4">
-				<span class="glyphicon glyphicon-certificate logo-small"></span>
-				<h4>CERTIFIED</h4>
-				<p>Lorem ipsum dolor sit amet..</p>
-			</div>
-			<div class="col-sm-4">
-				<span class="glyphicon glyphicon-wrench logo-small"></span>
-				<h4 style="color: #303030;">HARD WORK</h4>
-				<p>Lorem ipsum dolor sit amet..</p>
+	<div class="container-fluid text-center">
+		<div class="row">
+			<div class="col-lg-12">
+				<img class="img-rounded" src="/OurRoom/img/localImage.png">
 			</div>
 		</div>
 	</div>
@@ -837,7 +1367,7 @@ body {
 		</div>
 		<br>
 
-		<h2>What our customers say</h2>
+		<h2>사용후기</h2>
 		<div id="myCarousel" class="carousel slide text-center"
 			data-ride="carousel">
 			<!-- Indicators -->
@@ -851,20 +1381,21 @@ body {
 			<div class="carousel-inner" role="listbox">
 				<div class="item active">
 					<h4>
-						"This company is the best. I am so happy with the result!"<br>
-						<span>Michael Roe, Vice President, Comment Box</span>
+						"프로젝트를 진행할 때, 칸반으로 짜놓은 계획을 간트차트롤 만드려면 다른 프로그램에 일일이 옮겨적었는데 <br>
+						이 사이트를 만난 이후로는 그럴 필요가 없어졌어요!"<br> <span> &lt; Juli
+							&gt; </span>
 					</h4>
 				</div>
 				<div class="item">
 					<h4>
-						"One word... WOW!!"<br> <span>John Doe, Salesman, Rep
-							Inc</span>
+						"인원별로 업무처리를 한눈에 볼 수 있어서 누가 일 안하고 놀았는지 파악하기 쉬워졌어요."<br> "너무
+						좋아요!!!"<br> <span> &lt; nice100sj &gt; </span>
 					</h4>
 				</div>
 				<div class="item">
 					<h4>
-						"Could I... BE any more happy with this company?"<br> <span>Chandler
-							Bing, Actor, FriendsAlot</span>
+						프로젝트 뿐 아니라 개인 일정관리에도 너무 탁월합니다.<br> 강추 강추!!<br> <span>
+							&lt; 101^ &gt; </span>
 					</h4>
 				</div>
 			</div>
@@ -933,7 +1464,7 @@ body {
 					},
 					success : function(result) {
 						if (result) {
-							$("form").submit();
+							$("#form").submit();
 						} else {
 							$("#memberCheckMsg").css("color", "red");
 							$("#memberCheckMsg").html("회원정보를 잘못 입력하셨습니다.");
@@ -1024,7 +1555,7 @@ body {
 				if (result) {
 					$("#idCheckMsg").css("color", "red");
 					$("#idCheckMsg").html("이미 사용중인 아이디입니다.");
-					isOk = false;
+					isOk = false; 
 					
 				}else{ 
 					$("#idCheckMsg").css("color", "green");
@@ -1178,41 +1709,41 @@ body {
 	<!-- 로그인 -->
 	<!-- Modal -->
 	<div class="modal fade" id="loginModal" role="dialog">
-		<div class="modal-dialog">
+		<div class="login modal-dialog">
 
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 style="">
-						<span class="glyphicon glyphicon-lock" id="h4_login"></span> Login
+						<span class="glyphicon glyphicon-lock" id="h4_login"></span> 로그인
 					</h4>
 				</div>
 				<div class="modal-body" style="padding: 20px 20px;">
-					<form role="form" action="home" method="post">
+					<form id="form" role="form" action="project/pList" method="post">
 						<div class="form-group">
 							<label for="usrname"><span
-								class="glyphicon glyphicon-user"></span> Username</label> <input
-								type="text" class="form-control" id="mId" name="mId"
+								class="glyphicon glyphicon-user"></span> 이메일</label> <input type="text"
+								class="form-control" id="mId" name="mId"
 								placeholder="Enter email">
-						</div>
+						</div> 
 						<div class="form-group">
 							<label for="mPw"><span
-								class="glyphicon glyphicon-eye-open"></span> Password</label> <input
+								class="glyphicon glyphicon-eye-open"></span> 비밀번호</label> <input
 								type="password" class="form-control" id="mPw" name="mPw"
 								placeholder="Enter password"><br>
 							<p id="memberCheckMsg"></p>
 						</div>
 						<button type="button" id="loginBtn"
 							class="btn btn-success btn-block">
-							<span class="glyphicon glyphicon-off"></span> Login
+							<span class="glyphicon glyphicon-off"></span> 로그인
 						</button>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<p>
-						Not a member? <a id="signUp_a">Sign Up</a> <br> Forgot <a
-							id="findPw">Password?</a>
+						<a id="signUp_a" style="cursor: pointer;">회원이 아닌가요?</a> <br>
+						<a id="findPw" style="cursor: pointer;"> 비밀번호를 모르겠어요.</a>
 					</p>
 				</div>
 			</div>
@@ -1224,48 +1755,42 @@ body {
 	<!-- Modal -->
 	<div class="modal signUp fade" id="signUpModal" role="dialog">
 		<div class="modal-dialog">
-
 			<!-- Modal content-->
 			<div class="modal-content">
-				<div class="modal-header" style="padding: 20px 5px;">
+				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4>
-						<span class="glyphicon glyphicon-lock" id="h4_login"></span> Sign
-						Up
-					</h4>
+					<h4>회원가입</h4>
 				</div>
-				<div class="modal-body" style="padding: 20px 20px;">
+				<div class="modal-body">
 					<form role="form" id="signForm" action="join" method="post">
 						<div class="form-group">
 							<label for="sign_mId"><span
-								class="glyphicon glyphicon-user"></span> Email</label> <input
-								type="text" class="form-control" id="sign_mId" name="mId"
+								class="glyphicon glyphicon-user"></span> 이메일</label> <input type="text"
+								class="form-control" id="sign_mId" name="mId"
 								placeholder="email"> <span id="idCheckMsg"></span>
 						</div>
 						<div class="form-group">
 							<label for="sign_mPw"><span
-								class="glyphicon glyphicon-eye-open"></span> Password</label> <input
+								class="glyphicon glyphicon-eye-open"></span> 비밀번호</label> <input
 								type="password" class="form-control" id="sign_mPw" name="mPw"
-								placeholder="password">
-							<p id="pwCheckMsg"></p>
+								placeholder="password"> <span id="pwCheckMsg"></span>
 						</div>
 						<div class="form-group">
 							<label for="sign_mPw2"><span
-								class="glyphicon glyphicon-eye-open"></span> Check Password </label> <input
+								class="glyphicon glyphicon-eye-open"></span> 비밀번호 확인 </label> <input
 								type="password" class="form-control" id="sign_mPw2"
-								name="sign_mPw2" placeholder="Check password">
-							<p id="pw2CheckMsg"></p>
+								name="sign_mPw2" placeholder="Check password"> <span
+								id="pw2CheckMsg"></span>
 						</div>
 						<div class="form-group">
 							<label for="sign_mNickname"><span
-								class="glyphicon glyphicon-font"></span> Nickname </label> <input
-								type="text" class="form-control" id="sign_mNickname"
-								name="mNickname" placeholder="Nickname">
-							<p id="nicknameCheckMsg"></p>
+								class="glyphicon glyphicon-font"></span> 닉네임 </label> <input type="text"
+								class="form-control" id="sign_mNickname" name="mNickname"
+								placeholder="Nickname"> <span id="nicknameCheckMsg"></span>
 						</div>
 						<div class="form-group">
 							<label for="sign_mQuestion"><span
-								class="glyphicon glyphicon-question-sign"></span> Question </label> <select
+								class="glyphicon glyphicon-question-sign"></span> 질문 </label> <select
 								id="sign_mQuestion" name="mQuestion" class="form-control">
 								<option value="1" selected="selected">가장 아끼는 보물 1호는?</option>
 								<option value="2">졸업한 초등학교 이름은?</option>
@@ -1275,21 +1800,20 @@ body {
 						</div>
 						<div class="form-group">
 							<label for="sign_mAnswer"><span
-								class="glyphicon glyphicon-comment"></span> Answer </label> <input
+								class="glyphicon glyphicon-comment"></span> 답변 </label> <input
 								type="text" class="form-control" id=sign_mAnswer name="mAnswer"
-								placeholder="mAnswer">
-							<p id="answerCheckMsg"></p>
+								placeholder="mAnswer"> <span id="answerCheckMsg"></span>
 						</div>
 						<button type="button" id="signUpBtn"
 							class="btn btn-success btn-block">
-							<span class="glyphicon glyphicon-off"></span> Sign Up
+							<span class="glyphicon glyphicon-off"></span> 회원가입
 						</button>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="submit" class="btn btn-danger btn-default pull-left"
 						data-dismiss="modal">
-						<span class="glyphicon glyphicon-remove"></span> Cancel
+						<span class="glyphicon glyphicon-remove"></span> 취소
 					</button>
 				</div>
 			</div>
@@ -1307,20 +1831,20 @@ body {
 				<div class="modal-header" style="padding: 20px 20px;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4>
-						<i class="fas fa-key"></i> Forget Password
+						<i class="fas fa-key"></i> 비밀번호 찾기
 					</h4>
 				</div>
 				<div class="modal-body" style="padding: 20px 20px;">
 					<form role="form" action="home" method="post">
 						<div class="form-group">
 							<label for="pwQ_mId"><span
-								class="glyphicon glyphicon-user"></span> Email </label> <input
-								type="text" class="form-control" id="pwQ_mId" name="mId"
+								class="glyphicon glyphicon-user"></span> 이메일 </label> <input type="text"
+								class="form-control" id="pwQ_mId" name="mId"
 								placeholder="Enter email">
 						</div>
 						<div class="form-group">
 							<label for="pwQ_mQuestion"><span
-								class="glyphicon glyphicon-question-sign"></span> question </label> <select
+								class="glyphicon glyphicon-question-sign"></span> 질문 </label> <select
 								id="pwQ_mQuestion" name="mQuestion">
 								<option value="1" selected="selected">가장 아끼는 보물 1호는?</option>
 								<option value="2">졸업한 초등학교 이름은?</option>
@@ -1330,21 +1854,21 @@ body {
 						</div>
 						<div class="form-group">
 							<label for="pwQ_mAnswer"><span
-								class="glyphicon glyphicon-comment"></span> Answer </label> <input
+								class="glyphicon glyphicon-comment"></span> 답변 </label> <input
 								type="text" class="form-control" id="pwQ_mAnswer" name="mAnswer"
 								placeholder="Answer">
 						</div>
 
 						<button type="button" id=ForgetPwBtn
 							class="btn btn-success btn-block">
-							<span class="glyphicon glyphicon-off"></span> Check
+							<span class="glyphicon glyphicon-off"></span> 확인
 						</button>
 					</form>
 				</div>
 				<div class="modal-footer">
 					<button type="submit" id="findPwCancelBtn"
 						class="btn btn-danger btn-default pull-left" data-dismiss="modal">
-						<span class="glyphicon glyphicon-remove"></span> Cancel
+						<span class="glyphicon glyphicon-remove"></span> 취소
 					</button>
 				</div>
 			</div>
@@ -1372,13 +1896,13 @@ body {
 			
 		}); 
 		
-	
+	 
 	</script>
 	<footer class="container-fluid text-center">
 		<a href="#myPage" title="To Top"> <span
 			class="glyphicon glyphicon-chevron-up"></span>
 		</a>
-		<p>Copyright © 2018 OURROOM ZZINDDA. All rights reserved.</p>
+		<p>Copyright © 2018 OURROOM 101^. All rights reserved.</p>
 	</footer>
 </body>
 </html>
