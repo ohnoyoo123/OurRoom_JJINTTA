@@ -1,6 +1,6 @@
 #innerFrame {
    display: inline-block;
-   width: 90vw;
+   /* width: 90vw; */
 }
 
 #gantt{
@@ -39,14 +39,14 @@
    border-bottom: 2px solid rgba(0, 0, 0, .1);
    vertical-align: middle;
    font-size : 14px;
-
+   background-color: white;
 
 }
 
 #sideTap .table td span{
    font-size : 18px;
    font-weight: bold;
-  
+
 }
 
 #addTaskBtn, .addIssueBtn{
@@ -95,12 +95,12 @@ textarea {
 }
 
 #IssueDetailModal_cmContent{
-   display: block;
+  /* display: inline-block; */
+  float: right;
+  width: 80%;
 }
 
 #IssueDetailModal_cmBtn{
-   display: inline-block;
-   width : 15%;
    float: right;
 }
 
@@ -143,17 +143,32 @@ textarea {
    float: right;
 }
 
-#IssueDetailModal_iStartDate, #IssueDetailModal_iEndDate{
-   float: left;
-   width: 80%;
+#IssueDetailModal_iEndDate_div h4 i{
+   margin-left: 15px;
 }
 
+#IssueDetailModal_iStartDate, #IssueDetailModal_iEndDate{
+   float: left;
+   width: 319px;
+}
+#IssueDetailModal_iEndDate{
+  margin-left: 15px;
+}
+#IssueDetailModal_iDscr{
+  width : 100%;
+}
 
 #IssueDetailModal_iDscrForm{
-   margin-top: 70px;
+  margin-top: 80px;
 }
 
 #IssueDetailModal_iDscrBtn{
+  margin-top: 10px;
+
+}
+
+#IssueDetailModal_addCheckListForm{
+  margin-top: 20px;
 
 }
 
@@ -170,7 +185,8 @@ textarea {
 #IssueDetailModal_right{
    flex-grow: 1;
    flex-basis: 25%;
-   border : 2px solid;
+   background-color: rgba(0, 0, 0, .1);
+   border-radius: 10px;
 }
 
 .modal-content{
@@ -184,4 +200,121 @@ textarea {
 
 .hover{
 	cursor : pointer;
+}
+
+#checkListName{
+  display: inline-block;
+  float: left;
+  width : 86.2%;
+  margin-bottom: 20px;
+}
+
+#checkListNameForm{
+  margin-top: 20px;
+}
+
+#addCheckListBtn{
+  float: left;
+  margin-left: 5px;
+  background-color: rgba(33, 99, 33, .7);
+  color: white;
+}
+
+.checkList{
+  display: inline-block;
+  float: left;
+  width : 100%;
+}
+
+#commentDiv{
+  margin-top: 20px;
+  float: left;
+  width: 100%;
+}
+
+#IssueDetailModal_nickname{
+  display:inline-block;
+  vertical-align: bottom;
+  max-width: 12%;
+  min-width: 12%;
+  /* font-size: 16px; */
+  /* font-style: bold; */
+}
+
+#IssueDetailModal_nickname span{
+  vertical-align: bottom;
+
+  font-size: 18px;
+  font-weight: bold;
+}
+.material-icons.newTask{
+  font-size: 30px;
+  color : #5da0c1;
+}
+
+.material-icons.newIssue{
+  font-size: 30px;
+  color : #ea73af;
+}
+
+.addCheckListItemFormBtn, .deleteCheckListBtn{
+  background-color: rgba(33, 99, 33, .5);
+  color : white;
+}
+
+.deleteCheckListBtn{
+  margin-left: 5px;
+}
+
+.checkListItem{
+  margin-top: 10px;
+}
+
+#addCheckListItemName{
+  /* display: block; */
+  /* margin-top: 20px; */
+  /* margin-left: 50px; */
+  width: 85%;
+  float: right;
+}
+
+#addCheckListItemBtn, #addCheckListItemCancelBtn, #IssueDetailModal_cmBtn{
+  display: inline-block;
+  /* margin-top: 20px; */
+  float: right;
+  margin-left: 5px;
+  margin-top: 2px;
+  background-color: rgba(33, 99, 33, .7);
+  color : white;
+
+}
+
+#addCheckListItemBtn:hover, #addCheckListItemCancelBtn:hover, #IssueDetailModal_cmBtn:hover{
+  background-color: rgba(33, 99, 33, 1);
+  color : white;
+}
+
+#checkListList .checkList .addCheckListItemFormBtn:hover, #checkListList .checkList .deleteCheckListBtn:hover{
+  background-color: rgba(33, 99, 33, 1);
+  color : white;
+}
+
+.addCheckListItemForm_inner{
+  margin-top: 10px;
+}
+
+.deleteCheckListItemBtn{
+  background-color: rgba(33, 99, 33, .7);
+  color : white;
+  /* float: right; */
+  /* margin-top: 2px; */
+}
+
+.tap{
+  margin-left: 20px;
+}
+
+u{
+  font-weight: bold;
+  font-size: 18px;
 }
