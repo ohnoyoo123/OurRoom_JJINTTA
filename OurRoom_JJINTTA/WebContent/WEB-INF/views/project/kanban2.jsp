@@ -459,7 +459,7 @@
 
   let calculatedDays = Math.floor((Date.UTC(chart_pEndDate.getFullYear(), chart_pEndDate.getMonth(), chart_pEndDate.getDate()) - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) ) /(1000 * 60 * 60 * 24))
   let remainDates = '남은 기한 : '+calculatedDays+'일'
-
+  
   $('#daysLeft').html(remainDates)
 
     const showProjectChartModal = (data) => {
