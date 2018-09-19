@@ -28,7 +28,7 @@
 
     </style>
 
-    <script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+    
 
     <script src="/OurRoom/js/jkanban.js"></script>
     <link rel="stylesheet" href="/OurRoom/js/jkanban.css">
@@ -461,7 +461,7 @@
 
   let calculatedDays = Math.floor((Date.UTC(chart_pEndDate.getFullYear(), chart_pEndDate.getMonth(), chart_pEndDate.getDate()) - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) ) /(1000 * 60 * 60 * 24))
   let remainDates = '남은 기한 : '+calculatedDays+'일'
-  
+
   $('#daysLeft').html(remainDates)
 
     const showProjectChartModal = (data) => {
