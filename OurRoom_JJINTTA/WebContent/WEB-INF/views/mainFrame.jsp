@@ -64,7 +64,7 @@ html, body {
 #top {
 	width: 100%;
 	height: 45px;
-	background-color: #339933;
+	background-color: #5cb85c;
 	color: white;
 }
 
@@ -81,7 +81,7 @@ html, body {
 	width: 50px;
 	height: 40px;
 	float: right;
-	background-color: #339933;
+	background-color: #5cb85c;
 	margin-right: 25px;
 	font-size: 40px;
 	color: #e6ffe6;
@@ -96,6 +96,24 @@ html, body {
 	font-family: 'New Gulim';
 	font-size: 18px;
 }
+body{
+	position: relative;
+}
+body:after{
+	content : "";
+	position : fixed;
+	top:0;
+	left:0;
+	background-image: url("/OurRoom/img/background4.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	width:100%;
+	height:100%;
+	z-index:-1;
+	opacity: 0.7;
+}
+
 </style>
 <script type="text/javascript">
 	$(function() {

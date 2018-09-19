@@ -93,7 +93,7 @@ public class PageController2 {
 	public ModelAndView home(HttpSession session) {
 		String loginUser = ((Member) session.getAttribute("loginUser")).getmId();
 
-		ModelAndView mav = new ModelAndView("home/home");
+		ModelAndView mav = new ModelAndView();
 
 		HashMap<String, Object> param = new HashMap<>();
 		param.put("mId", loginUser);
@@ -119,7 +119,7 @@ public class PageController2 {
 		mav.addObject("projectList", projectList);
 		mav.addObject("projectMemberList", projectMemberList);
 		mav.addObject("projectLogList", projectLogList);
-
+		mav.setViewName("redirect:project/pList");
 		return mav;
 	}
 

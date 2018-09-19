@@ -43,31 +43,29 @@
      <div class="container-fluid" style="padding:90px; margin-top:-40px;">
      <div class="row">
         <div class="col-md-12">
-
-          <h1 style="display: inline-block"><a href='gantt?pNum=${project.pNum}'>${project.pName}</a> </h1>
+					<div style="text-align:center;">
+          <h1 style="display: inline-block"><a style="color:black; font-weight:bold;" href='gantt?pNum=${project.pNum}'>${project.pName}</a> </h1>
           <%-- <i class="material-icons md-30" data-toggle="tooltip" data-placement="right" title="차트 보기"> --%>
           <i class="material-icons md-30" data-toggle="modal" data-target="#projectChartModal">
             insert_chart
           </i>
+					<div class="dropdown" style="float:right;" >
 
-          <div class="dropdown" style="float:right;" >
-
-            <button style="padding-bottom:-20px;" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='goToTasksBtn'>
+            <button style="padding-bottom:-20px; display: inline-block; margin-top:40px; margin-right:15px;" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='goToTasksBtn'>
               ${task[0].tName} Kanban Boards
             </button>
             <div class="dropdown-menu" id='taskList'>
             </div>
 
+         </div>
+				</div>
 
-          </div>
-
-           <hr>
-
+				<hr>
           <i class="material-icons md-12" id="addToDo" data-toggle="tooltip" data-placement="right" title="이슈 추가">
             add_circle
           </i>
 
-           <div id="myKanban"></div>
+           <div id="myKanban" style="margin-top:10px;"></div>
         </div>
      </div>
   </div>
@@ -461,7 +459,7 @@
 
   let calculatedDays = Math.floor((Date.UTC(chart_pEndDate.getFullYear(), chart_pEndDate.getMonth(), chart_pEndDate.getDate()) - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) ) /(1000 * 60 * 60 * 24))
   let remainDates = '남은 기한 : '+calculatedDays+'일'
-  
+
   $('#daysLeft').html(remainDates)
 
     const showProjectChartModal = (data) => {
