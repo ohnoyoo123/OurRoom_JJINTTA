@@ -1635,9 +1635,18 @@
          let signedIssue = document.getElementById("projectChartModal_chartBody_signedIssue").getContext('2d');
          let completedIssue = document.getElementById("projectChartModal_chartBody_completedIssue").getContext('2d');
          let pEndDate = ${project.pEndDate}
-         let today = new Date
-         let chart_pEndDate = new Date(pEndDate)
-         let remainDates = '남은 기한 : '+(new Date(chart_pEndDate - today).getDate()-1).toString()+'일'
+				 let today = new Date()
+
+				 let yy = ${project.pEndDate.split('-')[0]}
+				 let mm = ${project.pEndDate.split('-')[1]}
+				 let dd = ${project.pEndDate.split('-')[2]}
+				 let ddddd = yy + '-' + mm + '-' + dd
+
+				 let chart_pEndDate = new Date(ddddd)
+
+				 let calculatedDays = Math.floor((Date.UTC(chart_pEndDate.getFullYear(), chart_pEndDate.getMonth(), chart_pEndDate.getDate()) - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) ) /(1000 * 60 * 60 * 24))
+				 let remainDates = '남은 기한 : '+calculatedDays+'일'
+
          $('#daysLeft').html(remainDates)
            const showProjectChartModal = (data) => {
              $('.chartjs-size-monitor').remove()
@@ -1651,8 +1660,9 @@
                  uncompletedIssueCount++
                }
              }
-             let percent = (completedIssueCount/(completedIssueCount+uncompletedIssueCount))*100
-             percent = '진행률 : '+percent.toString()+'%'
+						 let percent = (completedIssueCount/(completedIssueCount+uncompletedIssueCount))*100
+						 percent = percent.toFixed(1)
+						 percent = '진행률 : '+percent.toString()+'%'
              $('#progressPercent').html(percent)
              let progress = document.getElementById('animationProgress');
              const projectChartModal_chartBody_projectProgress = new Chart(projectProgress, {

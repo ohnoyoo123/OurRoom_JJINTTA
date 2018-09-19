@@ -18,6 +18,9 @@ hr.style13 {
    border: 0;
    box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
+body{
+  background-color:#ffffcc !important
+}
 
 </style>
 <link rel="stylesheet" href="/OurRoom/css/modal.css">
