@@ -48,8 +48,8 @@
   padding: 8px;
   height: 87%;
   float: left;
-  /* background-color: rgba(0, 255, 0, 0.1); */
-  border: 1px solid rgba(0, 255, 0, 0.4);
+  background-color: white;
+
 }
 
 h2{
