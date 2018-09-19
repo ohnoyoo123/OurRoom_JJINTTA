@@ -13,12 +13,15 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/snap.svg/0.5.1/snap.svg-min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.9.0.js"></script>
+<script src="https://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 <script src="/OurRoom/js/frappe-gantt.js"></script>
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 <link rel="stylesheet" href="/OurRoom/css/gantt.css">
-
 </head>
 
 <body>
@@ -26,7 +29,8 @@
 	<div id="innerFrame">
 		<div id="gantt_top">
 			<span id="gantt_nameForm"> </span>
-			<form id="viewMode"></form>
+			<form id="viewMode">
+				<form>
 		</div>
 		<div id="projectInfo"></div>
 		<div id="sideTap"></div>
@@ -906,7 +910,6 @@
 
 
             const showIssue = (data) => {
-            	
                //여기 문제가 있는데 잘 모르겠다
                selectedTask = data.issueList[0].tNum
                selectedIssue = data.issueList[0].iNum
@@ -915,17 +918,12 @@
                $('#IssueDetailModal_iDscr').html(data.issueList[0].iDscr)
                $('#IssueDetailModal_iStartDate').val(data.issueList[0].iStartDate)
                $('#IssueDetailModal_iEndDate').val(data.issueList[0].iEndDate)
+
                $('#issueMember').html('')
-              
-               // 김승겸 09.18 19:30 이슈할당 멤버들  프로필 | 닉네임 쌍으로 보여주기
-               for (var k = 0; k < data.issueMember.length; k++) {			
-					var img = "<img class='rounded-circle img-circle' src='data:image/jpg;base64, "+ data.profileList[data.issueMember[k].mId] + "' width='30px' height='30px'>";
-					$('#issueMember').append(img+""+data.issueMember[k].mNickname).append(', ')
-				}
-               //for (var k = 0; k < data.issueMember.length; k++) {
-               //   $('#issueMember').append(data.issueMember[k].mId).append(', ')
-               //}
-			
+               for (var k = 0; k < data.issueMember.length; k++) {
+                  $('#issueMember').append(data.issueMember[k].mId).append(', ')
+               }
+
                $('#issueDscr').html(data.issueList[0].iDscr)
                $('#IssueDetailModal_iDscrBtn').hide()
                $('#IssueDetailModal_iNameForm').hide()
@@ -946,9 +944,7 @@
                console.log(selectedTask);
                console.log('issue');
                console.log(selectedissue);
-               
- 				// 김승겸 09.18 19:28 이슈할당 멤버리스트 초기화
-               $('#issueMember').html('');
+
                $.ajax({
                   url : 'issueDetail',
                   data : {
@@ -1639,9 +1635,18 @@
          let signedIssue = document.getElementById("projectChartModal_chartBody_signedIssue").getContext('2d');
          let completedIssue = document.getElementById("projectChartModal_chartBody_completedIssue").getContext('2d');
          let pEndDate = ${project.pEndDate}
-         let today = new Date
-         let chart_pEndDate = new Date(pEndDate)
-         let remainDates = '남은 기한 : '+(new Date(chart_pEndDate - today).getDate()-1).toString()+'일'
+				 let today = new Date()
+
+				 let yy = ${project.pEndDate.split('-')[0]}
+				 let mm = ${project.pEndDate.split('-')[1]}
+				 let dd = ${project.pEndDate.split('-')[2]}
+				 let ddddd = yy + '-' + mm + '-' + dd
+
+				 let chart_pEndDate = new Date(ddddd)
+
+				 let calculatedDays = Math.floor((Date.UTC(chart_pEndDate.getFullYear(), chart_pEndDate.getMonth(), chart_pEndDate.getDate()) - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) ) /(1000 * 60 * 60 * 24))
+				 let remainDates = '남은 기한 : '+calculatedDays+'일'
+
          $('#daysLeft').html(remainDates)
            const showProjectChartModal = (data) => {
              $('.chartjs-size-monitor').remove()
@@ -1655,8 +1660,9 @@
                  uncompletedIssueCount++
                }
              }
-             let percent = (completedIssueCount/(completedIssueCount+uncompletedIssueCount))*100
-             percent = '진행률 : '+percent.toString()+'%'
+						 let percent = (completedIssueCount/(completedIssueCount+uncompletedIssueCount))*100
+						 percent = percent.toFixed(1)
+						 percent = '진행률 : '+percent.toString()+'%'
              $('#progressPercent').html(percent)
              let progress = document.getElementById('animationProgress');
              const projectChartModal_chartBody_projectProgress = new Chart(projectProgress, {
@@ -1811,29 +1817,9 @@
                          }
                       }
                    })
-				}
-         //2018.09.12 김승겸 : 알림 링크로 issue상세보기 띄우기 
-           if(${not empty log}){
-               $('#IssueDetailModal').modal()
-               $.ajax({
-                  url : 'issueDetail',
-                  data : {
-                     pNum : '${pNum}',
-                     tNum : '${tNum}',
-                     iNum : '${iNum}'
-                  },
-                  type : 'post',
-                  success : (data) => {
-                     console.log('성공');
-                     console.log(data);
-                     showIssue(data)
-                     showCheckList(data)
-                     showComment(data)
-                  }
-               })
-            }
+								 }
+
            })
        </script>
-
-</body>
-</html>
+    </body>
+    </html>

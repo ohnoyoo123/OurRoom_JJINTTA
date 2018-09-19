@@ -40,12 +40,13 @@
    vertical-align: middle;
    font-size : 14px;
 
+
 }
 
 #sideTap .table td span{
    font-size : 18px;
    font-weight: bold;
-
+  
 }
 
 #addTaskBtn, .addIssueBtn{
