@@ -104,18 +104,6 @@
 					</div>
 				</div>
 
-				<!-- Modal body -->
-				<div class="modal-body">
-					<div>이슈 멤버 할당</div>
-					<div>
-						<c:forEach items="${projectMemberList}" var="member">
-							<div class="selectMId" mId="${member.mId}">${member.mId}</div>
-						</c:forEach>
-						=====================
-						<div id="selectedMId">할당된 멤버</div>
-					</div>
-				</div>
-
 				<!-- Modal footer -->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success" id="addIssue">Add</button>
@@ -190,14 +178,14 @@
 					태스크 설명
 					<div id="taskDetailModal_tDscrForm">
 						<textarea id="taskDetailModal_tDscr"></textarea>
-						<button id="taskDetailModal_tDscrBtn">저장</button>
+						<button id="taskDetailModal_tDscrBtn" type="button">저장</button>
 					</div>
 					태스크 공지
 					<div>
 						공지 이름 : <span id="taskDetailModal_tNotiName"></span> <input
 							type="text" id="taskDetailModal_tNotiNameForm">
 						<textarea id="taskDetailModal_tNotiContent"></textarea>
-						<button id="taskDetailModal_tNotiConfirmBtn">저장</button>
+						<button id="taskDetailModal_tNotiConfirmBtn" type="button">저장</button>
 					</div>
 				</div>
 				<!-- Modal footer -->
@@ -234,40 +222,37 @@
 
 					<div id="IssueDetailModal_left">
 						<div id="IssueDetailModal_iStartDate_div">
-							<h4>이슈 시작일</h4>
+							<h4><i class="material-icons modal_icon">calendar_today</i> 이슈 시작일</h4>
 							<input type="text" class="datepicker"
 								id="IssueDetailModal_iStartDate" readonly>
 						</div>
 						<div id="IssueDetailModal_iEndDate_div">
-							<h4>이슈 종료일</h4>
+							<h4><i class="material-icons modal_icon">calendar_today</i> 이슈 종료일</h4>
 							<input type="text" class="datepicker"
 								id="IssueDetailModal_iEndDate" readonly>
 						</div>
 						<br>
 						<div id="IssueDetailModal_iDscrForm">
-							<h4>이슈 설명</h4>
+							<h4><i class="material-icons modal_icon">description</i> 이슈 설명</h4>
 							<textarea id="IssueDetailModal_iDscr"></textarea>
-							<button id="IssueDetailModal_iDscrBtn">저장</button>
+							<button id="IssueDetailModal_iDscrBtn" type="button" class="btn">저장</button>
 						</div>
-						<h4>
-							체크리스트
-							<button id="addCheckListForm">+</button>
-						</h4>
-						<div id="checkListNameForm"></div>
+								<h4 class="hover" id="IssueDetailModal_addCheckListForm" data-toggle="tooltip" data-placement="right" title="체크리스트 추가">
+									<i class="material-icons modal_icon">playlist_add_check</i> 체크리스트
+								</h4>
+							<div id="checkListNameForm"></div>
+
 						<div id="checkListList"></div>
-						<h4>코멘트</h4>
 						<div id="commentDiv">
-							${loginUser.mNickname} : <input type="text" style="width: 80%"
-								id="IssueDetailModal_cmContent">
-							<button id="IssueDetailModal_cmBtn" class="btn">저장</button>
+							<h4><i class="material-icons modal_icon">comment</i> 코멘트</h4>
+							<button id="IssueDetailModal_cmBtn" class="btn btn-sm" type="button">O</button>
+							<div id="IssueDetailModal_nickname">
+								<span>${loginUser.mNickname}</span>
+								<input type="text" id="IssueDetailModal_cmContent" placeholder="코멘트 입력">
+							</div>
 							<div id="commentArea"></div>
 						</div>
 					</div>
-
-					<div id="IssueDetailModal_right">
-						사이드<br> 체크리스트 +<br> 멤버<br>
-					</div>
-
 				</div>
 
 				<!-- Modal footer -->
@@ -575,7 +560,7 @@
          txt += '<tr>'
          txt += '<td><div class="gantt_icon">P</div>'
          txt += project.pName
-          txt += '<i id="addTaskBtn" class="material-icons" data-toggle="modal" data-target="#addTaskModal">add_box</i>'
+          txt += '<i id="addTaskBtn" class="material-icons newTask" data-toggle="modal" data-target="#addTaskModal">add_box</i>'
          txt += '</td>'
          txt += '</tr>'
          for(let i = 0; i < taskList.length; i++){
@@ -586,11 +571,12 @@
             txt += taskList[i].tNum
             txt += '\'"><div class="gantt_icon">t</div>'
             txt += taskList[i].tName
-            txt += '</span><button class="btn btn-success addIssueBtn" tNum="'
-            txt += taskList[i].tNum
+            txt += '</span>'
+						txt += '<i class="addIssueBtn material-icons newIssue" data-toggle="modal" data-target="#addIssueModal" tNum="'
+						txt += taskList[i].tNum
             txt += '" tName="'
             txt += taskList[i].tName
-            txt += '" data-toggle="modal" data-target="#addIssueModal"><span class="glyphicon glyphicon-plus"></span></button>'
+						txt += '">add_box</i>'
             txt += '</td>'
             txt += '</tr>'
             for(let j = 0; j < issueList.length; j++){
@@ -755,7 +741,7 @@
                txt += data.commentList[i].cmWriteTime
                if($('#loginUser').val() == data.commentList[i].mId){
                   //답글 작성자가 본인이면 삭제 버튼 활성화
-                  txt += '<button class="IssueDetailModal_deleteCmBtn">삭제</button>'
+                  txt += '<button class="IssueDetailModal_deleteCmBtn">X</button>'
                }
                txt += '<button class="IssueDetailModal_reCmFormBtn" IssueDetailModal_reCmFormBtn="0">답글</button>'
                txt += '</p>'
@@ -843,19 +829,18 @@
                   txt += ' clNum=' + data.checkList[i].clNum
                   txt += ' clName = ' + data.checkList[i].clName
                   txt += '>'
-                  txt += '체크리스트 이름 : ' + data.checkList[i].clName
-                  txt +=  '<button style="float:right;" class="deleteCheckListBtn">X</button>'
-                  txt +=  '<button style="float:right;" class="addCheckListItemFormBtn">O</button><br>'
+                  txt += '<i class="material-icons modal_icon">    check</i><u>' + data.checkList[i].clName
+                  txt +=  '</u><button style="float:right;" class="deleteCheckListBtn btn btn-sm" data-toggle="tooltip" data-placement="right" title="체크리스트 삭제">X</button>'
+                  txt +=  '<button style="float:right;" class="addCheckListItemFormBtn btn btn-sm" data-toggle="tooltip" data-placement="right" title="체크리스트 아이템 추가">O</button><br>'
                   txt += '<div class="addCheckListItemForm"></div>'
-                  txt += '======================================================================'
                   for (var j = 0; j < data.checkListItem.length; j++) {
                      if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
                         txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
-                        txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn">X</button>'
-                        if(data.checkList[i].clIsDone == 1){
-                           txt += '<input type="checkbox" class="form-check-input ci_checkbox" checked>완료<br>'
+												txt += '<i class="material-icons modal_icon tap">subdirectory_arrow_right</i>' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn btn btn-xs">X</button>'
+												if(data.checkListItem[i].ciIsDone == 1){
+                           txt += '<i class="material-icons modal_icon hover ci_checkbox">check_box</i>완료<br>'
                         }else {
-                           txt += '<input type="checkbox" class="form-check-input ci_checkbox">완료<br>'
+                           txt += '<i class="material-icons modal_icon hover ci_checkbox">check_box_outline_blank</i>완료<br>'
                         }
                         for(var k = 0; k < data.checkListItemMember.length; k++){
                            if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
@@ -863,7 +848,6 @@
                               txt += '<br>'
                            }
                         }
-                        txt += '----------------------------------------------------------------------------------------------------------------'
                         txt += '</div>'
                      }
                   }
@@ -896,12 +880,22 @@
 
    $(document).on('click', '.ci_checkbox', function () {
 
+		 let isDone = true
+
+		 if($(this).text() == 'check_box'){
+			 isDone = false
+			 $(this).text('check_box_outline_blank')
+		 }else{
+			 isDone = true
+			 $(this).text('check_box')
+		 }
+
       data = {
          tNum : selectedTask,
          iNum : selectedIssue,
          clNum : $(this).closest('.checkList').attr('clNum'),
          ciNum : $(this).closest('.checkListItem').attr('ciNum'),
-         ciIsDone : $(this).prop('checked')
+         ciIsDone : isDone
       }
 
       updateCheckListItem(data)
@@ -1173,10 +1167,10 @@
             })
 
             //체크리스트 추가폼 생성
-            $(document).on('click', '#addCheckListForm', function () {
+            $(document).on('click', '#IssueDetailModal_addCheckListForm', function () {
                var txt = ''
-               txt += '<input type="text" id="checkListName"/>'
-               txt += '<button id="addCheckListBtn">OK</button>'
+							 txt += '<input type="text" id="checkListName" class="form-control" placeholder="체크리스트 이름 입력"/>'
+							 txt += '<button id="addCheckListBtn" class="btn">저장</button>'
                $('#checkListNameForm').html(txt)
             })
 
@@ -1208,19 +1202,21 @@
                assingedCheckListItemMember = []
 
                txt =''
-               txt += '<input type="text" id="addCheckListItemName">'
-               txt += '<button id="addCheckListItemBtn">OK</button>'
-               txt += '<br>'
-               txt += '====이슈 할당 멤버===='
-               for(let i = 0; i < issueMember.length; i++){
-                  txt += '<div class="unasassingedCheckListItemMember" mId="'
-                  txt += issueMember[i].mId
-                  txt += '">'
-                  txt += issueMember[i].mId
-                  txt += '</div>'
-               }
-               txt += '====체크리스트 할당 멤버===='
-               txt += '<div id="singedCheckListItemMember"></div>'
+							 txt += '<div class="addCheckListItemForm_inner">'
+							 txt += '<button id="addCheckListItemCancelBtn" class="btn btn-sm">X</button>'
+							 txt += '<button id="addCheckListItemBtn" class="btn btn-sm">O</button>'
+               txt += '<i class="material-icons modal_icon">check</i><input type="text" id="addCheckListItemName" class="form-control" placeholder="새 체크리스트 생성">'
+							 txt += '</div>'
+               // txt += '====이슈 할당 멤버===='
+               // for(let i = 0; i < issueMember.length; i++){
+               //    txt += '<div class="unasassingedCheckListItemMember" mId="'
+               //    txt += issueMember[i].mId
+               //    txt += '">'
+               //    txt += issueMember[i].mId
+               //    txt += '</div>'
+               // }
+               // txt += '====체크리스트 할당 멤버===='
+               // txt += '<div id="singedCheckListItemMember"></div>'
                   $(this).parent().find('.addCheckListItemForm').html(txt)
 
             })
@@ -1566,7 +1562,7 @@
     })
     $('.table').addClass('table-striped')
     $('.table').addClass('grid-background')
-    $('.gantt_fav_btn').on('click', () => {
+		$(document).on('click', '.gantt_fav_btn', function(){
        for(let i = 0; i < projectMemberList.length; i++){
           if($('#loginUser').val() == projectMemberList[i].mId){
              data = {
@@ -1808,7 +1804,7 @@
                       }
                    })
 								 }
-              
+
            })
        </script>
     </body>
