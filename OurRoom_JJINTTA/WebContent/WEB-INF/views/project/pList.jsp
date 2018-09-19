@@ -16,7 +16,7 @@
 
 		<div id="pList_top">
 			<i class="material-icons md-55 add_circle" data-toggle="modal"
-				data-target="#addProject">add_box</i>
+				data-target="#addProject">add_circle</i>
 		</div>
 		<div id="pList">
 			<div id="pList_fav">
@@ -258,6 +258,6 @@
 			;
 		});
 	</script>
- 
+
 </body>
 </html>

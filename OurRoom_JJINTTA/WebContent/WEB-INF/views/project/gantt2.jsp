@@ -95,6 +95,18 @@
 					</div>
 				</div>
 
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div>이슈 멤버 할당</div>
+					<div>
+						<c:forEach items="${projectMemberList}" var="member">
+							<div class="selectMId" mId="${member.mId}">${member.mId}</div>
+						</c:forEach>
+						=====================
+						<div id="selectedMId">할당된 멤버</div>
+					</div>
+				</div>
+
 				<!-- Modal footer -->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success" id="addIssue">Add</button>

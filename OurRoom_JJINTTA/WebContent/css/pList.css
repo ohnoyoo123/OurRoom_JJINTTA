@@ -16,7 +16,7 @@
 }
 
 #pList_top{
-  /* left : 100%; */
+  padding-right: 100px;
 }
 
 #pList_top button{
@@ -48,8 +48,9 @@
   padding: 8px;
   height: 87%;
   float: left;
-  background-color: white;
-
+  background-color: #382424cf;
+  border-radius: 15px;
+  color: white;
 }
 
 h2{
@@ -62,12 +63,12 @@ h2{
 }
 
 .material-icons.md-55.add_circle{
-  font-size: 65px;
+  font-size: 80px;
   /* vertical-align: bottom; */
   position: absolute;
   color: #0047b3;
   opacity: 0.75;
-  left : 80%;
+  left : 72%;
   top : 20px;
   cursor: pointer;
 
