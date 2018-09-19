@@ -30,13 +30,13 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-<script
+<script 
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <title>Insert title here</title>
 </head>
 <body>
-	<jsp:include page="../mainFrame.jsp" />
+	<jsp:include page="../mainFrame.jsp" /> 
 	<div class="container">
 		<div class="row justify-content-md-center">
 			<div class="col-lg-5">
