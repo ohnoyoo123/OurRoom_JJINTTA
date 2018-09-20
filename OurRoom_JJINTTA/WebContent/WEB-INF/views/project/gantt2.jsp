@@ -134,7 +134,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
-						<i class="material-icons modal_icon">work_outline</i><span id="projectDetailModal_pName"></span>
+						<i class="material-icons modal_icon">work_outline</i> <span id="projectDetailModal_pName"></span>
 						<input type="text" id="projectDetailModal_pNameForm" autofocus>
 					</h4>
 				</div>
@@ -175,7 +175,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
-						<i class="material-icons modal_icon">folder_open</i><span id="taskDetailModal_tName"></span>
+						<i class="material-icons modal_icon">folder_open</i> <span id="taskDetailModal_tName"></span>
 						<input type="text" id="taskDetailModal_tNameForm" autofocus>
 					</h4>
 				</div>
@@ -223,8 +223,8 @@
 						<p class="selectedTask"></p>
 					</h2>
 					<h4 class="modal-title">
-						<span id="IssueDetailModal_iName"></span> <input type="text"
-							id="IssueDetailModal_iNameForm" autofocus>
+						<i class="material-icons modal_icon">assignment</i><span id="IssueDetailModal_iName"></span>
+						<input type="text" id="IssueDetailModal_iNameForm" autofocus>
 					</h4>
 					<p id="issueMember"></p>
 				</div>
@@ -249,7 +249,7 @@
 							<textarea id="IssueDetailModal_iDscr"></textarea>
 							<button id="IssueDetailModal_iDscrBtn" type="button" class="btn">저장</button>
 						</div>
-								<h4 class="hover" id="IssueDetailModal_addCheckListForm" data-toggle="tooltip" data-placement="right" title="체크리스트 추가">
+						<h4 class="hover" id="IssueDetailModal_addCheckListForm" data-toggle="tooltip" data-placement="right" title="체크리스트 추가">
 									<i class="material-icons modal_icon">playlist_add_check</i> 체크리스트
 								</h4>
 							<div id="checkListNameForm"></div>
@@ -285,7 +285,7 @@
 				<!-- Modal Header -->
 				<div class="modal-header">
 					<h4 class="modal-title">
-						프로젝트명: <span id="projectChartModal_pName"></span>
+						<i class="material-icons modal_icon">work_outline</i> <span id="projectChartModal_pName"></span>
 					</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
@@ -543,7 +543,7 @@
          txt += '</tr>'
          for(let i = 0; i < taskList.length; i++){
             txt += '<tr>'
-            txt += '<td><span class="tap"></span><span onclick="location.href=\'/OurRoom/project/kanban2?pNum='
+            txt += '<td><span class="tap"></span><span class="hover" onclick="location.href=\'/OurRoom/project/kanban2?pNum='
             txt += ${project.pNum}
             txt += '&tNum='
             txt += taskList[i].tNum
@@ -833,13 +833,18 @@
                   for (var j = 0; j < data.checkListItem.length; j++) {
                      if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
                         txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
-												txt += '<i class="material-icons modal_icon tap">subdirectory_arrow_right</i>' + data.checkListItem[j].ciName
-												txt += '<div class="float_right">'
-												if(data.checkListItem[i].ciIsDone == 1){
-													txt += '<i class="material-icons modal_icon hover ci_checkbox tap">check_box</i>'
+												txt += '<i class="material-icons modal_icon tap">subdirectory_arrow_right</i>'
+												if(data.checkListItem[j].ciIsDone == 1){
+													txt += '<i class="material-icons modal_icon hover ci_checkbox">check_box</i>'
+													txt += '<del>'
+													txt += data.checkListItem[j].ciName
+													txt += '</del>'
 												}else {
-													txt += '<i class="material-icons modal_icon hover ci_checkbox tap">check_box_outline_blank</i>'
+													txt += '<i class="material-icons modal_icon hover ci_checkbox">check_box_outline_blank</i>'
+													txt += data.checkListItem[j].ciName
+
 												}
+												txt += '<div class="float_right">'
 												txt += '<button class="deleteCheckListItemBtn btn btn-xs">X</button>'
 												txt += '</div>'
                         // for(var k = 0; k < data.checkListItemMember.length; k++){
@@ -873,6 +878,9 @@
                ciIsDone : data.ciIsDone
             },
             type : 'post',
+						success : (data) => {
+							showCheckList(data)
+						}
          })
       }
    $(document).on('click', '.ci_checkbox', function () {
@@ -1492,15 +1500,16 @@
           })
     }
     //뷰모드
+		gantt.change_view_mode('Week')
     txt = ''
     txt += '<label class="radio-inline">'
     txt += '<input type="radio" name="optradio" value="Month" id="radio_month">Month'
     txt += '</label>'
     txt += '<label class="radio-inline">'
-    txt += '<input type="radio" name="optradio" value="Week" id="radio_week">Week'
+    txt += '<input type="radio" name="optradio" value="Week" id="radio_week" checked>Week'
     txt += '</label>'
     txt += '<label class="radio-inline">'
-    txt += '<input type="radio" name="optradio" value="Day"  id="radio_day" checked>Day'
+    txt += '<input type="radio" name="optradio" value="Day"  id="radio_day">Day'
     txt += '</label>'
     $('#viewMode').html(txt)
     $(document).on('change', '#viewMode input[type=radio]',  function(){
@@ -1609,8 +1618,9 @@
                }
              }
              let percent = (completedIssueCount/(completedIssueCount+uncompletedIssueCount))*100
-             percent = '진행률 : '+percent.toString()+'%'
-             $('#progressPercent').html(percent)
+						 percent = percent.toFixed(1)
+			       percent = '진행률 : '+percent.toString()+'%'
+			       $('#progressPercent').html(percent)
              let progress = document.getElementById('animationProgress');
              const projectChartModal_chartBody_projectProgress = new Chart(projectProgress, {
                type : 'pie',

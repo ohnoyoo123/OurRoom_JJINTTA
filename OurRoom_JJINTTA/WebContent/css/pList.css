@@ -20,7 +20,7 @@
 }
 
 #pList_top button{
-  float: right;
+  /* float: right; */
 }
 
 #pList_fav{
@@ -45,11 +45,14 @@
 .pList_fav_content_project, .pList_prog_content_project, .pList_past_content_project{
   width: 30%;
   margin: 1%;
-  padding: 8px;
+  padding: 12px;
   height: 87%;
   float: left;
-  background-color: #694141;  
-  color: white
+  background-color: #2a2a2a;
+  color: white;
+  border : 1 solid;
+  border-radius: 12px;
+  text-align: center;
 }
 
 h2{
@@ -65,7 +68,7 @@ h2{
   font-size: 65px;
   /* vertical-align: bottom; */
   position: absolute;
-  color: #0047b3;
+  color: #2a2a2a;
   opacity: 0.75;
   left : 80%;
   top : 20px;
@@ -73,5 +76,22 @@ h2{
 
 }
 #pList_fav_toggle, #pList_prog_toggle, #pList_past_toggle{
+  cursor: pointer;
+}
+
+#pList_addBtn{
+  display: inline-block;
+  position: absolute;
+  margin-top: 35px;
+  margin-left: 15.5%;
+  color: white;
+  background-color: #2a2a2a;
+  border : 1 solid;
+  border-radius: 8px;
+  text-align: center;
+  padding: 8px;
+}
+
+.hover{
   cursor: pointer;
 }

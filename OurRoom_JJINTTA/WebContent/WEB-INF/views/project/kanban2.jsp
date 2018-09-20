@@ -47,13 +47,22 @@
         <div class="col-md-12">
 					<div style="text-align:center;">
           <h1 style="display: inline-block">
+            <span id="container-fluid_fav">
+              <c:forEach items="${projectMemberList}" var="mList">
+                <c:if test="${mList.mId == loginUser.mId}">
+                <c:choose>
+                	<c:when test="${mList.pmFav}"><i class="material-icons md-30 kanban_fav_btn">favorite</i></c:when>
+                	<c:otherwise><i class="material-icons md-30 kanban_fav_btn">favorite_border</i></c:otherwise>
+                </c:choose>
+                </c:if>
+              </c:forEach>
+            </span>
             <a style="color:black; font-weight:bold;" href='gantt?pNum=${project.pNum}'>${project.pName}</a> </h1>
           <%-- <i class="material-icons md-30" data-toggle="tooltip" data-placement="right" title="차트 보기"> --%>
           <i class="material-icons md-30" data-toggle="modal" data-target="#projectChartModal">
             insert_chart
           </i>
 					<div class="dropdown" style="float:right;" >
-
             <button style="padding-bottom:-20px; display: inline-block; margin-top:40px; margin-right:15px;" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='goToTasksBtn'>
               ${task[0].tName} Kanban Boards▼
             </button>
@@ -84,7 +93,7 @@
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">
-            프로젝트명: <span id="projectChartModal_pName"></span>
+            <span id="projectChartModal_pName"></span>
           </h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
@@ -132,8 +141,8 @@
 						<p class="selectedTask"></p>
 					</h2>
 					<h4 class="modal-title">
-						<span id="IssueDetailModal_iName"></span> <input type="text"
-							id="IssueDetailModal_iNameForm" autofocus>
+            <i class="material-icons modal_icon">assignment</i> <span id="IssueDetailModal_iName"></span>
+            <input type="text" id="IssueDetailModal_iNameForm" autofocus>
 					</h4>
 					<p id="issueMember"></p>
 				</div>
@@ -326,7 +335,7 @@
                       txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
                       txt += '<i class="material-icons modal_icon tap">subdirectory_arrow_right</i>' + data.checkListItem[j].ciName
                       txt += '<div class="float_right">'
-                      if(data.checkListItem[i].ciIsDone == 1){
+                      if(data.checkListItem[j].ciIsDone == 1){
                         txt += '<i class="material-icons modal_icon hover ci_checkbox tap">check_box</i>'
                       }else {
                         txt += '<i class="material-icons modal_icon hover ci_checkbox tap">check_box_outline_blank</i>'
@@ -1105,6 +1114,20 @@ $('#IssueDetailModal_iDscrBtn').on('click', () => {
       })
 
     })
+
+    // $(document).on('click', '.kanban_fav_btn', function(){
+    //   alert($('#loginUser').val())
+    //    for(let i = 0; i < projectMemberList.length; i++){
+    //       if($('#loginUser').val() == projectMemberList[i].mId){
+    //          data = {
+    //             pmFav : !projectMemberList[i].pmFav
+    //          }
+    //          alert(data)
+    //       }
+    //    }
+    // })
+
+
 
   })
 

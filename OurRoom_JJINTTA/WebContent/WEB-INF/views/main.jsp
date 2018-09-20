@@ -801,7 +801,7 @@ opacity
 
 
 
- 
+
 
 
 
@@ -1049,7 +1049,7 @@ opacity
 
 
 
- 
+
 
 
 
@@ -1305,30 +1305,30 @@ body {
 	</div>
 
 	<!-- Container (About Section) -->
-	<div id="about" class="container-fluid text-center">
+	<%-- <div id="about" class="container-fluid text-center">
 		<div class="row">
 			<div class="col-lg-12">
 				<img class="img-rounded" src="/OurRoom/img/localImage.png">
 			</div>
 		</div>
-	</div>
+	</div> --%>
 
-	<div class="container-fluid bg-grey text-center">
+	<%-- <div class="container-fluid bg-grey text-center">
 		<div class="row">
 			<div class="col-lg-12">
 				<img class="img-rounded" src="/OurRoom/img/localImage.png">
 			</div>
 		</div>
-	</div>
+	</div> --%>
 
 	<!-- Container (Services Section) -->
-	<div class="container-fluid text-center">
+	<%-- <div class="container-fluid text-center">
 		<div class="row">
 			<div class="col-lg-12">
 				<img class="img-rounded" src="/OurRoom/img/localImage.png">
 			</div>
 		</div>
-	</div>
+	</div> --%>
 
 	<!-- Container (Portfolio Section) -->
 	<div id="portfolio" class="container-fluid text-center bg-grey">
@@ -1338,7 +1338,7 @@ body {
 		<div class="row text-center slideanim">
 			<div class="col-sm-4">
 				<div class="thumbnail">
-					<img src="img/paris.jpg" alt="Paris" width="400" height="300">
+					<img src="img/gantt.jpg" alt="Paris" width="400" height="300">
 					<p>
 						<strong>Paris</strong>
 					</p>
@@ -1347,7 +1347,7 @@ body {
 			</div>
 			<div class="col-sm-4">
 				<div class="thumbnail">
-					<img src="img/newyork.jpg" alt="New York" width="400" height="300">
+					<img src="img/kanban.jpg" alt="New York" width="400" height="300">
 					<p>
 						<strong>New York</strong>
 					</p>
@@ -1356,7 +1356,7 @@ body {
 			</div>
 			<div class="col-sm-4">
 				<div class="thumbnail">
-					<img src="img/sanfran.jpg" alt="San Francisco" width="400"
+					<img src="img/chart.jpg" alt="San Francisco" width="400"
 						height="300">
 					<p>
 						<strong>San Francisco</strong>
@@ -1484,36 +1484,36 @@ body {
 		$("#sign_mId").blur(function() {
 			chkId();
 		});
-		
+
 		/* 회원가입 패스워드 체크 */
 		$("#sign_mPw").blur(function(){
-			chkPw(); 
+			chkPw();
 		});
-		
+
 		/* 회원가입 패스워드 확인 체크 */
 		$("#sign_mPw2").blur(function(){
-			chkPw2(); 
+			chkPw2();
 		});
-		
+
 		/* 회원가입 닉네임 체크 */
 		$("#sign_mNickname").blur(function(){
-			chkNickname(); 
+			chkNickname();
 		});
-		
+
 		/* 회원가입 답변 체크 */
 		$("#sign_mAnswer").blur(function(){
 			chkAnswer();
 		});
-		
+
 		/* 취소버튼 클릭 시 */
 		//$("#cancelBtn").on("click",function(){
-		//	
+		//
 		//	var isCancel = window.confirm("취소하시겠습니까?");
 		//	if(isCancel){
 		//		location.href="loginForm";
 		//	}
 		//});
-		
+
 		/* ID, PW, Nickname, 답변 유효성 체크 및 submit */
 		$("#signUpBtn").on("click",function(){
 			console.log("signUpBtn click");
@@ -1522,29 +1522,29 @@ body {
 			}
 			return false;
 		});
-		
+
 	});
 	/* ID Check */
 	function chkId(){
 		var isOk;
 		$("#sign_mId").val($.trim($("#sign_mId").val()));
-		var strId = $("#sign_mId").val(); 
+		var strId = $("#sign_mId").val();
 		var pattern = /^([\w]{1,})+[\w\.\-\_]+([\w]{1,})+@(?:[\w\-]{2,}\.)+[a-zA-Z]{2,}$/;
 		var bChecked = pattern.test(strId);
-		
+
 		// 좌우 공백 제거
 		//$("#mId").val($.trim($("#mId").val()));
-	
+
 		//ar strId = $("#mId").val();
-		
+
 		// ID 이메일형식 체크
 		if(!bChecked){
 			$("#idCheckMsg").css("color", "red");
 			$("#idCheckMsg").html("이메일 형식으로 입력해주세요.");
 			return false;
 		}
-		
-		// ID 중복체크 
+
+		// ID 중복체크
 		$.ajax({
 			url : "idCheck",
 			async: false,
@@ -1555,37 +1555,37 @@ body {
 				if (result) {
 					$("#idCheckMsg").css("color", "red");
 					$("#idCheckMsg").html("이미 사용중인 아이디입니다.");
-					isOk = false; 
-					
-				}else{ 
+					isOk = false;
+
+				}else{
 					$("#idCheckMsg").css("color", "green");
 					$("#idCheckMsg").html("사용 가능한 아이디입니다.");
 					isOk = true;
-				}  
+				}
 			},
-			error : function(result) {    
+			error : function(result) {
 				$("#idCheckMsg").html("에러..." + result);
 				isOk = false;
 			}
 		});
 		return isOk;
 	}
-	
+
 	/* PW Check */
 	function chkPw(){
-		
+
 		$("#sign_mPw").val($.trim($("#sign_mPw").val()));
 		 var strPw = $("#sign_mPw").val()+'';
 		 var num = strPw.search(/[0-9]/g);
 		 var eng = strPw.search(/[a-z]/ig);
 		 var spe = strPw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-		
+
 		 // 비밀번호확인 텍스트 초기화
 		 $("#pw2CheckMsg").html("");
-		 
+
 		 if(strPw.length < 8 || strPw.length > 20){
 
-			$("#pwCheckMsg").css("color", "red"); 
+			$("#pwCheckMsg").css("color", "red");
 			$("#pwCheckMsg").html("8자 이상, 20자 이하로 입력하세요");
 			return false;
 		 }
@@ -1593,7 +1593,7 @@ body {
 			$("#pwCheckMsg").css("color", "red");
 			$("#pwCheckMsg").html("비밀번호는 공백없이 입력해주세요.");
 			return false;
-		 } 
+		 }
 		 if(num < 0 || eng < 0 || spe < 0 ){
 			$("#pwCheckMsg").css("color", "red");
 			$("#pwCheckMsg").html("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
@@ -1602,7 +1602,7 @@ body {
 
 		$("#pwCheckMsg").css("color", "green");
 		$("#pwCheckMsg").html("사용 가능합니다.");
-			
+
 		return true;
 
 	}
@@ -1610,12 +1610,12 @@ body {
 	 function chkPw2() {
         var pw = $("#sign_mPw").val();
         var pw2 = $("#sign_mPw2").val();
- 
+
         if(!chkPw()){
 			$("#pw2CheckMsg").html("");
         	return false;
         }
-        
+
         if (pw != pw2) {
         	$("#pw2CheckMsg").css("color", "red");
 			$("#pw2CheckMsg").html("비밀번호가 다릅니다.");
@@ -1627,11 +1627,11 @@ body {
         }
 	}
 
-	
+
 	/* Nickname Check */
 	function chkNickname(){
 		var isOk = false;
-		
+
 		$("#sign_mNickname").val($.trim($("#sign_mNickname").val()));
 		var strNickname = $("#sign_mNickname").val();
 		if(strNickname.length < 2 || strNickname.length > 10) {
@@ -1649,8 +1649,8 @@ body {
 		   return false;
 		  }
 		}
-		
-		// NickName 중복체크 
+
+		// NickName 중복체크
 		$.ajax({
 			url : "nicknameCheck",
 			async: false,
@@ -1662,7 +1662,7 @@ body {
 					$("#nicknameCheckMsg").css("color", "red");
 					$("#nicknameCheckMsg").html("이미 사용중인 닉네임입니다.");
 					isOk = false;
-					
+
 				}else{
 					$("#nicknameCheckMsg").css("color", "green");
 					$("#nicknameCheckMsg").html("사용 가능한 닉네임입니다.");
@@ -1674,7 +1674,7 @@ body {
 				isOk = false;
 			}
 		});
-	 	
+
 		return isOk;
 	}
 
@@ -1698,12 +1698,12 @@ body {
 		   return false;
 		  }
 		}
-		
+
 		$("#answerCheckMsg").css("color", "green");
 		$("#answerCheckMsg").html("사용 가능합니다.");
 		return true;
 	}
-	
+
 </script>
 
 	<!-- 로그인 -->
@@ -1726,7 +1726,7 @@ body {
 								class="glyphicon glyphicon-user"></span> 이메일</label> <input type="text"
 								class="form-control" id="mId" name="mId"
 								placeholder="Enter email">
-						</div> 
+						</div>
 						<div class="form-group">
 							<label for="mPw"><span
 								class="glyphicon glyphicon-eye-open"></span> 비밀번호</label> <input
@@ -1881,7 +1881,7 @@ body {
 				$("#loginModal").modal('toggle');
 				//$("#signUpModal").modal('hide');
 			});
-			
+
 			$("#signUp_a").click(function() {
 				$("#signUpModal").modal('show');
 				$("#loginModal").modal('hide');
@@ -1893,10 +1893,10 @@ body {
 			$("#findPwCancelBtn").click(function(){
 				$("#loginModal").modal('show');
 			});
-			
-		}); 
-		
-	 
+
+		});
+
+
 	</script>
 	<footer class="container-fluid text-center">
 		<a href="#myPage" title="To Top"> <span

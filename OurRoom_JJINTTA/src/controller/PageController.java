@@ -72,7 +72,7 @@ public class PageController {
 		mav.addObject("pastProject", ProjectUtil.pastProject(projectList));
 		mav.addObject("progProject", ProjectUtil.progProject(projectList));
 
-		List<ProjectMember> pmList = new ArrayList<>();
+		List<ProjectMember> pmList = new ArrayList<ProjectMember>();
 		pmList = pSvc.getProjectMemberByMId(paramMId);
 
 		mav.addObject("pmList", pmList);
@@ -201,7 +201,6 @@ public class PageController {
 	public ModelAndView project_kanban2(int pNum, int tNum) {
 		System.out.println("요청 url : /project/kanban2");
 		ModelAndView mav = new ModelAndView();
-
 		// 프로젝트 정보
 		mav.addObject("project", pSvc.getProject(pNum));
 
@@ -212,7 +211,6 @@ public class PageController {
 		Task task = new Task();
 		task.setpNum(pNum);
 		task.settNum(tNum);
-		System.out.println("혹시? : " + tSvc.getTaskList(task));
 		mav.addObject("task", tSvc.getTaskList(task));
 
 		Gson gson = new Gson();
@@ -222,6 +220,8 @@ public class PageController {
 		String stringIssue = gson.toJson(iSvc.getIssueList(issue));
 		JsonArray issueJson = new JsonParser().parse(stringIssue).getAsJsonArray();
 		mav.addObject("issueList", issueJson);
+		
+		
 
 		mav.setViewName("/project/kanban2");
 		return mav;

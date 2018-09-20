@@ -15,8 +15,9 @@
 	<div id="innerFrame">
 
 		<div id="pList_top">
-			<i class="material-icons md-55 add_circle" data-toggle="modal"
-				data-target="#addProject">add_box</i>
+			<%-- <i class="material-icons md-55 add_circle" data-toggle="modal"
+				data-target="#addProject">add_box</i> --%>
+				<div id="pList_addBtn" class="hover" data-toggle="modal" data-target="#addProject">새 프로젝트</div>
 		</div>
 		<div id="pList">
 			<div id="pList_fav">
@@ -33,7 +34,8 @@
 								<c:if test="${pList.pNum==pm.pNum }">
 									<div class="pList_fav_content_project"
 										onclick="location.href='/OurRoom/project/gantt?pNum=' + ${pList.pNum}">
-										<span>${pList.pName}</span>
+										<span>${pList.pName}</span><hr>
+										${pList.pStartDate} ~ ${pList.pEndDate}
 									</div>
 								</c:if>
 							</c:forEach>
@@ -55,7 +57,8 @@
 								<c:if test="${pList.pNum==pm.pNum }">
 									<div class="pList_prog_content_project"
 										onclick="location.href='/OurRoom/project/gantt?pNum=' + ${pList.pNum}">
-										<span>${pList.pName}</span>
+										<span>${pList.pName}</span><hr>
+										${pList.pStartDate} ~ ${pList.pEndDate}
 									</div>
 								</c:if>
 							</c:forEach>
@@ -74,7 +77,8 @@
 					<c:forEach items="${pastProject}" var="past">
 						<div class="pList_past_content_project"
 							onclick="location.href='/OurRoom/project/gantt?pNum=' + ${past.pNum}">
-							<span>${past.pName}</span>
+							<span>${past.pName}</span><hr>
+							${past.pStartDate} ~ ${past.pEndDate}
 						</div>
 					</c:forEach>
 				</div>

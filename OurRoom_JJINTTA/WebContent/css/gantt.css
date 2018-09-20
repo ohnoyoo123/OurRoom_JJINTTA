@@ -174,12 +174,13 @@ textarea {
 
 #IssueDetailModal_addCheckListForm{
   margin-top: 20px;
+  margin-bottom: 0px;
 
 }
 
 .modal-body.flex{
    display: flex;
-   flex-wrap: wrap; // allow wrapping items
+   flex-wrap: wrap;
 }
 
 #IssueDetailModal_left{
@@ -210,12 +211,13 @@ textarea {
 #checkListName{
   display: inline-block;
   float: left;
-  width : 86.2%;
-  margin-bottom: 20px;
+  width : 609px;
+  /* margin-bottom: 10px; */
 }
 
 #checkListNameForm{
   margin-top: 20px;
+  margin-bottom: 0px;
 }
 
 #addCheckListBtn{
@@ -229,6 +231,7 @@ textarea {
   display: inline-block;
   float: left;
   width : 100%;
+  margin-top: 3px;
 }
 
 #commentDiv{
@@ -259,7 +262,7 @@ textarea {
 
 .material-icons.newIssue{
   font-size: 30px;
-  color : #ea73af;
+  color : #ea7c7c;
 }
 
 .addCheckListItemFormBtn, .deleteCheckListBtn{
@@ -273,7 +276,7 @@ textarea {
 
 .checkListItem{
   display: inline-block;
-  margin-bottom: 3px;
+  margin-top: 3px;
   width: 100%;
 }
 
@@ -372,7 +375,7 @@ u{
 .form-control.IssueDetailModal_reCmContent{
   display: inline-block;
   float: right;
-  width : 495px;
+  width : 499px;
 }
 
 .IssueDetailModal_reCmForm{
