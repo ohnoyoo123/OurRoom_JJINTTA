@@ -55,7 +55,6 @@
 											keyword : word
 										},
 										success : function(data) {
-											console.log(data);
 
 											if (data.length == 0) {
 												searchMemberDiv
@@ -93,7 +92,6 @@
 					aId : $(this).attr('mId')
 				},
 				success : function(result) {
-					console.log("주소록 추가결과 : " + result);
 
 					if (result) {
 						alert("추가되었습니다.");
@@ -103,7 +101,6 @@
 					}
 				},
 				error : function(e) {
-					console.log(e);
 				}
 			});
 		});
@@ -119,7 +116,6 @@
 					aId : $(this).siblings('input').val()
 				},
 				success : function(result) {
-					console.log("주소록 추가결과 : " + result);
 
 					if (result) {
 						alert("삭제되었습니다.");
@@ -129,7 +125,6 @@
 					}
 				},
 				error : function(e) {
-					console.log(e);
 				}
 			});
 		});
@@ -137,26 +132,23 @@
 </script>
 <script type="text/javascript">
 	$(function(){
-		
+
 		$(".addressProject_tr").on("click",function(){
-			//var pNum = $(this).children().first().text();
-			//console.log(pNum);
 			var searchProjectMembers = [];
 			var addressProjectMemberList_div = $("#addressProjectMemberList_div");
-			
+
 			$.ajax({
 				url:"addressProjectMemberList",
 				data:{
 					pNum : $(this).children().first().text()
 				},
 				success: function(data){
-					console.log(data);
 					for (i = 0; i < data.length; i++) {
 
 						if ('${loginUser.mId}' != data[i].mId) {
 
 							searchProjectMembers
-									.push("<p class='member' mId="+data[i].mId+">"			
+									.push("<p class='member' mId="+data[i].mId+">"
 											+ data[i].mId+"</p>")
 
 						}
@@ -164,13 +156,12 @@
 					addressProjectMemberList_div.html(searchProjectMembers);
 				},
 				error: function(e){
-					console.log(e);
 				}
-				
-				
+
+
 			});
 		});
-		
+
 	});
 </script>
 <title>Insert title here</title>

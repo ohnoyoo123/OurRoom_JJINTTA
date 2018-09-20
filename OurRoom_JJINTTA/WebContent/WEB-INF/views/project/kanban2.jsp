@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insert title here</title>
+<title>Kanban</title>
     <style>
         body{font-family: "Lato"; margin:0; padding: 0;}
       #myKanban{overflow-x: auto; padding-left: 0px; margin-left: -10px; padding-top: 20px}
@@ -200,7 +200,6 @@
     $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
   });
 
-  console.log(${issueJson});
 
   class Issue{
     constructor(id, title, order){
@@ -223,12 +222,8 @@
     let tempIssues =[]
     for(let i=0; i<issueList.length; i++){
       let tempIssue = new Issue(issueList[i].iNum,issueList[i].iName, issueList[i].iOrder)
-    //  console.log('이슈==================');
-  //    console.log(tempIssue);
       tempIssues.push(tempIssue)
     }
-  //  console.log('각 보드에 해당하는 이슈들=================');
-  //  console.log(tempIssues);
     return tempIssues
   }
 
@@ -242,13 +237,10 @@
     }
 
     let issueList = ${issueList}
-  //  console.log(issueList);
 
     let kanbanIssues = []
 
     const makeKanban = (iList) => {
-      console.log("makeKanban!!!!!!!!!!!!!!!!!");
-      console.log(iList);
       let ideasIssues = []
       let todoIssues = []
       let doingIssues = []
@@ -270,13 +262,10 @@
         }
       }
       let totalIssues = [ideasIssues,todoIssues,doingIssues,doneIssues,reviewIssues]
-  //    console.log('확인!!!!!!!!!!!!!!');
 
       let steps = ['Ideas','ToDo','Doing','Done','Review']
 
       for(let i=0; i<totalIssues.length; i++){
-  //      console.log('222222222222222222222');
-  //      console.log(totalIssues[i]);
         let tempBoard = new Board(steps[i],totalIssues[i])
         kanbanIssues.push(tempBoard)
       }
@@ -316,8 +305,6 @@
     }
 
     const showCheckList = (data) =>{
-       console.log('체크체크');
-       console.log(data);
        let txt =''
              for (var i = 0; i < data.checkList.length; i++) {
                 txt += '<div class=\'checkList\''
@@ -404,7 +391,6 @@
 
     //코멘트 생성
     const showComment = (data) => {
-       console.log(data.commentList)
        txt =''
        for(let i = 0; i < data.commentList.length; i++){
           if(data.commentList[i].cmSuper == 0){
@@ -453,7 +439,6 @@
     }
     //코멘트 답글폼 생성
     $(document).on('click', '.IssueDetailModal_reCmFormBtn', function(){
-       console.log($(this).parent('p').attr('cmNum'));
        if($(this).attr('IssueDetailModal_reCmFormBtn') == 0){
           $(this).parent('p').append(`
             <div class="IssueDetailModal_reCmForm">
@@ -477,9 +462,6 @@
     })
     //코멘트 답글 입력
     $(document).on('click', '.IssueDetailModal_reCmConfirmBtn', function () {
-       console.log(${project.pNum});
-       console.log($(this).parents('p').attr('cmNum'));
-       console.log($(this).siblings('.IssueDetailModal_reCmContent').val());
        $.ajax({
           url : 'addComment',
           data : {
@@ -522,10 +504,6 @@
     })
     //체크리스트 추가
     $(document).on('click', '#addCheckListBtn', () => {
-       console.log(${project.pNum});
-       console.log(selectedTask);
-       console.log(selectedIssue);
-       console.log($('#checkListName').val());
        $.ajax({
           url : 'addCheckList',
           data : {
@@ -536,8 +514,6 @@
           },
           type : 'post',
           success : function(data){
-             console.log('체크리스트 추가 성공');
-             console.log(data);
              showCheckList(data)
           }
        })
@@ -568,7 +544,6 @@
     //체크리스트 아이템 멤버 추가
     $(document).on('click', '.unassingedCheckListItemMember', function(){
        if(!singedCheckListItemMember.includes($(this).attr('mId'))){
-          console.log(singedCheckListItemMember);
           singedCheckListItemMember.push($(this).attr('mId'))
           txt = ''
           for(let i = 0; i < singedCheckListItemMember.length; i++){
@@ -583,10 +558,6 @@
     })
     //체크리스트 아이템 추가
     $(document).on('click', '#addCheckListItemBtn', function(){
-       console.log(${project.pNum});
-       console.log(selectedTask);
-       console.log(selectedIssue);
-       console.log($(this).parent('.checkList').attr('clNum'));
        $.ajax({
           url : 'addCheckListItem',
           data : {
@@ -599,8 +570,6 @@
           },
           type : 'post',
           success : function(data){
-             console.log('체크리스트 아이템 추가 성공')
-             console.log(data)
              $('.addCheckListItemForm').html('')
              showCheckList(data)
              singedCheckListItemMember = []
@@ -629,10 +598,6 @@
     //체크리스트 아이템 삭제
     $(document).on('click', '.deleteCheckListItemBtn', function(){
        if(confirm('삭제하시겠습니까?')){
-          console.log(selectedTask);
-          console.log(selectedIssue);
-          console.log($(this).parents('.checkList').attr('clNum'))
-          console.log($(this).parent().attr('ciNum'));
           $.ajax({
              url : 'deleteCheckListItem',
              data : {
@@ -736,8 +701,6 @@ $('#IssueDetailModal_iDscrBtn').on('click', () => {
 })
 //수정하기//
    const updateIssue = (data) => {
-      console.log('updateIssue')
-      console.log(data)
       $.ajax({
          url : 'updateIssue',
          data : {
@@ -754,7 +717,6 @@ $('#IssueDetailModal_iDscrBtn').on('click', () => {
          },
          type : 'post',
          success : (innerData) => {
-            console.log(innerData);
             showIssue(innerData)
             showCheckList(innerData)
             projectReload()
@@ -782,8 +744,6 @@ $('#IssueDetailModal_iDscrBtn').on('click', () => {
              },
              type : 'post',
              success : (data) => {
-                console.log('성공');
-                console.log(data);
                 showIssue(data)
                 showCheckList(data)
                 showComment(data)
@@ -811,7 +771,6 @@ $('#IssueDetailModal_iDscrBtn').on('click', () => {
           },
           type: 'post',
           success: function (issueList) {
-            console.log(issueList);
 
           }
         })
@@ -828,8 +787,6 @@ $('#IssueDetailModal_iDscrBtn').on('click', () => {
       },
       type : 'post',
       success : (data) => {
-        console.log("==============");
-        console.log(data);
         showProjectChartModal(data)
       }
     })
@@ -916,8 +873,6 @@ $('#IssueDetailModal_iDscrBtn').on('click', () => {
          }
          signedIssueCount.push(count)
       }
-      console.log('확인');
-      console.log(projectMember);
       const projectChartModal_chartBody_signedIssue = new Chart(signedIssue, {
          type : 'bar',
          data : {
@@ -1073,8 +1028,6 @@ $('#IssueDetailModal_iDscrBtn').on('click', () => {
               success : (data) => {
              newInum = data.newIssueNum
              newOrder = data.newIssueOrder
-             console.log('새로운 이슈 번호===');
-             console.log(newInum);
 
              KanbanTest.addElement(
                  'ToDo',
@@ -1098,18 +1051,13 @@ $('#IssueDetailModal_iDscrBtn').on('click', () => {
         },
         type: 'post',
         success: (data) => {
-            console.log(data);
           let txt=''
           for(let i=0; i<data.length; i++){
-            console.log(data[i].tName);
 
           txt += `<a class="dropdown-item" href='kanban2?pNum=`+${project.pNum}+`&tNum=`+data[i].tNum+`'>`+data[i].tName+`</a><br/>`
 
           }
-          console.log('a 태그');
-          console.log(txt);
           $('#taskList').html(txt)
-        //  $('#test').add('a').addClass('sss').attr('href', 'sss').val('value')
 
         }
       })

@@ -116,17 +116,20 @@ body:after{
 	opacity: 0.7;
 }
 .noti-modal-content {
-	background-color: #feffef;
+	/* background-color: #feffef; */
 }
  .noti-header {
-	background-color: #feffef;
+	/* background-color: #feffef; */
 }
  .noti {
 	padding: 5px;
 	/* border: 2px solid #49ff74; */
 	border-radius: 10px;
-	background: #a5ff8c;
-	color: #211c49;
+	border : 2px solid;
+	/* background: #a5ff8c;
+	color: #211c49; */
+	/* background: #2a2a2a; */
+	/* color: white; */
 }
 
 </style>
@@ -153,7 +156,6 @@ body:after{
 		}
 		// 서버 -> 클라이언트 메시지 도착
 		function onMessage(evt) {
-			console.log(evt.data);
 			if (evt.data != 0) {
 				$("#noti").html(evt.data);
 			}
@@ -193,7 +195,6 @@ body:after{
 								.on(
 										"click",
 										function() {
-											console.log(11);
 											var searchNotis = [];
 
 											$
@@ -203,11 +204,8 @@ body:after{
 															mId : '${loginUser.mId}'
 														},
 														success : function(data) {
-															console.log(data);
 
 															for (var i = 0; i < data.length; i++) {
-																console
-																		.log(data[i]);
 																var notiDefaultMsg = "<div class='noti'><p style='text-align:left;' > <b> From. "
 																		+ data[i].mNickname
 																		+ "("
@@ -216,12 +214,6 @@ body:after{
 																var notiDetailMsg = "";
 
 																switch (data[i].lCat) {
-																// 프로젝트 생성
-																//case 11:
-																//	console.log(data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.");
-																//	searchNotis.push("<p>"+data[i].mNickname+"("+data[i].mId+")님이 " + data[i].pName+" 프로젝트를 생성했습니다.</p>");
-																//	break;
-																// 프로젝트 멤버추가
 																case 13:
 																	notiDetailMsg = "<a href='${pageContext.request.contextPath}/project/gantt?pNum="
 																			+ data[i].pNum

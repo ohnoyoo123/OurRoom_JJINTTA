@@ -6,7 +6,7 @@
 <head>
 
 <meta content="charset=UTF-8">
-<title>Insert title here</title>
+<title>Project List</title>
 <link rel="stylesheet" href="/OurRoom/css/pList.css">
 
 </head>
@@ -166,7 +166,6 @@
 
 											success : function(data) {
 
-												console.log(data);
 
 												if (data.length == 0) {
 													$('#searchedMember').html(
@@ -238,7 +237,6 @@
 
 			function getProfile(profile) {
 				var img;
-				console.log("profile");
 				$
 						.ajax({
 							url : "/OurRoom/getProfile",

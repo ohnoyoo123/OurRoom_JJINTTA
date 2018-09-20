@@ -57,7 +57,6 @@ body {
 
 														success : function(data) {
 
-															console.log(data);
 
 															if (data.length == 0) {
 																$(
@@ -243,7 +242,6 @@ body {
 							},
 							type : "post",
 							success : function(data) {
-								console.log(data);
 							}
 						});
 					});

@@ -48,11 +48,15 @@
   padding: 12px;
   height: 87%;
   float: left;
-  background-color: #2a2a2a;
-  color: white;
-  border : 1 solid;
+  /* background-color: #2a2a2a; */
+  color: black;
+  border : 2px solid black;
   border-radius: 12px;
   text-align: center;
+}
+
+.pList_fav_content_project hr, .pList_prog_content_project hr, .pList_past_content_project hr{
+  border: 1px solid;
 }
 
 h2{
@@ -86,7 +90,7 @@ h2{
   margin-left: 15.5%;
   color: white;
   background-color: #2a2a2a;
-  border : 1 solid;
+  /* border : 1 solid ; */
   border-radius: 8px;
   text-align: center;
   padding: 8px;

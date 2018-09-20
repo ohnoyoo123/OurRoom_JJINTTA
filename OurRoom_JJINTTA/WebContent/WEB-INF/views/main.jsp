@@ -1298,7 +1298,7 @@ body {
 	<div class="jumbotron text-center">
 		<!-- <h1>OurRoom</h1> -->
 		<h2 style="color: white;">
-			누구나 쉽게 이용 가능한 프로젝트 관리 도구<br> <br> 지금바로 시작하세요!
+			누구나 쉽게 이용 가능한 프로젝트 관리 도구<br> <br> 지금 바로 시작하세요!
 		</h2>
 		<form></form>
 	</div>
@@ -1331,26 +1331,25 @@ body {
 
 	<!-- Container (Portfolio Section) -->
 	<div id="portfolio" class="container-fluid text-center bg-grey">
-		<h2>Portfolio</h2>
+		<h2>다양한 기능을 지금 만나보세요.</h2>
 		<br>
-		<h4>What we have created</h4>
 		<div class="row text-center slideanim">
 			<div class="col-sm-4">
 				<div class="thumbnail">
 					<img src="img/gantt.jpg" alt="Paris" width="400" height="300">
 					<p>
-						<strong>Paris</strong>
+						<strong>간트</strong>
 					</p>
-					<p>Yes, we built Paris</p>
+					<p>전체 일정을 한 눈에</p>
 				</div>
 			</div>
 			<div class="col-sm-4">
 				<div class="thumbnail">
 					<img src="img/kanban.jpg" alt="New York" width="400" height="300">
 					<p>
-						<strong>New York</strong>
+						<strong>칸반</strong>
 					</p>
-					<p>We built New York</p>
+					<p>포스트잇 붙이듯 간단하게</p>
 				</div>
 			</div>
 			<div class="col-sm-4">
@@ -1358,9 +1357,9 @@ body {
 					<img src="img/chart.jpg" alt="San Francisco" width="400"
 						height="300">
 					<p>
-						<strong>San Francisco</strong>
+						<strong>차트</strong>
 					</p>
-					<p>Yes, San Fran is ours</p>
+					<p>다양한 차트 제공</p>
 				</div>
 			</div>
 		</div>
@@ -1485,8 +1484,6 @@ body {
 				$("#loginBtn").trigger('click');
 			}
 		});
-
-	$(function() {
 		/* 회원가입 아이디 중복체크 */
 		$("#sign_mId").blur(function() {
 			chkId();
@@ -1523,7 +1520,6 @@ body {
 
 		/* ID, PW, Nickname, 답변 유효성 체크 및 submit */
 		$("#signUpBtn").on("click",function(){
-			console.log("signUpBtn click");
 			if(chkId()&chkPw()&chkNickname()&chkAnswer()&chkPw2()){
 				$("#signForm").submit();
 			}
@@ -1710,7 +1706,6 @@ body {
 		$("#answerCheckMsg").html("사용 가능합니다.");
 		return true;
 	}
-
 </script>
 
 	<!-- 로그인 -->

@@ -133,30 +133,38 @@ textarea {
 
 #IssueDetailModal_iStartDate_div, #IssueDetailModal_iEndDate_div,
 #projectDetailModal_pStartDate_div, #projectDetailModal_pEndDate_div,
-#taskDetailModal_tStartDate_div, #taskDetailModal_tEndDate_div{
+#taskDetailModal_tStartDate_div, #taskDetailModal_tEndDate_div,
+#addIssueModal_iStartDate_div, #addIssueModal_iEndDate_div{
    width: 50%;
    margin: auto;
 }
 
-#IssueDetailModal_iStartDate_div, #projectDetailModal_pStartDate_div, #taskDetailModal_tStartDate_div{
+#IssueDetailModal_iStartDate_div,
+#projectDetailModal_pStartDate_div,
+#taskDetailModal_tStartDate_div,
+#addIssueModal_iStartDate_div{
    float: left;
 }
 
-#IssueDetailModal_iEndDate_div, #projectDetailModal_pEndDate_div, #taskDetailModal_tEndDate_div{
+#IssueDetailModal_iEndDate_div,
+#projectDetailModal_pEndDate_div,
+#taskDetailModal_tEndDate_div,
+#addIssueModal_iEndDate_div{
    float: right;
 }
 
-#IssueDetailModal_iEndDate_div h4 i, #projectDetailModal_pEndDate_div h4 i{
+#IssueDetailModal_iEndDate_div h4 i, #projectDetailModal_pEndDate_div h4 i, #addIssueModal_iEndDate_div h4 i{
    margin-left: 15px;
 }
 
 #IssueDetailModal_iStartDate, #IssueDetailModal_iEndDate,
 #projectDetailModal_pStartDate, #projectDetailModal_pEndDate,
-#taskDetailModal_tStartDate, #taskDetailModal_tEndDate{
+#taskDetailModal_tStartDate, #taskDetailModal_tEndDate,
+#addIssueModal_iStartDate, #addIssueModal_iEndDate{
    float: left;
    width: 319px;
 }
-#IssueDetailModal_iEndDate, #projectDetailModal_pEndDate{
+#IssueDetailModal_iEndDate, #projectDetailModal_pEndDate, #addIssueModal_iEndDate{
   margin-left: 15px;
 }
 #IssueDetailModal_iDscr{
@@ -191,7 +199,7 @@ textarea {
 #IssueDetailModal_right{
    flex-grow: 1;
    flex-basis: 25%;
-   background-color: rgba(0, 0, 0, .1);
+   background-color: rgba(42, 42, 42, .1);
    border-radius: 10px;
 }
 
@@ -223,7 +231,7 @@ textarea {
 #addCheckListBtn{
   float: left;
   margin-left: 5px;
-  background-color: rgba(33, 99, 33, .7);
+  background-color: rgba(42, 42, 42, .7);
   color: white;
 }
 
@@ -266,7 +274,7 @@ textarea {
 }
 
 .addCheckListItemFormBtn, .deleteCheckListBtn{
-  background-color: rgba(33, 99, 33, .7);
+  background-color: rgba(42, 42, 42, .7);
   color : white;
 }
 
@@ -295,19 +303,19 @@ textarea {
   float: right;
   margin-left: 5px;
   margin-top: 2px;
-  background-color: rgba(33, 99, 33, .7);
+  background-color: rgba(42, 42, 42, .7);
   color : white;
 
 }
 
 #addCheckListItemBtn:hover, #addCheckListItemCancelBtn:hover, #IssueDetailModal_cmBtn:hover,
 #commentArea .IssueDetailModal_reCmFormBtn:hover, .IssueDetailModal_deleteCmBtn:hover{
-  background-color: rgba(33, 99, 33, 1);
+  background-color: rgba(42, 42, 42, 1);
   color : white;
 }
 
 #checkListList .checkList .addCheckListItemFormBtn:hover, #checkListList .checkList .deleteCheckListBtn:hover{
-  background-color: rgba(33, 99, 33, 1);
+  background-color: rgba(42, 42, 42, 1);
   color : white;
 }
 
@@ -316,7 +324,7 @@ textarea {
 }
 
 .deleteCheckListItemBtn{
-  background-color: rgba(33, 99, 33, .7);
+  background-color: rgba(42, 42, 42, .7);
   color : white;
   /* float: right; */
   /* margin-top: 2px; */
@@ -407,11 +415,11 @@ u{
   display: inline-block;
   margin-top: 5px;
   margin-left: 614px;
-  background-color: rgba(33, 99, 33, .7);
+  background-color: rgba(42, 42, 42, .7);
   color : white;
 }
 #taskDetailModal_tNotiConfirmBtn:hover, #taskDetailModal_tDscrBtn:hover, #IssueDetailModal_iDscrBtn:hover{
-  background-color: rgba(33, 99, 33, 1);
+  background-color: rgba(42, 42, 42, 1);
   color : white;
 }
 

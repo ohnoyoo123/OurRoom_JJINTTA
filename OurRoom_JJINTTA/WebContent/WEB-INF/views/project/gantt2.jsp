@@ -45,14 +45,14 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
-						태스크명: <input type="text" placeholder="enter task name"
+						<i class="material-icons modal_icon">folder_open</i> 태스크 추가 <input type="text" placeholder="태스크 이름 입력"
 							id="addTaskModal_tName">
 					</h4>
 				</div>
 				<!-- Modal Body -->
 				<div class="modal-body">
 
-					태스크 설명
+					<h4><i class="material-icons modal_icon">description</i> 태스크 설명</h4>
 					<div id="addTaskModal_tDscrForm">
 						<textarea id="addTaskModal_tDscr"></textarea>
 					</div>
@@ -60,7 +60,7 @@
 				<!-- Modal footer -->
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success"
-						id="addTaskModalConfirmBtn">Add</button>
+						id="addTaskModalConfirmBtn">확인</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
@@ -78,36 +78,37 @@
 	            <div class="modal-header">
 	               <button type="button" class="close" data-dismiss="modal">&times;</button>
 	               <h2 class="modal-title">
-	                  <p class="selectedTask"></p>
+	                  <i class="material-icons modal_icon">folder_open</i> <span class="selectedTask"></span>
 	               </h2>
 	               <h6 class="modal-title">
-	                  <input type="text" placeholder="이슈명: enter issue name" id="iName">
+	                  <input type="text" placeholder="이슈 이름 입력" id="iName">
 	               </h6>
 	            </div>
 
 	            <!-- Modal body -->
 	            <div class="modal-body">
 	               <div>
-	                  이슈 설명
+									 <h4><i class="material-icons modal_icon">description</i> 이슈 설명</h4>
 	                  <textarea id="addIssueModal_iDscr"></textarea>
 	               </div>
 	            </div>
 
 	            <!-- Modal body -->
 	            <div class="modal-body">
-	               <div>
-	                  시작 : <br> <input type="text" class="datepicker"
-	                     id="addIssueModal_iStartDate" readonly>
-	               </div>
-	               <div>
-	                  종료 : <br> <input type="text" class="datepicker"
-	                     id="addIssueModal_iEndDate" readonly>
-	               </div>
+								 <div id="addIssueModal_iStartDate_div">
+									 <h4><i class="material-icons modal_icon">calendar_today</i> 이슈 시작일</h4>
+									 <input type="text" class="datepicker" id="addIssueModal_iStartDate" readonly>
+								 </div>
+								 <div id="addIssueModal_iEndDate_div">
+									 <h4><i class="material-icons modal_icon">calendar_today</i> 이슈 종료일</h4>
+									 <input type="text" class="datepicker" id="addIssueModal_iEndDate" readonly>
+								 </div>
+
 	            </div>
 
 	            <!-- Modal body -->
 				<div class="modal-body">
-					<div>이슈 멤버 할당</div>
+					<h4 style="margin-top:80px;"><i class="material-icons modal_icon">group</i> 프로젝트 멤버</h4>
 					<div>
 						<c:forEach items="${projectMemberList}" var="member">
 							<div class="selectMId" mId="${member.mId}"
@@ -117,8 +118,9 @@
 									width="30px" height="30px"> ${member.mNickname}
 							</div>
 						</c:forEach>
-						=====================
-						<div id="selectedMId">할당된 멤버</div>
+						<hr>
+							<h4><i class="material-icons modal_icon">group_add</i> 이슈 멤버</h4>
+						<div id="selectedMId"></div>
 					</div>
 				</div>
 
@@ -156,7 +158,7 @@
 						<h4><i class="material-icons modal_icon">calendar_today</i> 프로젝트 종료일</h4>
 						<input type="text" class="datepicker" id="projectDetailModal_pEndDate" readonly>
 					</div>
-					=========== 프로젝트 멤버
+					<h4 style="margin-top:80px;"><i class="material-icons modal_icon">group</i> 프로젝트 멤버</h4>
 					<div id="projectDetailModal_assignedMemberList"></div>
 
 				</div>
@@ -222,11 +224,8 @@
 				<!-- Modal Header -->
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title">
-						<p class="selectedTask"></p>
-					</h2>
 					<h4 class="modal-title">
-						<i class="material-icons modal_icon">assignment</i><span id="IssueDetailModal_iName"></span>
+						<i class="material-icons modal_icon">assignment</i> <span id="IssueDetailModal_iName"></span>
 						<input type="text" id="IssueDetailModal_iNameForm" autofocus>
 					</h4>
 					<p id="issueMember"></p>
@@ -287,10 +286,10 @@
 
 				<!-- Modal Header -->
 				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
 						<i class="material-icons modal_icon">work_outline</i> <span id="projectChartModal_pName"></span>
 					</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 
 				<!-- Modal body -->
@@ -401,9 +400,6 @@
    }
    let taskAndIssue = []
    const makeGantt = (p, tList, iList) => {
-      console.log(p);
-      console.log(tList)
-      console.log(iList)
       let projectProgress = 0;
       let taskProgress = 0;
       let issueProgress = 0;
@@ -440,9 +436,7 @@
          }
        }
      }
-     console.log('makeGantt 실행');
    }
-   console.log(taskAndIssue);
    makeGantt(project, taskList, issueList)
    let selTask = 0;
    let selIssue = 0;
@@ -467,7 +461,6 @@
          }
      },
      on_date_change: function (task, start, end) {
-       // console.log(task, start, end);
          tempStartDate = new Date(start)
          tempStartDateString = ''
          tempStartDateString += tempStartDate.getFullYear()
@@ -505,13 +498,11 @@
          }
      },
      on_progress_change: function (task, progress) {
-       console.log(task, progress);
      },
      on_view_change: function (mode) {
-       console.log(mode);
          $('.task').children('.handle-group').remove()
          //프로젝트 바
-         $('.gantt .project .bar-progress').css({
+				 $('.gantt .project .bar-progress').css({
          })
          //태스크 바
          $('.gantt .task .bar-progress').each(function(i){
@@ -528,7 +519,6 @@
    });
       //간트 내부 좌단부 생성
       const sideTap = (p, t, i) => {
-         console.log('sideTap 실행');
          let project = p
          let taskList = t
          let issueList = i
@@ -576,7 +566,6 @@
       sideTap(project, taskList, issueList)
       //태스크 추가
      $('#addTaskModalConfirmBtn').on('click', function () {
-         console.log(${project.pNum});
          selectedMId = []
        $.ajax({
          url: 'addTask',
@@ -589,7 +578,6 @@
          },
          type: 'post',
          success: (data) => {
-           console.log(data)
                project = data.projectJson
            taskList = data.taskJson
            issueList = data.issueJson
@@ -603,13 +591,13 @@
          }
        })
      })
-     //08.19 김승겸!!! 
+     //08.19 김승겸!!!
      //이슈에 멤버 할당
 	selectedMId = []
 	selectedHTML = []
 	$('.selectMId').on('click', function(){
-		// no cloning necessary    
-		var imgAndNickname = $(this).find('img').parent().html(); 
+		// no cloning necessary
+		var imgAndNickname = $(this).find('img').parent().html();
 		var img = $(this).find('img');
 		if(!selectedMId.includes($(this).attr('mId'))){
 			selectedMId.push($(this).attr('mId'));
@@ -622,11 +610,10 @@
       let selectedtName = ''
       //이슈 추가창 생성
       $(document).on('click', '.addIssueBtn', function(){
-         console.log(selectedMId);
          selectedMId = []
          selectedtNum = $(this).attr('tNum')
          selectedtName = $(this).attr('tName')
-         $('.selectedTask').html("태스크 이름 : " + selectedtName)
+         $('.selectedTask').html(selectedtName)
       })
       //이슈 추가
       $('#addIssue').on('click', () => {
@@ -710,7 +697,6 @@
       }
       //코멘트 생성
       const showComment = (data) => {
-         console.log(data.commentList)
          txt =''
          for(let i = 0; i < data.commentList.length; i++){
             if(data.commentList[i].cmSuper == 0){
@@ -759,7 +745,6 @@
       }
       //코멘트 답글폼 생성
       $(document).on('click', '.IssueDetailModal_reCmFormBtn', function(){
-         console.log($(this).parent('p').attr('cmNum'));
          if($(this).attr('IssueDetailModal_reCmFormBtn') == 0){
             $(this).parent('p').append(`
 							<div class="IssueDetailModal_reCmForm">
@@ -783,9 +768,6 @@
       })
       //코멘트 답글 입력
       $(document).on('click', '.IssueDetailModal_reCmConfirmBtn', function () {
-         console.log(${project.pNum});
-         console.log($(this).parents('p').attr('cmNum'));
-         console.log($(this).siblings('.IssueDetailModal_reCmContent').val());
          $.ajax({
             url : 'addComment',
             data : {
@@ -823,8 +805,6 @@
       let issueMember = []
       //체크리스트 친구들 만들기
       const showCheckList = (data) =>{
-         console.log('체크체크');
-         console.log(data);
          let txt =''
                for (var i = 0; i < data.checkList.length; i++) {
                   txt += '<div class=\'checkList\''
@@ -873,7 +853,6 @@
                $('#checkListNameForm').empty()
       }
       const updateCheckListItem = (data) => {
-         console.log(data)
          $.ajax({
             url : 'updateCheckListItem',
             data : {
@@ -922,7 +901,7 @@
 							 // 김승겸 09.18 19:30 이슈할당 멤버들  프로필 | 닉네임 쌍으로 보여주기
                for (var k = 0; k < data.issueMember.length; k++) {
 									var img = "<img class='rounded-circle img-circle' src='data:image/jpg;base64, "+ data.profileList[data.issueMember[k].mId] + "' width='30px' height='30px'>";
-									$('#issueMember').append(img+""+data.issueMember[k].mNickname).append(', ')
+									$('#issueMember').append(img+""+data.issueMember[k].mNickname).append('   ')
 							}
                //for (var k = 0; k < data.issueMember.length; k++) {
                //   $('#issueMember').append(data.issueMember[k].mId).append(', ')
@@ -940,10 +919,6 @@
             }
             //이슈 상세정보 보기
             $('#issueDetailBtn').on('click', () => {
-               console.log('task');
-               console.log(selectedTask);
-               console.log('issue');
-               console.log(selectedissue);
                $.ajax({
                   url : 'issueDetail',
                   data : {
@@ -953,8 +928,6 @@
                   },
                   type : 'post',
                   success : (data) => {
-                     console.log('성공');
-                     console.log(data);
                      showIssue(data)
                      showCheckList(data)
                      showComment(data)
@@ -963,7 +936,6 @@
             })
             let selectedTaskDscr = ''
             const showTask = (data) => {
-               console.log(data);
                $('#taskDetailModal_tName').show()
                $('#taskDetailModal_tNameForm').hide()
                $('#taskDetailModal_tDscrBtn').hide()
@@ -1027,8 +999,6 @@
             })
             //태스크 설명 변경
             $('#taskDetailModal_tDscrBtn').on('click', () => {
-               console.log('태스크 공지 변경 누름');
-               console.log($('#taskDetailModal_tDscr').val());
                data = {
                   tNum : selectedTask,
                   tDscr : $('#taskDetailModal_tDscr').val()
@@ -1068,8 +1038,6 @@
             })
             //태스크 수정
             const updateTask = (data) => {
-               console.log('updateTask')
-               console.log(data)
                $.ajax({
                   url : 'updateTask',
                   data : {
@@ -1130,8 +1098,6 @@
             }
             //태스크 상세정보 보기
             $('#taskDetailBtn').on('click', () => {
-               console.log('태스크 상세');
-               console.log(selectedTask);
                $.ajax({
                   url : 'taskDetail',
                   data : {
@@ -1153,10 +1119,6 @@
             })
             //체크리스트 추가
             $(document).on('click', '#addCheckListBtn', () => {
-               console.log(${project.pNum});
-               console.log(selectedTask);
-               console.log(selectedIssue);
-               console.log($('#checkListName').val());
                $.ajax({
                   url : 'addCheckList',
                   data : {
@@ -1167,8 +1129,6 @@
                   },
                   type : 'post',
                   success : function(data){
-                     console.log('체크리스트 추가 성공');
-                     console.log(data);
                      showCheckList(data)
                   }
                })
@@ -1199,7 +1159,6 @@
             //체크리스트 아이템 멤버 추가
             $(document).on('click', '.unassingedCheckListItemMember', function(){
                if(!singedCheckListItemMember.includes($(this).attr('mId'))){
-                  console.log(singedCheckListItemMember);
                   singedCheckListItemMember.push($(this).attr('mId'))
                   txt = ''
                   for(let i = 0; i < singedCheckListItemMember.length; i++){
@@ -1214,10 +1173,6 @@
             })
             //체크리스트 아이템 추가
             $(document).on('click', '#addCheckListItemBtn', function(){
-               console.log(${project.pNum});
-               console.log(selectedTask);
-               console.log(selectedIssue);
-               console.log($(this).parent('.checkList').attr('clNum'));
                $.ajax({
                   url : 'addCheckListItem',
                   data : {
@@ -1230,8 +1185,6 @@
                   },
                   type : 'post',
                   success : function(data){
-                     console.log('체크리스트 아이템 추가 성공')
-                     console.log(data)
                      $('.addCheckListItemForm').html('')
                      showCheckList(data)
                      singedCheckListItemMember = []
@@ -1260,10 +1213,6 @@
             //체크리스트 아이템 삭제
             $(document).on('click', '.deleteCheckListItemBtn', function(){
                if(confirm('삭제하시겠습니까?')){
-                  console.log(selectedTask);
-                  console.log(selectedIssue);
-                  console.log($(this).parents('.checkList').attr('clNum'))
-                  console.log($(this).parent().attr('ciNum'));
                   $.ajax({
                      url : 'deleteCheckListItem',
                      data : {
@@ -1282,8 +1231,6 @@
  })
  //수정하기//
     const updateIssue = (data) => {
-       console.log('updateIssue')
-       console.log(data)
        $.ajax({
           url : 'updateIssue',
           data : {
@@ -1300,7 +1247,6 @@
           },
           type : 'post',
           success : (innerData) => {
-             console.log(innerData);
              showIssue(innerData)
              showCheckList(innerData)
              projectReload()
@@ -1431,7 +1377,6 @@
           },
           type : 'post',
           success : (data) => {
-             console.log(data);
              txt = ''
                  for (var k = 0; k < data.projectMember.length; k++) {
  					var img = "<img class='rounded-circle img-circle' src='data:image/jpg;base64, "+ data.profileList[data.projectMember[k].mId] + "' width='30px' height='30px'>";
@@ -1479,9 +1424,6 @@
     })
     //이슈 날짜 변경시 태스크 날짜 변경
     const matchDate_issueToTask = () => {
-       console.log('여기가 좀 이상해');
-       console.log(selectedTask);
-       console.log(selectedIssue);
           $.ajax({
              url : 'matchDate',
              data : {
@@ -1491,16 +1433,11 @@
              },
              type : 'post',
              success : (innerData) => {
-                console.log('이슈 날짜 변경했을 때?');
-                console.log(innerData);
                 newData = {
                    tNum : selectedTask,
                    tStartDate : innerData.minIStartDate.iStartDate,
                    tEndDate : innerData.maxIEndDate.iEndDate
                 }
-                console.log('newData');
-                console.log('=======================================================');
-                console.log(newData);
                 updateTask(newData)
              }
           })
@@ -1656,10 +1593,23 @@
                }
              })
              let projectMember = []
+						 let projectNickname = []
              let signedIssueCount = []
              let colorSet = []
              for(let i = 0; i < data.projectMemberList.length; i++){
-                projectMember.push(data.projectMemberList[i].mId)
+							 projectMember.push(data.projectMemberList[i].mId)
+							 $.ajax({
+								 url : 'getNickname',
+								 data : {
+									 mId : data.projectMemberList[i].mId
+								 },
+								 type : 'post',
+								 success : (data) => {
+									 projectNickname.push(data)
+								 },
+								 async : false
+							 })
+                // projectMember.push(data.projectMemberList[i].mId)
              }
              for(let i = 0; i < projectMember.length; i++){
                 let count = 0
@@ -1670,12 +1620,10 @@
                 }
                 signedIssueCount.push(count)
              }
-             console.log('확인');
-             console.log(projectMember);
              const projectChartModal_chartBody_signedIssue = new Chart(signedIssue, {
                 type : 'bar',
                 data : {
-                   labels : projectMember,
+                   labels : projectNickname,
                    datasets : [{
                       data : signedIssueCount,
                       backgroundColor : '#3366cc',
@@ -1794,8 +1742,6 @@
 				 },
 				 type : 'post',
 				 success : (data) => {
-						console.log('성공');
-						console.log(data);
 						showIssue(data)
 						showCheckList(data)
 						showComment(data)
