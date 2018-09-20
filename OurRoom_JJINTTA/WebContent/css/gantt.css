@@ -112,7 +112,8 @@ textarea {
 }
 
 #gantt_top{
-   margin-left: 50px;
+   /* margin-left: 50px; */
+   text-align: center;
 }
 
 .gantt_icon{
@@ -130,28 +131,32 @@ textarea {
    font-weight: lighter;
 }
 
-#IssueDetailModal_iStartDate_div, #IssueDetailModal_iEndDate_div{
+#IssueDetailModal_iStartDate_div, #IssueDetailModal_iEndDate_div,
+#projectDetailModal_pStartDate_div, #projectDetailModal_pEndDate_div,
+#taskDetailModal_tStartDate_div, #taskDetailModal_tEndDate_div{
    width: 50%;
    margin: auto;
 }
 
-#IssueDetailModal_iStartDate_div{
+#IssueDetailModal_iStartDate_div, #projectDetailModal_pStartDate_div, #taskDetailModal_tStartDate_div{
    float: left;
 }
 
-#IssueDetailModal_iEndDate_div{
+#IssueDetailModal_iEndDate_div, #projectDetailModal_pEndDate_div, #taskDetailModal_tEndDate_div{
    float: right;
 }
 
-#IssueDetailModal_iEndDate_div h4 i{
+#IssueDetailModal_iEndDate_div h4 i, #projectDetailModal_pEndDate_div h4 i{
    margin-left: 15px;
 }
 
-#IssueDetailModal_iStartDate, #IssueDetailModal_iEndDate{
+#IssueDetailModal_iStartDate, #IssueDetailModal_iEndDate,
+#projectDetailModal_pStartDate, #projectDetailModal_pEndDate,
+#taskDetailModal_tStartDate, #taskDetailModal_tEndDate{
    float: left;
    width: 319px;
 }
-#IssueDetailModal_iEndDate{
+#IssueDetailModal_iEndDate, #projectDetailModal_pEndDate{
   margin-left: 15px;
 }
 #IssueDetailModal_iDscr{
@@ -227,12 +232,12 @@ textarea {
 }
 
 #commentDiv{
-  margin-top: 20px;
+  margin-top: 10px;
   float: left;
   width: 100%;
 }
 
-#IssueDetailModal_nickname{
+.IssueDetailModal_nickname{
   display:inline-block;
   vertical-align: bottom;
   max-width: 12%;
@@ -241,7 +246,7 @@ textarea {
   /* font-style: bold; */
 }
 
-#IssueDetailModal_nickname span{
+.IssueDetailModal_nickname span{
   vertical-align: bottom;
 
   font-size: 18px;
@@ -258,7 +263,7 @@ textarea {
 }
 
 .addCheckListItemFormBtn, .deleteCheckListBtn{
-  background-color: rgba(33, 99, 33, .5);
+  background-color: rgba(33, 99, 33, .7);
   color : white;
 }
 
@@ -267,7 +272,9 @@ textarea {
 }
 
 .checkListItem{
-  margin-top: 10px;
+  display: inline-block;
+  margin-bottom: 3px;
+  width: 100%;
 }
 
 #addCheckListItemName{
@@ -278,7 +285,8 @@ textarea {
   float: right;
 }
 
-#addCheckListItemBtn, #addCheckListItemCancelBtn, #IssueDetailModal_cmBtn{
+#addCheckListItemBtn, #addCheckListItemCancelBtn, #IssueDetailModal_cmBtn,
+.IssueDetailModal_deleteCmBtn, #commentArea .IssueDetailModal_reCmFormBtn, #commentArea .IssueDetailModal_reCmConfirmBtn, #commentArea .IssueDetailModal_reCmCancleBtn{
   display: inline-block;
   /* margin-top: 20px; */
   float: right;
@@ -289,7 +297,8 @@ textarea {
 
 }
 
-#addCheckListItemBtn:hover, #addCheckListItemCancelBtn:hover, #IssueDetailModal_cmBtn:hover{
+#addCheckListItemBtn:hover, #addCheckListItemCancelBtn:hover, #IssueDetailModal_cmBtn:hover,
+#commentArea .IssueDetailModal_reCmFormBtn:hover, .IssueDetailModal_deleteCmBtn:hover{
   background-color: rgba(33, 99, 33, 1);
   color : white;
 }
@@ -317,4 +326,94 @@ textarea {
 u{
   font-weight: bold;
   font-size: 18px;
+}
+
+#viewMode #radio_month{
+  height: 15px;
+  width : 20%;
+  top : 3px;
+}
+#viewMode #radio_week{
+  height: 15px;
+  width : 20%;
+  top : 3px;
+}
+#viewMode #radio_day{
+  height: 15px;
+  left : 5px;
+  top : 3px;
+}
+
+#viewMode label{
+  font-weight: bold;
+}
+
+.commentArea_comment{
+  margin-top: 20px;
+  margin-bottom: 24px;
+}
+
+.IssueDetailModal_reCmFormBtn{
+  float: right;
+}
+
+.form-control.IssueDetailModal_cmContentData{
+  display: inline-block;
+  float: right;
+  width: 415px;
+}
+
+.form-control.IssueDetailModal_cmContentData_re{
+  display: inline-block;
+  float: right;
+  width: 415px;
+}
+
+.form-control.IssueDetailModal_reCmContent{
+  display: inline-block;
+  float: right;
+  width : 495px;
+}
+
+.IssueDetailModal_reCmForm{
+  margin-top: 10px;
+  display: inline-block;
+  width: 100%;
+
+}
+
+.IssueDetailModal_cmTime{
+  padding-left: 4px;
+  padding-top: 6px;
+  display: inline-block;
+  float: right;
+  width: 85px;
+  /* background-color: yellow */
+}
+
+.float_right{
+  display: inline-block;
+  float: right;
+}
+
+#taskDetailModal_tDscrForm{
+  margin-top: 100px;
+}
+
+#taskDetailModal_tNotiConfirmBtn, #taskDetailModal_tDscrBtn, #IssueDetailModal_iDscrBtn{
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 614px;
+  background-color: rgba(33, 99, 33, .7);
+  color : white;
+}
+#taskDetailModal_tNotiConfirmBtn:hover, #taskDetailModal_tDscrBtn:hover, #IssueDetailModal_iDscrBtn:hover{
+  background-color: rgba(33, 99, 33, 1);
+  color : white;
+}
+
+#taskDetailModal_tNotiNameForm{
+  display: inline-block;
+  float: right;
+  width: 530px;
 }

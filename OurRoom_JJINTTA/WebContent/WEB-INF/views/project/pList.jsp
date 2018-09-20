@@ -105,11 +105,11 @@
 				<div class="modal-body">
 					<div class="col-xs-4" style="margin-left: -12px;">
 						시작 : <br> <input type="text" class="datepicker form-control"
-							id="addProjectModal_pStartDate">
+							id="addProjectModal_pStartDate" readonly>
 					</div>
 					<div class="col-xs-4">
 						종료 : <br> <input type="text" class="datepicker form-control"
-							id="addProjectModal_pEndDate">
+							id="addProjectModal_pEndDate" readonly>
 					</div>
 					<br /> <br /> <br /> <br />
 					<div>
@@ -220,7 +220,10 @@
 					data : {
 						pName : $('#pName').val(),
 						owner : '${loginUser.mId}',
-						members : invitedId
+						members : invitedId,
+						pStartDate : $('#addProjectModal_pStartDate').val(),
+						pEndDate : $('#addProjectModal_pEndDate').val()
+
 					},
 					type : "post",
 					success : function(data) {
@@ -258,6 +261,6 @@
 			;
 		});
 	</script>
- 
+
 </body>
 </html>

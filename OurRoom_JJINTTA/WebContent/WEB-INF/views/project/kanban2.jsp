@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -32,6 +33,7 @@
 
     <script src="/OurRoom/js/jkanban.js"></script>
     <link rel="stylesheet" href="/OurRoom/js/jkanban.css">
+    <link rel="stylesheet" href="/OurRoom/css/gantt.css">
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
@@ -44,7 +46,8 @@
      <div class="row">
         <div class="col-md-12">
 					<div style="text-align:center;">
-          <h1 style="display: inline-block"><a style="color:black; font-weight:bold;" href='gantt?pNum=${project.pNum}'>${project.pName}</a> </h1>
+          <h1 style="display: inline-block">
+            <a style="color:black; font-weight:bold;" href='gantt?pNum=${project.pNum}'>${project.pName}</a> </h1>
           <%-- <i class="material-icons md-30" data-toggle="tooltip" data-placement="right" title="차트 보기"> --%>
           <i class="material-icons md-30" data-toggle="modal" data-target="#projectChartModal">
             insert_chart
@@ -52,7 +55,7 @@
 					<div class="dropdown" style="float:right;" >
 
             <button style="padding-bottom:-20px; display: inline-block; margin-top:40px; margin-right:15px;" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" id='goToTasksBtn'>
-              ${task[0].tName} Kanban Boards
+              ${task[0].tName} Kanban Boards▼
             </button>
             <div class="dropdown-menu" id='taskList'>
             </div>
@@ -132,7 +135,6 @@
 						<span id="IssueDetailModal_iName"></span> <input type="text"
 							id="IssueDetailModal_iNameForm" autofocus>
 					</h4>
-					이슈 멤버 :
 					<p id="issueMember"></p>
 				</div>
 
@@ -141,40 +143,37 @@
 
 					<div id="IssueDetailModal_left">
 						<div id="IssueDetailModal_iStartDate_div">
-							<h4>이슈 시작일</h4>
+							<h4><i class="material-icons modal_icon">calendar_today</i> 이슈 시작일</h4>
 							<input type="text" class="datepicker"
 								id="IssueDetailModal_iStartDate" readonly>
 						</div>
 						<div id="IssueDetailModal_iEndDate_div">
-							<h4>이슈 종료일</h4>
+							<h4><i class="material-icons modal_icon">calendar_today</i> 이슈 종료일</h4>
 							<input type="text" class="datepicker"
 								id="IssueDetailModal_iEndDate" readonly>
 						</div>
 						<br>
 						<div id="IssueDetailModal_iDscrForm">
-							<h4>이슈 설명</h4>
+							<h4><i class="material-icons modal_icon">description</i> 이슈 설명</h4>
 							<textarea id="IssueDetailModal_iDscr"></textarea>
-							<button id="IssueDetailModal_iDscrBtn" type="button">저장</button>
+							<button id="IssueDetailModal_iDscrBtn" type="button" class="btn">저장</button>
 						</div>
-						<h4>
-							체크리스트
-							<button id="addCheckListForm" type="button">+</button>
-						</h4>
-						<div id="checkListNameForm"></div>
+								<h4 class="hover" id="IssueDetailModal_addCheckListForm" data-toggle="tooltip" data-placement="right" title="체크리스트 추가">
+									<i class="material-icons modal_icon">playlist_add_check</i> 체크리스트
+								</h4>
+							<div id="checkListNameForm"></div>
+
 						<div id="checkListList"></div>
-						<h4>코멘트</h4>
 						<div id="commentDiv">
-							${loginUser.mNickname} : <input type="text" style="width: 80%"
-								id="IssueDetailModal_cmContent">
-							<button id="IssueDetailModal_cmBtn" class="btn" type="button">저장</button>
+							<h4><i class="material-icons modal_icon">comment</i> 코멘트</h4>
+							<button id="IssueDetailModal_cmBtn" class="btn btn-sm" type="button">O</button>
+							<div class="IssueDetailModal_nickname">
+								<span>${loginUser.mNickname}</span>
+							</div>
+								<input type="text" id="IssueDetailModal_cmContent" placeholder="코멘트 입력">
 							<div id="commentArea"></div>
 						</div>
 					</div>
-
-					<div id="IssueDetailModal_right">
-						사이드<br> 체크리스트 +<br> 멤버<br>
-					</div>
-
 				</div>
 
 				<!-- Modal footer -->
@@ -187,6 +186,9 @@
 	</div>
 
   <script type="text/javascript">
+  $(function () {
+    $(".datepicker").datepicker({dateFormat: "yy-mm-dd"});
+  });
 
   console.log(${issueJson});
 
@@ -282,12 +284,15 @@
        $('#IssueDetailModal_iDscr').html(data.issueList[0].iDscr)
        $('#IssueDetailModal_iStartDate').val(data.issueList[0].iStartDate)
        $('#IssueDetailModal_iEndDate').val(data.issueList[0].iEndDate)
-
        $('#issueMember').html('')
+       // 김승겸 09.18 19:30 이슈할당 멤버들  프로필 | 닉네임 쌍으로 보여주기
        for (var k = 0; k < data.issueMember.length; k++) {
-          $('#issueMember').append(data.issueMember[k].mId).append(', ')
-       }
-
+          var img = "<img class='rounded-circle img-circle' src='data:image/jpg;base64, "+ data.profileList[data.issueMember[k].mId] + "' width='30px' height='30px'>";
+          $('#issueMember').append(img+""+data.issueMember[k].mNickname).append(', ')
+      }
+       //for (var k = 0; k < data.issueMember.length; k++) {
+       //   $('#issueMember').append(data.issueMember[k].mId).append(', ')
+       //}
        $('#issueDscr').html(data.issueList[0].iDscr)
        $('#IssueDetailModal_iDscrBtn').hide()
        $('#IssueDetailModal_iNameForm').hide()
@@ -298,7 +303,6 @@
        selectedIssueName = data.issueList[0].iName
        selectedIssueDscr = ''
        selectedIssueDscr = data.issueList[0].iDscr
-
     }
 
     const showCheckList = (data) =>{
@@ -313,27 +317,28 @@
                 txt += ' clNum=' + data.checkList[i].clNum
                 txt += ' clName = ' + data.checkList[i].clName
                 txt += '>'
-                txt += '체크리스트 이름 : ' + data.checkList[i].clName
-                txt +=  '<button style="float:right;" class="deleteCheckListBtn">X</button>'
-                txt +=  '<button style="float:right;" class="addCheckListItemFormBtn">O</button><br>'
+                txt += '<i class="material-icons modal_icon">    check</i><u>' + data.checkList[i].clName
+                txt +=  '</u><button style="float:right;" class="deleteCheckListBtn btn btn-sm" data-toggle="tooltip" data-placement="right" title="체크리스트 삭제">X</button>'
+                txt +=  '<button style="float:right;" class="addCheckListItemFormBtn btn btn-sm" data-toggle="tooltip" data-placement="right" title="체크리스트 아이템 추가">O</button><br>'
                 txt += '<div class="addCheckListItemForm"></div>'
-                txt += '======================================================================'
                 for (var j = 0; j < data.checkListItem.length; j++) {
                    if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
                       txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
-                      txt += '&emsp;체크리스트 아이템 : ' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn">X</button>'
-                      if(data.checkList[i].clIsDone == 1){
-                         txt += '<input type="checkbox" class="form-check-input ci_checkbox" checked>완료<br>'
+                      txt += '<i class="material-icons modal_icon tap">subdirectory_arrow_right</i>' + data.checkListItem[j].ciName
+                      txt += '<div class="float_right">'
+                      if(data.checkListItem[i].ciIsDone == 1){
+                        txt += '<i class="material-icons modal_icon hover ci_checkbox tap">check_box</i>'
                       }else {
-                         txt += '<input type="checkbox" class="form-check-input ci_checkbox">완료<br>'
+                        txt += '<i class="material-icons modal_icon hover ci_checkbox tap">check_box_outline_blank</i>'
                       }
-                      for(var k = 0; k < data.checkListItemMember.length; k++){
-                         if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
-                            txt += data.checkListItemMember[k].mId
-                            txt += '<br>'
-                         }
-                      }
-                      txt += '----------------------------------------------------------------------------------------------------------------'
+                      txt += '<button class="deleteCheckListItemBtn btn btn-xs">X</button>'
+                      txt += '</div>'
+                      // for(var k = 0; k < data.checkListItemMember.length; k++){
+                      //    if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
+                      //       txt += data.checkListItemMember[k].mId
+                      //       txt += '<br>'
+                      //    }
+                      // }
                       txt += '</div>'
                    }
                 }
@@ -345,33 +350,410 @@
              $('#checkListList').html(txt)
              $('#checkListNameForm').empty()
     }
+    //코멘트 답글 생성
+    const showReComment = (data, cmNum) => {
+       for(let i = 0; i < data.commentList.length; i++){
+          if(data.commentList[i].cmSuper == cmNum){
+             txt += '<p class="commentArea_comment" cmNum="'
+             txt += data.commentList[i].cmNum
+             txt += '" mId="'
+             txt += data.commentList[i].mId
+             txt += '">'
+             $.ajax({
+               url : 'getNickname',
+               data : {
+                 mId : data.commentList[i].mId
+               },
+               type : 'post',
+               success : (nickname) => {
+                 txt += '<i class="material-icons tap">subdirectory_arrow_right</i><span>'
+                 txt += nickname
+                 txt += '</span>'
+               },
+               async : false
+             })
+             if($('#loginUser').val() == data.commentList[i].mId){
+               //답글 작성자가 본인이면 삭제 버튼 활성화
+               txt += '<button class="IssueDetailModal_deleteCmBtn btn btn-sm">X</button>'
+             }else{
+               txt += '<button class="IssueDetailModal_deleteCmBtn btn btn-sm" disabled>X</button>'
+             }
+             txt += '<span class="IssueDetailModal_cmTime">'
+             let mm = data.commentList[i].cmWriteTime.split('-')[1]
+             let dd = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[0]
+             let hh = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[1].split(':')[0]
+             let min = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[1].split(':')[1]
+             txt += mm + '-' + dd + ' ' + hh + ':' + min
+             txt += '</span>'
+             txt += '<input class="form-control IssueDetailModal_cmContentData_re" value="'
+             txt += data.commentList[i].cmContent
+             txt += '" readonly>'
+          }
+       }
+    }
+
     //코멘트 생성
     const showComment = (data) => {
        console.log(data.commentList)
        txt =''
        for(let i = 0; i < data.commentList.length; i++){
           if(data.commentList[i].cmSuper == 0){
-             txt += '<p cmNum="'
+             txt += '<p class="commentArea_comment" cmNum="'
              txt += data.commentList[i].cmNum
              txt += '" mId="'
              txt += data.commentList[i].mId
              txt += '">'
-             txt += data.commentList[i].mId
-             txt += ' : '
-             txt += data.commentList[i].cmContent
-             txt += ' : '
-             txt += data.commentList[i].cmWriteTime
+             // txt += data.commentList[i].mId
+             ///
+             $.ajax({
+               url : 'getNickname',
+               data : {
+                 mId : data.commentList[i].mId
+               },
+               type : 'post',
+               success : (nickname) => {
+                 txt += '<span>'
+                 txt += nickname
+                 txt += '</span>'
+               },
+               async : false
+             })
+
              if($('#loginUser').val() == data.commentList[i].mId){
-                //답글 작성자가 본인이면 삭제 버튼 활성화
-                txt += '<button class="IssueDetailModal_deleteCmBtn">삭제</button>'
+               //답글 작성자가 본인이면 삭제 버튼 활성화
+               txt += '<button class="IssueDetailModal_deleteCmBtn btn btn-sm">X</button>'
              }
-             txt += '<button class="IssueDetailModal_reCmFormBtn" IssueDetailModal_reCmFormBtn="0">답글</button>'
-             txt += '</p>'
+             txt += '<button class="IssueDetailModal_reCmFormBtn btn btn-sm" IssueDetailModal_reCmFormBtn="0">R</button>'
+             txt += '<span class="IssueDetailModal_cmTime">'
+             //////문제 있음
+             let mm = data.commentList[i].cmWriteTime.split('-')[1]
+             let dd = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[0]
+             let hh = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[1].split(':')[0]
+             let min = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[1].split(':')[1]
+             txt += mm + '-' + dd + ' ' + hh + ':' + min
+             txt += '</span>'
+             txt += '<input class="form-control IssueDetailModal_cmContentData" value="'
+             txt += data.commentList[i].cmContent
+             txt += '" readonly>'
+
              showReComment(data, data.commentList[i].cmNum)
           }
        }
        $('#commentArea').html(txt)
     }
+    //코멘트 답글폼 생성
+    $(document).on('click', '.IssueDetailModal_reCmFormBtn', function(){
+       console.log($(this).parent('p').attr('cmNum'));
+       if($(this).attr('IssueDetailModal_reCmFormBtn') == 0){
+          $(this).parent('p').append(`
+            <div class="IssueDetailModal_reCmForm">
+             <button class="IssueDetailModal_reCmCancleBtn btn btn-sm">X</button>
+             <button class="IssueDetailModal_reCmConfirmBtn btn btn-sm">O</button>
+             <input type="text" class="IssueDetailModal_reCmContent form-control">
+             <span class="tap"></span><div class="IssueDetailModal_nickname">
+              <span>${loginUser.mNickname}</span>
+            </div>
+             </div>
+             `)
+             $(this).attr('IssueDetailModal_reCmFormBtn', '1')
+       }
+    })
+    //코멘트 답글폼 삭제
+    $(document).on('click', '.IssueDetailModal_reCmCancleBtn', function(){
+       $(this).siblings('.IssueDetailModal_reCmFormBtn').attr('IssueDetailModal_reCmFormBtn', '0')
+       $(this).parent('p').find('.IssueDetailModal_reCmContent').remove()
+       $(this).parent('p').find('.IssueDetailModal_reCmConfirmBtn').remove()
+       $(this).parent('p').find('.IssueDetailModal_reCmCancleBtn').remove()
+    })
+    //코멘트 답글 입력
+    $(document).on('click', '.IssueDetailModal_reCmConfirmBtn', function () {
+       console.log(${project.pNum});
+       console.log($(this).parents('p').attr('cmNum'));
+       console.log($(this).siblings('.IssueDetailModal_reCmContent').val());
+       $.ajax({
+          url : 'addComment',
+          data : {
+             pNum : ${project.pNum},
+             tNum : selectedTask,
+             iNum : selectedIssue,
+             mId : $('#loginUser').val(),
+             cmContent : $(this).siblings('.IssueDetailModal_reCmContent').val(),
+             cmSuper :  $(this).parents('p').attr('cmNum')
+          },
+          type : 'post',
+          success : (data) => {
+             showComment(data)
+          }
+       })
+    })
+    //코멘트 삭제
+    $(document).on('click', '.IssueDetailModal_deleteCmBtn', function(){
+       $.ajax({
+          url : 'deleteComment',
+          data : {
+             pNum : ${project.pNum},
+             tNum : selectedTask,
+             iNum : selectedIssue,
+             cmNum : $(this).parent('p').attr('cmNum')
+          },
+          type : 'post',
+          success : (data) => {
+             showComment(data)
+          }
+       })
+    })
+
+    //체크리스트 추가폼 생성
+    $(document).on('click', '#IssueDetailModal_addCheckListForm', function () {
+       var txt = ''
+       txt += '<input type="text" id="checkListName" class="form-control" placeholder="체크리스트 이름 입력"/>'
+       txt += '<button id="addCheckListBtn" class="btn">저장</button>'
+       $('#checkListNameForm').html(txt)
+    })
+    //체크리스트 추가
+    $(document).on('click', '#addCheckListBtn', () => {
+       console.log(${project.pNum});
+       console.log(selectedTask);
+       console.log(selectedIssue);
+       console.log($('#checkListName').val());
+       $.ajax({
+          url : 'addCheckList',
+          data : {
+             pNum : ${project.pNum},
+             tNum : selectedTask,
+             iNum : selectedIssue,
+             clName : $('#checkListName').val()
+          },
+          type : 'post',
+          success : function(data){
+             console.log('체크리스트 추가 성공');
+             console.log(data);
+             showCheckList(data)
+          }
+       })
+    })
+    //체크리스트 아이템 추가 폼 생성
+    $(document).on('click', '.addCheckListItemFormBtn', function(){
+       assingedCheckListItemMember = []
+       txt =''
+       txt += '<div class="addCheckListItemForm_inner">'
+       txt += '<button id="addCheckListItemCancelBtn" class="btn btn-sm">X</button>'
+       txt += '<button id="addCheckListItemBtn" class="btn btn-sm">O</button>'
+       txt += '<i class="material-icons modal_icon">subdirectory_arrow_right</i><input type="text" id="addCheckListItemName" class="form-control" placeholder="새 체크리스트 생성">'
+       txt += '</div>'
+       // txt += '====이슈 할당 멤버===='
+       // for(let i = 0; i < issueMember.length; i++){
+       //    txt += '<div class="unasassingedCheckListItemMember" mId="'
+       //    txt += issueMember[i].mId
+       //    txt += '">'
+       //    txt += issueMember[i].mId
+       //    txt += '</div>'
+       // }
+       // txt += '====체크리스트 할당 멤버===='
+       // txt += '<div id="singedCheckListItemMember"></div>'
+          $(this).parent().find('.addCheckListItemForm').html(txt)
+    })
+    //체크리스트 아이템 멤버 배열
+    let singedCheckListItemMember = []
+    //체크리스트 아이템 멤버 추가
+    $(document).on('click', '.unassingedCheckListItemMember', function(){
+       if(!singedCheckListItemMember.includes($(this).attr('mId'))){
+          console.log(singedCheckListItemMember);
+          singedCheckListItemMember.push($(this).attr('mId'))
+          txt = ''
+          for(let i = 0; i < singedCheckListItemMember.length; i++){
+             txt += '<div mId="'
+             txt += singedCheckListItemMember[i]
+             txt += '">'
+             txt += singedCheckListItemMember[i]
+             txt += '</div>'
+          }
+          $('#singedCheckListItemMember').html(txt)
+       }
+    })
+    //체크리스트 아이템 추가
+    $(document).on('click', '#addCheckListItemBtn', function(){
+       console.log(${project.pNum});
+       console.log(selectedTask);
+       console.log(selectedIssue);
+       console.log($(this).parent('.checkList').attr('clNum'));
+       $.ajax({
+          url : 'addCheckListItem',
+          data : {
+             pNum : ${project.pNum},
+             tNum : selectedTask,
+             iNum : selectedIssue,
+             clNum : $(this).parents('.checkList').attr('clNum'),
+             ciName : $('#addCheckListItemName').val(),
+             members : singedCheckListItemMember
+          },
+          type : 'post',
+          success : function(data){
+             console.log('체크리스트 아이템 추가 성공')
+             console.log(data)
+             $('.addCheckListItemForm').html('')
+             showCheckList(data)
+             singedCheckListItemMember = []
+          }
+       })
+    })
+    //체크리스트 삭제
+    $(document).on('click', '.deleteCheckListBtn', function () {
+       $(this).closest('.checkList').attr('clNum')
+       if(confirm('삭제하시겠습니까?')){
+          $.ajax({
+          url : "deleteCheckList",
+          data : {
+             pNum: $(this).closest('.checkList').attr('pNum'),
+             tNum: $(this).closest('.checkList').attr('tNum'),
+             iNum: $(this).closest('.checkList').attr('iNum'),
+             clNum : $(this).closest('.checkList').attr('clNum'),
+          },
+          type : "post",
+          success : function (data) {
+             showCheckList(data)
+          }
+       })
+       }
+    })
+    //체크리스트 아이템 삭제
+    $(document).on('click', '.deleteCheckListItemBtn', function(){
+       if(confirm('삭제하시겠습니까?')){
+          console.log(selectedTask);
+          console.log(selectedIssue);
+          console.log($(this).parents('.checkList').attr('clNum'))
+          console.log($(this).parent().attr('ciNum'));
+          $.ajax({
+             url : 'deleteCheckListItem',
+             data : {
+                pNum : ${project.pNum},
+                tNum : selectedTask,
+                iNum : selectedIssue,
+                clNum : $(this).parents('.checkList').attr('clNum'),
+                ciNum : $(this).parent().attr('ciNum')
+         },
+     type : 'post',
+     success : (data) => {
+        showCheckList(data)
+     }
+  })
+}
+})
+//코멘트 입력
+$('#IssueDetailModal_cmBtn').on('click', () => {
+   $.ajax({
+      url : 'addComment',
+      data : {
+         pNum : ${project.pNum},
+         tNum : selectedTask,
+         iNum : selectedIssue,
+         mId : $('#loginUser').val(),
+         cmContent : $('#IssueDetailModal_cmContent').val(),
+         cmSuper :  $(this).parent('p').attr('cmNum')
+      },
+      type : 'post',
+      success : (data) => {
+         $('#IssueDetailModal_cmContent').val('')
+         showComment(data)
+      }
+   })
+})
+//이슈 이름 변경폼
+$('#IssueDetailModal_iName').on('click', () => {
+   $('#IssueDetailModal_iNameForm').show().focus().val(selectedIssueName)
+   $('#IssueDetailModal_iName').hide()
+})
+//이슈 이름 변경폼 아웃포커스
+$(document).on('focusout', '#IssueDetailModal_iNameForm', () => {
+   $('#IssueDetailModal_iNameForm').hide()
+   $('#IssueDetailModal_iName').show()
+})
+//이슈 이름 변경
+$('#IssueDetailModal_iNameForm').keyup((e) => {
+   if((e.keyCode || e.which) == 13){
+      data = {
+         tNum : selectedTask,
+         iNum : selectedIssue,
+         iName : $('#IssueDetailModal_iNameForm').val()
+      }
+      updateIssue(data)
+   }
+})
+//이슈 시작 날짜 변경
+$(document).on('change', '#IssueDetailModal_iStartDate', () => {
+   if($('#IssueDetailModal_iStartDate').val() < $('#IssueDetailModal_iEndDate').val()){
+      data = {
+         tNum : selectedTask,
+         iNum : selectedIssue,
+         iStartDate : $('#IssueDetailModal_iStartDate').val()
+      }
+      updateIssue(data)
+   }else{
+      alert('이슈 시작일이 종료일보다 늦을 수 없습니다.')
+      $('#IssueDetailModal_iStartDate').val(issueList[0].iStartDate)
+   }
+})
+//이슈 종료 날짜 변경
+$(document).on('change', '#IssueDetailModal_iEndDate', () => {
+   if($('#IssueDetailModal_iStartDate').val() < $('#IssueDetailModal_iEndDate').val()){
+      data = {
+         tNum : selectedTask,
+         iNum : selectedIssue,
+         iEndDate : $('#IssueDetailModal_iEndDate').val()
+      }
+      updateIssue(data)
+   }else{
+     alert('이슈 종료일이 시작일보다 빠를 수 없습니다.')
+      $('#IssueDetailModal_iEndDate').val(issueList[0].iEndDate)
+   }
+})
+//이슈 설명 변경이 있으면 저장 버튼 활성
+$('#IssueDetailModal_iDscr').on('input propertychange', function() {
+   if(selectedIssueDscr != $('#IssueDetailModal_iDscr').val()){
+      $("#IssueDetailModal_iDscrBtn").show()
+   }else {
+      $("#IssueDetailModal_iDscrBtn").hide()
+   }
+})
+//이슈 설명 변경
+$('#IssueDetailModal_iDscrBtn').on('click', () => {
+   data = {
+      tNum : selectedTask,
+      iNum : selectedIssue,
+      iDscr : $('#IssueDetailModal_iDscr').val()
+   }
+   updateIssue(data)
+})
+//수정하기//
+   const updateIssue = (data) => {
+      console.log('updateIssue')
+      console.log(data)
+      $.ajax({
+         url : 'updateIssue',
+         data : {
+            pNum : ${project.pNum},
+            tNum : data.tNum,
+            iNum : data.iNum,
+            iStep : data.iStep,
+            iOrder : data.iOrder,
+            iName : data.iName,
+            iDscr : data.iDscr,
+            iStartDate : data.iStartDate,
+            iEndDate : data.iEndDate,
+            iImpr : data.iImpr
+         },
+         type : 'post',
+         success : (innerData) => {
+            console.log(innerData);
+            showIssue(innerData)
+            showCheckList(innerData)
+            projectReload()
+            matchDate_issueToTask()
+         }
+      })
+   }
+
+
 // 111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111
   var KanbanTest = new jKanban({
       element : '#myKanban',
@@ -459,7 +841,7 @@
 
   let calculatedDays = Math.floor((Date.UTC(chart_pEndDate.getFullYear(), chart_pEndDate.getMonth(), chart_pEndDate.getDate()) - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) ) /(1000 * 60 * 60 * 24))
   let remainDates = '남은 기한 : '+calculatedDays+'일'
-  
+
   $('#daysLeft').html(remainDates)
 
     const showProjectChartModal = (data) => {

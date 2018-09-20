@@ -500,6 +500,7 @@ public class ProjectRestController {
 	@PostMapping("/project/addComment")
 	public Map<String, Object> addComment(Comment comment) {
 		System.out.println("요청 url : /project/addComment");
+		System.out.println(comment);
 		iSvc.addComment(comment);
 		Map<String, Object> data = new HashMap<String, Object>();
 		Issue issue = new Issue();

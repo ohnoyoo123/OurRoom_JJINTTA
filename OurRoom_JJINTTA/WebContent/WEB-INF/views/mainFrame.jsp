@@ -21,8 +21,6 @@ hr.style13 {
 	box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
 </style>
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
 <link rel="stylesheet" href="/OurRoom/css/modal.css">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -36,6 +34,7 @@ hr.style13 {
 	type="text/css" />
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
+
 
 <script type="text/javascript">
 	jQuery.browser = {};
@@ -59,6 +58,7 @@ html, body {
 	width: 95%;
 	position: absolute;
 	margin: 10px;
+	margin-top: 50px;
 }
 
 #top {
@@ -66,6 +66,8 @@ html, body {
 	height: 45px;
 	background-color: #5cb85c;
 	color: white;
+	position: fixed;
+	z-index: 1;
 }
 
 #left {

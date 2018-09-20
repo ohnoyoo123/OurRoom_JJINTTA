@@ -29,8 +29,8 @@
 	<div id="innerFrame">
 		<div id="gantt_top">
 			<span id="gantt_nameForm"> </span>
-			<form id="viewMode">
-				<form>
+			<div id="viewMode">
+			</div>
 		</div>
 		<div id="projectInfo"></div>
 		<div id="sideTap"></div>
@@ -61,59 +61,71 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-success"
 						id="addTaskModalConfirmBtn">Add</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 
-	<%-- 이슈 추가 모달 --%>
-	<div class="modal fade" id="addIssueModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
 
-				<!-- Modal Header -->
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title">
-						<p class="selectedTask"></p>
-					</h2>
-					<h6 class="modal-title">
-						<input type="text" placeholder="이슈명: enter issue name" id="iName">
-					</h6>
-				</div>
+	   <%-- 이슈 추가 모달 --%>
+	   <div class="modal fade" id="addIssueModal">
+	      <div class="modal-dialog">
+	         <div class="modal-content">
 
-				<!-- Modal body -->
-				<div class="modal-body">
-					<div>
-						이슈 설명
-						<textarea id="addIssueModal_iDscr"></textarea>
-					</div>
-				</div>
+	            <!-- Modal Header -->
+	            <div class="modal-header">
+	               <button type="button" class="close" data-dismiss="modal">&times;</button>
+	               <h2 class="modal-title">
+	                  <p class="selectedTask"></p>
+	               </h2>
+	               <h6 class="modal-title">
+	                  <input type="text" placeholder="이슈명: enter issue name" id="iName">
+	               </h6>
+	            </div>
 
-				<!-- Modal body -->
-				<div class="modal-body">
-					<div>
-						시작 : <br> <input type="text" class="datepicker"
-							id="addIssueModal_iStartDate" readonly>
-					</div>
-					<div>
-						종료 : <br> <input type="text" class="datepicker"
-							id="addIssueModal_iEndDate" readonly>
-					</div>
-				</div>
+	            <!-- Modal body -->
+	            <div class="modal-body">
+	               <div>
+	                  이슈 설명
+	                  <textarea id="addIssueModal_iDscr"></textarea>
+	               </div>
+	            </div>
 
-				<!-- Modal footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-success" id="addIssue">Add</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-				</div>
+	            <!-- Modal body -->
+	            <div class="modal-body">
+	               <div>
+	                  시작 : <br> <input type="text" class="datepicker"
+	                     id="addIssueModal_iStartDate" readonly>
+	               </div>
+	               <div>
+	                  종료 : <br> <input type="text" class="datepicker"
+	                     id="addIssueModal_iEndDate" readonly>
+	               </div>
+	            </div>
 
-			</div>
-		</div>
-	</div>
+	            <!-- Modal body -->
+	            <div class="modal-body">
+	               <div>이슈 멤버 할당</div>
+	               <div>
+	                  <c:forEach items="${projectMemberList}" var="member">
+	                     <div class="selectMId" mId="${member.mId}">${member.mId}</div>
+	                  </c:forEach>
+	                  =====================
+	                  <div id="selectedMId">할당된 멤버</div>
+	               </div>
+	            </div>
 
+	            <!-- Modal footer -->
+	            <div class="modal-footer">
+	               <button type="button" class="btn btn-success" id="addIssue">확인</button>
+	               <button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
+	            </div>
+
+	         </div>
+	      </div>
+	   </div>
 	<%-- 프로젝트 상세보기 모달 --%>
 	<div class="modal fade" id="projectDetailModal">
 		<div class="modal-dialog">
@@ -122,20 +134,22 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
-						프로젝트명 :<br> <span id="projectDetailModal_pName"></span> <input
-							type="text" id="projectDetailModal_pNameForm" autofocus>
+						<i class="material-icons modal_icon">work_outline</i><span id="projectDetailModal_pName"></span>
+						<input type="text" id="projectDetailModal_pNameForm" autofocus>
 					</h4>
 				</div>
 
 				<!-- Modal Body -->
 				<div class="modal-body">
-					<div>
-						시작 : <br> <input type="text" class="datepicker"
-							id="projectDetailModal_pStartDate" readonly>
+					<div id="projectDetailModal_pStartDate_div">
+						<h5 class="modal-title">
+						<h4><i class="material-icons modal_icon">calendar_today</i> 프로젝트 시작일</h4>
+						<input type="text" class="datepicker" id="projectDetailModal_pStartDate" readonly>
+						</h5>
 					</div>
-					<div>
-						종료 : <br> <input type="text" class="datepicker"
-							id="projectDetailModal_pEndDate" readonly>
+					<div id="projectDetailModal_pEndDate_div">
+						<h4><i class="material-icons modal_icon">calendar_today</i> 프로젝트 종료일</h4>
+						<input type="text" class="datepicker" id="projectDetailModal_pEndDate" readonly>
 					</div>
 					=========== 프로젝트 멤버
 					<div id="projectDetailModal_assignedMemberList"></div>
@@ -146,7 +160,7 @@
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
@@ -161,36 +175,35 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">
-						태스크명: <span id="taskDetailModal_tName"></span> <input type="text"
-							id="taskDetailModal_tNameForm" autofocus>
+						<i class="material-icons modal_icon">folder_open</i><span id="taskDetailModal_tName"></span>
+						<input type="text" id="taskDetailModal_tNameForm" autofocus>
 					</h4>
 				</div>
 				<!-- Modal Body -->
 				<div class="modal-body">
-					<div>
-						시작 : <br> <input type="text" class="datepicker"
-							id="taskDetailModal_tStartDate" disabled>
+					<div id="taskDetailModal_tStartDate_div">
+						<h4><i class="material-icons modal_icon">calendar_today</i> 태스크 시작일</h4>
+						<input type="text" class="datepicker"	id="taskDetailModal_tStartDate" disabled>
 					</div>
-					<div>
-						종료 : <br> <input type="text" class="datepicker"
-							id="taskDetailModal_tEndDate" disabled>
+					<div id="taskDetailModal_tEndDate_div">
+						<h4><i class="material-icons modal_icon">calendar_today</i> 태스크 종료일</h4>
+						<input type="text" class="datepicker"	id="taskDetailModal_tEndDate" disabled>
 					</div>
-					태스크 설명
 					<div id="taskDetailModal_tDscrForm">
+						<h4><i class="material-icons modal_icon">description</i> 태스크 설명</h4>
 						<textarea id="taskDetailModal_tDscr"></textarea>
-						<button id="taskDetailModal_tDscrBtn" type="button">저장</button>
+						<button id="taskDetailModal_tDscrBtn" type="button" class="btn">저장</button>
 					</div>
-					태스크 공지
 					<div>
-						공지 이름 : <span id="taskDetailModal_tNotiName"></span> <input
-							type="text" id="taskDetailModal_tNotiNameForm">
+						<h4><i class="material-icons modal_icon">sms_failed</i> 태스크 공지 - <span id="taskDetailModal_tNotiName"></span>
+						<input type="text" id="taskDetailModal_tNotiNameForm"></h4>
 						<textarea id="taskDetailModal_tNotiContent"></textarea>
-						<button id="taskDetailModal_tNotiConfirmBtn" type="button">저장</button>
+						<button id="taskDetailModal_tNotiConfirmBtn" type="button" class="btn">저장</button>
 					</div>
 				</div>
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 				</div>
 			</div>
 		</div>
@@ -210,10 +223,9 @@
 						<p class="selectedTask"></p>
 					</h2>
 					<h4 class="modal-title">
-						이슈명: <span id="IssueDetailModal_iName"></span> <input type="text"
+						<span id="IssueDetailModal_iName"></span> <input type="text"
 							id="IssueDetailModal_iNameForm" autofocus>
 					</h4>
-					이슈 멤버 :
 					<p id="issueMember"></p>
 				</div>
 
@@ -246,10 +258,10 @@
 						<div id="commentDiv">
 							<h4><i class="material-icons modal_icon">comment</i> 코멘트</h4>
 							<button id="IssueDetailModal_cmBtn" class="btn btn-sm" type="button">O</button>
-							<div id="IssueDetailModal_nickname">
+							<div class="IssueDetailModal_nickname">
 								<span>${loginUser.mNickname}</span>
-								<input type="text" id="IssueDetailModal_cmContent" placeholder="코멘트 입력">
 							</div>
+								<input type="text" id="IssueDetailModal_cmContent" placeholder="코멘트 입력">
 							<div id="commentArea"></div>
 						</div>
 					</div>
@@ -257,7 +269,7 @@
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 				</div>
 
 			</div>
@@ -303,7 +315,7 @@
 
 				<!-- Modal footer -->
 				<div class="modal-footer">
-					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">닫기</button>
 				</div>
 
 			</div>
@@ -524,18 +536,18 @@
          txt += '</th>'
          txt += '</tr>'
          txt += '<tr>'
-         txt += '<td><div class="gantt_icon">P</div>'
+         txt += '<td><h4 class="tap">'
          txt += project.pName
           txt += '<i id="addTaskBtn" class="material-icons newTask" data-toggle="modal" data-target="#addTaskModal">add_box</i>'
-         txt += '</td>'
+         txt += '</h4></td>'
          txt += '</tr>'
          for(let i = 0; i < taskList.length; i++){
             txt += '<tr>'
-            txt += '<td><span onclick="location.href=\'/OurRoom/project/kanban2?pNum='
+            txt += '<td><span class="tap"></span><span onclick="location.href=\'/OurRoom/project/kanban2?pNum='
             txt += ${project.pNum}
             txt += '&tNum='
             txt += taskList[i].tNum
-            txt += '\'"><div class="gantt_icon">t</div>'
+            txt += '\'">'
             txt += taskList[i].tName
             txt += '</span>'
 						txt += '<i class="addIssueBtn material-icons newIssue" data-toggle="modal" data-target="#addIssueModal" tNum="'
@@ -548,7 +560,7 @@
             for(let j = 0; j < issueList.length; j++){
                if(taskList[i].tNum == issueList[j].tNum){
                   txt += '<tr>'
-                  txt += '<td><div class="gantt_icon">i</div>'
+                  txt += '<td><span class="tap"></span><span class="tap"></span>'
                   txt += issueList[j].iName
                   txt += '</td>'
                   txt += '</tr>'
@@ -613,7 +625,7 @@
          if($('#addIssueModal_iStartDate').val() > $('#addIssueModal_iEndDate').val()){
             $('#addIssueModal_iStartDate').val('')
             $('#addIssueModal_iEndDate').val('')
-            alert('잘못된 날짜 입력')
+            alert('이슈 시작, 종료일이 잘못되었습니다.')
          }else {
             $.ajax({
                url : 'addIssue',
@@ -651,21 +663,40 @@
       const showReComment = (data, cmNum) => {
          for(let i = 0; i < data.commentList.length; i++){
             if(data.commentList[i].cmSuper == cmNum){
-               txt += '<p cmNum="'
+               txt += '<p class="commentArea_comment" cmNum="'
                txt += data.commentList[i].cmNum
                txt += '" mId="'
                txt += data.commentList[i].mId
                txt += '">'
-               txt += '&emsp;┗&emsp;'
-               txt += data.commentList[i].mId
-               txt += ' : '
-               txt += data.commentList[i].cmContent
-               txt += ' : '
-               txt += data.commentList[i].cmWriteTime
-               if($('#loginUser').val() == data.commentList[i].mId){
-                  //답글 작성자가 본인이면 삭제 버튼 활성화
-                  txt += '<button class="IssueDetailModal_deleteCmBtn">삭제</button>'
-               }
+							 $.ajax({
+								 url : 'getNickname',
+								 data : {
+									 mId : data.commentList[i].mId
+								 },
+								 type : 'post',
+								 success : (nickname) => {
+									 txt += '<i class="material-icons tap">subdirectory_arrow_right</i><span>'
+									 txt += nickname
+									 txt += '</span>'
+								 },
+								 async : false
+							 })
+							 if($('#loginUser').val() == data.commentList[i].mId){
+								 //답글 작성자가 본인이면 삭제 버튼 활성화
+								 txt += '<button class="IssueDetailModal_deleteCmBtn btn btn-sm">X</button>'
+							 }else{
+								 txt += '<button class="IssueDetailModal_deleteCmBtn btn btn-sm" disabled>X</button>'
+							 }
+							 txt += '<span class="IssueDetailModal_cmTime">'
+							 let mm = data.commentList[i].cmWriteTime.split('-')[1]
+							 let dd = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[0]
+							 let hh = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[1].split(':')[0]
+							 let min = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[1].split(':')[1]
+							 txt += mm + '-' + dd + ' ' + hh + ':' + min
+							 txt += '</span>'
+							 txt += '<input class="form-control IssueDetailModal_cmContentData_re" value="'
+							 txt += data.commentList[i].cmContent
+							 txt += '" readonly>'
             }
          }
       }
@@ -675,22 +706,44 @@
          txt =''
          for(let i = 0; i < data.commentList.length; i++){
             if(data.commentList[i].cmSuper == 0){
-               txt += '<p cmNum="'
+               txt += '<p class="commentArea_comment" cmNum="'
                txt += data.commentList[i].cmNum
                txt += '" mId="'
                txt += data.commentList[i].mId
                txt += '">'
-               txt += data.commentList[i].mId
-               txt += ' : '
-               txt += data.commentList[i].cmContent
-               txt += ' : '
-               txt += data.commentList[i].cmWriteTime
-               if($('#loginUser').val() == data.commentList[i].mId){
-                  //답글 작성자가 본인이면 삭제 버튼 활성화
-                  txt += '<button class="IssueDetailModal_deleteCmBtn">X</button>'
-               }
-               txt += '<button class="IssueDetailModal_reCmFormBtn" IssueDetailModal_reCmFormBtn="0">답글</button>'
-               txt += '</p>'
+               // txt += data.commentList[i].mId
+							 ///
+							 $.ajax({
+								 url : 'getNickname',
+								 data : {
+									 mId : data.commentList[i].mId
+								 },
+								 type : 'post',
+								 success : (nickname) => {
+									 txt += '<span>'
+									 txt += nickname
+									 txt += '</span>'
+								 },
+								 async : false
+							 })
+
+							 if($('#loginUser').val() == data.commentList[i].mId){
+								 //답글 작성자가 본인이면 삭제 버튼 활성화
+								 txt += '<button class="IssueDetailModal_deleteCmBtn btn btn-sm">X</button>'
+							 }
+							 txt += '<button class="IssueDetailModal_reCmFormBtn btn btn-sm" IssueDetailModal_reCmFormBtn="0">R</button>'
+							 txt += '<span class="IssueDetailModal_cmTime">'
+							 //////문제 있음
+							 let mm = data.commentList[i].cmWriteTime.split('-')[1]
+							 let dd = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[0]
+							 let hh = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[1].split(':')[0]
+							 let min = data.commentList[i].cmWriteTime.split('-')[2].split(' ')[1].split(':')[1]
+							 txt += mm + '-' + dd + ' ' + hh + ':' + min
+							 txt += '</span>'
+							 txt += '<input class="form-control IssueDetailModal_cmContentData" value="'
+							 txt += data.commentList[i].cmContent
+							 txt += '" readonly>'
+
                showReComment(data, data.commentList[i].cmNum)
             }
          }
@@ -701,8 +754,14 @@
          console.log($(this).parent('p').attr('cmNum'));
          if($(this).attr('IssueDetailModal_reCmFormBtn') == 0){
             $(this).parent('p').append(`
-               <input type="text" class="IssueDetailModal_reCmContent form-control" style="width:60%;"><button class="IssueDetailModal_reCmConfirmBtn">저장</button>
-               <button class="IssueDetailModal_reCmCancleBtn">취소</button>
+							<div class="IssueDetailModal_reCmForm">
+               <button class="IssueDetailModal_reCmCancleBtn btn btn-sm">X</button>
+							 <button class="IssueDetailModal_reCmConfirmBtn btn btn-sm">O</button>
+							 <input type="text" class="IssueDetailModal_reCmContent form-control">
+							 <span class="tap"></span><div class="IssueDetailModal_nickname">
+ 								<span>${loginUser.mNickname}</span>
+ 							</div>
+							 </div>
                `)
                $(this).attr('IssueDetailModal_reCmFormBtn', '1')
          }
@@ -717,7 +776,7 @@
       //코멘트 답글 입력
       $(document).on('click', '.IssueDetailModal_reCmConfirmBtn', function () {
          console.log(${project.pNum});
-         console.log($(this).parent('p').attr('cmNum'));
+         console.log($(this).parents('p').attr('cmNum'));
          console.log($(this).siblings('.IssueDetailModal_reCmContent').val());
          $.ajax({
             url : 'addComment',
@@ -727,7 +786,7 @@
                iNum : selectedIssue,
                mId : $('#loginUser').val(),
                cmContent : $(this).siblings('.IssueDetailModal_reCmContent').val(),
-               cmSuper :  $(this).parent('p').attr('cmNum')
+               cmSuper :  $(this).parents('p').attr('cmNum')
             },
             type : 'post',
             success : (data) => {
@@ -774,18 +833,21 @@
                   for (var j = 0; j < data.checkListItem.length; j++) {
                      if (data.checkList[i].clNum == data.checkListItem[j].clNum) {
                         txt += '<div class="checkListItem" ciNum="' + data.checkListItem[j].ciNum + '">'
-												txt += '<i class="material-icons modal_icon tap">subdirectory_arrow_right</i>' + data.checkListItem[j].ciName + '<button class="deleteCheckListItemBtn btn btn-xs">X</button>'
+												txt += '<i class="material-icons modal_icon tap">subdirectory_arrow_right</i>' + data.checkListItem[j].ciName
+												txt += '<div class="float_right">'
 												if(data.checkListItem[i].ciIsDone == 1){
-                           txt += '<i class="material-icons modal_icon hover ci_checkbox">check_box</i>완료<br>'
-                        }else {
-                           txt += '<i class="material-icons modal_icon hover ci_checkbox">check_box_outline_blank</i>완료<br>'
-                        }
-                        for(var k = 0; k < data.checkListItemMember.length; k++){
-                           if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
-                              txt += data.checkListItemMember[k].mId
-                              txt += '<br>'
-                           }
-                        }
+													txt += '<i class="material-icons modal_icon hover ci_checkbox tap">check_box</i>'
+												}else {
+													txt += '<i class="material-icons modal_icon hover ci_checkbox tap">check_box_outline_blank</i>'
+												}
+												txt += '<button class="deleteCheckListItemBtn btn btn-xs">X</button>'
+												txt += '</div>'
+                        // for(var k = 0; k < data.checkListItemMember.length; k++){
+                        //    if(data.checkListItem[j].ciNum == data.checkListItemMember[k].ciNum){
+                        //       txt += data.checkListItemMember[k].mId
+                        //       txt += '<br>'
+                        //    }
+                        // }
                         txt += '</div>'
                      }
                   }
@@ -1102,7 +1164,7 @@
 							 txt += '<div class="addCheckListItemForm_inner">'
 							 txt += '<button id="addCheckListItemCancelBtn" class="btn btn-sm">X</button>'
 							 txt += '<button id="addCheckListItemBtn" class="btn btn-sm">O</button>'
-               txt += '<i class="material-icons modal_icon">check</i><input type="text" id="addCheckListItemName" class="form-control" placeholder="새 체크리스트 생성">'
+               txt += '<i class="material-icons modal_icon">subdirectory_arrow_right</i><input type="text" id="addCheckListItemName" class="form-control" placeholder="새 체크리스트 생성">'
 							 txt += '</div>'
                // txt += '====이슈 할당 멤버===='
                // for(let i = 0; i < issueMember.length; i++){
@@ -1261,7 +1323,7 @@
           }
           updateIssue(data)
        }else{
-          alert('삐익!!')
+				 	alert('이슈 시작일이 종료일보다 늦을 수 없습니다.')
           $('#IssueDetailModal_iStartDate').val(issueList[0].iStartDate)
        }
     })
@@ -1275,7 +1337,7 @@
           }
           updateIssue(data)
        }else{
-          alert('삐비빅')
+				 alert('이슈 종료일이 시작일보다 빠를 수 없습니다.')
           $('#IssueDetailModal_iEndDate').val(issueList[0].iEndDate)
        }
     })
@@ -1330,7 +1392,7 @@
              }
              updateProject(data)
           }else{
-             alert('프로젝트 시작일이 종료일보다 늦습니다.')
+             alert('프로젝트 시작일이 종료일보다 늦을 수 없습니다.')
              $('#projectDetailModal_pStartDate').val(project.pStartDate)
           }
        })
@@ -1341,7 +1403,7 @@
              }
              updateProject(data)
           }else{
-             alert('프로젝트 종료일이 시작일보다 빠릅니다.')
+             alert('프로젝트 종료일이 시작일보다 빠를 수 없습니다.')
              $('#projectDetailModal_pEndDate').val(project.pEndDate)
           }
        })
@@ -1432,13 +1494,13 @@
     //뷰모드
     txt = ''
     txt += '<label class="radio-inline">'
-    txt += '<input type="radio" name="optradio" value="Month">Month'
+    txt += '<input type="radio" name="optradio" value="Month" id="radio_month">Month'
     txt += '</label>'
     txt += '<label class="radio-inline">'
-    txt += '<input type="radio" name="optradio" value="Week">Week'
+    txt += '<input type="radio" name="optradio" value="Week" id="radio_week">Week'
     txt += '</label>'
     txt += '<label class="radio-inline">'
-    txt += '<input type="radio" name="optradio" value="Day" checked>Day'
+    txt += '<input type="radio" name="optradio" value="Day"  id="radio_day" checked>Day'
     txt += '</label>'
     $('#viewMode').html(txt)
     $(document).on('change', '#viewMode input[type=radio]',  function(){
@@ -1521,11 +1583,20 @@
          let signedIssue = document.getElementById("projectChartModal_chartBody_signedIssue").getContext('2d');
          let completedIssue = document.getElementById("projectChartModal_chartBody_completedIssue").getContext('2d');
          let pEndDate = ${project.pEndDate}
-         let today = new Date
-         let chart_pEndDate = new Date(pEndDate)
-         let remainDates = '남은 기한 : '+(new Date(chart_pEndDate - today).getDate()-1).toString()+'일'
-         $('#daysLeft').html(remainDates)
-           const showProjectChartModal = (data) => {
+
+				 let today = new Date()
+
+				   let yy = ${project.pEndDate.split('-')[0]}
+				   let mm = ${project.pEndDate.split('-')[1]}
+				   let dd = ${project.pEndDate.split('-')[2]}
+				   let ddddd = yy + '-' + mm + '-' + dd
+
+				   let chart_pEndDate = new Date(ddddd)
+
+				   let calculatedDays = Math.floor((Date.UTC(chart_pEndDate.getFullYear(), chart_pEndDate.getMonth(), chart_pEndDate.getDate()) - Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) ) /(1000 * 60 * 60 * 24))
+				   let remainDates = '남은 기한 : '+calculatedDays+'일'
+				   $('#daysLeft').html(remainDates)
+					 const showProjectChartModal = (data) => {
              $('.chartjs-size-monitor').remove()
              $('#projectChartModal_pName').html(data.project.pName)
              let completedIssueCount = 0
@@ -1716,7 +1787,7 @@
 			})
 	 }
 
-           })
-       </script>
+})
+</script>
     </body>
     </html>
