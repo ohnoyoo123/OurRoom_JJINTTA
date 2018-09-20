@@ -4,6 +4,14 @@
 * Add "left" or "right" in modal parent div, after class="modal".
 * Get free snippets on bootpen.com
 *******************************/
+
+element.style {
+    text-align: center;
+}
+.modal-header {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
 .modal.right .modal-dialog {
 	top: 50px;
 	position: fixed;

@@ -47,11 +47,11 @@ hr.style-four {
 		<div class="row justify-content-md-center">
 			<div class="col-lg-6">
 				<div class="form-group">
-					<h2 align="center">MyPage</h2>
+					<h2 align="center">MyPage</h2> 
 
 					<hr class="style-four">
 				</div>
-			</div>
+			</div> 
 		</div>
 		<div class="row justify-content-md-center">
 			<div class="col-lg-3">
@@ -150,22 +150,20 @@ hr.style-four {
 						<h3>정보수정</h3>
 						<hr class="style-four">
 						<fieldset>
-							<label for="mNickname">Nickname</label> <input id="mNickname"
+							<label for="mNickname">닉네임</label> <input id="mNickname"
 								type="text" class="form-control" value="${member.mNickname }"
 								placeholder="Enter Nickname" readonly="readonly"><span
 								id="nicknameCheckMsg">&nbsp;</span>
 
 						</fieldset>
 						<fieldset>
-							<label for="nic">Password</label> <input id="mPw" type="password"
+							<label for="nic">비밀번호</label> <input id="mPw" type="password"
 								class="form-control" placeholder="Enter Password"
 								readonly="readonly"> <span id="pwCheckMsg">&nbsp;
 							</span> <input id="mPw2" type="password" class="form-control"
 								placeholder="Check Password" readonly="readonly">
-						</fieldset>
-						<br> <a id="dropMember" class="button js-button"
-							role="button" style="color: white;">회원탈퇴</a>
-
+						</fieldset> 
+						<br>
 
 
 					</div>

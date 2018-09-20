@@ -12,10 +12,11 @@
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
 <script src="/OurRoom/js/frappe-gantt.js"></script>
+
 <link rel="stylesheet" href="/OurRoom/js/frappe-gantt.css">
 <link rel="stylesheet" href="/OurRoom/css/gantt.css">
 </head>
-
+ 
 <body>
 	<jsp:include page="../mainFrame.jsp" />
 	<div id="innerFrame">
@@ -147,8 +148,9 @@
 					</div>
 					=========== 프로젝트 멤버
 					<div id="projectDetailModal_assignedMemberList"></div>
-					=========== 주소록 멤버
-					<div id="projectDetailModal_addressList"></div>
+					<!-- 09.20 김승겸 :  주소록 사용안하므로 지워버림. -->
+					<!-- =========== 주소록 멤버
+					<div id="projectDetailModal_addressList"></div> -->
 
 				</div>
 
@@ -864,7 +866,7 @@
                $('#IssueDetailModal_iStartDate').val(data.issueList[0].iStartDate)
                $('#IssueDetailModal_iEndDate').val(data.issueList[0].iEndDate)
                $('#issueMember').html('')
-							 // 김승겸 09.18 19:30 이슈할당 멤버들  프로필 | 닉네임 쌍으로 보여주기
+				// 김승겸 09.18 19:30 이슈할당 멤버들  프로필 | 닉네임 쌍으로 보여주기
                for (var k = 0; k < data.issueMember.length; k++) {
 									var img = "<img class='rounded-circle img-circle' src='data:image/jpg;base64, "+ data.profileList[data.issueMember[k].mId] + "' width='30px' height='30px'>";
 									$('#issueMember').append(img+""+data.issueMember[k].mNickname).append(', ')
@@ -1369,21 +1371,30 @@
           }
        })
        $('#projectDetailModal_assignedMemberList').html('')
-       for(let i = 0; i < projectMemberList.length; i++){
+
+    // 09.20 김승겸 : 이미지와 닉네임으로 보여주기 위해 삭제 (projectDetail요청시 세팅하는 걸로 바꿈)
+    /*    for(let i = 0; i < projectMemberList.length; i++){
           $('#projectDetailModal_assignedMemberList').append(projectMemberList[i].mId).append('<br>')
-       }
+       } */
        $.ajax({
           url : 'projectDetail',
           data : {
              pNum : ${project.pNum}
-          },
+          }, 
           type : 'post',
           success : (data) => {
              console.log(data);
              txt = ''
-             for(let i = 0; i < data.addressList.length; i++){
+             // 09.20 김승겸 : 주소록 기능 없으므로 삭제
+             /* for(let i = 0; i < data.addressList.length; i++){
                 $('#projectDetailModal_addressList').html(data.addressList[i].mId)
-             }
+             } */
+                
+                // 09.20 김승겸 : 프로젝트 상세 | 멤버 이미지(닉네임)
+             for (var k = 0; k < data.projectMember.length; k++) {
+					var img = "<img class='rounded-circle img-circle' src='data:image/jpg;base64, "+ data.profileList[data.projectMember[k].mId] + "' width='30px' height='30px'>";
+					$('#projectDetailModal_assignedMemberList').append(img+""+data.projectMember[k].mNickname).append('<br>')
+			}
           }
        })
     })

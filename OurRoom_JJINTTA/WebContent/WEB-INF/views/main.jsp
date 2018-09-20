@@ -307,7 +307,35 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -506,7 +534,35 @@ transform
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :translateY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -739,6 +795,20 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
 
 
@@ -801,7 +871,21 @@ opacity
 
 
 
+
+
+
+
+
+
+
  
+
+
+
+
+
+
+
 
 
 
@@ -987,7 +1071,28 @@ opacity
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 :
+
+
+
+
+
+
+
 
 
 
@@ -1111,7 +1216,28 @@ opacity
 
 
 
+
+
+
+
+
+
+
 translateY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1298,8 +1424,7 @@ body {
 	<div class="jumbotron text-center">
 		<!-- <h1>OurRoom</h1> -->
 		<h2 style="color: white;">
-			OurRoom lets you work more <br> <br> collaboratively and
-			get more done.
+			누구나 쉽게 이용 가능한 프로젝트 관리 도구<br> <br> 지금바로 시작하세요!
 		</h2>
 		<form></form>
 	</div>
@@ -1308,7 +1433,8 @@ body {
 	<div id="about" class="container-fluid text-center">
 		<div class="row">
 			<div class="col-lg-12">
-				<img class="img-rounded" src="/OurRoom/img/localImage.png">
+				<img class="img-rounded" src="/OurRoom/img/main_1.png" width="100%"
+					height="100%">
 			</div>
 		</div>
 	</div>
@@ -1480,6 +1606,13 @@ body {
 	</script>
 	<script>
 	$(function() {
+		// 패스워드 입력에서 enter클릭시 로그인 처리
+		$("#mPw").on("keyup",function(e){
+			if (e.keyCode === 13) {
+				$("#loginBtn").trigger('click');
+			}
+		});
+		
 		/* 회원가입 아이디 중복체크 */
 		$("#sign_mId").blur(function() {
 			chkId();
@@ -1726,7 +1859,7 @@ body {
 								class="glyphicon glyphicon-user"></span> 이메일</label> <input type="text"
 								class="form-control" id="mId" name="mId"
 								placeholder="Enter email">
-						</div> 
+						</div>
 						<div class="form-group">
 							<label for="mPw"><span
 								class="glyphicon glyphicon-eye-open"></span> 비밀번호</label> <input
