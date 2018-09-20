@@ -115,6 +115,19 @@ body:after{
 	z-index:-1;
 	opacity: 0.7;
 }
+.noti-modal-content {
+	background-color: #feffef;
+}
+ .noti-header {
+	background-color: #feffef;
+}
+ .noti {
+	padding: 5px;
+	/* border: 2px solid #49ff74; */
+	border-radius: 10px;
+	background: #a5ff8c;
+	color: #211c49;
+}
 
 </style>
 <script type="text/javascript">
@@ -195,7 +208,7 @@ body:after{
 															for (var i = 0; i < data.length; i++) {
 																console
 																		.log(data[i]);
-																var notiDefaultMsg = "<p style='text-align:left;'> <b> From. "
+																var notiDefaultMsg = "<div class='noti'><p style='text-align:left;' > <b> From. "
 																		+ data[i].mNickname
 																		+ "("
 																		+ data[i].mId
@@ -356,7 +369,7 @@ body:after{
 																				+ "<h6> "
 																				+ data[i].lTime
 																				+ "</h6>"
-																				+ "<hr class='style5'>");
+																				+ "</div><br>");
 
 															}
 
@@ -432,15 +445,15 @@ body:after{
 	<div class="row">
 		<div class="modal right fade" id="notiModal" tabindex="-1"
 			role="dialog">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content" align="right">
+			<div class="modal-dialog " role="document">
+				<div class="modal-content noti-modal-content" align="right">
 
-					<div class="modal-header" style="text-align: center">
+					<div class="modal-header noti-header" style="text-align: center">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						알림메시지
+						<h3>알림메시지</h3>
 					</div>
 					<div class="modal-body" style="text-align: right">
 						<div id="noti_div"></div>

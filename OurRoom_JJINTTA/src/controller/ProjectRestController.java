@@ -91,12 +91,30 @@ public class ProjectRestController {
 		System.out.println(project);
 		System.out.println(mId);
 
-		List<Member> addressList = mSvc.selectAddress(mId);
-		System.out.println("어드레스 : " + addressList);
-
 		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("addressList", addressList);
-		System.out.println(addressList);
+		
+		// [김승겸] 09.20 insueDatail과 같이 프로젝트 멤버 이미지 적용
+		Map<String, String> profileList = new HashMap<String, String>();
+		List<Member> projectMember = new ArrayList<Member>();
+		for (ProjectMember pm : pSvc.getProjectMemberByPNum(project.getpNum())) {
+			projectMember.add(mSvc.selectMember(pm.getmId()));
+			try {
+				System.out.println("1 : " + mSvc.selectMember(pm.getmId()).getmProfile());
+				// profileList.add(UploadFileUtils.getProfileUtilToString(mSvc.selectMember(pm.getmId()).getmProfile()));
+				// 작은 사진으로 가져오기.....너무 크면 느려
+				System.out.println("작은사진 : s_" + mSvc.selectMember(pm.getmId()).getmProfile());
+				profileList.put(pm.getmId(),
+						UploadFileUtils.getProfileUtilToString("s_" + mSvc.selectMember(pm.getmId()).getmProfile()));
+ 			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto -generated catch block
+				e.printStackTrace();
+			}
+		}
+ 		data.put("profileList", profileList);
+		data.put("projectMember", projectMember);
 
 		return data;
 	}

@@ -1298,8 +1298,7 @@ body {
 	<div class="jumbotron text-center">
 		<!-- <h1>OurRoom</h1> -->
 		<h2 style="color: white;">
-			OurRoom lets you work more <br> <br> collaboratively and
-			get more done.
+			누구나 쉽게 이용 가능한 프로젝트 관리 도구<br> <br> 지금바로 시작하세요!
 		</h2>
 		<form></form>
 	</div>
@@ -1479,6 +1478,14 @@ body {
 		});
 	</script>
 	<script>
+	$(function() {
+		// 패스워드 입력에서 enter클릭시 로그인 처리
+		$("#mPw").on("keyup",function(e){
+			if (e.keyCode === 13) {
+				$("#loginBtn").trigger('click');
+			}
+		});
+
 	$(function() {
 		/* 회원가입 아이디 중복체크 */
 		$("#sign_mId").blur(function() {

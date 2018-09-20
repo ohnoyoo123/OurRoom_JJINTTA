@@ -67,3 +67,10 @@
 .login.modal-dialog {
 	width: 400px;
 }
+element.style {
+    text-align: center;
+}
+.modal-header {
+    padding: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}

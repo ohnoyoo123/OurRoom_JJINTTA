@@ -18,6 +18,13 @@
 	background-color: FireBrick;
 	color: White;
 }
+
+hr.style-four {
+	height: 12px;
+	border: 0;
+	box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+}
+
 </style>
 <meta content="charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -39,11 +46,11 @@
 	<jsp:include page="../mainFrame.jsp" /> 
 	<div class="container">
 		<div class="row justify-content-md-center">
-			<div class="col-lg-5">
+			<div class="col-lg-6">
 				<div class="form-group">
 					<h2 align="center">MyPage</h2>
 
-					<hr>
+					<hr class="style-four">
 				</div>
 			</div>
 		</div>
@@ -74,10 +81,59 @@
 			<div class="col-lg-6">
 				<div class="form-group">
 					<h3>나의 로그</h3>
-					<hr>
-					<c:forEach var="myLog" items="${myLogList }" begin="0" end="4">
-						<p>${myLog.lCat}:${myLog.lName}:${myLog.lTime }}</p>
-					</c:forEach>
+					<hr class="style-four">
+ 					<table class="table table-condensed">
+						<tr>
+							<th class="text-center">내용</th>
+							<th class="text-center">일자</th>
+						</tr>
+						<c:forEach var="myLog" items="${myLogList }" begin="0" end="4">
+ 							<tr>
+								<td
+									onclick="location.href='${pageContext.request.contextPath}/project/gantt?pNum=${myLog.pNum}&tNum=${myLog.tNum}&iNum=${myLog.iNum }&log=1'">
+									&nbsp;&nbsp; <c:choose>
+										<c:when test="${myLog.lCat == 11 }">
+											${myLog.lName } 프로젝트를 생성했습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 13}">
+											${myLog.lName } 프로젝트에 멤버를 할당했습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 21}">
+											${myLog.lName } 태스크를 생성했습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 31}">
+											${myLog.lName } 이슈를 생성했습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 33}">
+											${myLog.lName } 이슈에 멤버를 할당했습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 41}">
+											${myLog.lName } 체크리스트를 생성했습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 42}">
+											${myLog.lName } 체크리스트를 삭제했습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 51}">
+											${myLog.lName } 체크리스트 항목을 생성했습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 52}">
+											${myLog.lName } 체크리스트 항목을 삭제했습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 61}">
+											${myLog.lName } 이슈에 코멘트를 남겼습니다.
+										</c:when>
+										<c:when test="${myLog.lCat == 62}">
+											${myLog.lName } 이슈의 코멘트를 삭제했습니다.
+										</c:when>
+ 									</c:choose>
+								</td>
+								<fmt:parseDate var="dateString" value="${myLog.lTime }"
+									pattern="yyyy-MM-dd HH:mm:ss.0" />
+ 								<td class="text-center"><fmt:formatDate
+										value="${dateString}" pattern="yyyy.MM.dd HH:mm:ss" /></td>
+							</tr>
+						</c:forEach>
+					</table>
 				</div>
 			</div>
 		</div>
@@ -86,24 +142,22 @@
 				<div class="form-group">
 					<div>
 						<h3>정보수정</h3>
-						<hr>
+						<hr class="style-four">
 						<fieldset>
-							<label for="mNickname">Nickname</label> <input id="mNickname"
+							<label for="mNickname">닉네임</label> <input id="mNickname"
 								type="text" class="form-control" value="${member.mNickname }"
 								placeholder="Enter Nickname" readonly="readonly"><span
 								id="nicknameCheckMsg">&nbsp;</span>
 
 						</fieldset>
 						<fieldset>
-							<label for="nic">Password</label> <input id="mPw" type="password"
+							<label for="nic">비밀번호</label> <input id="mPw" type="password"
 								class="form-control" placeholder="Enter Password"
 								readonly="readonly"> <span id="pwCheckMsg">&nbsp;
 							</span> <input id="mPw2" type="password" class="form-control"
 								placeholder="Check Password" readonly="readonly">
 						</fieldset>
-						<br> <a id="dropMember" class="button js-button"
-							role="button" style="color: white;">회원탈퇴</a>
-
+						
 
 
 					</div>

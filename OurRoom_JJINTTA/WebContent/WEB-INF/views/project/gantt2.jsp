@@ -106,16 +106,21 @@
 	            </div>
 
 	            <!-- Modal body -->
-	            <div class="modal-body">
-	               <div>이슈 멤버 할당</div>
-	               <div>
-	                  <c:forEach items="${projectMemberList}" var="member">
-	                     <div class="selectMId" mId="${member.mId}">${member.mId}</div>
-	                  </c:forEach>
-	                  =====================
-	                  <div id="selectedMId">할당된 멤버</div>
-	               </div>
-	            </div>
+				<div class="modal-body">
+					<div>이슈 멤버 할당</div>
+					<div>
+						<c:forEach items="${projectMemberList}" var="member">
+							<div class="selectMId" mId="${member.mId}"
+								mNickname="${member.mNickname}">
+ 								<img id="profile" class="rounded-circle img-circle"
+									src="data:image/jpg;base64, ${profileList.get(member.mId) }"
+									width="30px" height="30px"> ${member.mNickname}
+							</div>
+						</c:forEach>
+						=====================
+						<div id="selectedMId">할당된 멤버</div>
+					</div>
+				</div>
 
 	            <!-- Modal footer -->
 	            <div class="modal-footer">
@@ -153,8 +158,6 @@
 					</div>
 					=========== 프로젝트 멤버
 					<div id="projectDetailModal_assignedMemberList"></div>
-					=========== 주소록 멤버
-					<div id="projectDetailModal_addressList"></div>
 
 				</div>
 
@@ -195,7 +198,7 @@
 						<button id="taskDetailModal_tDscrBtn" type="button" class="btn">저장</button>
 					</div>
 					<div>
-						<h4><i class="material-icons modal_icon">sms_failed</i> 태스크 공지 - <span id="taskDetailModal_tNotiName"></span>
+						<h4><i class="material-icons modal_icon">sms_failed</i> 태스크 공지 <span id="taskDetailModal_tNotiName"></span>
 						<input type="text" id="taskDetailModal_tNotiNameForm"></h4>
 						<textarea id="taskDetailModal_tNotiContent"></textarea>
 						<button id="taskDetailModal_tNotiConfirmBtn" type="button" class="btn">저장</button>
@@ -600,15 +603,20 @@
          }
        })
      })
-      //이슈에 멤버 할당
-      selectedMId = []
-      $('.selectMId').on('click', function(){
-         console.log($(this).attr('mId'));
-         if(!selectedMId.includes($(this).attr('mId'))){
-            selectedMId.push($(this).attr('mId'))
-            $('#selectedMId').html(selectedMId)
-         }
-      })
+     //08.19 김승겸!!! 
+     //이슈에 멤버 할당
+	selectedMId = []
+	selectedHTML = []
+	$('.selectMId').on('click', function(){
+		// no cloning necessary    
+		var imgAndNickname = $(this).find('img').parent().html(); 
+		var img = $(this).find('img');
+		if(!selectedMId.includes($(this).attr('mId'))){
+			selectedMId.push($(this).attr('mId'));
+			selectedHTML.push(imgAndNickname)
+			$('#selectedMId').html(selectedHTML)
+		}
+	})
       //선택한 태스크 판별용 변수
       let selectedtNum = 0
       let selectedtName = ''
@@ -1416,9 +1424,6 @@
           }
        })
        $('#projectDetailModal_assignedMemberList').html('')
-       for(let i = 0; i < projectMemberList.length; i++){
-          $('#projectDetailModal_assignedMemberList').append(projectMemberList[i].mId).append('<br>')
-       }
        $.ajax({
           url : 'projectDetail',
           data : {
@@ -1428,9 +1433,10 @@
           success : (data) => {
              console.log(data);
              txt = ''
-             for(let i = 0; i < data.addressList.length; i++){
-                $('#projectDetailModal_addressList').html(data.addressList[i].mId)
-             }
+                 for (var k = 0; k < data.projectMember.length; k++) {
+ 					var img = "<img class='rounded-circle img-circle' src='data:image/jpg;base64, "+ data.profileList[data.projectMember[k].mId] + "' width='30px' height='30px'>";
+ 					$('#projectDetailModal_assignedMemberList').append(img+""+data.projectMember[k].mNickname).append('<br>')
+ 			}
           }
        })
     })
